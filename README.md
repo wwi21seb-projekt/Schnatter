@@ -1,38 +1,36 @@
-# create-svelte
+# Anleitung zum lokalen Build.
+Voraussetzung für ein lokales Aufsetzen dieses Projektes ist das mindesten folgende Dinge mit den angegeben Mindestvorraussetzungen auf dem Gerät installiert sind:
+- Node.js (18.x) [Installations-Guide](https://nodejs.org/en)
+- npm (10.2.3)
+- pnpm (8.10.5) [Installations-Guide](https://pnpm.io/installation)
+- git (2.x) [Installations-Guide](https://git-scm.com/book/de/v2/Erste-Schritte-Git-installieren)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## Klonen 
 
-## Creating a project
+Laden Sie sich entweder die Zip-Datei herunter und entpacken diese oder Klonen Sie das Projekt mit dem Befehl `git clone <Projekt URL>`
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Developen
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Stellen Sie sicher, dass Sie mit dem Terminal in das Projekt-Verzeichnis navigiert haben 'lokaler/pfad/zum/projekt/Schnatter'.
+Installieren Sie mithilfe des Befehls `pnpm install` die benötigten Dependencies.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Dannach können Sie das Projekt mit den folgenden Befehlen starten:
 
 ```bash
-npm run dev
+pnpm run dev
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+# oder starten Sie den Server und öffnen Sie die Anwendung in einem neuen Browser-Tab
+pnpm run dev -- --open
 ```
 
 ## Building
 
-To create a production version of your app:
+Zum Erstellen einer produktiven Version des Projektes:
 
 ```bash
-npm run build
+pnpm run build
 ```
 
-You can preview the production build with `npm run preview`.
+Sie können sich eine Preview der produktiven Version anschauen: `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> Um Ihre Anwendung bereitzustellen, müssen Sie möglicherweise einen [Adapter](https://kit.svelte.dev/docs/adapters) für Ihre Zielumgebung installieren.
