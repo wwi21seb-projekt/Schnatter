@@ -6,7 +6,7 @@ export const load = (async () => {
         userName: 'mabu2807',
         nickName: 'Marcel Bulling',
         bio: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At',
-        avatar: '/default-avatar.png',
+        avatar: "/default-avatar.png",
         follower: 123,
         followed: 234,
         posts: 2
