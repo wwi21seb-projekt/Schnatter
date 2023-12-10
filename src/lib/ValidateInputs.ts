@@ -14,3 +14,14 @@ export function changeValidateIcon(isValid:boolean):string{
 
     return validateIcon
 }
+
+export function changeIconColor(validateIcon:string):string {
+    let validateIconColor = '';
+    if (validateIcon == 'ic:baseline-done') {
+         validateIconColor = 'green';
+    }
+    if(validateIcon == 'ic:baseline-error-outline'){
+         validateIconColor = 'red'
+    }
+    return validateIconColor;
+}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
+	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
 	import RegisterInput from '../../lib/components/RegisterInput.svelte';
 
 	let email = '';
@@ -12,28 +12,56 @@
 	let validateIconNickname = '';
 	let validateIconPwd = '';
 	let validateIconRepeatPwd = '';
+	let validateIconEmailColor = '';
+	let validateIconUsernameColor = '';
+	let validateIconNicknameColor = '';
+	let validateIconPwdColor = '';
+	let validateIconRepeatPwdColor = '';
 	let isPwdLongEnough: boolean;
 	let hasPwdNumber: boolean;
 	let hasPwdCapitalLetter: boolean;
 	let hasPwdSmallLetter: boolean;
 	let hasPwdSpecailCharacter: boolean;
 	let isEmailValid: boolean;
+	let containsIllegalCharacters: boolean;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
-		
+
 		if (email.length >= 1) {
 			isEmailValid = isValidEmail(email);
 			validateIconEmail = changeValidateIcon(isEmailValid);
 		} else {
 			validateIconEmail = '';
 		}
+		validateIconEmailColor = changeIconColor(validateIconEmail)
 	}
 	function handleUsernameInput(event: Event) {
+		const latin1RegExp = /[\x00-\xFF]/;
 		username = (event.target as HTMLInputElement).value;
+		if (username.length > 0) {
+			if (username.length < 25 && latin1RegExp.test(username)) {
+				validateIconUsername = changeValidateIcon(true);
+			} else {
+				validateIconUsername = changeValidateIcon(false);
+				if (!latin1RegExp.test(username)) {
+					containsIllegalCharacters = true;
+				}
+			}
+		} else {
+			validateIconUsername = '';
+		}
+		validateIconUsernameColor = changeIconColor(validateIconUsername)
 	}
+
 	function handleNicknameInput(event: Event) {
 		nickname = (event.target as HTMLInputElement).value;
+		if (nickname.length > 25) {
+			validateIconNickname = changeValidateIcon(false);
+		} else {
+			validateIconNickname = '';
+		}
+		validateIconNicknameColor = changeIconColor(validateIconNickname)
 	}
 
 	function handlePasswordInput(event: Event) {
@@ -63,6 +91,7 @@
 		if (password.length === 0) {
 			validateIconPwd = '';
 		}
+		validateIconPwdColor = changeIconColor(validateIconPwd)
 	}
 	function handleRepeatPasswordInput(event: Event) {
 		repeatPassword = (event.target as HTMLInputElement).value;
@@ -74,8 +103,17 @@
 		if (repeatPassword.length === 0) {
 			validateIconRepeatPwd = '';
 		}
+		validateIconRepeatPwdColor = changeIconColor(validateIconRepeatPwd)
 	}
-	$: areAllInputsCorrect = isEmailValid && isPwdLongEnough && hasPwdCapitalLetter && hasPwdSmallLetter && hasPwdSpecailCharacter && hasPwdNumber && password === repeatPassword && username.length != 0;
+	$: areAllInputsCorrect =
+		isEmailValid &&
+		isPwdLongEnough &&
+		hasPwdCapitalLetter &&
+		hasPwdSmallLetter &&
+		hasPwdSpecailCharacter &&
+		hasPwdNumber &&
+		password === repeatPassword &&
+		username.length != 0;
 	function handleSubmit() {}
 </script>
 
@@ -83,7 +121,7 @@
 	<div class="card w-[40vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">Register</h1>
 		<div class="h-[50vh] flex flex-col justify-around items-center">
-			<form class="flex flex-col justify-around items-center  w-full" on:submit={handleSubmit}>
+			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={email}
@@ -93,6 +131,7 @@
 						onInput={handleEmailInput}
 						validateIcon={validateIconEmail}
 						id="email"
+						validateIconColor={validateIconEmailColor}
 					/>
 					{#if !isEmailValid && email.length != 0}
 						<p class="text-red-600 text-sm">*This is no vaild email</p>
@@ -107,7 +146,14 @@
 						onInput={handleUsernameInput}
 						validateIcon={validateIconUsername}
 						id="username"
+						validateIconColor={validateIconUsernameColor}
 					/>
+					{#if username.length > 25}
+						<p class="text-red-600 text-sm">*Username to long</p>
+					{/if}
+					{#if containsIllegalCharacters}
+						<p class="text-red-600 text-sm">*contains illegal characters</p>
+					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
@@ -118,7 +164,11 @@
 						onInput={handleNicknameInput}
 						validateIcon={validateIconNickname}
 						id="nickName"
+						validateIconColor={validateIconNicknameColor}
 					/>
+					{#if nickname.length > 25}
+						<p class="text-red-600 text-sm">*Nickname to long</p>
+					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
@@ -129,6 +179,7 @@
 						validateIcon={validateIconPwd}
 						type="pwd"
 						id="pwd"
+						validateIconColor={validateIconPwdColor}
 					/>
 					{#if !isPwdLongEnough && password.length != 0}
 						<p class="text-red-600 text-sm">*Password to short (min 8 character)</p>
@@ -155,13 +206,18 @@
 						onInput={handleRepeatPasswordInput}
 						validateIcon={validateIconRepeatPwd}
 						id="repeatPwd"
+						validateIconColor={validateIconRepeatPwdColor}
 					/>
 				</div>
 			</form>
 
 			<div class="flex flex-row mt-3">
 				<button class="btn variant-filled-surface mr-2">Cancel</button>
-				<button disabled={!areAllInputsCorrect} class="btn variant-filled-primary ml-2" type="submit">Register</button>
+				<button
+					disabled={!areAllInputsCorrect}
+					class="btn variant-filled-primary ml-2"
+					type="submit">Register</button
+				>
 			</div>
 			<p>*required</p>
 		</div>
