@@ -7,6 +7,7 @@
 	import { AppShell, storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 </script>
+
 <AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />
