@@ -24,6 +24,8 @@
 	let hasPwdSpecailCharacter: boolean;
 	let isEmailValid: boolean;
 	let containsIllegalCharacters: boolean;
+	const checkLatin1RegExp = /[\x00-\xFF]/;
+	const checkSpace = /\s/
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -37,14 +39,14 @@
 		validateIconEmailColor = changeIconColor(validateIconEmail)
 	}
 	function handleUsernameInput(event: Event) {
-		const latin1RegExp = /[\x00-\xFF]/;
+
 		username = (event.target as HTMLInputElement).value;
 		if (username.length > 0) {
-			if (username.length < 25 && latin1RegExp.test(username)) {
+			if (username.length < 25 && checkLatin1RegExp.test(username) && !checkSpace.test(username)) {
 				validateIconUsername = changeValidateIcon(true);
 			} else {
 				validateIconUsername = changeValidateIcon(false);
-				if (!latin1RegExp.test(username)) {
+				if (!checkLatin1RegExp.test(username)) {
 					containsIllegalCharacters = true;
 				}
 			}
@@ -150,6 +152,9 @@
 					/>
 					{#if username.length > 25}
 						<p class="text-red-600 text-sm">*Username to long</p>
+					{/if}
+					{#if checkSpace.test(username)}
+						<p class="text-red-600 text-sm">*no spaces allowed</p>
 					{/if}
 					{#if containsIllegalCharacters}
 						<p class="text-red-600 text-sm">*contains illegal characters</p>
