@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-// email tests (Special characters missing)
+// email tests
 test('email must contain \'@\'', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('notatanemail.de');
@@ -16,6 +16,14 @@ test('email must contain \'.\'', async ({ page }) => {
 test('email must not contain spaces', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('not@ anemail.de');
+	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+});
+
+test('email must not contain special characters', async ({ page }) => {
+	await page.goto('/register');
+	await page.getByPlaceholder('Email').fill('not@anemail!.de');
+	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await page.getByPlaceholder('Email').fill('not@anemäil.de');
 	await expect(page.getByText('*This is no vaild email')).toBeVisible();
 });
 
