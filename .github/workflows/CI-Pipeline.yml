@@ -12,24 +12,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-    - name: Install node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18
-    - name: install pnpm
-      run: npm install -g pnpm
-    - name: install dependencies
-      run: pnpm install
-    - name: install playwright
-      run: npx playwright install
-    - name: check lint
-      run: pnpm lint
-    - name: build app
-      run: pnpm run build
-    - name: run playwright tests
-      env: 
-        HEADLESS: true
-      run: pnpm playwright test
-
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install pnpm
+        run: npm install -g pnpm
+      - name: install dependencies
+        run: pnpm install
+      - name: install playwright
+        run: npx playwright install
+      - name: check lint
+        run: pnpm lint
+      - name: build app
+        run: pnpm run build
+      - name: run playwright tests
+        env:
+          HEADLESS: true
+        run: pnpm playwright test
