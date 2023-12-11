@@ -1,6 +1,7 @@
 <script>
 	import { AppBar } from "@skeletonlabs/skeleton";
     import Icon from '@iconify/svelte';
+	let tokenISSet = false;
 </script>
 
 <AppBar>
@@ -14,6 +15,7 @@
 		<a href="/search">
 			<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 		</a>
+		{#if tokenISSet}
 		<a href="/post">
 			<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 		</a>
@@ -23,5 +25,6 @@
 		<a href="/profile">
 			<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 		</a>
+		{/if}
 	</svelte:fragment>
 </AppBar>
