@@ -81,6 +81,7 @@ test('username accepted when valid', async ({ page }) => {
 	await page.getByPlaceholder('Username').fill('username');
 	await expect(page.getByText('*no spaces allowed')).toBeHidden();
 	await expect(page.getByText('*Username to long')).toBeHidden();
+	await expect(page.getByText('*contains illegal characters')).toBeHidden();
 });
 
 //nickname tests
