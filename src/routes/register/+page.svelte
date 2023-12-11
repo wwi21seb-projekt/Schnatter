@@ -24,8 +24,8 @@
 	let hasPwdSpecailCharacter: boolean;
 	let isEmailValid: boolean;
 	let containsIllegalCharacters: boolean;
-	const checkLatin1RegExp = /[\x00-\xFF]/;
-	const checkSpace = /\s/
+	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
+	const checkSpace = /\s/;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -36,10 +36,9 @@
 		} else {
 			validateIconEmail = '';
 		}
-		validateIconEmailColor = changeIconColor(validateIconEmail)
+		validateIconEmailColor = changeIconColor(validateIconEmail);
 	}
 	function handleUsernameInput(event: Event) {
-
 		username = (event.target as HTMLInputElement).value;
 		if (username.length > 0) {
 			if (username.length < 25 && checkLatin1RegExp.test(username) && !checkSpace.test(username)) {
@@ -53,7 +52,7 @@
 		} else {
 			validateIconUsername = '';
 		}
-		validateIconUsernameColor = changeIconColor(validateIconUsername)
+		validateIconUsernameColor = changeIconColor(validateIconUsername);
 	}
 
 	function handleNicknameInput(event: Event) {
@@ -63,7 +62,7 @@
 		} else {
 			validateIconNickname = '';
 		}
-		validateIconNicknameColor = changeIconColor(validateIconNickname)
+		validateIconNicknameColor = changeIconColor(validateIconNickname);
 	}
 
 	function handlePasswordInput(event: Event) {
@@ -93,7 +92,7 @@
 		if (password.length === 0) {
 			validateIconPwd = '';
 		}
-		validateIconPwdColor = changeIconColor(validateIconPwd)
+		validateIconPwdColor = changeIconColor(validateIconPwd);
 	}
 	function handleRepeatPasswordInput(event: Event) {
 		repeatPassword = (event.target as HTMLInputElement).value;
@@ -105,7 +104,7 @@
 		if (repeatPassword.length === 0) {
 			validateIconRepeatPwd = '';
 		}
-		validateIconRepeatPwdColor = changeIconColor(validateIconRepeatPwd)
+		validateIconRepeatPwdColor = changeIconColor(validateIconRepeatPwd);
 	}
 	$: areAllInputsCorrect =
 		isEmailValid &&

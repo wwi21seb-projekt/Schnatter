@@ -7,11 +7,7 @@
 	export let onInput: (event: Event) => void;
 	export let type: string;
 	export let id: string;
-	export let validateIconColor:string;
-
-
-
-
+	export let validateIconColor: string;
 </script>
 
 <div class="input-group input-group-divider grid-cols-[auto_1fr_auto] rounded-container-token">
