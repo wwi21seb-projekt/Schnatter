@@ -1,14 +1,7 @@
 <script lang="ts">
 	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import {
-		InternalServerError,
-		otherError,
-		resendTokenSuccess,
-		tokenExpierd,
-		tokenNotFound,
-		verifySuccess
-	} from './Toasts';
+	import { createToast } from './Toasts';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -25,33 +18,37 @@
 		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
 		try {
 			const response = await fetch(url, {
+				method: 'POST',
 				body: JSON.stringify({
 					token: verifyInput
 				})
 			});
 			statusCode = response.status;
 		} catch (error) {
-			toastStore.trigger(InternalServerError);
+			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
 		if (statusCode == 401) {
-			toastStore.trigger(tokenExpierd);
+			toastStore.trigger(createToast('The code has expired. We have sent you a new one!', 'error'));
 		} else if (statusCode == 404) {
-			toastStore.trigger(tokenNotFound);
+			toastStore.trigger(createToast('The code is not correct', 'error'));
 		} else if (statusCode == 200) {
-			toastStore.trigger(verifySuccess);
+			toastStore.trigger(createToast('Account successfully verified', 'success'));
 		}
 	}
 	async function resendToken() {
 		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
 		try {
-			const response = await fetch(url);
+			const response = await fetch(url,{
+				method: 'DELETE'
+			});
 			statusCode = response.status;
 		} catch (error) {
-			toastStore.trigger(InternalServerError);
+			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
-		statusCode = 204;
 		if (statusCode == 204) {
-			toastStore.trigger(resendTokenSuccess);
+			toastStore.trigger(
+				createToast('We have sent you a new code to your email address', 'success')
+			);
 		}
 	}
 	$: formCorrectCode = verifyInput.length == 6;
