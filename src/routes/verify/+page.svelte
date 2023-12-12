@@ -39,8 +39,6 @@
 			toastStore.trigger(tokenNotFound);
 		} else if (statusCode == 200) {
 			toastStore.trigger(verifySuccess);
-		} else {
-			toastStore.trigger(otherError);
 		}
 	}
 	async function resendToken() {
