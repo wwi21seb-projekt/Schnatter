@@ -56,23 +56,25 @@
 
 <Toast />
 <main class="flex justify-center items-center w-screen h-screen">
-	<div class="card w-[40vw] h-[50vh] p-5">
+	<div class="card w-[40vw] h-[60vh] p-5">
 		<h2 class="h2">Verify your Account</h2>
 
 		<form class="w-full h-full flex flex-col items-center justify-around">
 			<p>
-				Please verify your account. You have received an email to the specified email address!
-				Please enter the code it contains here:
-				<button on:click={resendToken} class="btn bg-transparent text-blue-800">
-					request new code</button
-				>
+				Please verify your account. Enter the 6-digit code from the email we sent you. If you have not received it, please also check your spam folder.
+				
 			</p>
+			<div class="flex flex-col justify-center items-center">
 			<input
 				bind:value={verifyInput}
 				on:input={handleInput}
 				class="input variant-form-material w-[80px]"
 				placeholder="XXXXXX"
 			/>
+			<button on:click={resendToken} class="btn bg-transparent text-blue-400">
+				request new code</button
+			>
+			</div>
 
 			<div class="flex flex-row items-center justify-around w-2/5">
 				<a href="/"><button class="btn variant-filled-surface">Ask later</button></a>
