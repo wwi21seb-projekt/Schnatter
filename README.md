@@ -1,11 +1,13 @@
 # Anleitung zum lokalen Build.
+
 Voraussetzung für ein lokales Aufsetzen dieses Projektes ist das mindesten folgende Dinge mit den angegeben Mindestvorraussetzungen auf dem Gerät installiert sind:
+
 - Node.js (18.x) [Installations-Guide](https://nodejs.org/en)
 - npm (10.2.3)
 - pnpm (8.10.5) [Installations-Guide](https://pnpm.io/installation)
 - git (2.x) [Installations-Guide](https://git-scm.com/book/de/v2/Erste-Schritte-Git-installieren)
 
-## Klonen 
+## Klonen
 
 Laden Sie sich entweder die Zip-Datei herunter und entpacken diese oder Klonen Sie das Projekt mit dem Befehl `git clone <Projekt URL>`
 

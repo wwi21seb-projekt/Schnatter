@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {isValidEmail } from '$lib/ValidateInputs';
+	import { isValidEmail } from '$lib/ValidateInputs';
 	import RegisterInput from '../../lib/components/RegisterInput.svelte';
 
 	let email = '';
@@ -29,10 +29,8 @@
 		}
 	}
 
-    $: allInputFieldsFilled =
-		isEmailEntered &&
-		isPasswordEntered;
-    function handleSubmit() {}
+	$: allInputFieldsFilled = isEmailEntered && isPasswordEntered;
+	function handleSubmit() {}
 </script>
 
 <div class="pt-8 rounded-container-token">
@@ -67,13 +65,13 @@
 			</form>
 
 			<div class="flex flex-row mt-3 justify-center text-center">
-				<button
-					disabled={!allInputFieldsFilled}
-					class="btn variant-filled-primary"
-					type="submit">Log In</button
+				<button disabled={!allInputFieldsFilled} class="btn variant-filled-primary" type="submit"
+					>Log In</button
 				>
 			</div>
-			<div class="p-2 text-sm text-center">Don't have an account yet? <a class="color=[#2563eb]" href="url">Sign up</a></div>
+			<div class="p-2 text-sm text-center">
+				Don't have an account yet? <a class="color=[#2563eb]" href="url">Sign up</a>
+			</div>
 		</div>
 	</div>
 </div>
