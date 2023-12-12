@@ -1,7 +1,15 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
+	import { Toast } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../lib/components/RegisterInput.svelte';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { createToast } from '$lib/Toasts';
+	import { redirect } from '@sveltejs/kit';
+	initializeStores();
+	const toastStore = getToastStore();
 
+	let statusCode: number = 0;
 	let email = '';
 	let username = '';
 	let nickname = '';
@@ -115,14 +123,46 @@
 		hasPwdNumber &&
 		password === repeatPassword &&
 		username.length != 0;
-	function handleSubmit() {}
+	async function handleSubmit() {
+		console.log('test');
+		const url: string = 'http://localhost:3000/api/v1' + '/users';
+		try {
+			const respone = await fetch(url, {
+				method: 'POST',
+				body: JSON.stringify({
+					username: username,
+					password: password,
+					nickname: nickname,
+					email: email
+				})
+			});
+			statusCode = respone.status;
+			console.log('reeysr');
+		} catch (error) {
+			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+		}
+		statusCode == 201;
+		if (statusCode == 201) {
+			redirect(300, '/verify');
+		} else if (statusCode == 400) {
+			toastStore.trigger(createToast('There was a mistake! Please check your entries', 'error'));
+		} else if (statusCode == 422) {
+			toastStore.trigger(createToast('Email could not be sent', 'error'));
+		} else if (statusCode == 1111) {
+			toastStore.trigger(createToast('User already exist', 'error'));
+		}
+	}
 </script>
 
+<Toast />
 <main class=" flex flex-col justify-center items-center h-[90vh]">
 	<div class="card w-[40vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">Register</h1>
 		<div class="h-[50vh] flex flex-col justify-around items-center">
-			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
+			<form class="flex flex-col justify-around items-center w-full">
+				<div class="w-full">
+					<p class="float-right">*required</p>
+				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={email}
@@ -213,17 +253,20 @@
 						validateIconColor={validateIconRepeatPwdColor}
 					/>
 				</div>
-			</form>
+				{#if repeatPassword.length != 0 && password != repeatPassword}
+					<p class="text-red-600 text-sm">*Passwords do not match</p>
+				{/if}
 
-			<div class="flex flex-row mt-3">
-				<button class="btn variant-filled-surface mr-2">Cancel</button>
-				<button
-					disabled={!areAllInputsCorrect}
-					class="btn variant-filled-primary ml-2"
-					type="submit">Register</button
-				>
-			</div>
-			<p>*required</p>
+				<div class="flex flex-row mt-3">
+					<a href="/"><button class="btn variant-filled-surface mr-2">Cancel</button></a>
+					<button
+						disabled={!areAllInputsCorrect}
+						class="btn variant-filled-primary ml-2"
+						type="submit"
+						on:click={handleSubmit}>Register</button
+					>
+				</div>
+			</form>
 		</div>
 	</div>
 </main>
