@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Toast, initializeStores, type ToastSettings } from '@skeletonlabs/skeleton';
+	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import {
 		InternalServerError,
@@ -44,11 +44,9 @@
 		}
 	}
 	async function resendToken() {
-		console.log('test');
 		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
-		console.log(url);
 		try {
-			const response = await fetch('http://localhost:3000/api/v1/users/mabu2807/activate');
+			const response = await fetch(url);
 			statusCode = response.status;
 		} catch (error) {
 			toastStore.trigger(InternalServerError);
