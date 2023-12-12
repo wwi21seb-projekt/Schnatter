@@ -38,7 +38,7 @@
 	async function resendToken() {
 		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
 		try {
-			const response = await fetch(url,{
+			const response = await fetch(url, {
 				method: 'DELETE'
 			});
 			statusCode = response.status;
