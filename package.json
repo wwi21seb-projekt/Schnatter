@@ -45,5 +45,6 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.5.3",
 		"svelte-i18n": "^4.0.0"
+		"@iconify/svelte": "^3.1.4"
 	}
 }
