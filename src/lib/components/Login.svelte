@@ -14,7 +14,6 @@
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
 		if (email.length >= 1) {
-			isEmailEntered = isValidEmail(email);
 		} else {
 			validateIconEmail = '';
 		}
@@ -24,12 +23,13 @@
 		password = (event.target as HTMLInputElement).value;
 		if (password.length >= 1) {
 			isPasswordEntered = isValidEmail(email);
+			
 		} else {
 			validateIconPwd = '';
 		}
 	}
 
-	$: allInputFieldsFilled = isEmailEntered && isPasswordEntered;
+	$: allInputFieldsFilled = password.length != 0 && email.length != 0 &&  isPasswordEntered;
 	function handleSubmit() {}
 </script>
 
@@ -67,10 +67,10 @@
 			<div class="flex flex-row mt-3 justify-center text-center">
 				<button disabled={!allInputFieldsFilled} class="btn variant-filled-primary" type="submit"
 					>Log In</button
-				>
+				> 
 			</div>
 			<div class="p-2 text-sm text-center">
-				Don't have an account yet? <a class="text=primary" href="url">Sign up</a>
+				Don't have an account yet? <a class="text=primary" href="/register">Sign up</a>
 			</div>
 		</div>
 	</div>
