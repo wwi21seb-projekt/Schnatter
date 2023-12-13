@@ -175,7 +175,7 @@
 						validateIconColor={validateIconEmailColor}
 					/>
 					{#if !isEmailValid && email.length != 0}
-						<p class="text-red-600 text-sm">*This is no vaild email</p>
+						<p class="text-red-600 text-sm">*This is no valid email</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
@@ -190,7 +190,7 @@
 						validateIconColor={validateIconUsernameColor}
 					/>
 					{#if username.length > 25}
-						<p class="text-red-600 text-sm">*Username to long</p>
+						<p class="text-red-600 text-sm">*Username too long</p>
 					{/if}
 					{#if checkSpace.test(username)}
 						<p class="text-red-600 text-sm">*no spaces allowed</p>
@@ -211,7 +211,7 @@
 						validateIconColor={validateIconNicknameColor}
 					/>
 					{#if nickname.length > 25}
-						<p class="text-red-600 text-sm">*Nickname to long</p>
+						<p class="text-red-600 text-sm">*Nickname too long</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
@@ -226,7 +226,7 @@
 						validateIconColor={validateIconPwdColor}
 					/>
 					{#if !isPwdLongEnough && password.length != 0}
-						<p class="text-red-600 text-sm">*Password to short (min 8 character)</p>
+						<p class="text-red-600 text-sm">*Password too short (min 8 character)</p>
 					{/if}
 					{#if !hasPwdCapitalLetter && password.length != 0}
 						<p class="text-red-600 text-sm">*Password must contain a captial letter</p>
