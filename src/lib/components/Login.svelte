@@ -8,15 +8,10 @@
 	let validateIconPwd = '';
 	let validateIconEmailColor = '';
 	let validateIconPwdColor = '';
-	let isEmailEntered: boolean;
 	let isPasswordEntered: boolean;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
-		if (email.length >= 1) {
-		} else {
-			validateIconEmail = '';
-		}
 	}
 
 	function handlePasswordInput(event: Event) {
