@@ -161,7 +161,7 @@
 		<div class="h-[50vh] flex flex-col justify-around items-center">
 			<form class="flex flex-col justify-around items-center w-full">
 				<div class="w-full">
-					<p class="float-right">*required</p>
+					<p class="float-right text-sm">*required</p>
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
