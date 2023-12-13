@@ -15,19 +15,18 @@
 		email = (event.target as HTMLInputElement).value;
 		if (password.length >= 1) {
 			isEmailValid = isValidEmail(email);
-		} 
+		}
 	}
 
 	function handlePasswordInput(event: Event) {
 		password = (event.target as HTMLInputElement).value;
-		
 	}
 
 	$: allInputFieldsFilled = password.length != 0 && email.length != 0 && isEmailValid;
 	function handleSubmit() {}
 </script>
 
-<div class="pt-8 ">
+<div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold">{$t('login.header.title')}</div>
 		<div class="h-[50vh] flex flex-col">
@@ -64,7 +63,9 @@
 				>
 			</div>
 			<div class="p-2 text-sm text-center">
-				{$t('login.subtitle.noaccount')}<a class="text=primary" href="/register">{$t('login.subtitle.signup')}</a>
+				{$t('login.subtitle.noaccount')}<a class="text=primary" href="/register"
+					>{$t('login.subtitle.signup')}</a
+				>
 			</div>
 		</div>
 	</div>

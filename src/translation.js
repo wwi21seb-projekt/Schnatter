@@ -52,7 +52,7 @@ export default {
 		'login.placeholder.email': 'E-Mail',
 		'login.placeholder.password': 'Passwort',
 		'login.submit.btn': 'Anmelden',
-		'login.subtitle.noaccount': "Noch keinen Account?",
-		'login.subtitle.signup': "Registriere dich"
+		'login.subtitle.noaccount': 'Noch keinen Account?',
+		'login.subtitle.signup': 'Registriere dich'
 	}
 };
