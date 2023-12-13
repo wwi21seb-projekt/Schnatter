@@ -1,10 +1,11 @@
+// @ts-ignore
 import { derived, writable } from 'svelte/store';
 import translations from './translation';
 
 export const locale = writable('en');
 export const locales = Object.keys(translations);
 
-// @ts-ignore
+// @ts-expect-error
 function translate(locale, key, vars) {
 	// Let's throw some errors if we're trying to use keys/locales that don't exist.
 	// We could improve this by using Typescript and/or fallback values.
@@ -12,7 +13,7 @@ function translate(locale, key, vars) {
 	if (!locale) throw new Error(`no translation for key "${key}"`);
 
 	// Grab the translation from the translations object.
-	// @ts-ignore
+	// @ts-expect-error
 	let text = translations[locale][key];
 
 	if (!text) throw new Error(`no translation found for ${locale}.${key}`);
@@ -30,7 +31,7 @@ function translate(locale, key, vars) {
 export const t = derived(
 	locale,
 	($locale) =>
-		// @ts-ignore
+		// @ts-expect-error
 		(key, vars = {}) =>
 			translate($locale, key, vars)
 );

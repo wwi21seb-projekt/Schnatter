@@ -4,7 +4,7 @@ type imprint = {
 	text: string;
 };
 
-export const load = (async ({}) => {
+export const load = (async () => {
 	try {
 		//const text:string = 'hier ist Text';
 		const url: string = 'http://localhost:3000' + '/api/v1/imprint';
@@ -16,5 +16,7 @@ export const load = (async ({}) => {
 		return {
 			text: imprintText
 		};
-	} catch (error) {}
+	} catch (error) {
+		// continue regardless of error
+	}
 }) satisfies PageServerLoad;
