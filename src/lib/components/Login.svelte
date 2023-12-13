@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { isValidEmail } from '$lib/ValidateInputs';
 	import RegisterInput from '../../lib/components/RegisterInput.svelte';
+	import { t } from '../../i18n';
 
 	let email = '';
 	let password = '';
@@ -8,35 +9,34 @@
 	let validateIconPwd = '';
 	let validateIconEmailColor = '';
 	let validateIconPwdColor = '';
-	let isPasswordEntered: boolean;
+	let isEmailValid: boolean;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
+		if (password.length >= 1) {
+			isEmailValid = isValidEmail(email);
+		} 
 	}
 
 	function handlePasswordInput(event: Event) {
 		password = (event.target as HTMLInputElement).value;
-		if (password.length >= 1) {
-			isPasswordEntered = isValidEmail(email);
-		} else {
-			validateIconPwd = '';
-		}
+		
 	}
 
-	$: allInputFieldsFilled = password.length != 0 && email.length != 0 && isPasswordEntered;
+	$: allInputFieldsFilled = password.length != 0 && email.length != 0 && isEmailValid;
 	function handleSubmit() {}
 </script>
 
-<div class="pt-8 rounded-container-token">
+<div class="pt-8 ">
 	<div class="justify-center">
-		<div class=" p-2 h4 text-center font-bold">Log In</div>
+		<div class=" p-2 h4 text-center font-bold">{$t('login.header.title')}</div>
 		<div class="h-[50vh] flex flex-col">
 			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
-				<div class="flex flex-col w-full pr-3 pl-3 pb-2">
+				<div class="flex flex-col w-full px-3 pb-2">
 					<RegisterInput
 						value={email}
 						iconString="ic:outline-email"
-						placeholder="Email"
+						placeholder={$t('login.placeholder.email')}
 						type="text"
 						onInput={handleEmailInput}
 						validateIcon={validateIconEmail}
@@ -44,11 +44,11 @@
 						validateIconColor={validateIconEmailColor}
 					/>
 				</div>
-				<div class="flex flex-col w-full pr-3 pl-3 pt-2">
+				<div class="flex flex-col w-full px-3 pt-2">
 					<RegisterInput
 						value={password}
 						iconString="mdi:lock-outline"
-						placeholder="Password"
+						placeholder={$t('login.placeholder.password')}
 						onInput={handlePasswordInput}
 						validateIcon={validateIconPwd}
 						type="pwd"
@@ -60,11 +60,11 @@
 
 			<div class="flex flex-row mt-3 justify-center text-center">
 				<button disabled={!allInputFieldsFilled} class="btn variant-filled-primary" type="submit"
-					>Log In</button
+					>{$t('login.submit.btn')}</button
 				>
 			</div>
 			<div class="p-2 text-sm text-center">
-				Don't have an account yet? <a class="text=primary" href="/register">Sign up</a>
+				{$t('login.subtitle.noaccount')}<a class="text=primary" href="/register">{$t('login.subtitle.signup')}</a>
 			</div>
 		</div>
 	</div>
