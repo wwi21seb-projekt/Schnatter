@@ -27,13 +27,13 @@
 			</div>
 		</div>
 		<div>
-			<p class="mt-3">{$t('imprint.frontend.note.header')}:</p>
+			<p class="mt-3 font-bold">{$t('imprint.frontend.note.header')}:</p>
 			<p class="text-justify mr-2">{$t('imprint.frontend.note')}</p>
-			<p class="mt-3">{$t('imprint.frontend.liabilityContent.header')}:</p>
+			<p class="mt-3 font-bold">{$t('imprint.frontend.liabilityContent.header')}:</p>
 			<p class="text-justify mr-2">{$t('imprint.frontend.liabilityContent')}</p>
-			<p class="mt-3">{$t('imprint.frontend.liabilityLinks.header')}:</p>
+			<p class="mt-3 font-bold">{$t('imprint.frontend.liabilityLinks.header')}:</p>
 			<p class="text-justify mr-2">{$t('imprint.frontend.liabilityLinks')}</p>
-			<p class="mt-3">{$t('imprint.frontend.copyright.header')}:</p>
+			<p class="mt-3 font-bold">{$t('imprint.frontend.copyright.header')}:</p>
 			<p class="text-justify mr-2">{$t('imprint.frontend.copyright')}</p>
 		</div>
 	</div>

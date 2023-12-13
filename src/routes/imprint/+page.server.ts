@@ -11,7 +11,6 @@ export const load = (async () => {
 		const response = await fetch(url);
 		const responseObject: imprint = await response.json();
 		const imprintText: string = responseObject.text;
-		console.log(responseObject.text);
 
 		return {
 			text: imprintText
