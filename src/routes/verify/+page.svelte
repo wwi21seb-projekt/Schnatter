@@ -61,19 +61,19 @@
 
 		<form class="w-full h-full flex flex-col items-center justify-around">
 			<p>
-				Please verify your account. Enter the 6-digit code from the email we sent you. If you have not received it, please also check your spam folder.
-				
+				Please verify your account. Enter the 6-digit code from the email we sent you. If you have
+				not received it, please also check your spam folder.
 			</p>
 			<div class="flex flex-col justify-center items-center">
-			<input
-				bind:value={verifyInput}
-				on:input={handleInput}
-				class="input variant-form-material w-[80px]"
-				placeholder="XXXXXX"
-			/>
-			<button on:click={resendToken} class="btn bg-transparent text-blue-400">
-				request new code</button
-			>
+				<input
+					bind:value={verifyInput}
+					on:input={handleInput}
+					class="input variant-form-material w-[80px]"
+					placeholder="XXXXXX"
+				/>
+				<button on:click={resendToken} class="btn bg-transparent text-blue-400">
+					request new code</button
+				>
 			</div>
 
 			<div class="flex flex-row items-center justify-around w-2/5">
