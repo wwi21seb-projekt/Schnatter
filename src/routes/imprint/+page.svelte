@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
-    import { t, locale, locales } from '../../i18n';
+	import type { PageData } from './$types';
+	import { t, locale, locales } from '../../i18n';
 
-    export let data: PageData;
-    const backendimprint = data.text;
+	export let data: PageData;
+	const backendimprint: string = data.text!;
 </script>
 
 <main class="flex flex-col justify-center items-center mt-3">
@@ -26,19 +26,19 @@
 				<p>{@html $t('imprint.frontend.mail')}: info@dhbw-mannheim.de</p>
 			</div>
 		</div>
-        <div>
-            <p class="mt-3">{@html $t('imprint.frontend.note.header')}:</p>
-            <p class="text-justify mr-2">{@html $t('imprint.frontend.note')}</p>
-            <p class="mt-3">{@html $t('imprint.frontend.liabilityContent.header')}:</p>
-            <p class="text-justify mr-2">{@html $t('imprint.frontend.liabilityContent')}</p>
-            <p class="mt-3">{@html $t('imprint.frontend.liabilityLinks.header')}:</p>
-            <p class="text-justify mr-2">{@html $t('imprint.frontend.liabilityLinks')}</p>
-            <p class="mt-3">{@html $t('imprint.frontend.copyright.header')}:</p>
-            <p class="text-justify mr-2">{@html $t('imprint.frontend.copyright')}</p>
-        </div>
+		<div>
+			<p class="mt-3">{@html $t('imprint.frontend.note.header')}:</p>
+			<p class="text-justify mr-2">{@html $t('imprint.frontend.note')}</p>
+			<p class="mt-3">{@html $t('imprint.frontend.liabilityContent.header')}:</p>
+			<p class="text-justify mr-2">{@html $t('imprint.frontend.liabilityContent')}</p>
+			<p class="mt-3">{@html $t('imprint.frontend.liabilityLinks.header')}:</p>
+			<p class="text-justify mr-2">{@html $t('imprint.frontend.liabilityLinks')}</p>
+			<p class="mt-3">{@html $t('imprint.frontend.copyright.header')}:</p>
+			<p class="text-justify mr-2">{@html $t('imprint.frontend.copyright')}</p>
+		</div>
 	</div>
 	<div class="card bg-red p-2 w-[80vw]">
-		<h1>{@html $t('imprint.backend.header')}</h1>
+		<h1 class="font-bold text-2xl">{@html $t('imprint.backend.header')}</h1>
 		<p>{backendimprint}</p>
 	</div>
 </main>

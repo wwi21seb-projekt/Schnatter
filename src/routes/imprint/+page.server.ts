@@ -1,12 +1,20 @@
-import type { PageServerLoad } from "./$types";
+import type { PageServerLoad } from './$types';
 
-export const load = (async ({})=>{
-    const text:string = 'hier ist Text';
-    //const response = await fetch('http://localhost:5173/imprint/imprint');
-    //const imprintText = await response.json();
-    //console.log(imprintText);
+type imprint = {
+	text: string;
+};
 
-    return{
-        text: text
-    };
-}) satisfies PageServerLoad
+export const load = (async ({}) => {
+	try {
+		//const text:string = 'hier ist Text';
+		const url: string = 'http://localhost:3000' + '/api/v1/imprint';
+		const response = await fetch(url);
+		const responseObject: imprint = await response.json();
+		const imprintText: string = responseObject.text;
+		console.log(responseObject.text);
+
+		return {
+			text: imprintText
+		};
+	} catch (error) {}
+}) satisfies PageServerLoad;
