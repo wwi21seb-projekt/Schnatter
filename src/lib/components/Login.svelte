@@ -70,7 +70,7 @@
 				>
 			</div>
 			<div class="p-2 text-sm text-center">
-				Don't have an account yet? <a class="color=[#2563eb]" href="url">Sign up</a>
+				Don't have an account yet? <a class="text=primary" href="url">Sign up</a>
 			</div>
 		</div>
 	</div>
