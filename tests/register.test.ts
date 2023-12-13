@@ -4,51 +4,51 @@ import { expect, test } from '@playwright/test';
 test("email must contain '@'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('notatanemail.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test("email must contain '.'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('notat@anemaildotde');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test('email must not contain spaces', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('not@ anemail.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test('email must not contain special characters', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('not@anemail!.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 	await page.getByPlaceholder('Email').fill('not@anemäil.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test("email must contain something before '@'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('@anemail.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test("email must contain something after '@'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('not@.de');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test("email must contain two chars after '.'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('not@anemail.d');
-	await expect(page.getByText('*This is no vaild email')).toBeVisible();
+	await expect(page.getByText('*This is no valid email')).toBeVisible();
 });
 
 test('email accepted when valid', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('an@email.de');
-	await expect(page.getByText('*This is no vaild email')).toBeHidden();
+	await expect(page.getByText('*This is no valid email')).toBeHidden();
 });
 
 // username tests
@@ -64,10 +64,10 @@ test('username must not contain spaces', async ({ page }) => {
 	await expect(page.getByText('*no spaces allowed')).toBeVisible();
 });
 
-test('username can not be to long', async ({ page }) => {
+test('username can not be too long', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Username').fill('usernameusernameusernameusername');
-	await expect(page.getByText('*Username to long')).toBeVisible();
+	await expect(page.getByText('*Username too long')).toBeVisible();
 });
 
 test('username must not contain illegal characters', async ({ page }) => {
@@ -80,30 +80,30 @@ test('username accepted when valid', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Username').fill('username');
 	await expect(page.getByText('*no spaces allowed')).toBeHidden();
-	await expect(page.getByText('*Username to long')).toBeHidden();
+	await expect(page.getByText('*Username too long')).toBeHidden();
 	await expect(page.getByText('*contains illegal characters')).toBeHidden();
 });
 
 //nickname tests
-test('nickname must not be to long', async ({ page }) => {
+test('nickname must not be too long', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Nickname').fill('nicknamenicknamenicknamenickname');
-	await expect(page.getByText('*Nickname to long')).toBeVisible();
+	await expect(page.getByText('*Nickname too long')).toBeVisible();
 });
 
 test('nickname accepted when valid', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Nickname').fill('nickname');
-	await expect(page.getByText('*Nickname to long')).toBeHidden();
+	await expect(page.getByText('*Nickname too long')).toBeHidden();
 });
 
 //password tests
 test('password must be at least 8 chars', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Password').first().fill('1234567');
-	await expect(page.getByText('*Password to short (min 8 character)')).toBeVisible();
+	await expect(page.getByText('*Password too short (min 8 character)')).toBeVisible();
 	await page.getByPlaceholder('Password').first().fill('12345678');
-	await expect(page.getByText('*Password to short (min 8 character)')).toBeHidden();
+	await expect(page.getByText('*Password too short (min 8 character)')).toBeHidden();
 });
 
 test('password must contain at least one capital letter', async ({ page }) => {
