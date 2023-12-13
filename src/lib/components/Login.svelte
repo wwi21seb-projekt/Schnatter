@@ -1,14 +1,10 @@
 <script lang="ts">
 	import { isValidEmail } from '$lib/ValidateInputs';
-	import RegisterInput from '../../lib/components/RegisterInput.svelte';
+	import LoginInput from '../../lib/components/LoginInput.svelte';
 	import { t } from '../../i18n';
 
 	let email = '';
 	let password = '';
-	let validateIconEmail = '';
-	let validateIconPwd = '';
-	let validateIconEmailColor = '';
-	let validateIconPwdColor = '';
 	let isEmailValid: boolean;
 
 	function handleEmailInput(event: Event) {
@@ -32,27 +28,23 @@
 		<div class="h-[50vh] flex flex-col">
 			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
 				<div class="flex flex-col w-full px-3 pb-2">
-					<RegisterInput
+					<LoginInput
 						value={email}
 						iconString="ic:outline-email"
 						placeholder={$t('login.placeholder.email')}
 						type="text"
 						onInput={handleEmailInput}
-						validateIcon={validateIconEmail}
 						id="email"
-						validateIconColor={validateIconEmailColor}
 					/>
 				</div>
 				<div class="flex flex-col w-full px-3 pt-2">
-					<RegisterInput
+					<LoginInput
 						value={password}
 						iconString="mdi:lock-outline"
 						placeholder={$t('login.placeholder.password')}
 						onInput={handlePasswordInput}
-						validateIcon={validateIconPwd}
 						type="pwd"
 						id="pwd"
-						validateIconColor={validateIconPwdColor}
 					/>
 				</div>
 			</form>
