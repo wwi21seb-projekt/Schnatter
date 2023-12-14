@@ -1,9 +1,14 @@
-<script>
+<script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
+	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
-	let loginToken;
-	token.subscribe((prev_val) => (loginToken = prev_val));
+	const loginToken = get(token);
+
+	function handleLogout() {
+		token.set('');
+		location.reload();
+	}
 </script>
 
 <AppBar>
@@ -27,6 +32,9 @@
 			<a href="/profile">
 				<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 			</a>
+			<button on:click={handleLogout}
+				><Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
+			>
 		{/if}
 	</svelte:fragment>
 </AppBar>

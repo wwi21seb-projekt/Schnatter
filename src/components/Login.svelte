@@ -5,7 +5,7 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { createToast } from '$lib/Toasts';
-	import { refreshToken, registerUsername, token } from '$lib/Store';
+	import { refreshToken, registerUsername, serverURL, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 
 	initializeStores();
@@ -25,8 +25,10 @@
 
 	$: allInputFieldsFilled = password.length != 0 && username.length != 0;
 	async function handleSubmit() {
+		let serverUrl: string = '';
+		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 		try {
-			const url = 'http://localhost:3000/api/v1' + '/users/login';
+			const url = serverUrl + '/users/login';
 			const response = await fetch(url, {
 				mode: 'cors',
 				method: 'POST',

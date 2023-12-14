@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from './Toasts';
+	import { createToast } from '$lib/Toasts';
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { goto } from '$app/navigation';
 
@@ -21,7 +21,6 @@
 		let serverUrl: string = '';
 		registerUsername.subscribe((prev_val) => (username = prev_val));
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
-		console.log(username);
 		const url = serverUrl + '/users/' + username + '/activate';
 		try {
 			const response = await fetch(url, {

@@ -130,7 +130,6 @@
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 
 		const url: string = serverUrl + '/users';
-		console.log('23232');
 		try {
 			const respone = await fetch(url, {
 				mode: 'cors',
@@ -142,7 +141,6 @@
 					email: email
 				})
 			});
-			console.log('sdsds');
 			statusCode = respone.status;
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
