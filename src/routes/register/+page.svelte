@@ -87,7 +87,7 @@
 			}
 		}
 		if (
-			isPwdLongEnough
+			isPwdLongEnough &&
 			hasPwdCapitalLetter &&
 			hasPwdSmallLetter &&
 			hasPwdNumber &&
