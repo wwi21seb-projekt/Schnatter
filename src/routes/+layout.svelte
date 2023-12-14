@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
 
-	import Navbar from '../components/Navbar.svelte';
+	import Navbar from '../components/navbar.svelte';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { AppShell, storePopup } from '@skeletonlabs/skeleton';

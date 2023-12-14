@@ -3,9 +3,7 @@
 	import Icon from '@iconify/svelte';
 	import { token } from '$lib/Store';
 	let loginToken;
-	token.set('');
 	token.subscribe((prev_val) => (loginToken = prev_val));
-	console.log(loginToken);
 </script>
 
 <AppBar>
