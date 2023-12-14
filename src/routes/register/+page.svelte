@@ -87,7 +87,7 @@
 			}
 		}
 		if (
-			password.length >= 8 &&
+			isPwdLongEnough
 			hasPwdCapitalLetter &&
 			hasPwdSmallLetter &&
 			hasPwdNumber &&
@@ -124,7 +124,6 @@
 		password === repeatPassword &&
 		username.length != 0;
 	async function handleSubmit() {
-		console.log('test');
 		const url: string = 'http://localhost:3000/api/v1' + '/users';
 		try {
 			const respone = await fetch(url, {
@@ -137,7 +136,6 @@
 				})
 			});
 			statusCode = respone.status;
-			console.log('reeysr');
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
