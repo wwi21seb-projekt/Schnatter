@@ -25,4 +25,3 @@ export function changeIconColor(validateIcon: string): string {
 	}
 	return validateIconColor;
 }
-
