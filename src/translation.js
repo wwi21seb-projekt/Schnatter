@@ -19,7 +19,13 @@ export default {
 		'imprint.frontend.copyright.header': 'Copyright',
 		'imprint.frontend.copyright':
 			'The content and works created by the project team on this website are subject to German copyright law. Duplication, processing, distribution and any kind of exploitation outside the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this site are only permitted for private, non-commercial use. Insofar as the content on this site was not created by the project team, the copyrights of third parties are respected. In particular, third-party content is marked as such. Should you nevertheless become aware of a copyright infringement, please inform us accordingly. If we become aware of any infringements, we will remove such content immediately.',
-		'imprint.backend.header': 'Imprint Backend'
+		'imprint.backend.header': 'Imprint Backend',
+		'login.header.title': 'Log In',
+		'login.placeholder.email': 'Email',
+		'login.placeholder.password': 'Password',
+		'login.submit.btn': 'Log In',
+		'login.subtitle.noaccount': "Don't have an account yet?",
+		'login.subtitle.signup': 'Sign up'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -41,6 +47,12 @@ export default {
 		'imprint.frontend.copyright.header': 'Urheberrecht',
 		'imprint.frontend.copyright':
 			'Die durch das Projektteam erstellten Inhalte und Werke auf dieser Seite unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Projektteam erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Solltest du trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.',
-		'imprint.backend.header': 'Impressum Backend'
+		'imprint.backend.header': 'Impressum Backend',
+		'login.header.title': 'Anmelden',
+		'login.placeholder.email': 'E-Mail',
+		'login.placeholder.password': 'Passwort',
+		'login.submit.btn': 'Anmelden',
+		'login.subtitle.noaccount': 'Noch keinen Account?',
+		'login.subtitle.signup': 'Registriere dich'
 	}
 };
