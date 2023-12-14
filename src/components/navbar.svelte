@@ -1,7 +1,11 @@
 <script>
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
-	let tokenISSet = false;
+	import { token } from '$lib/Store';
+	let loginToken;
+	token.set('');
+	token.subscribe((prev_val) => (loginToken = prev_val));
+	console.log(loginToken);
 </script>
 
 <AppBar>
@@ -9,13 +13,13 @@
 		<h1 style="font-size: 32px">Schnatter</h1>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
-		<a href="/home">
+		<a href="/">
 			<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px" />
 		</a>
 		<a href="/search">
 			<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 		</a>
-		{#if tokenISSet}
+		{#if loginToken != ''}
 			<a href="/post">
 				<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 			</a>

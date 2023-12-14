@@ -45,6 +45,7 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.5.3",
 		"@iconify/svelte": "^3.1.4",
+		"js-cookie": "^3.0.5",
 		"svelte-i18n": "^4.0.0"
 	}
 }

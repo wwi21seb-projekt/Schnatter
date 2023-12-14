@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
 	import { Toast } from '@skeletonlabs/skeleton';
-	import RegisterInput from '../../lib/components/RegisterInput.svelte';
+	import RegisterInput from '../../components/RegisterInput.svelte';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
-	import { redirect } from '@sveltejs/kit';
+	import { goto } from '$app/navigation';
+	import { registerUsername, serverURL } from '$lib/Store';
+
 	initializeStores();
 	const toastStore = getToastStore();
 
@@ -34,6 +36,7 @@
 	let containsIllegalCharacters: boolean;
 	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
 	const checkSpace = /\s/;
+	let serverUrl: string;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -124,9 +127,13 @@
 		password === repeatPassword &&
 		username.length != 0;
 	async function handleSubmit() {
-		const url: string = 'http://localhost:3000/api/v1' + '/users';
+		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+
+		const url: string = serverUrl + '/users';
+		console.log('23232');
 		try {
 			const respone = await fetch(url, {
+				mode: 'cors',
 				method: 'POST',
 				body: JSON.stringify({
 					username: username,
@@ -135,13 +142,15 @@
 					email: email
 				})
 			});
+			console.log('sdsds');
 			statusCode = respone.status;
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
 		statusCode == 201;
 		if (statusCode == 201) {
-			redirect(300, '/verify');
+			registerUsername.set(username);
+			goto('/verify');
 		} else if (statusCode == 400) {
 			toastStore.trigger(createToast('There was a mistake! Please check your entries', 'error'));
 		} else if (statusCode == 422) {

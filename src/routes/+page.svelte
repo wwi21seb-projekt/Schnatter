@@ -1,15 +1,14 @@
-<!-- YOU CAN DELETE EVERYTHING IN THIS PAGE -->
+<script lang="ts">
+	import Login from '../components/Login.svelte';
+</script>
 
-<div class="container h-full mx-auto flex justify-center items-center">
-	<div class="space-y-5">
-		<h1 class="h1">Let's get cracking bones!</h1>
-		<p>Start by exploring:</p>
-		<ul>
-			<li><code class="code">/src/routes/+layout.svelte</code> - barebones layout</li>
-			<li><code class="code">/src/app.postcss</code> - app wide css</li>
-			<li>
-				<code class="code">/src/routes/+page.svelte</code> - this page, you can replace the contents
-			</li>
-		</ul>
+<main class="">
+	<div class="grid grid-cols-6 grid-flow-col gap-4 grid-end-auto">
+		<div class="col-span-1"></div>
+		<div class="card col-span-4"></div>
+		<div class="grid grid-rows-6 grid-flow-col gap-4">
+			<div class="card row-start-1"><Login /></div>
+			<div class="card row-span-5"></div>
+		</div>
 	</div>
-</div>
+</main>
