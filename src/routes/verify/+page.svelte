@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from './Toasts';
+	import { createToast } from '$lib/Toasts';
+	import { registerUsername, serverURL } from '$lib/Store';
+	import { goto } from '$app/navigation';
 
 	initializeStores();
 	const toastStore = getToastStore();
 
 	let verifyInput: string = '';
 	let statusCode: number = 0;
+	let username: string;
 
 	function handleInput(event: Event) {
 		const newValue = (event.target as HTMLInputElement).value.replace(/\D/g, '');
@@ -15,7 +18,10 @@
 	}
 
 	async function handleSubmit() {
-		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
+		let serverUrl: string = '';
+		registerUsername.subscribe((prev_val) => (username = prev_val));
+		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const url = serverUrl + '/users/' + username + '/activate';
 		try {
 			const response = await fetch(url, {
 				method: 'POST',
@@ -32,11 +38,14 @@
 		} else if (statusCode == 404) {
 			toastStore.trigger(createToast('The code is not correct', 'error'));
 		} else if (statusCode == 200) {
-			toastStore.trigger(createToast('Account successfully verified', 'success'));
+			goto('/');
 		}
 	}
 	async function resendToken() {
-		const url = 'http://localhost:3000/api/v1' + '/users/mabu2807/activate';
+		let serverUrl: string = '';
+		registerUsername.subscribe((prev_val) => (username = prev_val));
+		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const url = serverUrl + '/users/' + username + '/activate';
 		try {
 			const response = await fetch(url, {
 				method: 'DELETE'

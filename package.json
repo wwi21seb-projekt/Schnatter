@@ -22,6 +22,7 @@
 		"@sveltejs/kit": "^1.27.4",
 		"@tailwindcss/forms": "0.5.7",
 		"@tailwindcss/typography": "0.5.10",
+		"@types/js-cookie": "^3.0.6",
 		"@types/node": "20.10.3",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
 		"@typescript-eslint/parser": "^6.0.0",
@@ -45,6 +46,8 @@
 	"dependencies": {
 		"@floating-ui/dom": "1.5.3",
 		"@iconify/svelte": "^3.1.4",
-		"svelte-i18n": "^4.0.0"
+		"svelte-i18n": "^4.0.0",
+		"svelte-local-storage-store": "^0.6.4",
+		"universal-cookie": "^6.1.1"
 	}
 }

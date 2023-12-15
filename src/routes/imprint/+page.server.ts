@@ -1,3 +1,4 @@
+import { serverURL } from '$lib/Store';
 import type { PageServerLoad } from './$types';
 
 type imprint = {
@@ -6,8 +7,9 @@ type imprint = {
 
 export const load = (async () => {
 	try {
-		//const text:string = 'hier ist Text';
-		const url: string = 'http://localhost:3000' + '/api/v1/imprint';
+		let serverUrl: string = '';
+		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const url: string = serverUrl + '/imprint';
 		const response = await fetch(url);
 		const responseObject: imprint = await response.json();
 		const imprintText: string = responseObject.text;
