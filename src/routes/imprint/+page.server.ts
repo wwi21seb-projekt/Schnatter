@@ -8,7 +8,6 @@ type imprint = {
 export const load = (async () => {
 	try {
 		let serverUrl: string = '';
-		//const text:string = 'hier ist Text';
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 		const url: string = serverUrl + '/imprint';
 		const response = await fetch(url);
