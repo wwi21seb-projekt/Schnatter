@@ -209,7 +209,7 @@
 					<RegisterInput
 						value={nickname}
 						iconString="mdi:account-eye-outline"
-						placeholder="{$t('register.nickname.header')}"
+						placeholder={$t('register.nickname.header')}
 						type="text"
 						onInput={handleNicknameInput}
 						validateIcon={validateIconNickname}
@@ -264,7 +264,10 @@
 				{/if}
 
 				<div class="flex flex-row mt-3">
-					<a href="/"><button class="btn variant-filled-surface mr-2">{$t('register.button.cancel')}</button></a>
+					<a href="/"
+						><button class="btn variant-filled-surface mr-2">{$t('register.button.cancel')}</button
+						></a
+					>
 					<button
 						disabled={!areAllInputsCorrect}
 						class="btn variant-filled-primary ml-2"
