@@ -7,6 +7,7 @@
 	import { createToast } from '$lib/Toasts';
 	import { goto } from '$app/navigation';
 	import { registerUsername, serverURL } from '$lib/Store';
+	import { t } from '../../i18n';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -162,17 +163,17 @@
 <Toast />
 <main class=" flex flex-col justify-center items-center h-[90vh]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
-		<h1 class="h1 mb-14">Register</h1>
+		<h1 class="h1 mb-14">{$t('register.header')}</h1>
 		<div class="h-[50vh] flex flex-col justify-around items-center">
 			<form class="flex flex-col justify-around items-center w-full">
 				<div class="w-full">
-					<p class="float-right text-sm">*required</p>
+					<p class="float-right text-sm">*{$t('register.required.asterisk')}</p>
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={email}
 						iconString="ic:outline-email"
-						placeholder="Email*"
+						placeholder="{$t('register.mail.header')}*"
 						type="text"
 						onInput={handleEmailInput}
 						validateIcon={validateIconEmail}
@@ -180,14 +181,14 @@
 						validateIconColor={validateIconEmailColor}
 					/>
 					{#if !isEmailValid && email.length != 0}
-						<p class="text-red-600 text-sm">*This is no valid email</p>
+						<p class="text-red-600 text-sm">*{$t('register.mail.invalid')}</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={username}
 						iconString="mdi:account"
-						placeholder="Username*"
+						placeholder="{$t('register.username.header')}*"
 						type="text"
 						onInput={handleUsernameInput}
 						validateIcon={validateIconUsername}
@@ -195,20 +196,20 @@
 						validateIconColor={validateIconUsernameColor}
 					/>
 					{#if username.length > 25}
-						<p class="text-red-600 text-sm">*Username too long</p>
+						<p class="text-red-600 text-sm">*{$t('register.username.tooLong')}</p>
 					{/if}
 					{#if checkSpace.test(username)}
-						<p class="text-red-600 text-sm">*no spaces allowed</p>
+						<p class="text-red-600 text-sm">*{$t('register.username.spaces')}</p>
 					{/if}
 					{#if containsIllegalCharacters}
-						<p class="text-red-600 text-sm">*contains illegal characters</p>
+						<p class="text-red-600 text-sm">*{$t('register.username.illegalCharacters')}</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={nickname}
 						iconString="mdi:account-eye-outline"
-						placeholder="Nickname (Optional)"
+						placeholder="{$t('register.nickname.header')}"
 						type="text"
 						onInput={handleNicknameInput}
 						validateIcon={validateIconNickname}
@@ -216,14 +217,14 @@
 						validateIconColor={validateIconNicknameColor}
 					/>
 					{#if nickname.length > 25}
-						<p class="text-red-600 text-sm">*Nickname too long</p>
+						<p class="text-red-600 text-sm">*{$t('register.nickname.tooLong')}</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={password}
 						iconString="mdi:lock-outline"
-						placeholder="Password*"
+						placeholder="{$t('register.password.header')}*"
 						onInput={handlePasswordInput}
 						validateIcon={validateIconPwd}
 						type="pwd"
@@ -231,26 +232,26 @@
 						validateIconColor={validateIconPwdColor}
 					/>
 					{#if !isPwdLongEnough && password.length != 0}
-						<p class="text-red-600 text-sm">*Password too short (min 8 character)</p>
+						<p class="text-red-600 text-sm">*{$t('register.password.tooShort')}</p>
 					{/if}
 					{#if !hasPwdCapitalLetter && password.length != 0}
-						<p class="text-red-600 text-sm">*Password must contain a captial letter</p>
+						<p class="text-red-600 text-sm">*{$t('register.password.capitalLetter')}</p>
 					{/if}
 					{#if !hasPwdSmallLetter && password.length != 0}
-						<p class="text-red-600 text-sm">*Password must contain a small letter</p>
+						<p class="text-red-600 text-sm">*{$t('register.password.smallLetter')}</p>
 					{/if}
 					{#if !hasPwdSpecailCharacter && password.length != 0}
-						<p class="text-red-600 text-sm">*Password must contain a special character</p>
+						<p class="text-red-600 text-sm">*{$t('register.password.specialCharacter')}</p>
 					{/if}
 					{#if !hasPwdNumber && password.length != 0}
-						<p class="text-red-600 text-sm">*Password must contain a number</p>
+						<p class="text-red-600 text-sm">*{$t('register.password.number')}</p>
 					{/if}
 				</div>
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={repeatPassword}
 						iconString="mdi:lock-reset"
-						placeholder="Repeat Password*"
+						placeholder="{$t('register.password.repeat')}*"
 						type="pwd"
 						onInput={handleRepeatPasswordInput}
 						validateIcon={validateIconRepeatPwd}
@@ -259,16 +260,16 @@
 					/>
 				</div>
 				{#if repeatPassword.length != 0 && password != repeatPassword}
-					<p class="text-red-600 text-sm">*Passwords do not match</p>
+					<p class="text-red-600 text-sm">*{$t('register.password.notMatch')}</p>
 				{/if}
 
 				<div class="flex flex-row mt-3">
-					<a href="/"><button class="btn variant-filled-surface mr-2">Cancel</button></a>
+					<a href="/"><button class="btn variant-filled-surface mr-2">{$t('register.button.cancel')}</button></a>
 					<button
 						disabled={!areAllInputsCorrect}
 						class="btn variant-filled-primary ml-2"
 						type="submit"
-						on:click={handleSubmit}>Register</button
+						on:click={handleSubmit}>{$t('register.button.register')}</button
 					>
 				</div>
 			</form>
