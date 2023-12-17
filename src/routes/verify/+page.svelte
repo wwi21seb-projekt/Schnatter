@@ -65,7 +65,7 @@
 
 <Toast />
 <main class="flex justify-center items-center w-screen h-screen">
-	<div class="card w-[40vw] h-[60vh] p-5">
+	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[60vh] p-5">
 		<h2 class="h2">Verify your Account</h2>
 
 		<form class="w-full h-full flex flex-col items-center justify-around">

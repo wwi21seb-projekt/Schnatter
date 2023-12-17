@@ -161,7 +161,7 @@
 
 <Toast />
 <main class=" flex flex-col justify-center items-center h-[90vh]">
-	<div class="card w-[40vw] h-[80vh] p-10">
+	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">Register</h1>
 		<div class="h-[50vh] flex flex-col justify-around items-center">
 			<form class="flex flex-col justify-around items-center w-full">
