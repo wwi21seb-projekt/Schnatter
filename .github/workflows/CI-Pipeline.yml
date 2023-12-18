@@ -31,5 +31,4 @@ jobs:
       - name: run playwright tests
         env:
           HEADLESS: true
-
         run: pnpm playwright test
