@@ -1,14 +1,6 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
-	import { get } from 'svelte/store';
-	import { token } from '$lib/Store';
-	const loginToken = get(token);
-
-	function handleLogout() {
-		token.set('');
-		location.reload();
-	}
 </script>
 
 <AppBar>
