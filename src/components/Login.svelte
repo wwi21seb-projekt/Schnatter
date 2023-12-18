@@ -97,7 +97,7 @@
 			<div class="p-2 text-sm text-center">
 				<p>
 					{$t('login.subtitle.noaccount')}
-					<a class="text=primary" href="/register">{$t('login.subtitle.signup')}</a>
+					<a class="text-blue-700" href="/register">{$t('login.subtitle.signup')}</a>
 				</p>
 			</div>
 		</div>
