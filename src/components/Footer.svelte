@@ -9,6 +9,6 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
-		<a href="/impressum">Impressum</a>
+		<a href="/imprint">Impressum</a>
 	</svelte:fragment>
 </AppBar>
