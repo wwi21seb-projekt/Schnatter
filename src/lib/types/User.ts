@@ -1,10 +1,9 @@
-export type profil ={
-    userName: string,
-    nickName: string,
-    bio: string,
-    avatar: string | undefined,
-    follower: number,
-    followed: number,
-    posts: number,
-    
-}
+export type Profil = {
+	username: string;
+	nickname: string;
+	status: string;
+	profilePictureUrl: string | undefined;
+	follower: number;
+	following: number;
+	posts: number;
+};
