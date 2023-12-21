@@ -4,6 +4,7 @@
 	export let data: PageData;
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import Post from '../../components/Post.svelte';
 
 	let editMode: boolean = false;
 	let nickname: string = data.user.nickname;
@@ -87,5 +88,7 @@
 		</div>
 	</div>
 	<!--Posts-->
-	<div class="e w-full h-[100vh]"></div>
+	<div class="flex flex-col items-center justify-center w-full h-[100vh]">
+		<Post></Post>
+	</div>
 </main>
