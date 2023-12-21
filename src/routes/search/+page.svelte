@@ -25,7 +25,6 @@
         if (usernameInput.length > 0) {
             serverURL.subscribe((prev_val) => (serverUrl = prev_val));
             const url: string = serverUrl + '/users?'+usernameInput+'&0&10';
-            console.log(url)
             try {
 			    response = await fetch(url, {
 				mode: 'cors',
@@ -34,10 +33,13 @@
 			    statusCode = response.status;
 		    }catch (error) {
                 toastStore.clear();
+                console.log(error);
+                toastStore.clear();
 			    toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		    }
             if(statusCode==200){
-                users = await response.json();
+                const result = await response.json();
+                users = result.records;
             }else{
                 users = [];
                 toastStore.clear();
@@ -50,7 +52,7 @@
 </script>
 
 <Toast />
-<div class="mt-8 w-3/5 h-screen mx-auto">
+<div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
     <input class="input" type="search" name="username" on:input={handleUsernameInput} placeholder="Search a user..." />
     <div class="mt-4 w-full">
         {#each users as user}
