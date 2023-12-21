@@ -19,6 +19,18 @@
     let statusCode: number = 0;
     let beispieluser = { username: "beispiel", nickname: "Beispieluser", avatar: "" };
     let users: Array<typeof beispieluser> = [];
+    let friendsInSearch: Array<typeof beispieluser> = new Array();
+    let isUserFriend: (user: typeof beispieluser) => boolean = () => false;
+    let blockedInSearch: Array<typeof beispieluser> = new Array();
+    let isUserBlocked: (user: typeof beispieluser) => boolean = () => false;
+
+    
+    $: {
+        const friendsSet = new Set(friendsInSearch);
+        isUserFriend = (user: typeof beispieluser) => friendsSet.has(user);
+        const blockedSet = new Set(blockedInSearch);
+        isUserBlocked = (user: typeof beispieluser) => blockedSet.has(user);
+    }
 
     async function handleUsernameInput(event: Event) {
         usernameInput = (event.target as HTMLInputElement).value;
@@ -49,11 +61,27 @@
             users = [];
         }
     }
+
+    function handleAddUserClick(user: typeof beispieluser) {
+        if (friendsInSearch.includes(user)) {
+            friendsInSearch = friendsInSearch.filter(u => u !== user);
+        } else {
+            friendsInSearch = [...friendsInSearch, user];
+        }
+    }
+
+    function handleBlockUserClick(user: typeof beispieluser) {
+        if (blockedInSearch.includes(user)) {
+            blockedInSearch = blockedInSearch.filter(u => u !== user);
+        } else {
+            blockedInSearch = [...blockedInSearch, user];
+        }
+    }
 </script>
 
 <Toast />
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
-    <input class="input" type="search" name="username" on:input={handleUsernameInput} placeholder="Search a user..." />
+    <input class="input w-full" type="search" name="username" on:input={handleUsernameInput} placeholder="Search a user..." />
     <div class="mt-4 w-full">
         {#each users as user}
             <div class="flex flex-row items-center justify-between w-full">
@@ -65,11 +93,11 @@
                     </div>
                 </div>
                 <div class="flex flex-row items-center">
-                    <button class="btn btn-primary">
-                        <Icon class="w-10 h-10" icon="mdi:account-plus" style="font-size: 32px" />
+                    <button class="btn btn-primary" on:click={() => handleAddUserClick(user)}>
+                        <Icon class="w-10 h-10" icon={isUserFriend(user) ? 'mdi:account-check' : 'mdi:account-plus'} style="font-size: 32px" />
                     </button>
-                    <button class="btn btn-primary">
-                        <Icon class="w-10 h-10" icon="mdi:account-cancel" style="font-size: 32px" />
+                    <button class="btn btn-primary" on:click={() => handleBlockUserClick(user)}>
+                        <Icon class="w-10 h-10" icon="mdi:account-cancel" color={isUserBlocked(user) ? 'red' : 'white'} style="font-size: 32px" />
                     </button>
                 </div>
             </div>
