@@ -45,7 +45,9 @@ export default {
 		'register.password.repeat': 'Repeat Password',
 		'register.password.notMatch': 'Passwords do not match',
 		'register.button.cancel': 'Cancel',
-		'register.button.register': 'Register'
+		'register.button.register': 'Register',
+		'post.postComment.placeholder': 'Leave a comment!',
+		'post.comments.header': 'Comments'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -93,6 +95,8 @@ export default {
 		'register.password.repeat': 'Passwort wiederholen',
 		'register.password.notMatch': 'Passwörter stimmen nicht überein',
 		'register.button.cancel': 'Abbrechen',
-		'register.button.register': 'Registrieren'
+		'register.button.register': 'Registrieren',
+		'post.postComment.placeholder': 'Schreib einen Kommentar!',
+		'post.comments.header': 'Kommentare'
 	}
 };
