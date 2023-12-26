@@ -76,7 +76,6 @@
 			</div>
 		</header>
 		<section class="p-4">
-			<!-- eslint-disable-next-line vue/no-v-html -->
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
 				{@html newPost.join(' ')}
 			</p>
@@ -88,16 +87,18 @@
 				</button>
 				<p class="mr-1">{likeCount}</p>
 			</div>
-			<input
-				class="input mx-3"
-				type="text"
-				placeholder={$t('post.postComment.placeholder')}
-				maxlength="256"
-				disabled
-			/>
-			<button class="" on:click={checkForHashtag}>
-				<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
-			</button>
+			{#if loginToken != ''}
+				<input
+					class="input mx-3"
+					type="text"
+					placeholder={$t('post.postComment.placeholder')}
+					maxlength="256"
+					disabled
+				/>
+				<button class="" on:click={checkForHashtag}>
+					<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
+				</button>
+			{/if}
 		</footer>
 	</div>
 	{#if loginToken != ''}
