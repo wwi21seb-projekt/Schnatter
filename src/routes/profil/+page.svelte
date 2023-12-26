@@ -5,6 +5,7 @@
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Post from '../../components/Post.svelte';
+	import type { PostStructure } from '$lib/types/Post';
 
 	let editMode: boolean = false;
 	let nickname: string = data.user.nickname;
@@ -30,6 +31,19 @@
 			editMode = true;
 		}
 	}
+
+	//data to fill the example-post
+	let post: PostStructure = {
+		postID: '535fcd7a-aa7a-4524-88d6-ead97c6e51b7',
+		author: {
+			username: 'user1',
+			nickname: 'cooler User',
+			profilePictureUrl: '/default-avatar.png'
+		},
+
+		creationDate: new Date(2023, 11, 5),
+		content: 'Hier #ist ein Post. Und hier ist #Text!'
+	};
 </script>
 
 <Toast />
@@ -89,6 +103,6 @@
 	</div>
 	<!--Posts-->
 	<div class="flex flex-col items-center justify-center w-full h-[100vh]">
-		<Post></Post>
+		<Post bind:postData={post}></Post>
 	</div>
 </main>

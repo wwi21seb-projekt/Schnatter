@@ -1,6 +1,6 @@
 import type { UUID } from 'crypto';
 
-export type Post = {
+export type PostStructure = {
 	postID: UUID;
 	author: {
 		username: string;
@@ -9,4 +9,10 @@ export type Post = {
 	};
 	creationDate: Date;
 	content: string;
+};
+
+export type TextColorPost = {
+	isHashtag: boolean;
+	text: string;
+	wordID: number;
 };

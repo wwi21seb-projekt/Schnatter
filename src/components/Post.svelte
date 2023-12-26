@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Post } from '$lib/types/Post';
+	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
@@ -7,23 +7,22 @@
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 
+	export let postData;
+
 	const loginToken = get(token);
 	let likeCount: number = 123;
 	let liked: boolean = false;
 
-	let newPost: string[] = [];
+	let newPost: TextColorPost[] = [
+		{
+			isHashtag: false,
+			text: '',
+			wordID: 0
+		}
+	];
 
-	let post: Post = {
-		postID: '535fcd7a-aa7a-4524-88d6-ead97c6e51b7',
-		author: {
-			username: 'user1',
-			nickname: 'cooler User',
-			profilePictureUrl: '/default-avatar.png'
-		},
-
-		creationDate: new Date(2023, 11, 5),
-		content: 'Hier #ist ein #Post. Hier ist #Text!'
-	};
+	let wordId: number = 0;
+	let post: PostStructure = postData;
 
 	onMount(() => {
 		checkForHashtag();
@@ -40,18 +39,13 @@
 	}
 	function checkForHashtag() {
 		let words: RegExpMatchArray | null;
-		const hashtagRegex = /#(\w+)/g;
 		const regexSentence = /#?\b\w+\b|[.,;?!]/g;
 		const text = post.content;
 		words = text.match(regexSentence);
 
 		if (words !== null) {
 			newPost = words.map((word) => {
-				if (hashtagRegex.test(word)) {
-					return '<span style="color:dodgerBlue;">' + word + '</span>';
-				} else {
-					return word;
-				}
+				return { isHashtag: word.startsWith('#'), text: word, wordID: wordId++ };
 			});
 		}
 	}
@@ -77,7 +71,13 @@
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
-				{@html newPost.join(' ')}
+				{#each newPost as { isHashtag, text } (text)}
+					{#if isHashtag}
+						<span style="color:dodgerBlue;">{text} </span>
+					{:else}
+						<span>{text} </span>
+					{/if}
+				{/each}
 			</p>
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
