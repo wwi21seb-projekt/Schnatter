@@ -1,18 +1,15 @@
 import type { UUID } from 'crypto';
+import type { Author } from './Author';
 
 export type PostStructure = {
 	postID: UUID;
-	author: {
-		username: string;
-		nickname: string;
-		profilePictureUrl: string | undefined;
-	};
+	author: Author;
 	creationDate: Date;
 	content: string;
 };
 
 export type TextColorPost = {
-	isHashtag: boolean;
+	hashtagClass: string;
 	text: string;
 	wordID: number;
 };

@@ -15,13 +15,12 @@
 
 	let newPost: TextColorPost[] = [
 		{
-			isHashtag: false,
+			hashtagClass: '',
 			text: '',
 			wordID: 0
 		}
 	];
 
-	let wordId: number = 0;
 	let post: PostStructure = postData;
 
 	onMount(() => {
@@ -29,23 +28,23 @@
 	});
 
 	function likeCounter() {
-		if (liked == false) {
-			likeCount++;
-			liked = true;
-		} else {
-			likeCount--;
-			liked = false;
-		}
+		likeCount += liked ? -1 : 1;
+		liked = !liked;
 	}
 	function checkForHashtag() {
 		let words: RegExpMatchArray | null;
 		const regexSentence = /#?\b\w+\b|[.,;?!]/g;
 		const text = post.content;
 		words = text.match(regexSentence);
+		let wordId: number = 0;
 
 		if (words !== null) {
 			newPost = words.map((word) => {
-				return { isHashtag: word.startsWith('#'), text: word, wordID: wordId++ };
+				let hashtagClass: string = '';
+				if (word.startsWith('#')) {
+					hashtagClass = 'text-blue-600';
+				}
+				return { hashtagClass: hashtagClass, text: word, wordID: wordId++ };
 			});
 		}
 	}
@@ -53,41 +52,35 @@
 
 <main class="flex flex-col h-[35vh]">
 	<div class="card w-[60vw] mb-2">
-		<header class="card-header w-full">
-			<div class="flex justify-between items-center">
-				<div class="flex flex-row items-center">
-					<Avatar
-						class="h-[5vh] w-[5vh] rounded-full mr-3"
-						src={post.author.profilePictureUrl}
-						initials=""
-					/>
-					<div class="flex flex-col">
-						<p class="">{post.author.username}</p>
-						<p class="font-light text-sm">{post.author.nickname}</p>
-					</div>
+		<header class="card-header w-full flex justify-between items-center">
+			<div class="flex flex-row items-center">
+				<Avatar
+					class="h-[5vh] w-[5vh] rounded-full mr-3"
+					src={post.author.profilePictureUrl}
+					initials=""
+				/>
+				<div class="flex flex-col">
+					<p class="">{post.author.username}</p>
+					<p class="font-light text-sm">{post.author.nickname}</p>
 				</div>
-				<p class="text-xs">{post.creationDate.toDateString()}</p>
 			</div>
+			<p class="text-xs">{post.creationDate.toDateString()}</p>
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
-				{#each newPost as { isHashtag, text } (text)}
-					{#if isHashtag}
-						<span style="color:dodgerBlue;">{text} </span>
-					{:else}
-						<span>{text} </span>
-					{/if}
+				{#each newPost as { hashtagClass, text } (text)}
+					<span class={hashtagClass}>{text} </span>
 				{/each}
 			</p>
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeCounter} disabled>
+				<button on:click={likeCounter}>
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={liked ? 'red' : 'white'}></Icon>
 				</button>
 				<p class="mr-1">{likeCount}</p>
 			</div>
-			{#if loginToken != ''}
+			{#if loginToken != '' || loginToken == undefined}
 				<input
 					class="input mx-3"
 					type="text"
@@ -101,7 +94,7 @@
 			{/if}
 		</footer>
 	</div>
-	{#if loginToken != ''}
+	{#if loginToken != '' || loginToken == undefined}
 		<div class="card w-[60vw]">
 			<header class="card-header">
 				<p class="font-bold text-xl">{$t('post.comments.header')}</p>
