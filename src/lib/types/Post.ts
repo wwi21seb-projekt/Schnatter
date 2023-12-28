@@ -13,3 +13,9 @@ export type TextColorPost = {
 	text: string;
 	wordID: number;
 };
+
+export type ProfilePostStructure = {
+	postId: UUID;
+	creationDate: Date;
+	content: string;
+};

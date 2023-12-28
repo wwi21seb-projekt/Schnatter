@@ -5,11 +5,13 @@
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Post from '../../components/Post.svelte';
-	import type { PostStructure } from '$lib/types/Post';
+	import type { PostStructure, ProfilePostStructure } from '$lib/types/Post';
+	import type { ProfileFeed } from '$lib/types/Feed';
 
 	let editMode: boolean = false;
 	let nickname: string = data.user.nickname;
 	let bioStatus: string = data.user.status;
+	let feed: ProfilePostStructure[]= data.feed.records;
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -20,16 +22,11 @@
 	};
 
 	const user = data.user;
-	if (data.statusCode == 500) {
-		console.log(data.statusCode);
+	if (data.statusCodeDetails == 500) {
 		toastStore.trigger(t);
 	}
 	function changeEditMode() {
-		if (editMode) {
-			editMode = false;
-		} else {
-			editMode = true;
-		}
+		editMode = !editMode;
 	}
 
 	//data to fill the example-post
@@ -102,7 +99,9 @@
 		</div>
 	</div>
 	<!--Posts-->
-	<div class="flex flex-col items-center justify-center w-full h-[100vh]">
-		<Post bind:postData={post}></Post>
+	<div class="flex flex-col items-center justify-start w-full h-[100vh] mt-6">
+		{#each feed as post (post.postId)}
+			<Post  bind:postData={post}></Post>
+		{/each}
 	</div>
 </main>
