@@ -4,8 +4,8 @@
 	export let data: PageData;
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import Post from '../../components/Post.svelte';
-	import type { PostStructure } from '$lib/types/Post';
+	import type { PostUserProfilStructure } from '$lib/types/Post';
+	import PostUserProfil from '../../components/PostUserProfil.svelte';
 
 	let editMode: boolean = false;
 	let nickname: string = data.user.nickname;
@@ -33,16 +33,10 @@
 	}
 
 	//data to fill the example-post
-	let post: PostStructure = {
-		postID: '535fcd7a-aa7a-4524-88d6-ead97c6e51b7',
-		author: {
-			username: 'user1',
-			nickname: 'cooler User',
-			profilePictureUrl: '/default-avatar.png'
-		},
-
-		creationDate: new Date(2023, 11, 5),
-		content: 'Hier #ist ein Post. Und hier ist #Text!'
+	let userPost: PostUserProfilStructure = {
+		postID: '7911a7eb-2a75-46f6-877f-bcee167570e5',
+		creationDate: new Date(2023, 12, 11),
+		content: 'Hier ist ein persönlicher #Post. Hier ist ein zweiter beschissener #text'
 	};
 </script>
 
@@ -103,6 +97,6 @@
 	</div>
 	<!--Posts-->
 	<div class="flex flex-col items-center justify-center w-full h-[100vh]">
-		<Post bind:postData={post}></Post>
+		<PostUserProfil bind:postData={userPost} />
 	</div>
 </main>

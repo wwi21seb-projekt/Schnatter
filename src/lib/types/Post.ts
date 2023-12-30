@@ -13,3 +13,14 @@ export type TextColorPost = {
 	text: string;
 	wordID: number;
 };
+
+export type PostUserProfilStructure = {
+	postID: UUID;
+	creationDate: Date;
+	content: string;
+};
+
+export type LikeObjectStructure = {
+	likeCount: number;
+	liked: boolean;
+};
