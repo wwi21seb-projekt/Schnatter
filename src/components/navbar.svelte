@@ -3,7 +3,11 @@
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
+
+	import ModalCreatePost from './ModalCreatePost.svelte';
 	const loginToken = get(token);
+
+	let showModal = false;
 
 	function handleLogout() {
 		token.set('');
@@ -27,13 +31,13 @@
 				<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 			</a>
 			{#if loginToken != ''}
-				<a href="/post">
-					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
-				</a>
+				<button>
+					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" on:click={()=>(showModal = true)} />
+				</button>
 				<a href="/messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
 				</a>
-				<a href="/profile">
+				<a href="/profil">
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</a>
 				<button on:click={handleLogout}
