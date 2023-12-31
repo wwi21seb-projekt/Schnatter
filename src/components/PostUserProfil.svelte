@@ -39,7 +39,7 @@
 	}
 
 	function helperHashtagCheck() {
-		newPost = checkForHashtags(post, newPost);
+		newPost = checkForHashtags(post);
 	}
 </script>
 

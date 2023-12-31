@@ -1,4 +1,9 @@
-import type { PostUserProfilStructure, TextColorPost, LikeObjectStructure } from './types/Post';
+import type {
+	PostUserProfilStructure,
+	TextColorPost,
+	LikeObjectStructure,
+	PostStructure
+} from './types/Post';
 
 export function likeCounter(likeObject: LikeObjectStructure) {
 	likeObject.likeCount += likeObject.liked ? -1 : 1;
@@ -6,10 +11,17 @@ export function likeCounter(likeObject: LikeObjectStructure) {
 	return likeObject;
 }
 
-export function checkForHashtags(post: PostUserProfilStructure, newPost: TextColorPost[]) {
+export function checkForHashtags(post: PostUserProfilStructure | PostStructure) {
 	const text = post.content;
 	const words = text.split(' ');
 	let wordId: number = 0;
+	let newPost: TextColorPost[] = [
+		{
+			hashtagClass: '',
+			text: '',
+			wordID: 0
+		}
+	];
 
 	if (words !== null) {
 		newPost = words.map((word) => {
