@@ -1,5 +1,9 @@
 <script lang="ts">
-	import type { PostStructure, TextColorPost, LikeObjectStructure } from '$lib/types/Post';
+	import type {
+		PostUserProfilStructure,
+		TextColorPost,
+		LikeObjectStructure
+	} from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
@@ -24,7 +28,7 @@
 		}
 	];
 
-	let post: PostStructure = postData;
+	let post: PostUserProfilStructure = postData;
 
 	onMount(() => {
 		helperHashtagCheck();
@@ -42,17 +46,6 @@
 <main class="flex flex-col h-[35vh]">
 	<div class="card w-[60vw] mb-2">
 		<header class="card-header w-full flex justify-between items-center">
-			<div class="flex flex-row items-center">
-				<Avatar
-					class="h-[5vh] w-[5vh] rounded-full mr-3"
-					src={post.author.profilePictureUrl}
-					initials=""
-				/>
-				<div class="flex flex-col">
-					<p class="">{post.author.username}</p>
-					<p class="font-light text-sm">{post.author.nickname}</p>
-				</div>
-			</div>
 			<p class="text-xs">{post.creationDate.toDateString()}</p>
 		</header>
 		<section class="p-4">
