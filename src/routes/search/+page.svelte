@@ -62,6 +62,8 @@
         }
     }
 
+    //get Friends
+
     function handleAddUserClick(user: typeof beispieluser) {
         if (friendsInSearch.includes(user)) {
             friendsInSearch = friendsInSearch.filter(u => u !== user);
@@ -69,6 +71,8 @@
             friendsInSearch = [...friendsInSearch, user];
         }
     }
+
+    //get Blocked
 
     function handleBlockUserClick(user: typeof beispieluser) {
         if (blockedInSearch.includes(user)) {
