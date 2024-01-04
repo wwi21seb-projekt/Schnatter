@@ -1,12 +1,19 @@
 <script lang="ts">
-	import { Modal } from "@skeletonlabs/skeleton";
+	import { Modal, getModalStore } from "@skeletonlabs/skeleton";
 
-    export let showModal: boolean;
+    const modalStore = getModalStore();
+
+    function closeModal(){
+        modalStore.close();
+    };
 </script>
 
-<Modal>
-    <div class="text-lg font-bold">
-        <p>Hier Post erstellen</p>
-
-    </div>
-</Modal>
+{#if $modalStore[0]}
+<div>
+    <header>Write Post</header>
+    <div class="flex flex-row">
+    <button type="button" class="btn variant-filled-secondary" on:click={closeModal}>Close</button>
+    <button type="button" class="btn variant-filled-primary">Post</button>
+</div>
+</div>
+{/if}

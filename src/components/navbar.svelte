@@ -1,25 +1,30 @@
 <script lang="ts">
-	import { AppBar } from '@skeletonlabs/skeleton';
+	import { AppBar, getModalStore, Modal, type ModalSettings } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
-
-	import ModalCreatePost from './ModalCreatePost.svelte';
 	const loginToken = get(token);
 
-	let showModal = false;
+	const modalStore = getModalStore();
+
+	const modal: ModalSettings ={
+		type: 'component',
+		component: 'modalCreatePost',
+	}; 
 
 	function handleLogout() {
 		token.set('');
 		location.reload();
 	}
+	function openModal() {
+		modalStore.trigger(modal);
+	}
 </script>
-
 <AppBar>
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<Icon class="w-10 h-10" icon="game-icons:kiwi-bird" style="font-size: 32px" />
-			<h1 style="font-size: 32px">Schnatter</h1>
+			<a href="/"><h1 style="font-size: 32px">Schnatter</h1></a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
@@ -31,8 +36,8 @@
 				<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 			</a>
 			{#if loginToken != ''}
-				<button>
-					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" on:click={()=>(showModal = true)} />
+				<button on:click={openModal}>
+					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 				</button>
 				<a href="/messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
@@ -47,3 +52,4 @@
 		</div>
 	</svelte:fragment>
 </AppBar>
+
