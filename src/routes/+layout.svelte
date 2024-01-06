@@ -12,12 +12,11 @@
 	import ModalCreatePost from '../components/ModalCreatePost.svelte';
 	initializeStores();
 	const modalRegistry: Record<string, ModalComponent> = {
-		modalCreatePost: {ref: ModalCreatePost}
-	}
-
+		modalCreatePost: { ref: ModalCreatePost }
+	};
 </script>
 
-<Modal components={modalRegistry}/>
+<Modal components={modalRegistry} />
 <AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />

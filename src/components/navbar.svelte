@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppBar, getModalStore, Modal, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { AppBar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
@@ -7,10 +7,10 @@
 
 	const modalStore = getModalStore();
 
-	const modal: ModalSettings ={
+	const modal: ModalSettings = {
 		type: 'component',
-		component: 'modalCreatePost',
-	}; 
+		component: 'modalCreatePost'
+	};
 
 	function handleLogout() {
 		token.set('');
@@ -20,6 +20,7 @@
 		modalStore.trigger(modal);
 	}
 </script>
+
 <AppBar>
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
@@ -52,4 +53,3 @@
 		</div>
 	</svelte:fragment>
 </AppBar>
-
