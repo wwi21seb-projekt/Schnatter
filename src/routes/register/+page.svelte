@@ -132,9 +132,10 @@
 
 		const url: string = serverUrl + '/users';
 		try {
+			console.log(username, password, nickname, email);
 			const respone = await fetch(url, {
-				mode: 'cors',
 				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					username: username,
 					password: password,
@@ -143,6 +144,7 @@
 				})
 			});
 			statusCode = respone.status;
+			console.log(await respone.json());
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
