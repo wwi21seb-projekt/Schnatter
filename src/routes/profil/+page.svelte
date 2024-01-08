@@ -21,7 +21,6 @@
 
 	const user = data.user;
 	if (data.statusCode == 500) {
-		console.log(data.statusCode);
 		toastStore.trigger(t);
 	}
 	function changeEditMode() {
