@@ -10,7 +10,6 @@ export const load = (async () => {
 	serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 	const url: string = serverUrl + '/imprint';
 	const response = await fetch(url);
-	console.log(response);
 	const responseObject: imprint = await response.json();
 	const imprintText: string = responseObject.text;
 
