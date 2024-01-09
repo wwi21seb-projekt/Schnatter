@@ -5,6 +5,8 @@
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { serverURL } from '$lib/Store';
+	import type { Profil } from '$lib/types/User';
+    
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -13,18 +15,17 @@
 	let usernameInput: string;
 	let serverUrl: string;
 	let statusCode: number = 0;
-	let beispieluser = { username: 'beispiel', nickname: 'Beispieluser', avatar: '' };
-	let users: Array<typeof beispieluser> = [];
-	let friendsInSearch: Array<typeof beispieluser> = [];
-	let isUserFriend: (user: typeof beispieluser) => boolean = () => false;
-	let blockedInSearch: Array<typeof beispieluser> = [];
-	let isUserBlocked: (user: typeof beispieluser) => boolean = () => false;
+	let users: Array<Profil> = [];
+	let friendsInSearch: Array<Profil> = [];
+	let isUserFriend: (user: Profil) => boolean = () => false;
+	let blockedInSearch: Array<Profil> = [];
+	let isUserBlocked: (user: Profil) => boolean = () => false;
 
 	$: {
 		const friendsSet = new Set(friendsInSearch);
-		isUserFriend = (user: typeof beispieluser) => friendsSet.has(user);
+		isUserFriend = (user: Profil) => friendsSet.has(user);
 		const blockedSet = new Set(blockedInSearch);
-		isUserBlocked = (user: typeof beispieluser) => blockedSet.has(user);
+		isUserBlocked = (user: Profil) => blockedSet.has(user);
 	}
 
 	async function handleUsernameInput(event: Event) {
@@ -59,7 +60,7 @@
 
 	//get Friends
 
-	function handleAddUserClick(user: typeof beispieluser) {
+	function handleAddUserClick(user: Profil) {
 		if (friendsInSearch.includes(user)) {
 			friendsInSearch = friendsInSearch.filter((u) => u !== user);
 		} else {
@@ -69,7 +70,7 @@
 
 	//get Blocked
 
-	function handleBlockUserClick(user: typeof beispieluser) {
+	function handleBlockUserClick(user: Profil) {
 		if (blockedInSearch.includes(user)) {
 			blockedInSearch = blockedInSearch.filter((u) => u !== user);
 		} else {
@@ -91,7 +92,7 @@
 		{#each users as user}
 			<div class="flex flex-row items-center justify-between w-full">
 				<div class="flex flex-row items-center">
-					<img class="w-12 h-12 rounded-full" src={user.avatar} alt="Avatar" />
+					<img class="w-12 h-12 rounded-full" src={user.profilePictureUrl} alt="Avatar" />
 					<div class="ml-4">
 						<a href="/users/{user.username}" class="text-lg font-semibold">{user.nickname}</a>
 						<p class="text-gray-500">@{user.username}</p>
