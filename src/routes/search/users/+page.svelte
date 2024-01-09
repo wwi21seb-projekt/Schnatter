@@ -6,7 +6,6 @@
 	import Icon from '@iconify/svelte';
 	import { serverURL } from '$lib/Store';
 	import type { Profil } from '$lib/types/User';
-    
 
 	initializeStores();
 	const toastStore = getToastStore();
