@@ -80,6 +80,14 @@
 
 <Toast />
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
+	<div class="mb-8" style="gap: 1rem; display: flex; justify-content: center; align-items: center;">
+		<a href="/search/users">
+			<Icon class="w-10 h-10" icon="mdi:account-search" style="font-size: 32px" />
+		</a>
+		<a href="/search/posts">
+			<Icon class="w-10 h-10" icon="mdi:text-box-search-outline" style="font-size: 32px" />
+		</a>
+	</div>
 	<input
 		class="input w-full"
 		type="search"
