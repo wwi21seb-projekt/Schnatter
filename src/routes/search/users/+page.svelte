@@ -91,7 +91,7 @@
 		{#each users as user}
 			<div class="flex flex-row items-center justify-between w-full">
 				<div class="flex flex-row items-center">
-					<img class="w-12 h-12 rounded-full" src={user.profilePictureUrl} alt="Avatar" />
+					<img class="w-12 h-12 rounded-full" src={user.profilePictureUrl !== "" ? user.profilePictureUrl : "/default-avatar.png"} alt="Avatar" />
 					<div class="ml-4">
 						<a href="/users/{user.username}" class="text-lg font-semibold">{user.nickname}</a>
 						<p class="text-gray-500">@{user.username}</p>
