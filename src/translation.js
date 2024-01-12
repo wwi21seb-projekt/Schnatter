@@ -47,7 +47,14 @@ export default {
 		'register.button.cancel': 'Cancel',
 		'register.button.register': 'Register',
 		'post.postComment.placeholder': 'Leave a comment!',
-		'post.comments.header': 'Comments'
+		'post.comments.header': 'Comments',
+		'modalCreatePost.header.Text': 'Text',
+		'modalCreatePost.header.Image': 'Image',
+		'modalCreatePost.textInput.Placeholder': 'Write your post here',
+		'modalCreatePost.fileInput.Message': 'Upload image or drag-and-drop',
+		'modalCreatePost.textInputImage.Placeholder': 'Write your optional text here...',
+		'modalCreatePost.button.close': 'Close',
+		'modalCreatePost.button.post': 'Post'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -97,6 +104,13 @@ export default {
 		'register.button.cancel': 'Abbrechen',
 		'register.button.register': 'Registrieren',
 		'post.postComment.placeholder': 'Schreib einen Kommentar!',
-		'post.comments.header': 'Kommentare'
+		'post.comments.header': 'Kommentare',
+		'modalCreatePost.header.Text': 'Text',
+		'modalCreatePost.header.Image': 'Bild',
+		'modalCreatePost.textInput.Placeholder': 'Schreibe deinen Beitrag hier',
+		'modalCreatePost.fileInput.Message': 'Lade ein Bild hoch oder drag-and-drop',
+		'modalCreatePost.textInputImage.Placeholder': 'Schreibe deinen optionalen Text hier...',
+		'modalCreatePost.button.close': 'Schließen',
+		'modalCreatePost.button.post': 'Posten'
 	}
 };

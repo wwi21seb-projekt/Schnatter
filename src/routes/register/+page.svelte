@@ -133,8 +133,8 @@
 		const url: string = serverUrl + '/users';
 		try {
 			const respone = await fetch(url, {
-				mode: 'cors',
 				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
 					username: username,
 					password: password,
