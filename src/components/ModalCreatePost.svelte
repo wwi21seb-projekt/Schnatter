@@ -14,6 +14,8 @@
 
 	let text: string = '';
 
+	let files: FileList;
+
 	function closeModal() {
 		modalStore.close();
 	}
@@ -50,6 +52,29 @@
 			toastStore.trigger(createToast('We were running into a problem! Sorry', 'error'));
 		}
 	}
+	let imageUrl: string | null = null;
+	function handleFileUpload(e: Event) {
+		//console.log('file', e);
+		console.log(files);
+	}
+	let file: File | null = null;
+
+	function handleFileChange(e: Event): void{
+		const input = e.target as HTMLInputElement;
+		file = input.files ? input.files[0]:null;
+		//file = e.target.files ? e.target.files[0] : null;
+		console.log(file);
+
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = (event) => {
+				imageUrl = event.target?.result as string;
+			};
+			reader.readAsDataURL(file);
+		} else {
+			imageUrl = null;
+		}
+	};
 </script>
 
 {#if $modalStore[0]}
@@ -75,7 +100,10 @@
 		{/if}
 		{#if imageClick == true}
 			<section class="p-3 flex flex-col">
-				<FileDropzone name="files" accept="image/*">
+				{#if imageUrl !== null}
+					<img src={imageUrl} alt="Vorschau" class="file-preview" />
+				{/if}
+				<FileDropzone name="files" accept="image/*" bind:files on:change={handleFileChange}>
 					<svelte:fragment slot="message">
 						<div class="flex flex-col items-center">
 							<Icon class="w-12 h-12" icon="line-md:upload-loop"></Icon>
