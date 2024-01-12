@@ -1,0 +1,46 @@
+import { serverURL } from '$lib/Store';
+import type { UserPostFetchResponse } from '$lib/types/Post';
+import type { User } from '$lib/types/User';
+import { get } from 'svelte/store';
+
+export async function getProfileDetails(token: string, username: string) {
+	let statusCode: number = 0;
+	let user: User = {
+		username: 'not Found',
+		nickname: '',
+		status:
+			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At',
+		profilePictureUrl: '/default-avatar.png',
+		follower: 0,
+		following: 0,
+		posts: 0
+	};
+
+	const serverUrl = get(serverURL);
+	const url = serverUrl + '/users/' + username;
+	const response = await fetch(url, {
+		method: 'GET',
+		mode: 'cors'
+	});
+	user = await response.json();
+	statusCode = await response.status;
+
+	if (user.profilePictureUrl == '' || user.profilePictureUrl == undefined) {
+		user.profilePictureUrl = '/default-avatar.png';
+	}
+
+	return { user: user, statusCode: statusCode };
+}
+export async function getProfilePosts(token: string, username: string) {
+	const params = new URLSearchParams({ offset: '0', limit: '10' });
+
+	const serverUrl = get(serverURL);
+
+	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
+		method: 'GET'
+	});
+	const posts: UserPostFetchResponse = await response.json();
+	posts.statusCode = await response.status;
+
+	return posts;
+}
