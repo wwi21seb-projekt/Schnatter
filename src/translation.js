@@ -58,7 +58,11 @@ export default {
 		'modalChangePassword.header': 'Change Password',
 		'modalChangePassword.oldPassword': 'Old Password',
 		'modalChangePassword.newPassword': 'New Password',
-		'modalChangePassword.newPasswordRepeat': 'Repeat New Password'
+		'modalChangePassword.newPasswordRepeat': 'Repeat New Password',
+		'profile.posts': 'Posts',
+		'profile.followers': 'Followers',
+		'profile.following': 'Following',
+		'profile.noPosts': 'User has no posts yet'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -119,6 +123,10 @@ export default {
 		'modalChangePassword.header': 'Passwort ändern',
 		'modalChangePassword.oldPassword': 'Altes Passwort',
 		'modalChangePassword.newPassword': 'Neues Passwort',
-		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen'
+		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen',
+		'profile.posts': 'Beiträge',
+		'profile.followers': 'Abonennten',
+		'profile.following': 'Abonniert',
+		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt'
 	}
 };

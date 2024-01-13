@@ -44,3 +44,37 @@ export async function getProfilePosts(token: string, username: string) {
 
 	return posts;
 }
+
+export async function updateUserDetails(token: string, bioStatus: string, nickname: string) {
+	const serverUrl = get(serverURL) + '/users/';
+
+	const response = await fetch(serverUrl, {
+		method: 'PUT',
+		mode: 'cors',
+		body: JSON.stringify({
+			nickname: nickname,
+			status: bioStatus
+		})
+	});
+
+	return response.status;
+}
+export async function loadPosts(token: string, postData: UserPostFetchResponse, username: string) {
+	const params = new URLSearchParams({
+		offset: postData.pagination.offset.toString(),
+		limit: '10'
+	});
+
+	const serverUrl = get(serverURL);
+
+	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
+		method: 'GET'
+	});
+	const posts: UserPostFetchResponse = await response.json();
+
+	postData.pagination = posts.pagination;
+	postData.records = postData.records.concat(posts.records);
+	posts.statusCode = await response.status;
+
+	return posts;
+}

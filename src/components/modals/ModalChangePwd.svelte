@@ -5,10 +5,8 @@
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
 	import { serverURL } from '$lib/Store';
-	import { getModalStore, getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { getModalStore } from '@skeletonlabs/skeleton';
 
-	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
 	let password = '';
