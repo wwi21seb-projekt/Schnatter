@@ -11,7 +11,7 @@
 	<div class="grid grid-cols-6 grid-flow-col gap-4 grid-end-auto">
 		<div class="col-span-1"></div>
 		<div class="card col-span-4">
-			<Feed/>
+				<Feed/>
 		</div>
 		<div class="grid grid-rows-6 grid-flow-col gap-4">
 			<div class="card row-start-1">
