@@ -16,20 +16,20 @@
 	import { token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
 	import Icon from '@iconify/svelte';
-	import ModelChangePwd from '../../components/modals/ModalChangePwd.svelte';
+	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
 	import { t } from '../../i18n';
 
 	import { createToast } from '$lib/Toasts';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
-	let bioStatus: string = '';
+	let userStatus: string = '';
 	let maxPostCounter: number = 0;
 
 	const toastStore = getToastStore();
 
-	const modelStore = getModalStore();
-	const modalComponent: ModalComponent = { ref: ModelChangePwd };
+	const modalStore = getModalStore();
+	const modalComponent: ModalComponent = { ref: ModalChangePwd };
 
 	const modal: ModalSettings = {
 		type: 'component',
@@ -68,7 +68,7 @@
 	onMount(async () => {
 		profileData = await getProfileDetails(get(token), 'mabu2807');
 		nickname = profileData.user.nickname;
-		bioStatus = profileData.user.status;
+		userStatus = profileData.user.status;
 
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast('User details could not be loaded', 'error'));
@@ -82,7 +82,7 @@
 		editMode = !editMode;
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), nickname, bioStatus);
+		const status = await updateUserDetails(get(token), nickname, userStatus);
 		if (status == 200) {
 			editMode = false;
 			toastStore.trigger(createToast('User details were changed', 'success'));
@@ -91,8 +91,8 @@
 		}
 	}
 
-	function openChangePwdModel() {
-		modelStore.trigger(modal);
+	function openChangePwdModal() {
+		modalStore.trigger(modal);
 	}
 	async function loadMorePosts() {
 		postData = await loadPosts(get(token), postData, 'mabu2807');
@@ -133,14 +133,14 @@
 					placeholder="new nickname"
 				/>
 				<textarea
-					bind:value={bioStatus}
+					bind:value={userStatus}
 					maxlength="128"
 					class="textarea"
 					placeholder="new Status"
 				/>
 			{:else}
 				<p class="opacity-70 mb-4">{nickname}</p>
-				<p>{bioStatus}</p>
+				<p>{userStatus}</p>
 			{/if}
 		</div>
 		<div class="h-[20vh] w-[22vw] flex flex-row justify-around items-center">
@@ -160,7 +160,7 @@
 					<p>{$t('profile.following')}</p>
 				</div>
 			</a>
-			<button on:click={openChangePwdModel} class="ml-2"
+			<button on:click={openChangePwdModal} class="ml-2"
 				><Icon class="w-10 h-10" icon="mdi:password-reset"></Icon></button
 			>
 		</div>
@@ -173,7 +173,7 @@
 				<PostUserProfil bind:postData={Post} />
 			{/each}
 			{#if maxPostCounter == postData.records.length}
-				<button on:click={loadMorePosts} class="btn variant-filled">Load more</button>
+				<button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.noPosts')}</button>
 			{/if}
 		{/if}
 	</div>

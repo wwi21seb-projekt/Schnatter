@@ -45,7 +45,7 @@ export async function getProfilePosts(token: string, username: string) {
 	return posts;
 }
 
-export async function updateUserDetails(token: string, bioStatus: string, nickname: string) {
+export async function updateUserDetails(token: string, userStatus: string, nickname: string) {
 	const serverUrl = get(serverURL) + '/users/';
 
 	const response = await fetch(serverUrl, {
@@ -53,7 +53,7 @@ export async function updateUserDetails(token: string, bioStatus: string, nickna
 		mode: 'cors',
 		body: JSON.stringify({
 			nickname: nickname,
-			status: bioStatus
+			status: userStatus
 		})
 	});
 

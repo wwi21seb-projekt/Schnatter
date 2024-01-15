@@ -100,7 +100,7 @@
 	<RegisterInput
 		value={oldPassword}
 		iconString="mdi:lock-outline"
-		placeholder={$t('modalChangePassword.oldPassword')}
+		placeholder="{$t('modalChangePassword.oldPassword')}*"
 		type="text"
 		onInput={handleOldPwdInput}
 		validateIcon=""

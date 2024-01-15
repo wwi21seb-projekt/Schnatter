@@ -62,7 +62,8 @@ export default {
 		'profile.posts': 'Posts',
 		'profile.followers': 'Followers',
 		'profile.following': 'Following',
-		'profile.noPosts': 'User has no posts yet'
+		'profile.noPosts': 'User has no posts yet',
+		'profile.loadMore': 'Load more'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -125,8 +126,9 @@ export default {
 		'modalChangePassword.newPassword': 'Neues Passwort',
 		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen',
 		'profile.posts': 'Beiträge',
-		'profile.followers': 'Abonennten',
+		'profile.followers': 'Abonnenten',
 		'profile.following': 'Abonniert',
-		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt'
+		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
+		'profile.loadMore': 'Mehr laden'
 	}
 };
