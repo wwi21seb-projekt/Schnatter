@@ -18,6 +18,7 @@
 	import Icon from '@iconify/svelte';
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
 	import { t } from '../../i18n';
+	//	import { page } from '$app/stores';
 
 	import { createToast } from '$lib/Toasts';
 
@@ -25,6 +26,7 @@
 	let nickname: string = '';
 	let userStatus: string = '';
 	let maxPostCounter: number = 0;
+	//	let username: string = '';
 
 	const toastStore = getToastStore();
 
@@ -66,6 +68,7 @@
 	};
 
 	onMount(async () => {
+		//		const url = $page.route;
 		profileData = await getProfileDetails(get(token), 'mabu2807');
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
@@ -96,7 +99,10 @@
 	}
 	async function loadMorePosts() {
 		postData = await loadPosts(get(token), postData, 'mabu2807');
-		maxPostCounter += postData.pagination.limit;
+		console.log('MaxPostCounter: ' + maxPostCounter);
+		maxPostCounter = Number(maxPostCounter) + Number(postData.pagination.limit);
+		console.log('MaxPostCounter: ' + maxPostCounter);
+		console.log('Postdata: ' + postData.records.length);
 	}
 </script>
 
@@ -173,7 +179,8 @@
 				<PostUserProfil bind:postData={Post} />
 			{/each}
 			{#if maxPostCounter == postData.records.length}
-				<button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.noPosts')}</button>
+				<button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.loadMore')}</button
+				>
 			{/if}
 		{/if}
 	</div>
