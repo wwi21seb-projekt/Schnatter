@@ -61,7 +61,7 @@ export async function updateUserDetails(token: string, userStatus: string, nickn
 }
 export async function loadPosts(token: string, postData: UserPostFetchResponse, username: string) {
 	const params = new URLSearchParams({
-		offset: postData.pagination.offset.toString(),
+		offset: postData.records.length.toString(),
 		limit: '10'
 	});
 
@@ -71,10 +71,9 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 		method: 'GET'
 	});
 	const posts: UserPostFetchResponse = await response.json();
-
 	postData.pagination = posts.pagination;
 	postData.records = postData.records.concat(posts.records);
 	posts.statusCode = await response.status;
 
-	return posts;
+	return postData;
 }
