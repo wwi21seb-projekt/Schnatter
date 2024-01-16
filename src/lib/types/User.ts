@@ -1,4 +1,4 @@
-export type Profil = {
+export type User = {
 	username: string;
 	nickname: string;
 	status: string;
@@ -6,4 +6,9 @@ export type Profil = {
 	follower: number;
 	following: number;
 	posts: number;
+};
+
+export type UserFetchResponse = {
+	user: User;
+	statusCode: number;
 };
