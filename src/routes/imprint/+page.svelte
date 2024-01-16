@@ -40,11 +40,10 @@
 	</div>
 	<div class="card bg-red p-2 w-[80vw]">
 		<h1 class="font-bold text-2xl">{$t('imprint.backend.header')}</h1>
-		{#if backendimprint.status==200}
-		<p>{backendimprint}</p>
+		{#if backendimprint.status == 200}
+			<p>{backendimprint}</p>
 		{:else}
-		<p>Internal Server Error</p>
+			<p>Internal Server Error</p>
 		{/if}
-		
 	</div>
 </main>

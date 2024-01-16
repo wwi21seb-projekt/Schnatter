@@ -1,4 +1,4 @@
 export type Imprint = {
-	text: string,
-    status: number
+	text: string;
+	status: number;
 };

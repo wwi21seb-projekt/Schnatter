@@ -36,11 +36,10 @@
 				})
 			});
 			statusCode = response.status;
-			if (statusCode!== 200) {
+			if (statusCode !== 200) {
 				const body = await response.json();
 				customError = body.error;
 				console.log(customError);
-				
 			}
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));

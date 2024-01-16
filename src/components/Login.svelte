@@ -7,6 +7,7 @@
 	import { createToast } from '$lib/Toasts';
 	import { refreshToken, registerUsername, serverURL, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
+	import type { CustomError } from '$lib/types/CustomError';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -25,6 +26,10 @@
 
 	$: allInputFieldsFilled = password.length != 0 && username.length != 0;
 	async function handleSubmit() {
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
 		let serverUrl: string = '';
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 		try {
@@ -39,18 +44,20 @@
 				})
 			});
 			statusCode = response.status;
-			if (statusCode == 200) {
+			if (statusCode !== 200) {
+				const body = await response.json();
+				customError = body.error;
+			}
+			if (statusCode !== 200 && statusCode !== 500 && statusCode !== 403) {
+				toastStore.trigger(createToast(customError.message, 'error'));
+			} else if (statusCode == 200) {
 				const requestData: Login = await response.json();
 				token.set(requestData.token);
 				refreshToken.set(requestData.refreshToken);
 				location.reload();
-			} else if (statusCode == 401) {
-				toastStore.trigger(createToast('Incorrect password', 'error'));
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');
-			} else if (statusCode == 404) {
-				toastStore.trigger(createToast('Username not found', 'error'));
 			}
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));

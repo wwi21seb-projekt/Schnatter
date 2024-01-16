@@ -2,8 +2,6 @@ import { serverURL } from '$lib/Store';
 import type { Imprint } from '$lib/types/Imprint';
 import type { PageServerLoad } from './$types';
 
-
-
 export const load = (async () => {
 	const imprint: Imprint = {
 		text: '',

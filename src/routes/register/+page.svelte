@@ -148,16 +148,16 @@
 				})
 			});
 			statusCode = respone.status;
-			if (statusCode!==200) {
+			if (statusCode !== 200) {
 				const body = await respone.json();
 				customError = body.error;
 			}
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
-		if (statusCode!==201 && statusCode!==500) {
-			toastStore.trigger(createToast(customError.message, 'error'))
-		}else if(statusCode==201){
+		if (statusCode !== 201 && statusCode !== 500) {
+			toastStore.trigger(createToast(customError.message, 'error'));
+		} else if (statusCode == 201) {
 			registerUsername.set(username);
 			goto('/verify');
 		}
