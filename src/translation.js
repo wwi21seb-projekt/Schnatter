@@ -54,7 +54,10 @@ export default {
 		'modalCreatePost.fileInput.Message': 'Upload image or drag-and-drop',
 		'modalCreatePost.textInputImage.Placeholder': 'Write your optional text here...',
 		'modalCreatePost.button.close': 'Close',
-		'modalCreatePost.button.post': 'Post'
+		'modalCreatePost.button.post': 'Post',
+		'feed.personalFeed': 'For You',
+		'feed.globalFeed': 'Following',
+		'profile.loadMore': 'Load More'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -111,6 +114,9 @@ export default {
 		'modalCreatePost.fileInput.Message': 'Lade ein Bild hoch oder drag-and-drop',
 		'modalCreatePost.textInputImage.Placeholder': 'Schreibe deinen optionalen Text hier...',
 		'modalCreatePost.button.close': 'Schließen',
-		'modalCreatePost.button.post': 'Posten'
+		'modalCreatePost.button.post': 'Posten',
+		'feed.personalFeed': 'Für dich',
+		'feed.globalFeed': 'Abboniert',
+		'profile.loadMore': 'Mehr Laden'
 	}
 };

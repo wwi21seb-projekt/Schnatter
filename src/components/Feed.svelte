@@ -1,77 +1,144 @@
 <script lang="ts">
     import Post from './Post.svelte'; 
     import { onMount } from 'svelte';
-    import { serverURL } from '$lib/Store';
-    import { Toast } from '@skeletonlabs/skeleton';
-	import { getToastStore } from '@skeletonlabs/skeleton';
+    import { Toast, getToastStore, initializeStores, RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
-	import { initializeStores } from '@skeletonlabs/skeleton';
-    import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
-    import { token } from '$lib/Store';
+    import { token, serverURL } from '$lib/Store';
     import { get } from 'svelte/store';
-
+    import type {FetchFeedResponse} from '$lib/types/Feed.ts';
+    import { t } from '../i18n';
+    
 	const loginToken = get(token);
-
     initializeStores();
 	const toastStore = getToastStore();
+
     let statusCode: number = 0;
-    let serverUrl: string;
-    let response: Response;
     let posts: Array<Post> = [];
     let value: number = 0;
-    let params = new URLSearchParams([
-        ["offset", "0"],
+    let maxPostCounter: number = 0; 
+    let feedData: FetchFeedResponse;
+    let feedType: string;
+    const serverUrl = get(serverURL);
+    let paramsChangeable = new URLSearchParams([
+        ["postId", ""],        
         ["limit", "10"],
         ["feedType", "global"],
     ]);
+    let paramsGlobalOnly = new URLSearchParams([
+        ["postId", ""],        
+        ["limit", "10"],
+    ]);
 
-    async function onChange(){
-       serverURL.subscribe((prev_val) => (serverUrl = prev_val));
-        if ( value === 1){ //loginToken !== '' &&
-                params.set("feedType", "personal");
-        } else{
-            params.set("feedType", "global");
+    async function loadMorePosts() {
+        
+        if(loginToken !== ''){
+            paramsGlobalOnly.set("postId", feedData.pagination.lastPostId.toString());
+            paramsGlobalOnly.set("feedType", feedType);
+            
+        } else {
+            paramsGlobalOnly.set("postId", feedData.pagination.lastPostId.toString());
         }
+        let params = loginToken === '' ? paramsGlobalOnly : paramsChangeable;
         const url: string = serverUrl + '/feed?' + params;
-        console.log(url)
         try{
-            response = await fetch(url,{
+            let response = await fetch(url,{
                 mode: 'cors',
-                method: 'GET'
+                method: 'GET',
+                //falls eingeloggt: 
+                // headers: {
+                //     Authorization: 'Bearer ' + get(token)
+                // }
             });
             statusCode = response.status;
-        } catch(error){
-             toastStore.clear();
-             console.log(error);
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
-		}
-        
-        if(statusCode == 200){
-            const result = await response.json();
-            posts = result.records;
-            console.log(posts);
-        } else {
-            posts = [];
+            if(statusCode === 200){
+                const result = await response.json();
+                maxPostCounter += result.records.length();
+                posts = posts.concat(result.records);
+                feedData.records = feedData.records.concat(result.records);
+            }
+            
+        }catch(error){
             toastStore.clear();
-			toastStore.trigger(createToast('Something went wrong!', 'error'));
-        } 
+            console.log(error);
+            toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+        }
+    }
+
+    function setFeedType(){
+        if (  loginToken !== '' && value === 1){ 
+                paramsChangeable.set("feedType", "personal");
+                feedType = 'personal';
+            } else{
+                paramsChangeable.set("feedType", "global");
+                feedType = 'global';
+        }
+    }
+
+    async function onChange(){
+        setFeedType();
+        fetchMatchingFeed(false);
+    }
+
+    async function fetchMatchingFeed(isGlobal: boolean) {
+        let params = isGlobal ? paramsGlobalOnly : paramsChangeable;
+        const url: string = serverUrl + '/feed?' + params;
+        console.log(url);
+        try{
+             let response = await fetch(url,{
+                mode: 'cors',
+                method: 'GET',
+                //falls eingeloggt: 
+                // headers: {
+                //     Authorization: 'Bearer ' + get(token)
+                // }
+            });
+            statusCode = response.status;
+            console.log(statusCode);
+            console.log(response);
+
+            if(statusCode === 200){
+                const result = await response.json();
+                console.log(result);
+                posts = result.records;
+                maxPostCounter += posts.length;
+                console.log(maxPostCounter);
+                feedData = result;
+                console.log(feedData.records.length)
+            } else if(statusCode !== 200 && statusCode !== 500){
+                //Fehler-Handling von 400 Bad Request
+                // error objekt auslesen, wie result s.o. customError.message
+                // copy from register/verify
+                posts = [];
+                toastStore.clear();
+                toastStore.trigger(createToast('Something went wrong!', 'error'));
+            } 
+        } catch(error){
+            toastStore.clear();
+            toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+        }
     }
         
     onMount(async () => {
-        onChange();
+        fetchMatchingFeed(true);
     });
 </script>
 
 
 <main class="flex flex-wrap justify-around">
-    <div class="pb-2">
-        <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-            <RadioItem bind:group={value} name="justify" value={0} on:change={onChange}>For You</RadioItem>
-            <RadioItem bind:group={value} name="justify" value={1} on:change={onChange}>Following</RadioItem>
-        </RadioGroup>
-    </div>
+    <!-- nach Login -->
+    {#if loginToken !== ''}
+        <div class="py-4">
+            <RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+                <RadioItem bind:group={value} name="justify" value={0} on:change={onChange}>{$t('feed.personalFeed')}</RadioItem>
+                <RadioItem bind:group={value} name="justify" value={1} on:change={onChange}>{$t('feed.globalFeed')}</RadioItem>
+            </RadioGroup>
+        </div>
+    {/if}
     {#each posts as postData (postData.postId)}
         <Post {postData} />
     {/each} 
+    <!-- {#if maxPostCounter == feedData.records.length} -->
+        <button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.loadMore')}</button>
+    <!-- {/if} -->
     <Toast />
 </main>
