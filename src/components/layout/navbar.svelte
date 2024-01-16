@@ -43,7 +43,7 @@
 				<a href="/messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
 				</a>
-				<a href="/profil">
+				<a href="/profile">
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</a>
 				<button on:click={handleLogout}

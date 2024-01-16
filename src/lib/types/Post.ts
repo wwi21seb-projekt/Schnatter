@@ -1,5 +1,6 @@
 import type { UUID } from 'crypto';
 import type { Author } from './Author';
+import type { Pagination } from './Pagination';
 
 export type PostStructure = {
 	postID: UUID;
@@ -23,4 +24,10 @@ export type PostUserProfilStructure = {
 export type LikeObjectStructure = {
 	likeCount: number;
 	liked: boolean;
+};
+
+export type UserPostFetchResponse = {
+	records: PostUserProfilStructure[];
+	pagination: Pagination;
+	statusCode: number;
 };

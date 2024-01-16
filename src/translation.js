@@ -57,7 +57,15 @@ export default {
 		'modalCreatePost.button.post': 'Post',
 		'feed.personalFeed': 'For You',
 		'feed.globalFeed': 'Following',
-		'profile.loadMore': 'Load More'
+		'modalChangePassword.header': 'Change Password',
+		'modalChangePassword.oldPassword': 'Old Password',
+		'modalChangePassword.newPassword': 'New Password',
+		'modalChangePassword.newPasswordRepeat': 'Repeat New Password',
+		'profile.posts': 'Posts',
+		'profile.followers': 'Followers',
+		'profile.following': 'Following',
+		'profile.noPosts': 'User has no posts yet',
+		'profile.loadMore': 'Load more'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -117,6 +125,14 @@ export default {
 		'modalCreatePost.button.post': 'Posten',
 		'feed.personalFeed': 'Für dich',
 		'feed.globalFeed': 'Abboniert',
-		'profile.loadMore': 'Mehr Laden'
+		'modalChangePassword.header': 'Passwort ändern',
+		'modalChangePassword.oldPassword': 'Altes Passwort',
+		'modalChangePassword.newPassword': 'Neues Passwort',
+		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen',
+		'profile.posts': 'Beiträge',
+		'profile.followers': 'Abonnenten',
+		'profile.following': 'Abonniert',
+		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
+		'profile.loadMore': 'Mehr laden'
 	}
 };
