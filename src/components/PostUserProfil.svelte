@@ -43,10 +43,10 @@
 	}
 </script>
 
-<main class="flex flex-col h-[35vh]">
+<main class="flex flex-col mb-6">
 	<div class="card w-[60vw] mb-2">
 		<header class="card-header w-full flex justify-between items-center">
-			<p class="text-xs">{post.creationDate.toDateString()}</p>
+			<p class="text-xs">{post.creationDate}</p>
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
@@ -78,7 +78,7 @@
 		</footer>
 	</div>
 	{#if loginToken != '' || loginToken == undefined}
-		<div class="card w-[60vw]">
+		<div class="card w-[60vw] h-[20vh] overflow-auto">
 			<header class="card-header">
 				<p class="font-bold text-xl">{$t('post.comments.header')}</p>
 			</header>

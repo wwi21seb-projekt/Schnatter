@@ -5,7 +5,7 @@
 	import { get } from 'svelte/store';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
-	import { t } from '../i18n';
+	import { t } from '../../i18n';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();

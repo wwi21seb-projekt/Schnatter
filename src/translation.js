@@ -54,7 +54,16 @@ export default {
 		'modalCreatePost.fileInput.Message': 'Upload image or drag-and-drop',
 		'modalCreatePost.textInputImage.Placeholder': 'Write your optional text here...',
 		'modalCreatePost.button.close': 'Close',
-		'modalCreatePost.button.post': 'Post'
+		'modalCreatePost.button.post': 'Post',
+		'modalChangePassword.header': 'Change Password',
+		'modalChangePassword.oldPassword': 'Old Password',
+		'modalChangePassword.newPassword': 'New Password',
+		'modalChangePassword.newPasswordRepeat': 'Repeat New Password',
+		'profile.posts': 'Posts',
+		'profile.followers': 'Followers',
+		'profile.following': 'Following',
+		'profile.noPosts': 'User has no posts yet',
+		'profile.loadMore': 'Load more'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -111,6 +120,15 @@ export default {
 		'modalCreatePost.fileInput.Message': 'Lade ein Bild hoch oder drag-and-drop',
 		'modalCreatePost.textInputImage.Placeholder': 'Schreibe deinen optionalen Text hier...',
 		'modalCreatePost.button.close': 'Schließen',
-		'modalCreatePost.button.post': 'Posten'
+		'modalCreatePost.button.post': 'Posten',
+		'modalChangePassword.header': 'Passwort ändern',
+		'modalChangePassword.oldPassword': 'Altes Passwort',
+		'modalChangePassword.newPassword': 'Neues Passwort',
+		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen',
+		'profile.posts': 'Beiträge',
+		'profile.followers': 'Abonnenten',
+		'profile.following': 'Abonniert',
+		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
+		'profile.loadMore': 'Mehr laden'
 	}
 };
