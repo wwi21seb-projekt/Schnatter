@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import { serverURL } from '$lib/Store';
 	import type { Profil } from '$lib/types/User';
+	import { Avatar } from '@skeletonlabs/skeleton';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -80,7 +81,7 @@
 
 <Toast />
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
-	<div class="mb-8" style="gap: 1rem; display: flex; justify-content: center; align-items: center;">
+	<div class="mb-8 flex justify-center items-center gap-4">
 		<a href="/search/users">
 			<Icon
 				class="w-10 h-10"
@@ -103,10 +104,10 @@
 		{#each users as user}
 			<div class="flex flex-row items-center justify-between w-full">
 				<div class="flex flex-row items-center">
-					<img
-						class="w-12 h-12 rounded-full"
+					<Avatar
 						src={user.profilePictureUrl !== '' ? user.profilePictureUrl : '/default-avatar.png'}
-						alt="Avatar"
+						width="w-12"
+						rounded="rounded-full"
 					/>
 					<div class="ml-4">
 						<a href="/profile?username={user.username}" class="text-lg font-semibold"
