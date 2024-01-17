@@ -27,7 +27,7 @@
 			<Icon class="w-10 h-10" icon="mdi:account-search-outline" style="font-size: 32px" />
 		</a>
 		<a href="/search/posts">
-			<Icon class="w-10 h-10" icon="mdi:text-box-search" style="font-size: 32px" />
+			<Icon class="w-10 h-10" icon="mdi:text-box-search" style="font-size: 32px; border: 2px solid; border-radius: 5px;" />
 		</a>
 	</div>
 	<input

@@ -82,7 +82,7 @@
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
 	<div class="mb-8" style="gap: 1rem; display: flex; justify-content: center; align-items: center;">
 		<a href="/search/users">
-			<Icon class="w-10 h-10" icon="mdi:account-search" style="font-size: 32px" />
+			<Icon class="w-10 h-10" icon="mdi:account-search" style="font-size: 32px; border: 2px solid; border-radius: 5px;" />
 		</a>
 		<a href="/search/posts">
 			<Icon class="w-10 h-10" icon="mdi:text-box-search-outline" style="font-size: 32px" />
@@ -101,7 +101,7 @@
 				<div class="flex flex-row items-center">
 					<img class="w-12 h-12 rounded-full" src={user.profilePictureUrl !== "" ? user.profilePictureUrl : "/default-avatar.png"} alt="Avatar" />
 					<div class="ml-4">
-						<a href="/users/{user.username}" class="text-lg font-semibold">{user.nickname}</a>
+						<a href="/profile?username={user.username}" class="text-lg font-semibold">{user.nickname}</a>
 						<p class="text-gray-500">@{user.username}</p>
 					</div>
 				</div>
