@@ -133,7 +133,7 @@
 	});
 </script>
 
-<main class="flex flex-col items-center md:flex-row md:flex-wrap md:items-center md:justify-around">
+<main class="flex flex-col items-center">
 	{#if loginToken !== ''}
 		<div class="py-3">
 			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
