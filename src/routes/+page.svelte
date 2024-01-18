@@ -10,7 +10,7 @@
 <main class="">
 	<div class="grid grid-cols-6 grid-flow-col gap-4 grid-end-auto">
 		<div class="col-span-1"></div>
-		<div class="card col-span-4 pt8">
+		<div class="col-span-4 pt8">
 			<Feed />
 		</div>
 		<div class="grid grid-rows-6 grid-flow-col gap-4">
@@ -19,7 +19,7 @@
 					<Login />
 				</div>
 			{/if}
-			<div class=" row-span-5"></div>
+			<div class="row-span-5"></div>
 		</div>
 	</div>
 </main>

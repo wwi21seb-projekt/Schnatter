@@ -68,7 +68,6 @@ export default {
 		'profile.loadMore': 'Load more',
 		'toast.internalError': 'Internal Server Error! Please try again later!',
 		'toast.sometingWrong': 'Something went wrong!'
-
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',

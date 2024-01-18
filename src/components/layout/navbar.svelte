@@ -25,7 +25,7 @@
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo" />
-			<a href="/"></a><h1 class="text-2xl">Schnatter</h1>
+			<a href="/"><h1 class="text-4xl">Schnatter</h1></a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
