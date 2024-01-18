@@ -29,9 +29,12 @@
 	];
 
 	let post: PostUserProfilStructure = postData;
+	let postDate: string = '';
 
 	onMount(() => {
 		helperHashtagCheck();
+		const dateConverted: Date = new Date(post.creationDate);
+		postDate = dateConverted.toLocaleDateString();
 	});
 
 	function likeHelper() {
@@ -46,7 +49,7 @@
 <main class="flex flex-col mb-6">
 	<div class="card w-[60vw] mb-2">
 		<header class="card-header w-full flex justify-between items-center">
-			<p class="text-xs">{post.creationDate}</p>
+			<p class="text-xs">{postDate}</p>
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
