@@ -11,7 +11,7 @@
 	import { createToast } from '$lib/Toasts';
 	import { token, serverURL } from '$lib/Store';
 	import { get } from 'svelte/store';
-	import type { FetchFeedResponse } from '$lib/types/Feed.ts';
+	import type { GetFeedResponse } from '$lib/types/Feed.ts';
 	import { t } from '../i18n';
 
 	const loginToken = get(token);
@@ -22,7 +22,7 @@
 	let posts: Array<Post> = [];
 	let value: number = 0;
 	let maxPostCounter: number = 0;
-	let feedData: FetchFeedResponse;
+	let feedData: GetFeedResponse;
 	let feedType: string;
 	const serverUrl = get(serverURL);
 	const slotLimit = 2;
@@ -60,15 +60,15 @@
 			statusCode = response.status;
 			if (statusCode === 200) {
 				const result = await response.json();
-                console.log(result);
-                console.log(result.pagination.lastPostId);
+				console.log(result);
+				console.log(result.pagination.lastPostId);
 				if (result.records.length === 0) {
 					hasMorePosts = false;
 				} else {
 					maxPostCounter += result.records.length;
 					posts = posts.concat(result.records);
 					feedData.records = feedData.records.concat(result.records);
-                    feedData.pagination.lastPostId = result.pagination.lastPostId;
+					feedData.pagination.lastPostId = result.pagination.lastPostId;
 				}
 			}
 		} catch (error) {
