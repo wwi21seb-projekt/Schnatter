@@ -1,3 +1,5 @@
+import type { UUID } from 'crypto';
+
 export type User = {
 	username: string;
 	nickname: string;
@@ -6,6 +8,7 @@ export type User = {
 	follower: number;
 	following: number;
 	posts: number;
+	subscriptionId: UUID | string;
 };
 
 export type UserFetchResponse = {
