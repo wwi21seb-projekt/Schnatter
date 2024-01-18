@@ -11,12 +11,12 @@
 	<div class="grid grid-cols-6 grid-flow-col gap-4 grid-end-auto">
 		<div class="col-span-1"></div>
 		<div class="card col-span-4 pt8">
-				<Feed/>
+			<Feed />
 		</div>
 		<div class="grid grid-rows-6 grid-flow-col gap-4">
 			{#if loginToken == ''}
 				<div class="row-start-1">
-					<Login/>
+					<Login />
 				</div>
 			{/if}
 			<div class=" row-span-5"></div>
