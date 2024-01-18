@@ -23,7 +23,7 @@
 	let value: number = 0;
 	let maxPostCounter: number = 0;
 	let feedData: GetFeedResponse;
-	let feedType: string;
+	let feedType: string = 'global';
 	const serverUrl = get(serverURL);
 	const slotLimit = 2;
 	let hasMorePosts: boolean = true;

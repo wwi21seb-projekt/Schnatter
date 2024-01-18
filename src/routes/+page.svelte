@@ -15,7 +15,7 @@
 			{/if}
 		</div>
 		
-		<div class="col-start-1 md:col-start-2 col-span-4">
+		<div class="col-start-1 md:col-start-2 col-span-4 h-auto">
 			<Feed />
 		</div>
 
