@@ -32,7 +32,7 @@
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
 			serverURL.subscribe((prev_val) => (serverUrl = prev_val));
-			const url: string = serverUrl + '/users?' + usernameInput + '&0&10';
+			const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
 			try {
 				response = await fetch(url, {
 					mode: 'cors',
