@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
-	import Icon from '@iconify/svelte';
 </script>
 
 <AppBar>
