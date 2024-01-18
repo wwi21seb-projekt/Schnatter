@@ -42,7 +42,7 @@
 	}
 </script>
 
-<main class="flex flex-col h-[35vh]">
+<main class="flex flex-col mb-6">
 	<div class="card w-[60vw] mb-2">
 		<header class="card-header w-full flex justify-between items-center">
 			<div class="flex flex-row items-center">
