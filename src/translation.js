@@ -63,7 +63,16 @@ export default {
 		'profile.followers': 'Followers',
 		'profile.following': 'Following',
 		'profile.noPosts': 'User has no posts yet',
-		'profile.loadMore': 'Load more'
+		'profile.loadMore': 'Load more',
+		'profile.follow': 'Follow',
+		'profile.unfollow': 'Unfollow',
+		'profile.noUser': 'User does not exist',
+		'toastmessage.profile.follow.success': 'user successfully followed',
+		'toastmessage.profile.follow.error': 'user unsuccessfully followed',
+		'toastmessage.profile.unfollow.success': 'User successfully unfollowed',
+		'toastmessage.profile.unfollow.error': 'User unsuccessfully unfollowed',
+		'toastmessage.profile.changeUserDetails.success': 'Userdetails successfully changed',
+		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -129,6 +138,15 @@ export default {
 		'profile.followers': 'Abonnenten',
 		'profile.following': 'Abonniert',
 		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
-		'profile.loadMore': 'Mehr laden'
+		'profile.loadMore': 'Mehr laden',
+		'profile.follow': 'Abonnieren',
+		'profile.unfollow': 'Deabonnieren',
+		'profile.noUser': 'User existiert nicht',
+		'toastmessage.profile.follow.success': 'User erfolgreich abonniert',
+		'toastmessage.profile.follow.error': 'Fehler beim Abonnieren des Users',
+		'toastmessage.profile.unfollow.success': 'User erfolgreich abonniert',
+		'toastmessage.profile.unfollow.error': 'Fehler beim Deabonnieren des Users',
+		'toastmessage.profile.changeUserDetails.success': 'Userdetails erfolgreich geändert',
+		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden'
 	}
 };
