@@ -16,6 +16,6 @@ export const load = (async () => {
 	imprint.status = responseObject.status;
 
 	return {
-		Imprint: imprint
+		imprint: imprint
 	};
 }) satisfies PageServerLoad;

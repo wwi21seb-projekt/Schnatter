@@ -4,7 +4,7 @@
 	import type { Imprint } from '$lib/types/Imprint';
 
 	export let data: PageData;
-	const backendimprint: Imprint = data.Imprint;
+	const backendimprint: Imprint = data.imprint;
 </script>
 
 <main class="flex flex-col justify-center items-center mt-3">
