@@ -34,7 +34,7 @@
 	let maxPostCounter: number = 0;
 	let username: string = '';
 	let usernameParams: string = '';
-	let subcireped: boolean = false;
+	let subscribed: boolean = false;
 
 	const toastStore = getToastStore();
 
@@ -92,7 +92,7 @@
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
 		if (profileData.user.subscriptionId != '') {
-			subcireped = true;
+			subscribed = true;
 		}
 
 		postData = await getProfilePosts(get(token), username);
@@ -122,7 +122,7 @@
 	async function subscribe() {
 		const followStatus = await followUser(get(token), profileData.user.subscriptionId);
 		if (followStatus == 200) {
-			subcireped = true;
+			subscribed = true;
 			toastStore.trigger(createToast('User was followed', 'success'));
 		} else {
 			toastStore.trigger(createToast('User was not followed', 'error'));
@@ -131,7 +131,7 @@
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
 		if (unfollowStatus == 200) {
-			subcireped = false;
+			subscribed = false;
 			toastStore.trigger(createToast('User was unfollowed', 'success'));
 		} else {
 			toastStore.trigger(createToast('User was not unfollowed', 'error'));
@@ -210,7 +210,7 @@
 					{/if}
 				</div>
 				{#if usernameParams != undefined}
-					{#if subcireped}
+					{#if subscribed}
 						<button on:click={unsubscribe} class="btn bg-red-500">{$t('profile.unfollow')}</button>
 					{:else}
 						<button on:click={subscribe} class="btn variant-filled-primary"
