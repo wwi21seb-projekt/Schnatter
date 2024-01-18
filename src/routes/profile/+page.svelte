@@ -8,6 +8,7 @@
 		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { goto } from '$app/navigation';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
 	import PostUserProfil from '../../components/PostUserProfil.svelte';
 	import { onMount } from 'svelte';
@@ -21,6 +22,7 @@
 	//	import { page } from '$app/stores';
 
 	import { createToast } from '$lib/Toasts';
+	import { redirect } from '@sveltejs/kit';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
@@ -68,7 +70,9 @@
 	};
 
 	onMount(async () => {
-		//		const url = $page.route;
+		if (get(token) == '') {
+			goto('/');
+		}
 		profileData = await getProfileDetails(get(token), 'mabu2807');
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;

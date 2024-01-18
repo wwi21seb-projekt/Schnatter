@@ -4,6 +4,10 @@
 	//import { createToast } from '$lib/Toasts';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+	import { token } from '$lib/Store';
+	import { goto } from '$app/navigation';
 	//import { serverURL } from '$lib/Store';
 	//import type { PostStructure } from '$lib/types/Post';
 
@@ -17,6 +21,12 @@
 	//let posts: Array<PostStructure> = [];
 
 	//async function handleHashtagInput(event: Event) {}
+
+	onMount(async () => {
+		if (get(token) == '') {
+			goto('/');
+		}
+	});
 </script>
 
 <Toast />
