@@ -8,6 +8,7 @@
 		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { goto } from '$app/navigation';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
 	import PostUserProfil from '../../components/PostUserProfil.svelte';
 	import { onMount } from 'svelte';
@@ -77,6 +78,12 @@
 	};
 
 	onMount(async () => {
+		if (get(token) == '') {
+			goto('/');
+		}
+		profileData = await getProfileDetails(get(token), 'mabu2807');
+		nickname = profileData.user.nickname;
+		userStatus = profileData.user.status;
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 

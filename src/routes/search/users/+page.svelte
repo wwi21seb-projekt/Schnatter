@@ -4,9 +4,12 @@
 	import { createToast } from '$lib/Toasts';
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
-	import { serverURL } from '$lib/Store';
+	import { serverURL, token } from '$lib/Store';
 	import type { Profil } from '$lib/types/User';
 	import { Avatar } from '@skeletonlabs/skeleton';
+	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
+	import { goto } from '$app/navigation';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -20,6 +23,12 @@
 	let isUserFriend: (user: Profil) => boolean = () => false;
 	let blockedInSearch: Array<Profil> = [];
 	let isUserBlocked: (user: Profil) => boolean = () => false;
+
+	onMount(async () => {
+		if (get(token) == '') {
+			goto('/');
+		}
+	});
 
 	$: {
 		const friendsSet = new Set(friendsInSearch);
