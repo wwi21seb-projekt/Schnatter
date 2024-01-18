@@ -19,42 +19,61 @@
     let feedData: FetchFeedResponse;
     let feedType: string;
     const serverUrl = get(serverURL);
+    const slotLimit = 10;
+    let hasMorePosts: boolean = true;
     let paramsChangeable = new URLSearchParams([
         ["postId", ""],        
-        ["limit", "10"],
+        ["limit", slotLimit.toString()],
         ["feedType", "global"],
     ]);
     let paramsGlobalOnly = new URLSearchParams([
         ["postId", ""],        
-        ["limit", "10"],
+        ["limit", slotLimit.toString()],
     ]);
 
     async function loadMorePosts() {
-        
-        if(loginToken !== ''){
-            paramsGlobalOnly.set("postId", feedData.pagination.lastPostId.toString());
-            paramsGlobalOnly.set("feedType", feedType);
+        console.log('loadMorePosts');
+        if(loginToken !== '' && value === 0){
+            paramsChangeable.set("postId", feedData.pagination.lastPostId.toString());
+            paramsChangeable.set("feedType", feedType);
             
-        } else {
+        } else if(loginToken !== '' && value === 1){
+            paramsChangeable.set("postId", feedData.pagination.lastPostId.toString());
+        }else{
             paramsGlobalOnly.set("postId", feedData.pagination.lastPostId.toString());
         }
+
         let params = loginToken === '' ? paramsGlobalOnly : paramsChangeable;
         const url: string = serverUrl + '/feed?' + params;
+        console.log(feedData.pagination.lastPostId);
+        console.log(url);
         try{
-            let response = await fetch(url,{
-                mode: 'cors',
-                method: 'GET',
-                //falls eingeloggt: 
-                // headers: {
-                //     Authorization: 'Bearer ' + get(token)
-                // }
-            });
+            let response;
+            if(loginToken === ''){
+                response = await fetch(url,{
+                    mode: 'cors',
+                    method: 'GET',
+                });
+            }else{
+                response = await fetch(url,{
+                    mode: 'cors',
+                    method: 'GET',
+                    headers: {
+                        Authorization: 'Bearer ' + get(token)
+                    }
+                });
+            }
             statusCode = response.status;
+            console.log(statusCode);
             if(statusCode === 200){
                 const result = await response.json();
-                maxPostCounter += result.records.length();
-                posts = posts.concat(result.records);
-                feedData.records = feedData.records.concat(result.records);
+                if(result.records.length === 0){
+                    hasMorePosts = false;
+                }else{
+                    maxPostCounter += result.records.length;
+                    posts = posts.concat(result.records);
+                    feedData.records = feedData.records.concat(result.records);
+                }
             }
             
         }catch(error){
@@ -82,28 +101,29 @@
     async function fetchMatchingFeed(isGlobal: boolean) {
         let params = isGlobal ? paramsGlobalOnly : paramsChangeable;
         const url: string = serverUrl + '/feed?' + params;
-        console.log(url);
         try{
-             let response = await fetch(url,{
-                mode: 'cors',
-                method: 'GET',
-                //falls eingeloggt: 
-                // headers: {
-                //     Authorization: 'Bearer ' + get(token)
-                // }
-            });
+            let response;
+            if(loginToken === ''){
+                response = await fetch(url,{
+                    mode: 'cors',
+                    method: 'GET',
+                });
+            }else{
+                response = await fetch(url,{
+                    mode: 'cors',
+                    method: 'GET',
+                    headers: {
+                        Authorization: 'Bearer ' + get(token)
+                    }
+                });
+            }
             statusCode = response.status;
-            console.log(statusCode);
-            console.log(response);
 
             if(statusCode === 200){
                 const result = await response.json();
-                console.log(result);
                 posts = result.records;
                 maxPostCounter += posts.length;
-                console.log(maxPostCounter);
                 feedData = result;
-                console.log(feedData.records.length)
             } else if(statusCode !== 200 && statusCode !== 500){
                 //Fehler-Handling von 400 Bad Request
                 // error objekt auslesen, wie result s.o. customError.message
@@ -115,11 +135,16 @@
         } catch(error){
             toastStore.clear();
             toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+            console.log(error);
         }
     }
         
     onMount(async () => {
-        fetchMatchingFeed(true);
+        if(loginToken !== ''){
+            fetchMatchingFeed(true);
+        }else{
+            fetchMatchingFeed(false);
+        }
     });
 </script>
 
@@ -137,8 +162,8 @@
     {#each posts as postData (postData.postId)}
         <Post {postData} />
     {/each} 
-    <!-- {#if maxPostCounter == feedData.records.length} -->
+    {#if (maxPostCounter%slotLimit) == 0 && hasMorePosts} 
         <button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.loadMore')}</button>
-    <!-- {/if} -->
+    {/if}
     <Toast />
 </main>
