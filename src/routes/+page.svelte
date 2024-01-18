@@ -7,19 +7,18 @@
 	const loginToken = get(token);
 </script>
 
-<main class="">
-	<div class="grid grid-cols-6 grid-flow-col gap-4 grid-end-auto">
-		<div class="col-span-1"></div>
-		<div class="col-span-4 pt8">
+<main class="p-2">
+	<div class="grid grid-cols-1 md:grid-cols-6 gap-2 grid-end-auto">
+		<div >
+			{#if loginToken == ''}
+				<Login />
+			{/if}
+		</div>
+		
+		<div class="col-start-1 md:col-start-2 col-span-4">
 			<Feed />
 		</div>
-		<div class="grid grid-rows-6 grid-flow-col gap-4">
-			{#if loginToken == ''}
-				<div class="row-start-1">
-					<Login />
-				</div>
-			{/if}
-			<div class="row-span-5"></div>
-		</div>
+
+		
 	</div>
 </main>

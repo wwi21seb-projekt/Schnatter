@@ -133,9 +133,9 @@
 	});
 </script>
 
-<main class="flex flex-wrap justify-around">
+<main class="flex flex-col items-center md:flex-row md:flex-wrap md:items-center md:justify-around">
 	{#if loginToken !== ''}
-		<div class="py-4">
+		<div class="w-full">
 			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 				<RadioItem bind:group={value} name="justify" value={0} on:change={onChange}
 					>{$t('feed.personalFeed')}</RadioItem
@@ -147,10 +147,10 @@
 		</div>
 	{/if}
 	{#each posts as postData (postData.postId)}
-		<Post {postData} />
+            <Post {postData} />
 	{/each}
 	{#if maxPostCounter % slotLimit == 0 && hasMorePosts}
-		<button on:click={loadMorePosts} class="btn variant-filled">{$t('profile.loadMore')}</button>
+		<button on:click={loadMorePosts} class="btn variant-filled w-full md:w-auto">{$t('profile.loadMore')}</button>
 	{/if}
 	<Toast />
 </main>
