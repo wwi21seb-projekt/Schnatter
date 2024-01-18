@@ -147,10 +147,12 @@
 		</div>
 	{/if}
 	{#each posts as postData (postData.postId)}
-            <Post {postData} />
+		<Post {postData} />
 	{/each}
 	{#if maxPostCounter % slotLimit == 0 && hasMorePosts}
-		<button on:click={loadMorePosts} class="btn variant-filled w-full md:w-auto">{$t('profile.loadMore')}</button>
+		<button on:click={loadMorePosts} class="btn variant-filled w-full md:w-auto"
+			>{$t('profile.loadMore')}</button
+		>
 	{/if}
 	<Toast />
 </main>
