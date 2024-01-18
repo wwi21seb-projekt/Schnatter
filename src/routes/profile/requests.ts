@@ -13,7 +13,8 @@ export async function getProfileDetails(token: string, username: string) {
 		profilePictureUrl: '/default-avatar.png',
 		follower: 0,
 		following: 0,
-		posts: 0
+		posts: 0,
+		subscriptionId: ''
 	};
 
 	const serverUrl = get(serverURL);
@@ -76,4 +77,29 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 	posts.statusCode = await response.status;
 
 	return postData;
+}
+
+export async function followUser(token: string, following: string) {
+	const serverUrl = get(serverURL) + '/subscriptions';
+
+	const response = await fetch(serverUrl, {
+		method: 'POST',
+		mode: 'cors',
+		body: JSON.stringify({
+			following: following
+		})
+	});
+
+	return response.status;
+}
+
+export async function unfollowUser(token: string, subscriptionId: string) {
+	const serverUrl = get(serverURL) + '/subscriptions/' + subscriptionId;
+
+	const response = await fetch(serverUrl, {
+		method: 'DELETE',
+		mode: 'cors'
+	});
+
+	return response.status;
 }

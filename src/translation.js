@@ -63,7 +63,10 @@ export default {
 		'profile.followers': 'Followers',
 		'profile.following': 'Following',
 		'profile.noPosts': 'User has no posts yet',
-		'profile.loadMore': 'Load more'
+		'profile.loadMore': 'Load more',
+		'profile.follow': 'Follow',
+		'profile.unfollow': 'Unfollow',
+		'profile.noUser': 'User does not exist'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -129,6 +132,9 @@ export default {
 		'profile.followers': 'Abonnenten',
 		'profile.following': 'Abonniert',
 		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
-		'profile.loadMore': 'Mehr laden'
+		'profile.loadMore': 'Mehr laden',
+		'profile.follow': 'Abonnieren',
+		'profile.unfollow': 'Deabonnieren',
+		'profile.noUser': 'User existiert nicht'
 	}
 };
