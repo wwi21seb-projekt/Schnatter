@@ -24,8 +24,8 @@
 <AppBar>
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<Icon class="w-10 h-10" icon="game-icons:kiwi-bird" style="font-size: 32px" />
-			<a href="/"><h1 style="font-size: 32px">Schnatter</h1></a>
+			<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo" />
+			<a href="/"><h1 class="text-4xl">Schnatter</h1></a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
