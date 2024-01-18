@@ -5,7 +5,7 @@ export const registerUsername = writable('');
 
 //https://server-beta.de/api
 //https://server-alpha.tech/api
-//http://localhost:3000
+//http://localhost:3000/api
 // local network http://192.168.0.126:3000/api
 export const serverURL = writable('https://server-beta.de/api');
 

@@ -6,6 +6,7 @@
 	import Icon from '@iconify/svelte';
 	import { serverURL } from '$lib/Store';
 	import type { Profil } from '$lib/types/User';
+	import { Avatar } from '@skeletonlabs/skeleton';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -31,7 +32,7 @@
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
 			serverURL.subscribe((prev_val) => (serverUrl = prev_val));
-			const url: string = serverUrl + '/users?' + usernameInput + '&0&10';
+			const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
 			try {
 				response = await fetch(url, {
 					mode: 'cors',
@@ -80,6 +81,18 @@
 
 <Toast />
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
+	<div class="mb-8 flex justify-center items-center gap-4">
+		<a href="/search/users">
+			<Icon
+				class="w-10 h-10"
+				icon="mdi:account-search"
+				style="font-size: 32px; border: 2px solid; border-radius: 5px;"
+			/>
+		</a>
+		<a href="/search/posts">
+			<Icon class="w-10 h-10" icon="mdi:text-box-search-outline" style="font-size: 32px" />
+		</a>
+	</div>
 	<input
 		class="input w-full"
 		type="search"
@@ -91,9 +104,15 @@
 		{#each users as user}
 			<div class="flex flex-row items-center justify-between w-full">
 				<div class="flex flex-row items-center">
-					<img class="w-12 h-12 rounded-full" src={user.profilePictureUrl} alt="Avatar" />
+					<Avatar
+						src={user.profilePictureUrl !== '' ? user.profilePictureUrl : '/default-avatar.png'}
+						width="w-12"
+						rounded="rounded-full"
+					/>
 					<div class="ml-4">
-						<a href="/users/{user.username}" class="text-lg font-semibold">{user.nickname}</a>
+						<a href="/profile?username={user.username}" class="text-lg font-semibold"
+							>{user.nickname}</a
+						>
 						<p class="text-gray-500">@{user.username}</p>
 					</div>
 				</div>
