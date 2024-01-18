@@ -5,7 +5,7 @@ import type { Pagination } from './Pagination';
 export type PostStructure = {
 	postID: UUID;
 	author: Author;
-	creationDate: Date;
+	creationDate: string;
 	content: string;
 };
 
@@ -17,7 +17,7 @@ export type TextColorPost = {
 
 export type PostUserProfilStructure = {
 	postID: UUID;
-	creationDate: Date;
+	creationDate: string;
 	content: string;
 };
 
