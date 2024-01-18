@@ -48,21 +48,13 @@
         console.log(feedData.pagination.lastPostId);
         console.log(url);
         try{
-            let response;
-            if(loginToken === ''){
-                response = await fetch(url,{
-                    mode: 'cors',
-                    method: 'GET',
-                });
-            }else{
-                response = await fetch(url,{
-                    mode: 'cors',
-                    method: 'GET',
-                    headers: {
-                        Authorization: 'Bearer ' + get(token)
-                    }
-                });
-            }
+            let response = await fetch(url,{
+                mode: 'cors',
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + get(token)
+                }
+            });
             statusCode = response.status;
             console.log(statusCode);
             if(statusCode === 200){
@@ -102,21 +94,14 @@
         let params = isGlobal ? paramsGlobalOnly : paramsChangeable;
         const url: string = serverUrl + '/feed?' + params;
         try{
-            let response;
-            if(loginToken === ''){
-                response = await fetch(url,{
-                    mode: 'cors',
-                    method: 'GET',
-                });
-            }else{
-                response = await fetch(url,{
-                    mode: 'cors',
-                    method: 'GET',
-                    headers: {
-                        Authorization: 'Bearer ' + get(token)
-                    }
-                });
-            }
+             let response = await fetch(url,{
+                mode: 'cors',
+                method: 'GET',
+                //falls eingeloggt: 
+                // headers: {
+                //     Authorization: 'Bearer ' + get(token)
+                // }
+            });
             statusCode = response.status;
 
             if(statusCode === 200){
