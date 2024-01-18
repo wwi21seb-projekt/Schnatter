@@ -2,7 +2,6 @@
 	import {
 		Avatar,
 		Toast,
-		Modal,
 		getModalStore,
 		type ModalComponent,
 		type ModalSettings
@@ -140,7 +139,6 @@
 </script>
 
 <Toast />
-<Modal />
 {#if profileData.statusCode == 200}
 	<main class=" flex flex-col items-center justify-start">
 		<div
