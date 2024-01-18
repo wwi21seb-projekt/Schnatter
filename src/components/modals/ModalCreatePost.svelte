@@ -46,6 +46,7 @@
 		});
 		if (response.status == 201) {
 			modalStore.close();
+			window.location.reload();
 		} else {
 			toastStore.trigger(createToast('We were running into a problem! Sorry', 'error'));
 		}

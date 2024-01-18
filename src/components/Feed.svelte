@@ -60,8 +60,6 @@
 			statusCode = response.status;
 			if (statusCode === 200) {
 				const result = await response.json();
-				console.log(result);
-				console.log(result.pagination.lastPostId);
 				if (result.records.length === 0) {
 					hasMorePosts = false;
 				} else {
@@ -107,6 +105,7 @@
 
 			if (statusCode === 200) {
 				const result = await response.json();
+				console.log(result);
 				posts = result.records;
 				maxPostCounter += posts.length;
 				feedData = result;
