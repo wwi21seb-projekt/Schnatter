@@ -25,9 +25,12 @@
 	];
 
 	let post: PostStructure = postData;
+	let postDate: string = '';
 
 	onMount(() => {
 		helperHashtagCheck();
+		const dateConverted: Date = new Date(post.creationDate);
+		postDate = dateConverted.toLocaleDateString();
 	});
 
 	function likeHelper() {
@@ -53,7 +56,7 @@
 					<p class="font-light text-sm">{post.author.nickname}</p>
 				</div>
 			</div>
-			<p class="text-xs">{post.creationDate}</p>
+			<p class="text-xs">{postDate}</p>
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
