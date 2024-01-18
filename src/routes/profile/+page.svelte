@@ -22,7 +22,6 @@
 	//	import { page } from '$app/stores';
 
 	import { createToast } from '$lib/Toasts';
-	import { redirect } from '@sveltejs/kit';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
