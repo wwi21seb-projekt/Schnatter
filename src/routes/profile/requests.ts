@@ -24,7 +24,7 @@ export async function getProfileDetails(token: string, username: string) {
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
-		},
+		}
 	});
 	user = await response.json();
 	statusCode = await response.status;
@@ -46,8 +46,7 @@ export async function getProfilePosts(token: string, username: string) {
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
-		},
-
+		}
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	posts.statusCode = await response.status;
@@ -88,7 +87,6 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
 		}
-
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	postData.pagination = posts.pagination;
@@ -100,7 +98,7 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 
 export async function followUser(token: string, following: string) {
 	const serverUrl = get(serverURL) + '/subscriptions';
-	console.log(following)
+	console.log(following);
 	const response = await fetch(serverUrl, {
 		method: 'POST',
 		mode: 'cors',
@@ -125,7 +123,7 @@ export async function unfollowUser(token: string, subscriptionId: string) {
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
-		},
+		}
 	});
 
 	return response.status;

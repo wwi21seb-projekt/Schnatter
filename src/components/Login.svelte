@@ -54,7 +54,7 @@
 				const requestData: Login = await response.json();
 				token.set(requestData.token);
 				refreshToken.set(requestData.refreshToken);
-				globalUsername.set(username)
+				globalUsername.set(username);
 				location.reload();
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
