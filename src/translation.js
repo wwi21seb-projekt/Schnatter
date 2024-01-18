@@ -65,7 +65,10 @@ export default {
 		'profile.followers': 'Followers',
 		'profile.following': 'Following',
 		'profile.noPosts': 'User has no posts yet',
-		'profile.loadMore': 'Load more'
+		'profile.loadMore': 'Load more',
+		'toast.internalError': 'Internal Server Error! Please try again later!',
+		'toast.sometingWrong': 'Something went wrong!'
+
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -124,7 +127,7 @@ export default {
 		'modalCreatePost.button.close': 'Schließen',
 		'modalCreatePost.button.post': 'Posten',
 		'feed.personalFeed': 'Für dich',
-		'feed.globalFeed': 'Abboniert',
+		'feed.globalFeed': 'Abonniert',
 		'modalChangePassword.header': 'Passwort ändern',
 		'modalChangePassword.oldPassword': 'Altes Passwort',
 		'modalChangePassword.newPassword': 'Neues Passwort',
@@ -133,6 +136,8 @@ export default {
 		'profile.followers': 'Abonnenten',
 		'profile.following': 'Abonniert',
 		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
-		'profile.loadMore': 'Mehr laden'
+		'profile.loadMore': 'Mehr laden',
+		'toast.internalError': 'Interner Serverfehler! Probier es später noch einmal!',
+		'toast.sometingWrong': 'Da ist etwas schief gelaufen!'
 	}
 };

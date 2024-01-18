@@ -113,11 +113,11 @@
 				// copy from register/verify
 				posts = [];
 				toastStore.clear();
-				toastStore.trigger(createToast('Something went wrong!', 'error'));
+				toastStore.trigger(createToast($t('toast.somethingWrong'), 'error'));
 			}
 		} catch (error) {
 			toastStore.clear();
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 	}
 
