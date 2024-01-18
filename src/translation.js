@@ -67,7 +67,7 @@ export default {
 		'profile.noPosts': 'User has no posts yet',
 		'profile.loadMore': 'Load more',
 		'toast.internalError': 'Internal Server Error! Please try again later!',
-		'toast.sometingWrong': 'Something went wrong!'
+		'toast.sometingWrong': 'Something went wrong!',
 		'profile.follow': 'Follow',
 		'profile.unfollow': 'Unfollow',
 		'profile.noUser': 'User does not exist',
@@ -146,7 +146,7 @@ export default {
 		'profile.noPosts': 'Der Nutzer hat noch keine Beiträge erstellt',
 		'profile.loadMore': 'Mehr laden',
 		'toast.internalError': 'Interner Serverfehler! Probier es später noch einmal!',
-		'toast.sometingWrong': 'Da ist etwas schief gelaufen!'
+		'toast.sometingWrong': 'Da ist etwas schief gelaufen!',
 		'profile.follow': 'Abonnieren',
 		'profile.unfollow': 'Deabonnieren',
 		'profile.noUser': 'User existiert nicht',
