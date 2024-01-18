@@ -20,7 +20,7 @@
 		updateUserDetails
 	} from './requests';
 	import { get } from 'svelte/store';
-	import { token } from '$lib/Store';
+	import { globalUsername, token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
 	import Icon from '@iconify/svelte';
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
@@ -80,17 +80,18 @@
 		if (get(token) == '') {
 			goto('/');
 		}
-		profileData = await getProfileDetails(get(token), 'mabu2807');
-		nickname = profileData.user.nickname;
-		userStatus = profileData.user.status;
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 
 		if (usernameParams == undefined) {
-			username = 'mabu2807';
+			username = get(globalUsername);
 		} else {
 			username = usernameParams;
 		}
+		profileData = await getProfileDetails(get(token), username);
+		nickname = profileData.user.nickname;
+		userStatus = profileData.user.status;
+
 		profileData = await getProfileDetails(get(token), username);
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast('User details could not be loaded', 'error'));
@@ -122,12 +123,12 @@
 		modalStore.trigger(modal);
 	}
 	async function loadMorePosts() {
-		postData = await loadPosts(get(token), postData, 'mabu2807');
+		postData = await loadPosts(get(token), postData, username);
 		maxPostCounter = Number(maxPostCounter) + Number(postData.pagination.limit);
 	}
 	async function subscribe() {
-		const followStatus = await followUser(get(token), profileData.user.subscriptionId);
-		if (followStatus == 200) {
+		const followStatus = await followUser(get(token), username);
+		if (followStatus == 201) {
 			subscribed = true;
 			toastStore.trigger(createToast('User was followed', 'success'));
 		} else {
@@ -136,7 +137,7 @@
 	}
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
-		if (unfollowStatus == 200) {
+		if (unfollowStatus == 204) {
 			subscribed = false;
 			toastStore.trigger(createToast('User was unfollowed', 'success'));
 		} else {
@@ -225,13 +226,15 @@
 				{/if}
 			</div>
 		</div>
-		<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
-			{#if postData.records.length == 0}
+		<div>
+			{#if postData.records == null || postData.records.length == 0}
 				<p class="text-2xl">{$t('profile.noPosts')}</p>
 			{:else}
-				{#each postData.records as Post}
-					<PostUserProfil bind:postData={Post} />
-				{/each}
+				<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
+					{#each postData.records as Post}
+						<PostUserProfil bind:postData={Post} />
+					{/each}
+				</div>
 				{#if maxPostCounter == postData.records.length}
 					<button on:click={loadMorePosts} class="btn variant-filled"
 						>{$t('profile.loadMore')}</button

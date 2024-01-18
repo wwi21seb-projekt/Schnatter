@@ -42,15 +42,17 @@
 		if (usernameInput.length > 0) {
 			serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 			const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
+			
 			try {
 				response = await fetch(url, {
 					mode: 'cors',
-					method: 'GET'
+					method: 'GET',
+					headers: {
+						Authorization: 'Bearer ' + get(token)
+					}
 				});
 				statusCode = response.status;
 			} catch (error) {
-				toastStore.clear();
-				console.log(error);
 				toastStore.clear();
 				toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 			}

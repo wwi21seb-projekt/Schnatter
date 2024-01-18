@@ -5,7 +5,7 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { createToast } from '$lib/Toasts';
-	import { refreshToken, registerUsername, serverURL, token } from '$lib/Store';
+	import { globalUsername, refreshToken, registerUsername, serverURL, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
 
@@ -54,6 +54,7 @@
 				const requestData: Login = await response.json();
 				token.set(requestData.token);
 				refreshToken.set(requestData.refreshToken);
+				globalUsername.set(username)
 				location.reload();
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
