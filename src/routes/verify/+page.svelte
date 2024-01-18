@@ -4,6 +4,7 @@
 	import { createToast } from '$lib/Toasts';
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { goto } from '$app/navigation';
+	import type { CustomError } from '$lib/types/CustomError';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -19,6 +20,10 @@
 
 	async function handleSubmit() {
 		let serverUrl: string = '';
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
 		registerUsername.subscribe((prev_val) => (username = prev_val));
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 		const url = serverUrl + '/users/' + username + '/activate';
@@ -31,13 +36,16 @@
 				})
 			});
 			statusCode = response.status;
+			if (statusCode !== 200) {
+				const body = await response.json();
+				customError = body.error;
+				console.log(customError);
+			}
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
-		if (statusCode == 401) {
-			toastStore.trigger(createToast('The code has expired. We have sent you a new one!', 'error'));
-		} else if (statusCode == 404) {
-			toastStore.trigger(createToast('The code is not correct', 'error'));
+		if (statusCode !== 200 && statusCode !== 500) {
+			toastStore.trigger(createToast(customError.message, 'error'));
 		} else if (statusCode == 200) {
 			goto('/');
 		}

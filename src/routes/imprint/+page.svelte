@@ -1,9 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
 	import { t } from '../../i18n';
+	import type { Imprint } from '$lib/types/Imprint';
 
 	export let data: PageData;
-	const backendimprint: string = data.text!;
+	const backendImprint: Imprint = data.imprint;
 </script>
 
 <main class="flex flex-col justify-center items-center mt-3">
@@ -39,6 +40,10 @@
 	</div>
 	<div class="card bg-red p-2 w-[80vw]">
 		<h1 class="font-bold text-2xl">{$t('imprint.backend.header')}</h1>
-		<p>{backendimprint}</p>
+		{#if backendImprint.status == 200}
+			<p>{backendImprint}</p>
+		{:else}
+			<p>Internal Server Error</p>
+		{/if}
 	</div>
 </main>

@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';
+	import type { CustomError } from '$lib/types/CustomError';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -128,6 +129,10 @@
 		password === repeatPassword &&
 		username.length != 0;
 	async function handleSubmit() {
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
 		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 
 		const url: string = serverUrl + '/users';
@@ -143,19 +148,18 @@
 				})
 			});
 			statusCode = respone.status;
+			if (statusCode !== 200) {
+				const body = await respone.json();
+				customError = body.error;
+			}
 		} catch (error) {
 			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 		}
-		statusCode == 201;
-		if (statusCode == 201) {
+		if (statusCode !== 201 && statusCode !== 500) {
+			toastStore.trigger(createToast(customError.message, 'error'));
+		} else if (statusCode == 201) {
 			registerUsername.set(username);
 			goto('/verify');
-		} else if (statusCode == 400) {
-			toastStore.trigger(createToast('There was a mistake! Please check your entries', 'error'));
-		} else if (statusCode == 422) {
-			toastStore.trigger(createToast('Email could not be sent', 'error'));
-		} else if (statusCode == 1111) {
-			toastStore.trigger(createToast('User already exist', 'error'));
 		}
 	}
 </script>
