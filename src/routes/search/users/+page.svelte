@@ -112,39 +112,47 @@
 		placeholder="Search a user..."
 	/>
 	<div class="mt-4 w-full">
-		{#each users as user}
-			<div class="flex flex-row items-center justify-between w-full">
-				<div class="flex flex-row items-center">
-					<Avatar
-						src={user.profilePictureUrl !== '' ? user.profilePictureUrl : '/default-avatar.png'}
-						width="w-12"
-						rounded="rounded-full"
-					/>
-					<div class="ml-4">
-						<a href="/profile?username={user.username}" class="text-lg font-semibold"
-							>{user.nickname}</a
-						>
-						<p class="text-gray-500">@{user.username}</p>
+		{#if users != null && users.length > 0}
+			{#each users as user}
+				<div class="flex flex-row items-center justify-between w-full">
+					<div class="flex flex-row items-center">
+						<Avatar
+							src={user.profilePictureUrl !== '' ? user.profilePictureUrl : '/default-avatar.png'}
+							width="w-12"
+							rounded="rounded-full"
+						/>
+						<div class="ml-4">
+							<a href="/profile?username={user.username}" class="text-lg font-semibold">
+								{#if user.nickname}
+									{user.nickname}
+								{:else}
+									{user.username}
+								{/if}
+							</a>
+							<p class="text-gray-500">@{user.username}</p>
+						</div>
+					</div>
+					<div class="flex flex-row items-center">
+						<button class="btn btn-primary" on:click={() => handleAddUserClick(user)}>
+							<Icon
+								class="w-10 h-10"
+								icon={isUserFriend(user) ? 'mdi:account-check' : 'mdi:account-plus'}
+								style="font-size: 32px"
+							/>
+						</button>
+						<button class="btn btn-primary" on:click={() => handleBlockUserClick(user)}>
+							<Icon
+								class="w-10 h-10"
+								icon="mdi:account-cancel"
+								color={isUserBlocked(user) ? 'red' : 'white'}
+								style="font-size: 32px"
+							/>
+						</button>
 					</div>
 				</div>
-				<div class="flex flex-row items-center">
-					<button class="btn btn-primary" on:click={() => handleAddUserClick(user)}>
-						<Icon
-							class="w-10 h-10"
-							icon={isUserFriend(user) ? 'mdi:account-check' : 'mdi:account-plus'}
-							style="font-size: 32px"
-						/>
-					</button>
-					<button class="btn btn-primary" on:click={() => handleBlockUserClick(user)}>
-						<Icon
-							class="w-10 h-10"
-							icon="mdi:account-cancel"
-							color={isUserBlocked(user) ? 'red' : 'white'}
-							style="font-size: 32px"
-						/>
-					</button>
-				</div>
-			</div>
-		{/each}
+			{/each}
+		{:else}
+			<p class="text-center text-gray-500">No users found!</p>
+		{/if}
 	</div>
 </div>
