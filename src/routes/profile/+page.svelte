@@ -91,16 +91,16 @@
 		profileData = await getProfileDetails(get(token), username);
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
+		console.log(profileData);
 
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast('User details could not be loaded', 'error'));
 		}
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
-		if (profileData.user.subscriptionId != '') {
+		if (profileData.user.subscriptionId != '' && profileData.user.subscriptionId != null) {
 			subscribed = true;
 		}
-
 		postData = await getProfilePosts(get(token), username);
 		maxPostCounter = postData.pagination.limit;
 	});
@@ -196,7 +196,7 @@
 						<h2 class="h2">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
-					<a href="/followers">
+					<a href="/follower">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
