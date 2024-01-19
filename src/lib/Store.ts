@@ -11,3 +11,4 @@ export const serverURL = writable('https://server-beta.de/api');
 
 export const token = persisted('token', '');
 export const refreshToken = persisted('refreshToken', '');
+export const globalUsername = persisted('globalUsername', '');

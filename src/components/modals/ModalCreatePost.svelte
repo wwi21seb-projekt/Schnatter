@@ -36,6 +36,7 @@
 		const url = get(serverURL) + '/posts';
 		const response = await fetch(url, {
 			method: 'POST',
+			mode: 'cors',
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + get(token)

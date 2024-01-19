@@ -21,7 +21,10 @@ export async function getProfileDetails(token: string, username: string) {
 	const url = serverUrl + '/users/' + username;
 	const response = await fetch(url, {
 		method: 'GET',
-		mode: 'cors'
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		}
 	});
 	user = await response.json();
 	statusCode = await response.status;
@@ -33,12 +36,17 @@ export async function getProfileDetails(token: string, username: string) {
 	return { user: user, statusCode: statusCode };
 }
 export async function getProfilePosts(token: string, username: string) {
-	const params = new URLSearchParams({ offset: '0', limit: '10' });
+	const params = new URLSearchParams({ offset: '0', limit: '2' });
 
 	const serverUrl = get(serverURL);
 
 	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
-		method: 'GET'
+		method: 'GET',
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		}
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	posts.statusCode = await response.status;
@@ -47,11 +55,15 @@ export async function getProfilePosts(token: string, username: string) {
 }
 
 export async function updateUserDetails(token: string, userStatus: string, nickname: string) {
-	const serverUrl = get(serverURL) + '/users/';
+	const serverUrl = get(serverURL) + '/users';
 
 	const response = await fetch(serverUrl, {
 		method: 'PUT',
 		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		},
 		body: JSON.stringify({
 			nickname: nickname,
 			status: userStatus
@@ -69,7 +81,12 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 	const serverUrl = get(serverURL);
 
 	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
-		method: 'GET'
+		method: 'GET',
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		}
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	postData.pagination = posts.pagination;
@@ -81,10 +98,14 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 
 export async function followUser(token: string, following: string) {
 	const serverUrl = get(serverURL) + '/subscriptions';
-
+	console.log(following);
 	const response = await fetch(serverUrl, {
 		method: 'POST',
 		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		},
 		body: JSON.stringify({
 			following: following
 		})
@@ -98,7 +119,11 @@ export async function unfollowUser(token: string, subscriptionId: string) {
 
 	const response = await fetch(serverUrl, {
 		method: 'DELETE',
-		mode: 'cors'
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + token
+		}
 	});
 
 	return response.status;
