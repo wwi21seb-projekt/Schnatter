@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 
 //username testschnatter
 //password Testtest123!
+//needs more testing
 
 async function login(page: Page){
     await page.goto('/');
