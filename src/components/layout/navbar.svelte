@@ -24,30 +24,30 @@
 <AppBar>
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo" />
+			<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo Header" />
 			<a href="/"><h1 class="text-4xl">Schnatter</h1></a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<a href="/">
-				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px" />
+			<a href="/" title="Home">
+				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px"/>
 			</a>
 			{#if loginToken != ''}
-				<a href="/search/users">
+				<a href="/search/users" title="Search">
 					<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 				</a>
-				<button on:click={openModal}>
+				<button on:click={openModal} title="Post">
 					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 				</button>
-				<a href="/messages">
+				<a href="/messages" title="Messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
 				</a>
-				<a href="/profile">
+				<a href="/profile" title="Profile">
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</a>
-				<button on:click={handleLogout}
-					><Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
+				<button on:click={handleLogout} title="Log Out">
+					<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
 				>
 			{/if}
 		</div>
