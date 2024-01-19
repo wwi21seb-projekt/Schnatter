@@ -1,5 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
-import { time } from 'console';
+
+//username testschnatter
+//password Testtest123!
 
 async function login(page: Page){
     await page.goto('/');
