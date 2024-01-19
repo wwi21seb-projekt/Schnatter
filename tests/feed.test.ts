@@ -35,7 +35,7 @@ test('following is visible when logged in', async ({ page }) => {
 
 test('posts are visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByText('Post').first()).toBeVisible();
+    await expect(page.getByTitle('Post', {exact: true}).first()).toBeVisible();
 });
 
 test('load more button is visible', async ({ page }) => {

@@ -43,7 +43,11 @@ test('number of following is visible', async ({ page }) => {
 });
 
 test('no posts is visible', async ({ page }) => {
-    await login(page);
+    await page.goto('/');
+    await page.getByPlaceholder('Username').fill('passwordtest');
+    await page.getByPlaceholder('Password').fill('Abcdefghi1!');
+    await page.getByRole('button', { name: 'Log In' }).click();
+    await page.waitForNavigation();
     await page.goto('/profile');
     await expect(page.getByText('User has no posts yet')).toBeVisible();
 });

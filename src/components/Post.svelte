@@ -34,7 +34,9 @@
 	});
 
 	function likeHelper() {
-		likeObject = likeCounter(likeObject);
+		if(loginToken != '' || loginToken == undefined){
+			likeObject = likeCounter(likeObject);
+		}
 	}
 
 	function helperHashtagCheck() {
@@ -52,14 +54,14 @@
 					initials=""
 				/>
 				<div class="flex flex-col">
-					<p class="">{post.author.username}</p>
-					<p class="font-light text-sm">{post.author.nickname}</p>
+					<p class="" title="Post Author Username">{post.author.username}</p>
+					<p class="font-light text-sm" title="Post Author Nickname">{post.author.nickname}</p>
 				</div>
 			</div>
-			<p class="text-xs">{postDate}</p>
+			<p class="text-xs" title="Postdate">{postDate}</p>
 		</header>
 		<section class="p-4">
-			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
+			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg" title="Postcontent">
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
@@ -67,15 +69,16 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper}>
+				<button on:click={likeHelper} title="Like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
-				<p class="mr-1">{likeObject.likeCount}</p>
+				<p class="mr-1" title="Likecount">{likeObject.likeCount}</p>
 			</div>
 			{#if loginToken != '' || loginToken == undefined}
 				<input
 					class="input mx-3"
+					title="Commentinput"
 					type="text"
 					placeholder={$t('post.postComment.placeholder')}
 					maxlength="256"
@@ -90,7 +93,7 @@
 	{#if loginToken != '' || loginToken == undefined}
 		<div class="card w-[60vw]">
 			<header class="card-header">
-				<p class="font-bold text-xl">{$t('post.comments.header')}</p>
+				<p class="font-bold text-xl" title="Commentsheader">{$t('post.comments.header')}</p>
 			</header>
 			<section class="p-3 flex flex-col">
 				<div class="flex flex-row">
