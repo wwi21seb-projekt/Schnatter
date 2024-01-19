@@ -92,7 +92,6 @@
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
 
-		profileData = await getProfileDetails(get(token), username);
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast('User details could not be loaded', 'error'));
 		}
