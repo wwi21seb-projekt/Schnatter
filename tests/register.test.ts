@@ -173,7 +173,7 @@ test('register button is enabled when all inputs are valid', async ({ page }) =>
 });
 
 // cancel button
-test ('cancel button is visible', async ({ page }) => {
+test('cancel button is visible', async ({ page }) => {
 	await page.goto('/register');
 	await expect(page.getByRole('button', { name: 'Cancel' })).toBeVisible();
 });

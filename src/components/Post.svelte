@@ -34,7 +34,7 @@
 	});
 
 	function likeHelper() {
-		if(loginToken != '' || loginToken == undefined){
+		if (loginToken != '' || loginToken == undefined) {
 			likeObject = likeCounter(likeObject);
 		}
 	}

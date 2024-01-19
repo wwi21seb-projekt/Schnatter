@@ -31,7 +31,7 @@
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<a href="/" title="home">
-				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px"/>
+				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px" />
 			</a>
 			{#if loginToken != ''}
 				<a href="/search/users" title="search">

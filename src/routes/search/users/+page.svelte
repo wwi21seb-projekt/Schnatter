@@ -103,7 +103,12 @@
 			/>
 		</a>
 		<a href="/search/posts">
-			<Icon class="w-10 h-10" title="searchPostsIcon" icon="mdi:text-box-search-outline" style="font-size: 32px" />
+			<Icon
+				class="w-10 h-10"
+				title="searchPostsIcon"
+				icon="mdi:text-box-search-outline"
+				style="font-size: 32px"
+			/>
 		</a>
 	</div>
 	<input
