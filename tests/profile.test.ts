@@ -3,6 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 //username testschnatter
 //password Testtest123!
 //needs more testing
+//why UserProfilePost
 
 async function login(page: Page){
     await page.goto('/');
@@ -28,18 +29,21 @@ test('number of posts is visible', async ({ page }) => {
     await login(page);
     await page.goto('/profile');
     await expect(page.getByText('Posts', {exact: true})).toBeVisible();
+    await expect(page.getByTitle('postCount')).toBeVisible();
 });
 
 test('number of followers is visible', async ({ page }) => {
     await login(page);
     await page.goto('/profile');
     await expect(page.getByText('Followers')).toBeVisible();
+    await expect(page.getByTitle('followerCount')).toBeVisible();
 });
 
 test('number of following is visible', async ({ page }) => {
     await login(page);
     await page.goto('/profile');
     await expect(page.getByText('Following')).toBeVisible();
+    await expect(page.getByTitle('followingCount')).toBeVisible();
 });
 
 test('no posts is visible', async ({ page }) => {

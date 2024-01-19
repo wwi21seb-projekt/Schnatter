@@ -30,23 +30,23 @@
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<a href="/" title="Home">
+			<a href="/" title="home">
 				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px"/>
 			</a>
 			{#if loginToken != ''}
-				<a href="/search/users" title="Search">
+				<a href="/search/users" title="search">
 					<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
 				</a>
-				<button on:click={openModal} title="Post">
+				<button on:click={openModal} title="post">
 					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 				</button>
-				<a href="/messages" title="Messages">
+				<a href="/messages" title="messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
 				</a>
-				<a href="/profile" title="Profile">
+				<a href="/profile" title="profile">
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</a>
-				<button on:click={handleLogout} title="Log Out">
+				<button on:click={handleLogout} title="logOut">
 					<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
 				>
 			{/if}

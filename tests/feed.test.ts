@@ -35,7 +35,7 @@ test('following is visible when logged in', async ({ page }) => {
 
 test('posts are visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByTitle('Post', {exact: true}).first()).toBeVisible();
+    await expect(page.getByTitle('post', {exact: true}).first()).toBeVisible();
 });
 
 test('load more button is visible', async ({ page }) => {
@@ -45,9 +45,9 @@ test('load more button is visible', async ({ page }) => {
 
 test('load more button works', async ({ page }) => {
     await page.goto('/');
-    const postCountBefore = await page.getByTitle('Post').count();
+    const postCountBefore = await page.getByTitle('post').count();
     await page.getByText('Load more').click();
     await page.waitForTimeout(1000);
-    const postCountAfter = await page.getByTitle('Post').count();
+    const postCountAfter = await page.getByTitle('post').count();
     await expect(postCountAfter).toBeGreaterThan(postCountBefore);
 });

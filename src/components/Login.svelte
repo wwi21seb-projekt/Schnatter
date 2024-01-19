@@ -69,7 +69,7 @@
 <Toast />
 <div class="pt-8">
 	<div class="justify-center">
-		<div class=" p-2 h4 text-center font-bold" title="Log In Heading">{$t('login.header.title')}</div>
+		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>
 		<div class="h-[50vh] flex flex-col">
 			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
 				<div class="flex flex-col w-full px-3 pb-2">

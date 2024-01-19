@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('Login is visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByTitle('Log In Heading')).toBeVisible();
+    await expect(page.getByTitle('logInHeading')).toBeVisible();
 });
 
 test('username input is visible', async ({ page }) => {
@@ -40,7 +40,7 @@ test('Log In button works', async ({ page }) => {
     await page.getByPlaceholder('Password').fill('Testtest123!');
     await page.getByRole('button', { name: 'Log In' }).click();
     await page.waitForNavigation();
-    await expect(page.getByTitle('Search')).toBeVisible();
+    await expect(page.getByTitle('search')).toBeVisible();
 });
 
 test('register option is visible', async ({ page }) => {

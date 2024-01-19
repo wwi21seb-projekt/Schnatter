@@ -23,31 +23,31 @@ test('Schnatter is visible', async ({ page }) => {
 
 test('Home is visible', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByTitle('Home')).toBeVisible();
+    await expect(page.getByTitle('home')).toBeVisible();
 });
 
 test('other buttons not visible when not logged in', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByTitle('Search')).not.toBeVisible();
-    await expect(page.getByRole('button', { name: 'Post' })).not.toBeVisible();
-    await expect(page.getByTitle('Messages')).not.toBeVisible();
-    await expect(page.getByTitle('Profile')).not.toBeVisible();
-    await expect(page.getByTitle('Logout')).not.toBeVisible();
+    await expect(page.getByTitle('search')).not.toBeVisible();
+    await expect(page.getByRole('button', { name: 'post' })).not.toBeVisible();
+    await expect(page.getByTitle('messages')).not.toBeVisible();
+    await expect(page.getByTitle('profile')).not.toBeVisible();
+    await expect(page.getByTitle('logOut')).not.toBeVisible();
 });
 
 test('other buttons visible when logged in', async ({ page }) => {
     await login(page);
-    await expect(page.getByTitle('Search')).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Post' })).toBeVisible();
-    await expect(page.getByTitle('Messages')).toBeVisible();
-    await expect(page.getByTitle('Profile')).toBeVisible();
-    await expect(page.getByTitle('Log Out')).toBeVisible();
+    await expect(page.getByTitle('search')).toBeVisible();
+    await expect(page.getByRole('button', { name: 'post' })).toBeVisible();
+    await expect(page.getByTitle('messages')).toBeVisible();
+    await expect(page.getByTitle('profile')).toBeVisible();
+    await expect(page.getByTitle('logOut')).toBeVisible();
 });
 
 test('Search button works', async ({ page }) => {
     await login(page);
     await page.goto('/');
-    await page.getByTitle('Search').click();
+    await page.getByTitle('search').click();
     await page.waitForTimeout(1000);
     await expect(page.url()).toContain('/search/users');
 });
@@ -55,7 +55,7 @@ test('Search button works', async ({ page }) => {
 test('Post button works', async ({ page }) => {
     await login(page);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Post' }).click();
+    await page.getByRole('button', { name: 'post' }).click();
     await page.waitForTimeout(1000);
     await expect(page.getByPlaceholder('Write your post here')).toBeVisible();
 });
@@ -63,7 +63,7 @@ test('Post button works', async ({ page }) => {
 test('Messages button works', async ({ page }) => {
     await login(page);
     await page.goto('/');
-    await page.getByTitle('Messages').click();
+    await page.getByTitle('messages').click();
     await page.waitForTimeout(1000);
     await expect(page.url()).toContain('/messages');
 });
@@ -71,7 +71,7 @@ test('Messages button works', async ({ page }) => {
 test('Profile button works', async ({ page }) => {
     await login(page);
     await page.goto('/');
-    await page.getByTitle('Profile').click();
+    await page.getByTitle('profile').click();
     await page.waitForTimeout(1000);
     await expect(page.url()).toContain('/profile');
 });
@@ -79,7 +79,7 @@ test('Profile button works', async ({ page }) => {
 test('Logout button works', async ({ page }) => {
     await login(page);
     await page.goto('/');
-    await page.getByTitle('Log Out').click();
+    await page.getByTitle('logOut').click();
     await page.waitForTimeout(1000);
-    await expect(page.getByTitle("Search")).not.toBeVisible();
+    await expect(page.getByTitle("search")).not.toBeVisible();
 });
