@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
+	import { t } from '../../../i18n';
 
 	initializeStores();
 	const toastStore = getToastStore();
@@ -109,7 +110,7 @@
 		type="search"
 		name="username"
 		on:input={handleUsernameInput}
-		placeholder="Search a user..."
+		placeholder={$t('search.users.placeholder')}
 	/>
 	<div class="mt-4 w-full">
 		{#if users != null && users.length > 0}
@@ -152,7 +153,7 @@
 				</div>
 			{/each}
 		{:else}
-			<p class="text-center text-gray-500">No users found!</p>
+			<p class="text-center text-gray-500">{$t('search.users.noResults')}</p>
 		{/if}
 	</div>
 </div>

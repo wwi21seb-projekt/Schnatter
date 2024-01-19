@@ -76,7 +76,9 @@ export default {
 		'toastmessage.profile.unfollow.success': 'User successfully unfollowed',
 		'toastmessage.profile.unfollow.error': 'User unsuccessfully unfollowed',
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails successfully changed',
-		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed'
+		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed',
+		'search.users.placeholder': 'Search for users...',
+		'search.users.noResults': 'No users found!'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -155,6 +157,8 @@ export default {
 		'toastmessage.profile.unfollow.success': 'User erfolgreich abonniert',
 		'toastmessage.profile.unfollow.error': 'Fehler beim Deabonnieren des Users',
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails erfolgreich geändert',
-		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden'
+		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden',
+		'search.users.placeholder': 'Suche Nutzer...',
+		'search.users.noResults': 'Keine Nutzer gefunden!'
 	}
 };
