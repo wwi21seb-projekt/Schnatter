@@ -33,10 +33,10 @@
 			<a href="/">
 				<Icon class="w-10 h-10" icon="mdi:home" style="font-size: 32px" />
 			</a>
-			<a href="/search/users">
-				<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
-			</a>
 			{#if loginToken != ''}
+				<a href="/search/users">
+					<Icon class="w-10 h-10" icon="ic:round-search" style="font-size: 32px" />
+				</a>
 				<button on:click={openModal}>
 					<Icon class="w-10 h-10" icon="gridicons:add" style="font-size: 32px" />
 				</button>
