@@ -1,6 +1,11 @@
 import { expect, test } from '@playwright/test';
 
 // email tests
+test('email is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByPlaceholder('Email*')).toBeVisible();
+});
+
 test("email must contain '@'", async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Email').fill('notatanemail.de');
@@ -52,6 +57,11 @@ test('email accepted when valid', async ({ page }) => {
 });
 
 // username tests
+test('username is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByPlaceholder('Username*')).toBeVisible();
+});
+
 test('username must not be empty', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Username').fill('');
@@ -85,6 +95,11 @@ test('username accepted when valid', async ({ page }) => {
 });
 
 //nickname tests
+test('nickname is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByPlaceholder('Nickname')).toBeVisible();
+});
+
 test('nickname must not be too long', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Nickname').fill('nicknamenicknamenicknamenickname');
@@ -98,6 +113,16 @@ test('nickname accepted when valid', async ({ page }) => {
 });
 
 //password tests
+test('password is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByPlaceholder('Password').first()).toBeVisible();
+});
+
+test('repeat password is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByPlaceholder('Repeat Password')).toBeVisible();
+});
+
 test('password must be at least 8 chars', async ({ page }) => {
 	await page.goto('/register');
 	await page.getByPlaceholder('Password').first().fill('1234567');
@@ -145,4 +170,17 @@ test('register button is enabled when all inputs are valid', async ({ page }) =>
 	await page.getByPlaceholder('Password').first().fill('Password1!');
 	await page.getByPlaceholder('Password').last().fill('Password1!');
 	await expect(page.getByRole('button', { name: 'Register' })).toBeEnabled();
+});
+
+// cancel button
+test('cancel button is visible', async ({ page }) => {
+	await page.goto('/register');
+	await expect(page.getByRole('button', { name: 'Cancel' })).toBeVisible();
+});
+
+test('cancel button works', async ({ page }) => {
+	await page.goto('/register');
+	await page.getByRole('button', { name: 'Cancel' }).click();
+	await page.waitForTimeout(1000);
+	await expect(page.url()).not.toContain('/register');
 });

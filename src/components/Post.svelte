@@ -34,7 +34,9 @@
 	});
 
 	function likeHelper() {
-		likeObject = likeCounter(likeObject);
+		if (loginToken != '' || loginToken == undefined) {
+			likeObject = likeCounter(likeObject);
+		}
 	}
 
 	function helperHashtagCheck() {
@@ -43,7 +45,7 @@
 </script>
 
 <main class="flex flex-col mb-6">
-	<div class="card w-[60vw] mb-2">
+	<div class="card w-[60vw] mb-2" title="post">
 		<header class="card-header w-full flex justify-between items-center">
 			<div class="flex flex-row items-center">
 				<Avatar
@@ -52,14 +54,15 @@
 					initials=""
 				/>
 				<div class="flex flex-col">
-					<a href="/profile?username={post.author.username}">@{post.author.username}</a>
-					<p class="font-light text-sm">{post.author.nickname}</p>
+					<a title="postAuthorUsername" href="/profile?username={post.author.username}">@{post.author.username}</a>
+					<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
+
 				</div>
 			</div>
-			<p class="text-xs">{postDate}</p>
+			<p class="text-xs" title="postdate">{postDate}</p>
 		</header>
 		<section class="p-4">
-			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
+			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg" title="postcontent">
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
@@ -67,15 +70,16 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper}>
+				<button on:click={likeHelper} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
-				<p class="mr-1">{likeObject.likeCount}</p>
+				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
 			</div>
 			{#if loginToken != '' || loginToken != undefined}
 				<input
 					class="input mx-3"
+					title="commentInput"
 					type="text"
 					placeholder={$t('post.postComment.placeholder')}
 					maxlength="256"
@@ -90,7 +94,7 @@
 	{#if loginToken != '' || loginToken == undefined}
 		<div class="card w-[60vw]">
 			<header class="card-header">
-				<p class="font-bold text-xl">{$t('post.comments.header')}</p>
+				<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
 			</header>
 			<section class="p-3 flex flex-col">
 				<div class="flex flex-row">
