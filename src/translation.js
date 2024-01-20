@@ -78,7 +78,8 @@ export default {
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails successfully changed',
 		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed',
 		'search.users.placeholder': 'Search for users...',
-		'search.users.noResults': 'No users found!'
+		'search.users.noResults': 'No users found!',
+		'footer.imprint': 'Imprint'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -159,6 +160,7 @@ export default {
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails erfolgreich geändert',
 		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden',
 		'search.users.placeholder': 'Suche Nutzer...',
-		'search.users.noResults': 'Keine Nutzer gefunden!'
+		'search.users.noResults': 'Keine Nutzer gefunden!',
+		'footer.imprint': 'Impressum'
 	}
 };

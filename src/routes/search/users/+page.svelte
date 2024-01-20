@@ -97,16 +97,23 @@
 		<a href="/search/users">
 			<Icon
 				class="w-10 h-10"
+				title="searchUsersIcon"
 				icon="mdi:account-search"
 				style="font-size: 32px; border: 2px solid; border-radius: 5px;"
 			/>
 		</a>
 		<a href="/search/posts">
-			<Icon class="w-10 h-10" icon="mdi:text-box-search-outline" style="font-size: 32px" />
+			<Icon
+				class="w-10 h-10"
+				title="searchPostsIcon"
+				icon="mdi:text-box-search-outline"
+				style="font-size: 32px"
+			/>
 		</a>
 	</div>
 	<input
 		class="input w-full"
+		title="searchUsersInput"
 		type="search"
 		name="username"
 		on:input={handleUsernameInput}
@@ -115,7 +122,7 @@
 	<div class="mt-4 w-full">
 		{#if users != null && users.length > 0}
 			{#each users as user}
-				<div class="flex flex-row items-center justify-between w-full">
+				<div class="flex flex-row items-center justify-between w-full" title="userResult">
 					<div class="flex flex-row items-center">
 						<Avatar
 							src={user.profilePictureUrl !== '' ? user.profilePictureUrl : '/default-avatar.png'}
@@ -153,7 +160,7 @@
 				</div>
 			{/each}
 		{:else}
-			<p class="text-center text-gray-500">{$t('search.users.noResults')}</p>
+			<p class="text-center text-gray-500" title="noResultText">{$t('search.users.noResults')}</p>
 		{/if}
 	</div>
 </div>
