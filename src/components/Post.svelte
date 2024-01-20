@@ -52,7 +52,7 @@
 					initials=""
 				/>
 				<div class="flex flex-col">
-					<p class="">{post.author.username}</p>
+					<a href="/profile?username={post.author.username}">@{post.author.username}</a>
 					<p class="font-light text-sm">{post.author.nickname}</p>
 				</div>
 			</div>
@@ -73,7 +73,7 @@
 				</button>
 				<p class="mr-1">{likeObject.likeCount}</p>
 			</div>
-			{#if loginToken != '' || loginToken == undefined}
+			{#if loginToken != '' || loginToken != undefined}
 				<input
 					class="input mx-3"
 					type="text"
