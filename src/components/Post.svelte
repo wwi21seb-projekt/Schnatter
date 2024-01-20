@@ -54,9 +54,10 @@
 					initials=""
 				/>
 				<div class="flex flex-col">
-					<a title="postAuthorUsername" href="/profile?username={post.author.username}">@{post.author.username}</a>
+					<a title="postAuthorUsername" href="/profile?username={post.author.username}"
+						>@{post.author.username}</a
+					>
 					<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
-
 				</div>
 			</div>
 			<p class="text-xs" title="postdate">{postDate}</p>
