@@ -61,5 +61,9 @@ test('Wrong Credentials works', async ({ page }) => {
 	await page.getByPlaceholder('Password').fill('wrong');
 	await page.getByRole('button', { name: 'Log In' }).click();
 	await page.waitForTimeout(1000);
-	await expect(page.getByText('The credentials are invalid. Please check the credentials and try again.').first()).toBeVisible();
+	await expect(
+		page
+			.getByText('The credentials are invalid. Please check the credentials and try again.')
+			.first()
+	).toBeVisible();
 });

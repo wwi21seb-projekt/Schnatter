@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { login } from './testMethods';
 
 test('for you is not visible when not logged in', async ({ page }) => {

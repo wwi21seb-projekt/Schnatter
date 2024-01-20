@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { login } from './testMethods';
 //hashtag tests are missing
 //user und nickname sind vertauscht in postauthor
@@ -12,7 +12,6 @@ test('postdate is visible', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByTitle('postdate', { exact: true }).first()).toBeVisible();
 });
-
 
 test('Post Author Username is visible', async ({ page }) => {
 	await page.goto('/');

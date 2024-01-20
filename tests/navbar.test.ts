@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { login } from './testMethods';
 
 test('logo is visible', async ({ page }) => {
