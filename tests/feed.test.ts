@@ -1,15 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-
-//username testschnatter
-//password Testtest123!
-
-async function login(page: Page) {
-	await page.goto('/');
-	await page.getByPlaceholder('Username').fill('testschnatter');
-	await page.getByPlaceholder('Password').fill('Testtest123!');
-	await page.getByRole('button', { name: 'Log In' }).click();
-	await page.waitForNavigation();
-}
+import { login } from './testMethods';
 
 test('for you is not visible when not logged in', async ({ page }) => {
 	await page.goto('/');

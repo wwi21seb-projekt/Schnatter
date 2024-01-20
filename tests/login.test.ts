@@ -54,3 +54,12 @@ test('register option works', async ({ page }) => {
 	await page.waitForTimeout(1000);
 	await expect(page.url()).toContain('/register');
 });
+
+test('Wrong Credentials works', async ({ page }) => {
+	await page.goto('/');
+	await page.getByPlaceholder('Username').fill('testschnatter');
+	await page.getByPlaceholder('Password').fill('wrong');
+	await page.getByRole('button', { name: 'Log In' }).click();
+	await page.waitForTimeout(1000);
+	await expect(page.getByText('The credentials are invalid. Please check the credentials and try again.').first()).toBeVisible();
+});

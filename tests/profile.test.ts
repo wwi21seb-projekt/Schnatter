@@ -1,17 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
+import { login } from './testMethods';
 
-//username testschnatter
-//password Testtest123!
 //needs more testing
 //why UserProfilePost
-
-async function login(page: Page) {
-	await page.goto('/');
-	await page.getByPlaceholder('Username').fill('testschnatter');
-	await page.getByPlaceholder('Password').fill('Testtest123!');
-	await page.getByRole('button', { name: 'Log In' }).click();
-	await page.waitForNavigation();
-}
 
 test('username is visible', async ({ page }) => {
 	await login(page);

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
-
+import { login } from './testMethods';
 //hashtag tests are missing
 //user und nickname sind vertauscht in postauthor
 //kein @ for username in comments
@@ -8,23 +8,11 @@ import { expect, test, type Page } from '@playwright/test';
 //warum testen wir loginToken == undefined
 //wo unterschied zu PostUserProfil
 
-async function login(page: Page) {
-	await page.goto('/');
-	await page.getByPlaceholder('Username').fill('testschnatter');
-	await page.getByPlaceholder('Password').fill('Testtest123!');
-	await page.getByRole('button', { name: 'Log In' }).click();
-	await page.waitForNavigation();
-}
-
 test('postdate is visible', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByTitle('postdate', { exact: true }).first()).toBeVisible();
 });
 
-test('Post Author Nickname is visible', async ({ page }) => {
-	page.goto('/');
-	await expect(page.getByTitle('postAuthorNickname', { exact: true }).first()).toBeVisible();
-});
 
 test('Post Author Username is visible', async ({ page }) => {
 	await page.goto('/');
