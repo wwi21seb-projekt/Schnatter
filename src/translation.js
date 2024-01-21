@@ -78,7 +78,9 @@ export default {
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails successfully changed',
 		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed',
 		'search.users.placeholder': 'Search for users...',
-		'search.users.noResults': 'No users found!'
+		'search.users.noResults': 'No users found!',
+		'following.user.emptyList': 'This account is not following anyone yet',
+		'followers.user.emptyList': 'This account has no followers yet'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -159,6 +161,8 @@ export default {
 		'toastmessage.profile.changeUserDetails.success': 'Userdetails erfolgreich geändert',
 		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden',
 		'search.users.placeholder': 'Suche Nutzer...',
-		'search.users.noResults': 'Keine Nutzer gefunden!'
+		'search.users.noResults': 'Keine Nutzer gefunden!',
+		'following.user.emptyList': 'Dieser Account folgt noch niemandem',
+		'followers.user.emptyList': 'Dieser Account hat noch keine Abonnenten'
 	}
 };

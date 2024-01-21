@@ -98,7 +98,6 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 
 export async function followUser(token: string, following: string) {
 	const serverUrl = get(serverURL) + '/subscriptions';
-	console.log(following);
 	const response = await fetch(serverUrl, {
 		method: 'POST',
 		mode: 'cors',

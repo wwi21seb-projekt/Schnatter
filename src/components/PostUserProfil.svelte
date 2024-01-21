@@ -32,7 +32,6 @@
 	let postDate: string = '';
 
 	onMount(() => {
-		console.log(post);
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();

@@ -2,7 +2,7 @@ import { serverURL } from "$lib/Store";
 import type { Subscriptions } from "$lib/types/Subscriptions";
 import { get } from "svelte/store";
 
-export async function getSubscriptions(token: string, type: string, offset: number, limit: number) {
+export async function getSubscriptions(token: string, type: string, offset: number, limit: number, username:string) {
     let data:Subscriptions = {
         records: [],
         pagination: {
@@ -16,7 +16,7 @@ export async function getSubscriptions(token: string, type: string, offset: numb
         limit: limit.toString(),
     });
 
-    const url = get(serverURL) + "/subscriptions?" + params;
+    const url = get(serverURL) + "/subscriptions/"+username+"?" + params;
 
     const response = await fetch(url, {
         method: "GET",

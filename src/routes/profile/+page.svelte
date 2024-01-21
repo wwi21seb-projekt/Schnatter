@@ -91,7 +91,6 @@
 		profileData = await getProfileDetails(get(token), username);
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
-		console.log(profileData);
 
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast('User details could not be loaded', 'error'));
@@ -109,7 +108,7 @@
 		editMode = !editMode;
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), nickname, userStatus);
+		const status = await updateUserDetails(get(token), userStatus, nickname);
 		if (status == 200) {
 			editMode = false;
 			toastStore.trigger(createToast('User details were changed', 'success'));
@@ -196,13 +195,13 @@
 						<h2 class="h2">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
-					<a href="/follower">
+					<a href="/follower?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
 						</div>
 					</a>
-					<a href="/following">
+					<a href="/following?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2">{profileData.user.following}</h2>
 							<p>{$t('profile.following')}</p>
