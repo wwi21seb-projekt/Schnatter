@@ -17,7 +17,6 @@ export type UserFetchResponse = {
 };
 
 export type SubscriptionUser = {
-
 	username: string;
 	nickname: string;
 	profilePictureUrl: string | undefined;

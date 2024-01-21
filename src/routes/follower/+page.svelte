@@ -38,9 +38,7 @@
 		{#if followerData.records.length == 0}
 			<p class="text-center">{$t('followers.user.emptyList')}</p>
 		{:else}
-		<p>ds</p>
+			<FollowerList {followerData} />
 		{/if}
-		<FollowerList {followerData} />
-
 	</div>
 </main>

@@ -7,7 +7,6 @@
 <nav class="list-nav w-1/3">
 	<!-- (optionally you can provide a label here) -->
 	<ul class="w-[40vw]">
-		
 		{#each followingData.records as follower}
 			<li class="flex flex-row w-full justify-between">
 				<a href="/profile?username={follower.user.username}" class="w-5/6">
