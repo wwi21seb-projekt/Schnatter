@@ -48,6 +48,7 @@
 		}
 
 		let params = loginToken === '' ? paramsGlobalOnly : paramsChangeable;
+
 		const url: string = serverUrl + '/feed?' + params;
 		try {
 			let response = await fetch(url, {
@@ -108,6 +109,7 @@
 				posts = result.records;
 				maxPostCounter += posts.length;
 				feedData = result;
+				feedData.pagination.lastPostId = posts[posts.length - 1].postId;
 			} else if (statusCode !== 200 && statusCode !== 500) {
 				//Fehler-Handling von 400 Bad Request
 				// error objekt auslesen, wie result s.o. customError.message
