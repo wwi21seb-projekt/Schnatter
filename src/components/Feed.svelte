@@ -13,6 +13,7 @@
 	import { get } from 'svelte/store';
 	import type { GetFeedResponse } from '$lib/types/Feed.ts';
 	import { t } from '../i18n';
+	import type { CustomError } from '$lib/types/CustomError';
 
 	const loginToken = get(token);
 	initializeStores();
@@ -94,6 +95,10 @@
 	async function fetchMatchingFeed(isGlobal: boolean) {
 		let params = isGlobal ? paramsGlobalOnly : paramsChangeable;
 		const url: string = serverUrl + '/feed?' + params;
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
 		try {
 			let response = await fetch(url, {
 				mode: 'cors',
@@ -103,6 +108,10 @@
 				}
 			});
 			statusCode = response.status;
+			if (statusCode !== 200) {
+				const body = await response.json();
+				customError = body.error;
+			}
 
 			if (statusCode === 200) {
 				const result = await response.json();
@@ -111,12 +120,9 @@
 				feedData = result;
 				feedData.pagination.lastPostId = posts[posts.length - 1].postId;
 			} else if (statusCode !== 200 && statusCode !== 500) {
-				//Fehler-Handling von 400 Bad Request
-				// error objekt auslesen, wie result s.o. customError.message
-				// copy from register/verify
-				posts = [];
 				toastStore.clear();
-				toastStore.trigger(createToast($t('toast.somethingWrong'), 'error'));
+				toastStore.trigger(createToast(customError.message, 'error'));
+				posts = [];
 			}
 		} catch (error) {
 			toastStore.clear();
