@@ -231,7 +231,7 @@
 			{:else}
 				<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
 					{#each postData.records as Post}
-						<PostUserProfil bind:postData={Post} />
+						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
 				</div>
 				{#if maxPostCounter == postData.records.length}
