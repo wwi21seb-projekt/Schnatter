@@ -26,7 +26,7 @@
 	let feedData: GetFeedResponse;
 	let feedType: string = 'global';
 	const serverUrl = get(serverURL);
-	const slotLimit = 2;
+	const slotLimit = 10;
 	let hasMorePosts: boolean = true;
 	let paramsChangeable = new URLSearchParams([
 		['postId', ''],
@@ -39,13 +39,22 @@
 	]);
 
 	async function loadMorePosts() {
-		if (loginToken !== '' && value === 0) {
-			paramsChangeable.set('postId', feedData.pagination.lastPostId.toString());
-			paramsChangeable.set('feedType', feedType);
-		} else if (loginToken !== '' && value === 1) {
-			paramsChangeable.set('postId', feedData.pagination.lastPostId.toString());
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
+
+		let lastPostId = feedData.pagination?.lastPostId?.toString() || '';
+
+		if (loginToken !== '') {
+			if (value === 0) {
+				paramsChangeable.set('postId', lastPostId);
+				paramsChangeable.set('feedType', feedType);
+			} else if (value === 1) {
+				paramsChangeable.set('postId', lastPostId);
+			}
 		} else {
-			paramsGlobalOnly.set('postId', feedData.pagination.lastPostId.toString());
+			paramsGlobalOnly.set('postId', lastPostId);
 		}
 
 		let params = loginToken === '' ? paramsGlobalOnly : paramsChangeable;
@@ -68,8 +77,12 @@
 					maxPostCounter += result.records.length;
 					posts = posts.concat(result.records);
 					feedData.records = feedData.records.concat(result.records);
-					feedData.pagination.lastPostId = result.pagination.lastPostId;
+					feedData.pagination.lastPostId = posts[posts.length - 1].postId;
 				}
+			}
+			if (statusCode !== 200) {
+				const body = await response.json();
+				customError = body.error;
 			}
 		} catch (error) {
 			toastStore.clear();
@@ -89,6 +102,7 @@
 
 	async function onChange() {
 		setFeedType();
+		hasMorePosts = true;
 		fetchMatchingFeed(false);
 	}
 
@@ -108,6 +122,7 @@
 				}
 			});
 			statusCode = response.status;
+
 			if (statusCode !== 200) {
 				const body = await response.json();
 				customError = body.error;
@@ -118,7 +133,11 @@
 				posts = result.records;
 				maxPostCounter += posts.length;
 				feedData = result;
-				feedData.pagination.lastPostId = posts[posts.length - 1].postId;
+				if (posts.length !== 0) {
+					feedData.pagination.lastPostId = posts[posts.length - 1].postId;
+				} else {
+					feedData.pagination.lastPostId = null;
+				}
 			} else if (statusCode !== 200 && statusCode !== 500) {
 				toastStore.clear();
 				toastStore.trigger(createToast(customError.message, 'error'));
