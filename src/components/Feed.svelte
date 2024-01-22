@@ -69,6 +69,10 @@
 				}
 			});
 			statusCode = response.status;
+			if (statusCode !== 200) {
+				const body = await response.json();
+				customError = body.error;
+			}
 			if (statusCode === 200) {
 				const result = await response.json();
 				if (result.records.length === 0) {
@@ -79,10 +83,9 @@
 					feedData.records = feedData.records.concat(result.records);
 					feedData.pagination.lastPostId = posts[posts.length - 1].postId;
 				}
-			}
-			if (statusCode !== 200) {
-				const body = await response.json();
-				customError = body.error;
+			} else if (statusCode !== 200 && statusCode !== 500) {
+				toastStore.clear();
+				toastStore.trigger(createToast(customError.message, 'error'));
 			}
 		} catch (error) {
 			toastStore.clear();
