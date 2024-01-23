@@ -7,25 +7,30 @@
 	import { token, serverURL } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
-	import { loadMorePosts, fetchMatchingFeed } from '$lib/FeedFunctions';
+	import { loadMorePosts, fetchMatchingFeed, searchHashtagPosts } from '$lib/FeedFunctions';
 	import { posts, maxPostCounter, slotLimit, hasMorePosts } from '$lib/FeedDataStore';
 
 	initializeStores();
 	const toastStore = getToastStore();
+	export let pageType = 'home';
 
 	async function onLoadMorePosts() {
 		const loginToken = get(token);
 		const serverUrl = get(serverURL);
-		await loadMorePosts(loginToken, serverUrl, toastStore);
+		await loadMorePosts(loginToken, serverUrl, toastStore, pageType);
 	}
 
 	onMount(async () => {
 		const loginToken = get(token);
 		const url = get(serverURL);
-		if (loginToken !== '') {
-			fetchMatchingFeed(true, url, toastStore);
-		} else {
-			fetchMatchingFeed(false, url, toastStore);
+		if (pageType === 'home') {
+			if (loginToken !== '') {
+				fetchMatchingFeed(true, url, toastStore);
+			} else {
+				fetchMatchingFeed(false, url, toastStore);
+			}
+		} else if (pageType === 'search') {
+			searchHashtagPosts(url, toastStore);
 		}
 	});
 </script>

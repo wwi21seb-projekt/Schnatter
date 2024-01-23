@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
 import type { GetFeedResponse } from '$lib/types/Feed.ts';
 import type { PostStructure } from '$lib/types/Post.ts';
+import { URLSearchParams } from 'url';
 
 export const maxPostCounter = writable(0);
 export const hasMorePosts = writable(true);
@@ -23,6 +24,11 @@ export const paramsChangeable = new URLSearchParams([
 	['feedType', 'global']
 ]);
 export const paramsGlobalOnly = new URLSearchParams([
+	['postId', ''],
+	['limit', slotLimit.toString()]
+]);
+export const paramsHashtagSearch = new URLSearchParams([
+	['q', 'ing'],
 	['postId', ''],
 	['limit', slotLimit.toString()]
 ]);

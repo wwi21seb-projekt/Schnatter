@@ -19,6 +19,6 @@
 		<ChangeFeedTypeButton />
 	</div>
 	<div class="p-2 flex flex-row justify-center items-start">
-		<Feed />
+		<Feed pageType="home" />
 	</div>
 </main>

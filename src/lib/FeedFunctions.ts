@@ -11,12 +11,28 @@ import {
 	maxPostCounter,
 	feedType,
 	value,
-	hasMorePosts
+	hasMorePosts,
+	paramsHashtagSearch
 } from './FeedDataStore';
 
 let statusCode: number = 0;
 
-export async function loadMorePosts(loginToken: string, serverUrl: string, toastStore: ToastStore) {
+export async function loadMorePosts(
+	loginToken: string,
+	serverUrl: string,
+	toastStore: ToastStore,
+	feedType: string
+) {
+	if (feedType === 'home') {
+		await loadMoreFeedPosts(loginToken, serverUrl, toastStore);
+	} else if (feedType === 'search') {
+		await loadMoreHashtagPosts(loginToken, serverUrl, toastStore);
+	} else {
+		console.log('Unbekannter feedType: ', feedType);
+	}
+}
+
+async function loadMoreFeedPosts(loginToken: string, serverUrl: string, toastStore: ToastStore) {
 	let customError: CustomError = {
 		message: '',
 		code: ''
@@ -38,6 +54,50 @@ export async function loadMorePosts(loginToken: string, serverUrl: string, toast
 	const params = loginToken === '' ? paramsGlobalOnly : paramsChangeable;
 
 	const url: string = serverUrl + '/feed?' + params;
+	try {
+		const response = await fetch(url, {
+			mode: 'cors',
+			method: 'GET',
+			headers: {
+				Authorization: 'Bearer ' + get(token)
+			}
+		});
+		statusCode = response.status;
+		if (statusCode !== 200) {
+			const body = await response.json();
+			customError = body.error;
+		}
+		if (statusCode === 200) {
+			const result = await response.json();
+			if (result.records.length === 0) {
+				hasMorePosts.set(false);
+			} else {
+				maxPostCounter.update((n) => n + result.records.length);
+				posts.update((currentPosts) => currentPosts.concat(result.records));
+				get(feedData).records = get(feedData).records.concat(result.records);
+				get(feedData).pagination.lastPostId = get(posts)[get(posts).length - 1].postId;
+			}
+		} else if (statusCode !== 200 && statusCode !== 500) {
+			toastStore.clear();
+			toastStore.trigger(createToast(customError.message, 'error'));
+		}
+	} catch (error) {
+		toastStore.clear();
+		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+	}
+}
+
+async function loadMoreHashtagPosts(loginToken: string, serverUrl: string, toastStore: ToastStore) {
+	let customError: CustomError = {
+		message: '',
+		code: ''
+	};
+
+	const lastPostId = get(feedData).pagination?.lastPostId?.toString() || '';
+
+	paramsHashtagSearch.set('postId', lastPostId);
+
+	const url: string = serverUrl + '/search?' + paramsHashtagSearch;
 	try {
 		const response = await fetch(url, {
 			mode: 'cors',
@@ -127,6 +187,45 @@ export async function fetchMatchingFeed(
 					}
 					return data;
 				});
+			}
+		} else if (statusCode !== 200 && statusCode !== 500) {
+			toastStore.clear();
+			toastStore.trigger(createToast(customError.message, 'error'));
+		}
+	} catch (error) {
+		toastStore.clear();
+		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+	}
+}
+
+export async function searchHashtagPosts(serverUrl: string, toastStore: ToastStore) {
+	const url: string = serverUrl + '/search?' + paramsHashtagSearch;
+	let customError: CustomError = {
+		message: '',
+		code: ''
+	};
+	try {
+		const response = await fetch(url, {
+			mode: 'cors',
+			method: 'GET',
+			headers: {
+				Authorization: 'Bearer ' + get(token)
+			}
+		});
+		statusCode = response.status;
+
+		if (statusCode !== 200) {
+			const body = await response.json();
+			customError = body.error;
+		}
+
+		if (statusCode === 200) {
+			const result = await response.json();
+			if (result.records.length !== 0) {
+				posts.set(result.records);
+			} else {
+				toastStore.clear();
+				toastStore.trigger(createToast('No posts found for this hashtag.', 'info'));
 			}
 		} else if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.clear();
