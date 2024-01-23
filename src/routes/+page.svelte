@@ -3,6 +3,7 @@
 	import Login from '../components/Login.svelte';
 	import Feed from '../components/Feed.svelte';
 	import { token } from '$lib/Store';
+	import ChangeFeedTypeButton from '../components/ChangeFeedTypeButton.svelte';
 
 	const loginToken = get(token);
 </script>
@@ -14,6 +15,9 @@
 		{/if}
 	</div>
 
+	<div class="p-2 flex flex-row justify-center items-start">
+		<ChangeFeedTypeButton />
+	</div>
 	<div class="p-2 flex flex-row justify-center items-start">
 		<Feed />
 	</div>

@@ -3,7 +3,7 @@ import type { Author } from './Author';
 import type { Pagination } from './Pagination';
 
 export type PostStructure = {
-	postID: UUID;
+	postId: UUID;
 	author: Author;
 	creationDate: string;
 	content: string;
