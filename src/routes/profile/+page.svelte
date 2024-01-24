@@ -195,18 +195,18 @@
 			<div class="flex flex-col justify-center items-center">
 				<div class="h-[20vh] w-[22vw] flex flex-row justify-around items-center">
 					<div class="flex flex-col items-center justify-center">
-						<h2 class="h2">{profileData.user.posts}</h2>
+						<h2 class="h2" title="postcount">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
 					<a href="/profile/follower?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
-							<h2 class="h2">{profileData.user.follower}</h2>
+							<h2 class="h2" title="followerCount">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
 						</div>
 					</a>
 					<a href="/profile/following?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
-							<h2 class="h2">{profileData.user.following}</h2>
+							<h2 class="h2" title="followingCount">{profileData.user.following}</h2>
 							<p>{$t('profile.following')}</p>
 						</div>
 					</a>
@@ -233,7 +233,7 @@
 			{:else}
 				<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
 					{#each postData.records as Post}
-						<PostUserProfil bind:postData={Post} />
+						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
 				</div>
 				{#if maxPostCounter == postData.records.length}

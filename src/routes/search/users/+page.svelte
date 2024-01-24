@@ -66,16 +66,23 @@
 		<a href="/search/users">
 			<Icon
 				class="w-10 h-10"
+				title="searchUsersIcon"
 				icon="mdi:account-search"
 				style="font-size: 32px; border: 2px solid; border-radius: 5px;"
 			/>
 		</a>
 		<a href="/search/posts">
-			<Icon class="w-10 h-10" icon="mdi:text-box-search-outline" style="font-size: 32px" />
+			<Icon
+				class="w-10 h-10"
+				title="searchPostsIcon"
+				icon="mdi:text-box-search-outline"
+				style="font-size: 32px"
+			/>
 		</a>
 	</div>
 	<input
 		class="input w-full"
+		title="searchUsersInput"
 		type="search"
 		name="username"
 		on:input={handleUsernameInput}
@@ -85,7 +92,7 @@
 		{#if users != null && users.length > 0}
 			<UserSearchList searchData={users} />
 		{:else}
-			<p class="text-center text-gray-500">{$t('search.users.noResults')}</p>
+			<p class="text-center text-gray-500" title="noResultText">{$t('search.users.noResults')}</p>
 		{/if}
 	</div>
 </div>

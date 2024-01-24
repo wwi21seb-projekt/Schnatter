@@ -16,7 +16,7 @@ export type TextColorPost = {
 };
 
 export type PostUserProfilStructure = {
-	postID: UUID;
+	postId: UUID;
 	creationDate: string;
 	content: string;
 };
