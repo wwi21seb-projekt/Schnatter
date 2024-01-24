@@ -1,4 +1,5 @@
 import { serverURL } from '$lib/Store';
+import type { CustomError } from '$lib/types/CustomError';
 import type { Subscriptions } from '$lib/types/Subscriptions';
 import { get } from 'svelte/store';
 
@@ -9,6 +10,11 @@ export async function getSubscriptions(
 	limit: number,
 	username: string
 ) {
+	let customError: CustomError = {
+		code: '',
+		message: ''
+	};
+
 	let data: Subscriptions = {
 		records: [],
 		pagination: {
@@ -36,5 +42,9 @@ export async function getSubscriptions(
 	if (response.status === 200) {
 		data = await response.json();
 	}
-	return data;
+	if (response.status !== 200 && response.status !== 500) {
+		customError = await response.json();
+		return { customError: customError, status: response.status };
+	}
+	return { status: response.status, data: data };
 }

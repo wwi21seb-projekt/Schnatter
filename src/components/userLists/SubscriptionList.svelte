@@ -32,7 +32,6 @@
 </script>
 
 <nav class="list-nav w-full">
-	<!-- (optionally you can provide a label here) -->
 	<ul class="w-full">
 		{#each subscriptionData.records as subscriber}
 			<li class="flex flex-row w-full justify-between">
@@ -64,7 +63,5 @@
 				{/if}
 			</li>
 		{/each}
-
-		<!-- ... -->
 	</ul>
 </nav>
