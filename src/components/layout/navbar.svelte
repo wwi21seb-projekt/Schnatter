@@ -19,6 +19,9 @@
 	function openModal() {
 		modalStore.trigger(modal);
 	}
+	function gotoProfile() {
+		window.location.href = '/profile';
+	}
 </script>
 
 <AppBar>
@@ -43,9 +46,9 @@
 				<a href="/messages">
 					<Icon class="w-10 h-10" icon="entypo:message" style="font-size: 32px" />
 				</a>
-				<a href="/profile">
+				<button on:click={gotoProfile}>
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
-				</a>
+				</button>
 				<button on:click={handleLogout}
 					><Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
 				>

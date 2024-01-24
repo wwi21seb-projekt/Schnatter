@@ -33,7 +33,7 @@
 	let userStatus: string = '';
 	let maxPostCounter: number = 0;
 	let username: string = '';
-	let usernameParams: string = '';
+	let usernameParams: string | undefined = '';
 	let subscribed: boolean = false;
 
 	const toastStore = getToastStore();
@@ -85,6 +85,9 @@
 
 		if (usernameParams == undefined) {
 			username = get(globalUsername);
+		} else if (usernameParams == get(globalUsername)) {
+			username = get(globalUsername);
+			usernameParams = undefined;
 		} else {
 			username = usernameParams;
 		}
@@ -195,13 +198,13 @@
 						<h2 class="h2">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
-					<a href="/follower?username={profileData.user.username}">
+					<a href="/profile/follower?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
 						</div>
 					</a>
-					<a href="/following?username={profileData.user.username}">
+					<a href="/profile/following?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2">{profileData.user.following}</h2>
 							<p>{$t('profile.following')}</p>

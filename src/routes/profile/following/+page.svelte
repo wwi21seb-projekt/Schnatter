@@ -1,11 +1,11 @@
 <script lang="ts">
-	import FollowingList from '../../components/UserLists/FollowingList.svelte';
 	import { onMount } from 'svelte';
 	import type { Subscriptions } from '$lib/types/Subscriptions';
 	import { getSubscriptions } from '$lib/utils/Subscription';
 	import { get } from 'svelte/store';
 	import { globalUsername, token } from '$lib/Store';
-	import { t } from '../../i18n';
+	import { t } from '../../../i18n';
+	import SubscriptionList from '../../../components/userLists/SubscriptionList.svelte';
 	let offsetList = 0;
 	let limit = 10;
 	let usernameParams: string = '';
@@ -38,7 +38,9 @@
 		{#if followingData.records.length == 0}
 			<p class="text-center">{$t('followers.user.emptyList')}</p>
 		{:else}
-			<FollowingList {followingData} />
+			<div class="w-[40vw]">
+				<SubscriptionList subscriptionData={followingData} />
+			</div>
 		{/if}
 	</div>
 </main>
