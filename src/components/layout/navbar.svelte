@@ -61,20 +61,17 @@
 				<a href="/messages" title="messages">
 					<Icon class="w-10 h-10" icon="entypo:message" />
 				</a>
-
 				<button on:click={gotoProfile}>
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</button>
-				<button on:click={handleLogout}
-					><Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
-
-			<button class="" use:popup={popupFeatured}
-				><Icon class="w-10 h-10" icon="material-symbols:settings" /></button
-			>
-			{#if loginToken != ''}
-				<button on:click={handleLogout} title="logOut">
-					<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
-          >
+				<button class="" use:popup={popupFeatured}
+					><Icon class="w-10 h-10" icon="material-symbols:settings" /></button
+				>
+				{#if loginToken != ''}
+					<button on:click={handleLogout} title="logOut">
+						<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
+					>
+				{/if}
 			{/if}
 		</div>
 	</svelte:fragment>

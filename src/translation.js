@@ -80,7 +80,7 @@ export default {
 		'search.users.placeholder': 'Search for users...',
 		'search.users.noResults': 'No users found!',
 		'following.user.emptyList': 'This account is not following anyone yet',
-		'followers.user.emptyList': 'This account has no followers yet'
+		'followers.user.emptyList': 'This account has no followers yet',
 		'footer.imprint': 'Imprint'
 	},
 	de: {
@@ -164,7 +164,7 @@ export default {
 		'search.users.placeholder': 'Suche Nutzer...',
 		'search.users.noResults': 'Keine Nutzer gefunden!',
 		'following.user.emptyList': 'Dieser Account folgt noch niemandem',
-		'followers.user.emptyList': 'Dieser Account hat noch keine Abonnenten'
+		'followers.user.emptyList': 'Dieser Account hat noch keine Abonnenten',
 		'footer.imprint': 'Impressum'
 	}
 };

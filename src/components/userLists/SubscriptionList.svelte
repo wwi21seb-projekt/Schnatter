@@ -7,6 +7,7 @@
 	import { get } from 'svelte/store';
 	import { unfollowUser } from '../../routes/profile/requests';
 	import { createToast } from '$lib/Toasts';
+	import { t } from '../../i18n';
 	export let subscriptionData: Subscriptions;
 	let username: string = '';
 	let pageRoute: string | null = '';
@@ -49,13 +50,14 @@
 							<button
 								class="btn variant-filled-error h-2/3"
 								on:click={deleteSubscription}
-								id={subscriber.subscriptionId}>Unfollow</button
+								id={subscriber.subscriptionId}>{$t('profile.unfollow')}</button
 							>
 							<!-- {:else if pageRoute == '/profile/follower'}
-							{#if subscriber.subscriptionId}
-								<button>Unfollow</button>
+							{#if subscriber.subscriptionId} // das muss noch geändert werden, sobald es im Backe
+							geht
+								<button>{$t('profile.unfollow')}</button>
 							{:else}
-								<button>Follow</button>
+								<button>{$t('profile.follow')}</button>
 							{/if} -->
 						{/if}
 					</div>
