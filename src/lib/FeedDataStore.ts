@@ -5,7 +5,7 @@ import type { PostStructure } from '$lib/types/Post.ts';
 export const maxPostCounter = writable(0);
 export const hasMorePosts = writable(true);
 export const value = writable(false);
-export const feedType = writable('global');
+export const pageType = writable('home');
 export const posts = writable<Array<PostStructure>>([]);
 export const feedData = writable<GetFeedResponse>({
 	records: [],

@@ -9,7 +9,6 @@ import {
 	paramsChangeable,
 	paramsGlobalOnly,
 	maxPostCounter,
-	feedType,
 	value,
 	hasMorePosts,
 	paramsHashtagSearch
@@ -21,11 +20,11 @@ export async function loadMorePosts(
 	loginToken: string,
 	serverUrl: string,
 	toastStore: ToastStore,
-	feedType: string
+	pageType: string
 ) {
-	if (feedType === 'home') {
+	if (pageType === 'home') {
 		await loadMoreFeedPosts(loginToken, serverUrl, toastStore);
-	} else if (feedType === 'search') {
+	} else if (pageType === 'search') {
 		await loadMoreHashtagPosts(serverUrl, toastStore);
 	}
 }
@@ -135,10 +134,8 @@ export function setPostIdAndFeedType(
 	paramsChangeable.set('postId', lastPostId);
 	if (loginToken !== '' && feedTypeValue) {
 		paramsChangeable.set('feedType', 'personal');
-		feedType.set('personal');
 	} else {
 		paramsChangeable.set('feedType', 'global');
-		feedType.set('global');
 	}
 }
 

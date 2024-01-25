@@ -4,7 +4,7 @@
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { setPostIdAndFeedType, fetchPosts } from '$lib/FeedFunctions';
-	import { value, hasMorePosts, feedType } from '$lib/FeedDataStore';
+	import { value, hasMorePosts } from '$lib/FeedDataStore';
 
 	const toastStore = getToastStore();
 

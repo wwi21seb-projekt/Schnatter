@@ -8,7 +8,7 @@
 	import { t } from '../../../i18n';
 	import Feed from '../../../components/Feed.svelte';
 	import { searchHashtagPosts } from '$lib/FeedFunctions';
-	import { posts, feedData } from '$lib/FeedDataStore';
+	import { posts, feedData, pageType } from '$lib/FeedDataStore';
 	import { onDestroy } from 'svelte';
 
 	onDestroy(() => {
@@ -60,6 +60,7 @@
 		if (get(token) == '') {
 			goto('/');
 		}
+		pageType.set('search');
 	});
 </script>
 

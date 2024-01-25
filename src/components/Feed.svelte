@@ -26,7 +26,6 @@
 			} else {
 				fetchPosts(false, url, toastStore);
 			}
-		} else if (pageType === 'search') {
 		}
 	});
 </script>
