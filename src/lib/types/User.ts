@@ -15,3 +15,9 @@ export type UserFetchResponse = {
 	user: User;
 	statusCode: number;
 };
+
+export type SubscriptionUser = {
+	username: string;
+	nickname: string;
+	profilePictureUrl: string | undefined;
+};

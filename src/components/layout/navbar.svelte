@@ -34,6 +34,9 @@
 	function openModal() {
 		modalStore.trigger(modal);
 	}
+	function gotoProfile() {
+		window.location.href = '/profile';
+	}
 </script>
 
 <AppBar>
@@ -58,11 +61,10 @@
 				<a href="/messages" title="messages">
 					<Icon class="w-10 h-10" icon="entypo:message" />
 				</a>
-				<a href="/profile" title="profile">
-					<Icon class="w-10 h-10" icon="gg:profile" />
-				</a>
+				<button on:click={gotoProfile} title="profile">
+					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
+				</button>
 			{/if}
-
 			<button class="" use:popup={popupFeatured}
 				><Icon class="w-10 h-10" icon="material-symbols:settings" /></button
 			>
