@@ -2,7 +2,6 @@
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
 	import { Toast } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../components/RegisterInput.svelte';
-	import { initializeStores } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { goto } from '$app/navigation';
@@ -10,7 +9,6 @@
 	import { t } from '../../i18n';
 	import type { CustomError } from '$lib/types/CustomError';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let statusCode: number = 0;

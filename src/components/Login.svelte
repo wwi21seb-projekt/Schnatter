@@ -1,7 +1,7 @@
 <script lang="ts">
 	import LoginInput from './LoginInput.svelte';
 	import { t } from '../i18n';
-	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { createToast } from '$lib/Toasts';
@@ -9,7 +9,6 @@
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let username: string = '';

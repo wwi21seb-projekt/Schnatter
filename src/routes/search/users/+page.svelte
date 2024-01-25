@@ -2,17 +2,16 @@
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
-	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { serverURL, token } from '$lib/Store';
 	import type { User } from '$lib/types/User';
+
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 	import UserSearchList from '../../../components/userLists/UserSearchList.svelte';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let response: Response;
