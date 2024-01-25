@@ -5,5 +5,5 @@ export async function login(page: Page) {
 	await page.getByPlaceholder('Username').fill('testschnatter');
 	await page.getByPlaceholder('Password').fill('Testtest123!');
 	await page.getByRole('button', { name: 'Log In' }).click();
-	await page.waitForNavigation();
+	await page.waitForTimeout(1000);
 }
