@@ -7,7 +7,7 @@
 	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 	import Feed from '../../../components/Feed.svelte';
-	import { searchHashtagPosts } from '$lib/FeedFunctions';
+	import { resetPostsAndFeedData, searchHashtagPosts } from '$lib/FeedFunctions';
 	import { posts, feedData, pageType } from '$lib/FeedDataStore';
 	import { onDestroy } from 'svelte';
 
@@ -44,15 +44,7 @@
 		}
 		// is search term is completely removed, do not show any posts
 		else {
-			posts.set([]);
-			feedData.set({
-				records: [],
-				pagination: {
-					lastPostId: '',
-					limit: 10,
-					records: 0
-				}
-			});
+			resetPostsAndFeedData();
 		}
 	}
 
@@ -61,6 +53,7 @@
 			goto('/');
 		}
 		pageType.set('search');
+		resetPostsAndFeedData();
 	});
 </script>
 

@@ -3,18 +3,24 @@ import { createToast } from '$lib/Toasts';
 import { token } from '$lib/Store';
 import { get } from 'svelte/store';
 import type { CustomError } from '$lib/types/CustomError';
-import {
-	feedData,
-	posts,
-	paramsChangeable,
-	paramsGlobalOnly,
-	maxPostCounter,
-	value,
-	hasMorePosts,
-	paramsHashtagSearch
-} from './FeedDataStore';
+import { feedData, posts, maxPostCounter, value, hasMorePosts, slotLimit } from './FeedDataStore';
 
-let statusCode: number = 0;
+const paramsChangeable = new URLSearchParams([
+	['postId', ''],
+	['limit', slotLimit.toString()],
+	['feedType', 'global']
+]);
+const paramsGlobalOnly = new URLSearchParams([
+	['postId', ''],
+	['limit', slotLimit.toString()]
+]);
+const paramsHashtagSearch = new URLSearchParams([
+	['q', 'ing'],
+	['postId', ''],
+	['limit', slotLimit.toString()]
+]);
+
+let statusCode: number;
 
 export async function loadMorePosts(
 	loginToken: string,
@@ -170,11 +176,11 @@ export async function fetchPosts(isLoggedIn: boolean, serverUrl: string, toastSt
 			if (get(posts).length !== 0) {
 				feedData.update((data) => {
 					if (data) {
-						data.pagination.lastPostId = get(posts)[get(posts).length - 1].postId;
+						data.pagination.lastPostId = result.pagination.lastPostId;
 					}
 					return data;
 				});
-			} // braucht man hier ein else?
+			}
 		} else if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.clear();
 			toastStore.trigger(createToast(customError.message, 'error'));
@@ -183,6 +189,18 @@ export async function fetchPosts(isLoggedIn: boolean, serverUrl: string, toastSt
 		toastStore.clear();
 		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 	}
+}
+
+export function resetPostsAndFeedData() {
+	posts.set([]);
+	feedData.set({
+		records: [],
+		pagination: {
+			lastPostId: '',
+			limit: 10,
+			records: 0
+		}
+	});
 }
 
 export async function searchHashtagPosts(
@@ -198,15 +216,7 @@ export async function searchHashtagPosts(
 		code: ''
 	};
 	if (characterRemoved) {
-		posts.set([]);
-		feedData.set({
-			records: [],
-			pagination: {
-				lastPostId: '',
-				limit: 10,
-				records: 0
-			}
-		});
+		resetPostsAndFeedData();
 	}
 	try {
 		const response = await fetch(url, {
@@ -231,15 +241,7 @@ export async function searchHashtagPosts(
 				feedData.set(result);
 			} else {
 				//if input is cleared, posts should be cleared too
-				posts.set([]);
-				feedData.set({
-					records: [],
-					pagination: {
-						lastPostId: '',
-						limit: 10,
-						records: 0
-					}
-				});
+				resetPostsAndFeedData();
 				toastStore.clear();
 				toastStore.trigger(createToast('No posts found for this hashtag.', 'info'));
 			}
