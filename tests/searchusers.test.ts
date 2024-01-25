@@ -37,10 +37,10 @@ test('searchUsersInput is visible', async ({ page }) => {
 });
 
 test('search users works', async ({ page }) => {
- 	await login(page);
+	await login(page);
 	await page.goto('/search/users');
- 	await page.getByTitle('searchUsersInput', { exact: true }).fill('a');
- 	await expect(page.getByTitle('userResult', { exact: true }).first()).toBeVisible();
+	await page.getByTitle('searchUsersInput', { exact: true }).fill('a');
+	await expect(page.getByTitle('userResult', { exact: true }).first()).toBeVisible();
 });
 
 test('No Result works', async ({ page }) => {
