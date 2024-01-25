@@ -1,8 +1,9 @@
 // "@ts-expect-error"
-import { derived, writable } from 'svelte/store';
+import { derived } from 'svelte/store';
 import translations from './translation';
+import { persisted } from 'svelte-local-storage-store';
 
-export const locale = writable('en');
+export const locale = persisted('lang', 'en');
 export const locales = Object.keys(translations);
 
 // @ts-expect-error: ignore-any-type

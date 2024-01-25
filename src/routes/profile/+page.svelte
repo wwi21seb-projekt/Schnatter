@@ -33,7 +33,7 @@
 	let userStatus: string = '';
 	let maxPostCounter: number = 0;
 	let username: string = '';
-	let usernameParams: string = '';
+	let usernameParams: string | undefined = '';
 	let subscribed: boolean = false;
 
 	const toastStore = getToastStore();
@@ -85,6 +85,9 @@
 
 		if (usernameParams == undefined) {
 			username = get(globalUsername);
+		} else if (usernameParams == get(globalUsername)) {
+			username = get(globalUsername);
+			usernameParams = undefined;
 		} else {
 			username = usernameParams;
 		}
@@ -97,10 +100,9 @@
 		}
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
-		if (profileData.user.subscriptionId != '') {
+		if (profileData.user.subscriptionId != '' && profileData.user.subscriptionId != null) {
 			subscribed = true;
 		}
-
 		postData = await getProfilePosts(get(token), username);
 		maxPostCounter = postData.pagination.limit;
 	});
@@ -109,7 +111,7 @@
 		editMode = !editMode;
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), nickname, userStatus);
+		const status = await updateUserDetails(get(token), userStatus, nickname);
 		if (status == 200) {
 			editMode = false;
 			toastStore.trigger(createToast('User details were changed', 'success'));
@@ -196,13 +198,13 @@
 						<h2 class="h2" title="postcount">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
-					<a href="/followers">
+					<a href="/profile/follower?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2" title="followerCount">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
 						</div>
 					</a>
-					<a href="/following">
+					<a href="/profile/following?username={profileData.user.username}">
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2" title="followingCount">{profileData.user.following}</h2>
 							<p>{$t('profile.following')}</p>
