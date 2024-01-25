@@ -6,7 +6,8 @@ export const registerUsername = writable('');
 //https://server-beta.de/api
 //https://server-alpha.tech/api
 //http://localhost:3000/api
-// local network http://192.168.0.126:3000/api
+//Mockserver global
+//https://projekt-mockserver.mabu2807.de/api
 export const serverURL = writable('https://server-beta.de/api');
 
 export const token = persisted('token', '');

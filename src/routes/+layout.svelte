@@ -5,7 +5,8 @@
 	import Footer from '../components/layout/Footer.svelte';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppShell, Modal, storePopup, type ModalComponent } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal, storePopup } from '@skeletonlabs/skeleton';
+	import { type ModalComponent } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
 	import { initializeStores } from '@skeletonlabs/skeleton';
