@@ -2,28 +2,26 @@
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
-	import { initializeStores } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { serverURL, token } from '$lib/Store';
-	import type { Profil } from '$lib/types/User';
+	import type { User } from '$lib/types/User';
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let response: Response;
 	let usernameInput: string;
 	let serverUrl: string;
 	let statusCode: number = 0;
-	let users: Array<Profil> = [];
-	let friendsInSearch: Array<Profil> = [];
-	let isUserFriend: (user: Profil) => boolean = () => false;
-	let blockedInSearch: Array<Profil> = [];
-	let isUserBlocked: (user: Profil) => boolean = () => false;
+	let users: Array<User> = [];
+	let friendsInSearch: Array<User> = [];
+	let isUserFriend: (user: User) => boolean = () => false;
+	let blockedInSearch: Array<User> = [];
+	let isUserBlocked: (user: User) => boolean = () => false;
 
 	onMount(async () => {
 		if (get(token) == '') {
@@ -33,9 +31,9 @@
 
 	$: {
 		const friendsSet = new Set(friendsInSearch);
-		isUserFriend = (user: Profil) => friendsSet.has(user);
+		isUserFriend = (user: User) => friendsSet.has(user);
 		const blockedSet = new Set(blockedInSearch);
-		isUserBlocked = (user: Profil) => blockedSet.has(user);
+		isUserBlocked = (user: User) => blockedSet.has(user);
 	}
 
 	async function handleUsernameInput(event: Event) {
@@ -72,7 +70,7 @@
 
 	//get Friends
 
-	function handleAddUserClick(user: Profil) {
+	function handleAddUserClick(user: User) {
 		if (friendsInSearch.includes(user)) {
 			friendsInSearch = friendsInSearch.filter((u) => u !== user);
 		} else {
@@ -82,7 +80,7 @@
 
 	//get Blocked
 
-	function handleBlockUserClick(user: Profil) {
+	function handleBlockUserClick(user: User) {
 		if (blockedInSearch.includes(user)) {
 			blockedInSearch = blockedInSearch.filter((u) => u !== user);
 		} else {

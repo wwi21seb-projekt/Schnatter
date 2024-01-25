@@ -3,11 +3,9 @@
 	import { token, serverURL } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
-	import { setFeedType, fetchMatchingFeed } from '$lib/FeedFunctions';
+	import { setPostIdAndFeedType, fetchPosts } from '$lib/FeedFunctions';
 	import { value, hasMorePosts, feedType } from '$lib/FeedDataStore';
-	import { initializeStores } from '@skeletonlabs/skeleton';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let localValue = $value;
@@ -22,9 +20,9 @@
 		const loginToken = get(token);
 		const url = get(serverURL);
 		value.set(localValue);
-		setFeedType(loginToken);
+		setPostIdAndFeedType(loginToken, '', get(value));
 		hasMorePosts.set(true);
-		fetchMatchingFeed(false, url, toastStore);
+		fetchPosts(false, url, toastStore);
 	}
 </script>
 
@@ -32,10 +30,10 @@
 	{#if loginToken !== ''}
 		<div class="py-3">
 			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-				<RadioItem bind:group={localValue} name="justify" value={0} on:change={onChange}
+				<RadioItem bind:group={localValue} name="justify" value={false} on:change={onChange}
 					>{$t('feed.personalFeed')}</RadioItem
 				>
-				<RadioItem bind:group={localValue} name="justify" value={1} on:change={onChange}
+				<RadioItem bind:group={localValue} name="justify" value={true} on:change={onChange}
 					>{$t('feed.globalFeed')}</RadioItem
 				>
 			</RadioGroup>

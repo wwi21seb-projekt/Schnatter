@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import type { CustomError } from '$lib/types/CustomError';
 
-	initializeStores();
 	const toastStore = getToastStore();
 
 	let verifyInput: string = '';

@@ -1,7 +1,5 @@
-import type { UUID } from 'crypto';
-
 export type Pagination = {
-	lastPostId: UUID | null;
+	lastPostId: string;
 	limit: number;
 	records: number;
 };

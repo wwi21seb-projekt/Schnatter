@@ -26,9 +26,7 @@ export async function loadMorePosts(
 	if (feedType === 'home') {
 		await loadMoreFeedPosts(loginToken, serverUrl, toastStore);
 	} else if (feedType === 'search') {
-		await loadMoreHashtagPosts(loginToken, serverUrl, toastStore);
-	} else {
-		console.log('Unbekannter feedType: ', feedType);
+		await loadMoreHashtagPosts(serverUrl, toastStore);
 	}
 }
 
@@ -38,15 +36,10 @@ async function loadMoreFeedPosts(loginToken: string, serverUrl: string, toastSto
 		code: ''
 	};
 
-	const lastPostId = get(feedData).pagination?.lastPostId?.toString() || '';
+	const lastPostId = get(feedData).pagination.lastPostId;
 
 	if (loginToken !== '') {
-		if (get(value) === 0) {
-			paramsChangeable.set('postId', lastPostId);
-			paramsChangeable.set('feedType', get(feedType));
-		} else if (get(value) === 1) {
-			paramsChangeable.set('postId', lastPostId);
-		}
+		setPostIdAndFeedType(loginToken, lastPostId, get(value));
 	} else {
 		paramsGlobalOnly.set('postId', lastPostId);
 	}
@@ -75,7 +68,7 @@ async function loadMoreFeedPosts(loginToken: string, serverUrl: string, toastSto
 				maxPostCounter.update((n) => n + result.records.length);
 				posts.update((currentPosts) => currentPosts.concat(result.records));
 				get(feedData).records = get(feedData).records.concat(result.records);
-				get(feedData).pagination.lastPostId = get(posts)[get(posts).length - 1].postId;
+				get(feedData).pagination.lastPostId = result.pagination.lastPostId;
 			}
 		} else if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.clear();
@@ -87,17 +80,20 @@ async function loadMoreFeedPosts(loginToken: string, serverUrl: string, toastSto
 	}
 }
 
-async function loadMoreHashtagPosts(loginToken: string, serverUrl: string, toastStore: ToastStore) {
+async function loadMoreHashtagPosts(serverUrl: string, toastStore: ToastStore) {
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
 
-	const lastPostId = get(feedData).pagination?.lastPostId?.toString() || '';
+	let lastPostId = '';
+	const feedDataCopy = get(feedData);
+
+	lastPostId = feedDataCopy.pagination.lastPostId;
 
 	paramsHashtagSearch.set('postId', lastPostId);
 
-	const url: string = serverUrl + '/search?' + paramsHashtagSearch;
+	const url: string = serverUrl + '/posts?' + paramsHashtagSearch;
 	try {
 		const response = await fetch(url, {
 			mode: 'cors',
@@ -131,8 +127,13 @@ async function loadMoreHashtagPosts(loginToken: string, serverUrl: string, toast
 	}
 }
 
-export function setFeedType(loginToken: string) {
-	if (loginToken !== '' && get(value) === 1) {
+export function setPostIdAndFeedType(
+	loginToken: string,
+	lastPostId: string,
+	feedTypeValue: boolean
+) {
+	paramsChangeable.set('postId', lastPostId);
+	if (loginToken !== '' && feedTypeValue) {
 		paramsChangeable.set('feedType', 'personal');
 		feedType.set('personal');
 	} else {
@@ -141,12 +142,8 @@ export function setFeedType(loginToken: string) {
 	}
 }
 
-export async function fetchMatchingFeed(
-	isGlobal: boolean,
-	serverUrl: string,
-	toastStore: ToastStore
-) {
-	const params = isGlobal ? paramsGlobalOnly : paramsChangeable;
+export async function fetchPosts(isLoggedIn: boolean, serverUrl: string, toastStore: ToastStore) {
+	const params = isLoggedIn ? paramsGlobalOnly : paramsChangeable;
 	const url: string = serverUrl + '/feed?' + params;
 	let customError: CustomError = {
 		message: '',
@@ -180,14 +177,7 @@ export async function fetchMatchingFeed(
 					}
 					return data;
 				});
-			} else {
-				feedData.update((data) => {
-					if (data) {
-						data.pagination.lastPostId = null;
-					}
-					return data;
-				});
-			}
+			} // braucht man hier ein else?
 		} else if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.clear();
 			toastStore.trigger(createToast(customError.message, 'error'));
@@ -198,12 +188,29 @@ export async function fetchMatchingFeed(
 	}
 }
 
-export async function searchHashtagPosts(serverUrl: string, toastStore: ToastStore) {
-	const url: string = serverUrl + '/search?' + paramsHashtagSearch;
+export async function searchHashtagPosts(
+	serverUrl: string,
+	toastStore: ToastStore,
+	hashtagInput: string,
+	characterRemoved: boolean
+) {
+	paramsHashtagSearch.set('q', hashtagInput);
+	const url: string = serverUrl + '/posts?' + paramsHashtagSearch;
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
+	if (characterRemoved) {
+		posts.set([]);
+		feedData.set({
+			records: [],
+			pagination: {
+				lastPostId: '',
+				limit: 10,
+				records: 0
+			}
+		});
+	}
 	try {
 		const response = await fetch(url, {
 			mode: 'cors',
@@ -213,7 +220,6 @@ export async function searchHashtagPosts(serverUrl: string, toastStore: ToastSto
 			}
 		});
 		statusCode = response.status;
-
 		if (statusCode !== 200) {
 			const body = await response.json();
 			customError = body.error;
@@ -221,9 +227,22 @@ export async function searchHashtagPosts(serverUrl: string, toastStore: ToastSto
 
 		if (statusCode === 200) {
 			const result = await response.json();
+
 			if (result.records.length !== 0) {
 				posts.set(result.records);
+				maxPostCounter.update((value) => value + get(posts).length);
+				feedData.set(result);
 			} else {
+				//if input is cleared, posts should be cleared too
+				posts.set([]);
+				feedData.set({
+					records: [],
+					pagination: {
+						lastPostId: '',
+						limit: 10,
+						records: 0
+					}
+				});
 				toastStore.clear();
 				toastStore.trigger(createToast('No posts found for this hashtag.', 'info'));
 			}

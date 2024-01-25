@@ -1,22 +1,21 @@
 import { writable } from 'svelte/store';
 import type { GetFeedResponse } from '$lib/types/Feed.ts';
 import type { PostStructure } from '$lib/types/Post.ts';
-import { URLSearchParams } from 'url';
 
 export const maxPostCounter = writable(0);
 export const hasMorePosts = writable(true);
-export const value = writable(0);
+export const value = writable(false);
 export const feedType = writable('global');
 export const posts = writable<Array<PostStructure>>([]);
 export const feedData = writable<GetFeedResponse>({
 	records: [],
 	pagination: {
-		lastPostId: null,
+		lastPostId: '',
 		limit: 10,
 		records: 0
 	}
 });
-export const slotLimit = writable(10);
+export const slotLimit = 10;
 
 export const paramsChangeable = new URLSearchParams([
 	['postId', ''],
