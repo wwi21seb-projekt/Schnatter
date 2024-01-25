@@ -61,7 +61,7 @@
 				<a href="/messages" title="messages">
 					<Icon class="w-10 h-10" icon="entypo:message" />
 				</a>
-				<button on:click={gotoProfile}>
+				<button on:click={gotoProfile} title="profile">
 					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
 				</button>
 			{/if}

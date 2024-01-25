@@ -8,7 +8,7 @@
 	<ul class="w-full">
 		{#each searchData as searchedUser}
 			<li class="flex flex-row w-full justify-between">
-				<a href="/profile?username={searchedUser.username}" class="w-full">
+				<a href="/profile?username={searchedUser.username}" title="userResult" class="w-full">
 					<Avatar src="../default-avatar.png" />
 					<span class="flex-auto">
 						<dt>{searchedUser.username}</dt>
