@@ -20,13 +20,11 @@
 	let statusCode: number = 0;
 	let users: Array<User> = [];
 
-
 	onMount(async () => {
 		if (get(token) == '') {
 			goto('/');
 		}
 	});
-
 
 	async function handleUsernameInput(event: Event) {
 		usernameInput = (event.target as HTMLInputElement).value;
@@ -59,7 +57,6 @@
 			users = [];
 		}
 	}
-
 </script>
 
 <Toast />
