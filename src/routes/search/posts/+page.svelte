@@ -3,57 +3,67 @@
 	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
-	import { token, serverURL } from '$lib/Store';
+	import { token } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
+	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import Feed from '../../../components/Feed.svelte';
-	import { resetPostsAndFeedData, searchHashtagPosts } from '$lib/FeedFunctions';
-	import { posts, feedData, pageType } from '$lib/FeedDataStore';
-	import { onDestroy } from 'svelte';
+	import { searchPostsByHashtag } from './searchPosts';
 
-	onDestroy(() => {
-		posts.set([]);
-		feedData.set({
-			records: [],
-			pagination: {
-				lastPostId: '',
-				limit: 10,
-				records: 0
-			}
-		});
-	});
-	let prevInput = '';
-	let characterRemoved = false;
-
+	let hasMorePosts = true;
+	let maxPostCounter = 0;
+	let lastInput = '';
+	let slotLimit = 10;
+	let feedData: FeedStructure = {
+		records: [],
+		pagination: {
+			lastPostId: '',
+			limit: slotLimit,
+			records: 0
+		}
+	};
 	const toastStore = getToastStore();
-
-	const serverUrl = get(serverURL);
+	const loginToken = get(token);
 
 	async function handleHashtagInput(event: Event) {
 		let hashtagInput = (event.target as HTMLInputElement).value;
-
-		if (hashtagInput.length > prevInput.length) {
-			characterRemoved = false;
-		} else if (hashtagInput.length < prevInput.length) {
-			characterRemoved = true;
-		}
-		prevInput = hashtagInput;
+		lastInput = hashtagInput;
 
 		if (hashtagInput.length > 0) {
-			searchHashtagPosts(serverUrl, toastStore, hashtagInput, characterRemoved);
+			const result = await searchPostsByHashtag(
+				loginToken,
+				toastStore,
+				hashtagInput,
+				maxPostCounter,
+				feedData,
+				feedData.pagination.lastPostId,
+				slotLimit,
+				hasMorePosts
+			);
+			(feedData = result.feedData), (maxPostCounter = result.maxPostCounter);
+			hasMorePosts = result.hasMorePosts;
 		}
-		// is search term is completely removed, do not show any posts
-		else {
-			resetPostsAndFeedData();
-		}
+	}
+
+	async function onLoadMorePosts() {
+		const result = await searchPostsByHashtag(
+			loginToken,
+			toastStore,
+			lastInput,
+			maxPostCounter,
+			feedData,
+			feedData.pagination.lastPostId,
+			slotLimit,
+			hasMorePosts
+		);
+		(feedData = result.feedData), (maxPostCounter = result.maxPostCounter);
+		hasMorePosts = result.hasMorePosts;
 	}
 
 	onMount(async () => {
 		if (get(token) == '') {
 			goto('/');
 		}
-		pageType.set('search');
-		resetPostsAndFeedData();
 	});
 </script>
 
@@ -80,10 +90,16 @@
 			on:input={handleHashtagInput}
 		/>
 		<div class="mt-4 w-full"></div>
-		{#if $posts.length > 0}
-			<Feed pageType="search" />
+		{#if feedData.records.length > 0}
+			<Feed {feedData} />
 		{:else}
 			<p class="text-center text-gray-500" title="noResultText">{$t('search.posts.noResults')}</p>
 		{/if}
 	</div>
+
+	{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
+		<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
+			>{$t('profile.loadMore')}</button
+		>
+	{/if}
 </main>

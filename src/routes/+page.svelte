@@ -2,24 +2,54 @@
 	import { get } from 'svelte/store';
 	import Login from '../components/Login.svelte';
 	import Feed from '../components/Feed.svelte';
-	import { serverURL, token } from '$lib/Store';
-	import ChangeFeedTypeButton from '../components/ChangeFeedTypeButton.svelte';
+	import { token } from '$lib/Store';
 	import { onMount } from 'svelte';
-	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { fetchPosts } from '$lib/FeedFunctions';
+	import { RadioGroup, RadioItem, getToastStore } from '@skeletonlabs/skeleton';
+	import type { Feed as FeedStructure } from '$lib/types/Feed';
+	import { fetchPosts } from './FeedPosts';
+	import { t } from '../i18n';
+
+	let hasMorePosts = true;
+	let maxPostCounter = 0;
+	let slotLimit = 10;
+	let feedType = 'global';
+	let feedData: FeedStructure = {
+		records: [],
+		pagination: {
+			lastPostId: '',
+			limit: slotLimit,
+			records: 0
+		}
+	};
+	let value: boolean = false; // FeedType: true = personal, false = global
 
 	const toastStore = getToastStore();
-
 	const loginToken = get(token);
 	onMount(async () => {
-		const loginToken = get(token);
-		const url = get(serverURL);
 		if (loginToken !== '') {
-			fetchPosts(true, url, toastStore);
+			fetchPosts(
+				loginToken,
+				toastStore,
+				hasMorePosts,
+				maxPostCounter,
+				feedData,
+				slotLimit,
+				feedType
+			);
 		} else {
-			fetchPosts(false, url, toastStore);
+			fetchPosts(loginToken, toastStore, hasMorePosts, maxPostCounter, feedData, slotLimit);
 		}
 	});
+
+	function onChange() {
+		hasMorePosts = true;
+		fetchPosts(loginToken, toastStore, hasMorePosts, maxPostCounter, feedData, slotLimit, feedType);
+		if (value) {
+			feedType = 'personal';
+		} else {
+			feedType = 'global';
+		}
+	}
 </script>
 
 <main class="">
@@ -28,11 +58,19 @@
 			<Login />
 		{/if}
 	</div>
-
+	{#if loginToken !== ''}
+		<div class="py-3">
+			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+				<RadioItem bind:group={value} name="justify" value={false} on:change={onChange}
+					>{$t('feed.personalFeed')}</RadioItem
+				>
+				<RadioItem bind:group={value} name="justify" value={true} on:change={onChange}
+					>{$t('feed.globalFeed')}</RadioItem
+				>
+			</RadioGroup>
+		</div>
+	{/if}
 	<div class="p-2 flex flex-row justify-center items-start">
-		<ChangeFeedTypeButton />
-	</div>
-	<div class="p-2 flex flex-row justify-center items-start">
-		<Feed pageType="home" />
+		<Feed {feedData} />
 	</div>
 </main>

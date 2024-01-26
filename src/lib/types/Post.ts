@@ -1,12 +1,14 @@
 import type { UUID } from 'crypto';
 import type { Author } from './Author';
 import type { Pagination } from './Pagination';
+import type { Location } from './Location';
 
 export type PostStructure = {
 	postId: UUID;
 	author: Author;
 	creationDate: string;
 	content: string;
+	location: Location;
 };
 
 export type TextColorPost = {
