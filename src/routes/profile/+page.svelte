@@ -129,7 +129,7 @@
 	}
 	async function subscribe() {
 		const followStatus = await followUser(get(token), username);
-		if (followStatus == 201) {
+		if (followStatus.status == 201) {
 			subscribed = true;
 			toastStore.trigger(createToast('User was followed', 'success'));
 		} else {
@@ -235,12 +235,12 @@
 					{#each postData.records as Post}
 						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
+					{#if maxPostCounter == postData.records.length}
+						<button on:click={loadMorePosts} class="btn variant-filled"
+							>{$t('profile.loadMore')}</button
+						>
+					{/if}
 				</div>
-				{#if maxPostCounter == postData.records.length}
-					<button on:click={loadMorePosts} class="btn variant-filled"
-						>{$t('profile.loadMore')}</button
-					>
-				{/if}
 			{/if}
 		</div>
 	</main>
