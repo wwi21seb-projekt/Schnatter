@@ -35,4 +35,5 @@ jobs:
           ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/authorized_keys
       - name: copy builds to server
         run: |
-          rsync -vrm  .output/* ${{ secrets.USER_IP }}:/
+          scp ./bin/build ${{ secrets.USER_IP }}:/
+
