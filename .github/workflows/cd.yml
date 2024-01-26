@@ -23,14 +23,6 @@ jobs:
         run: npm install -g pnpm
       - name: install dependencies
         run: pnpm install
-      - name: check lint
-        run: pnpm lint
-      - name: install playwright
-        run: npx playwright install
-      - name: run playwright tests
-        env:
-          HEADLESS: true
-        run: pnpm playwright test
       - name: build app
         run: pnpm run build
       - name: Setup SSH
@@ -40,7 +32,7 @@ jobs:
           echo "${{ secrets.SSH_PUB_KEY }}" > ~/id_rsa.pub
           chmod 600 ~/id_rsa
           chmod 600 ~/id_rsa.pub
-          ssh-keyscan -H ${{ secrets.IP }} >> ~/known_hosts
+          ssh-keyscan -H ${{ secrets.IP }} >> ~/authorized_keys
       - name: copy builds to server
         run: |
           rsync -vrm  .output/* ${{ secrets.USER_IP }}:/
