@@ -32,7 +32,7 @@ jobs:
           echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
           chmod 600 ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa.pub
-          ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/authorized_keys
+          ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
       - name: copy builds to server
         run: |
           scp .svelte-kit ${{ secrets.USER_IP }}:/
