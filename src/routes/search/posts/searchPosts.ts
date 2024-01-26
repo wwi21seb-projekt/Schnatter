@@ -1,5 +1,5 @@
-import { createToast } from '$lib/Toasts';
 import type { Feed } from '$lib/types/Feed';
+import { createToast } from '$lib/Toasts';
 import { getSearchPosts } from '$lib/utils/SearchPosts';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 
