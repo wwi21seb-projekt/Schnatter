@@ -56,7 +56,8 @@
 			slotLimit,
 			hasMorePosts
 		);
-		(feedData = result.feedData), (maxPostCounter = result.maxPostCounter);
+		feedData = result.feedData;
+		maxPostCounter = result.maxPostCounter;
 		hasMorePosts = result.hasMorePosts;
 	}
 
