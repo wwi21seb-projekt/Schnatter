@@ -35,5 +35,5 @@ jobs:
           ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/authorized_keys
       - name: copy builds to server
         run: |
-          scp ./bin/build ${{ secrets.USER_IP }}:/
+          scp .svelte-kit ${{ secrets.USER_IP }}:/
 
