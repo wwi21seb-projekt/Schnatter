@@ -48,6 +48,7 @@
 				customError = body.error;
 			}
 			if (statusCode !== 200 && statusCode !== 500 && statusCode !== 403) {
+				toastStore.clear();
 				toastStore.trigger(createToast(customError.message, 'error'));
 			} else if (statusCode == 200) {
 				const requestData: Login = await response.json();
@@ -70,7 +71,10 @@
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>
 		<div class="h-[50vh] flex flex-col">
-			<form class="flex flex-col justify-around items-center w-full" on:submit={handleSubmit}>
+			<form
+				class="flex flex-col justify-around items-center w-full"
+				on:submit|preventDefault={handleSubmit}
+			>
 				<div class="flex flex-col w-full px-3 pb-2">
 					<LoginInput
 						value={username}

@@ -20,7 +20,7 @@
 
 	let deleteOption: boolean = true;
 	let statusCode: number = 0;
-	export let currentUsername: string;
+	export let currentUsername: string | undefined;
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {

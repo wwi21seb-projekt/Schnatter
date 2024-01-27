@@ -1,4 +1,5 @@
 import { serverURL } from '$lib/Store';
+import type { CustomError } from '$lib/types/CustomError';
 import type { UserPostFetchResponse } from '$lib/types/Post';
 import type { User } from '$lib/types/User';
 import { get } from 'svelte/store';
@@ -98,6 +99,10 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 
 export async function followUser(token: string, following: string) {
 	const serverUrl = get(serverURL) + '/subscriptions';
+	let customError: CustomError = {
+		code: '',
+		message: ''
+	};
 	const response = await fetch(serverUrl, {
 		method: 'POST',
 		mode: 'cors',
@@ -110,11 +115,21 @@ export async function followUser(token: string, following: string) {
 		})
 	});
 
-	return response.status;
+	if (response.status !== 201 && response.status !== 500) {
+		const body = await response.json();
+		customError = body.error;
+		return { customError: customError, status: response.status };
+	}
+
+	return { stauts: response.status };
 }
 
 export async function unfollowUser(token: string, subscriptionId: string) {
 	const serverUrl = get(serverURL) + '/subscriptions/' + subscriptionId;
+	let customError: CustomError = {
+		code: '',
+		message: ''
+	};
 
 	const response = await fetch(serverUrl, {
 		method: 'DELETE',
@@ -124,6 +139,12 @@ export async function unfollowUser(token: string, subscriptionId: string) {
 			Authorization: 'Bearer ' + token
 		}
 	});
+	if (response.status !== 204 && response.status !== 500) {
+		const body = await response.json();
+		customError = body.error;
+
+		return { customError: customError, status: response.status };
+	}
 
 	return response.status;
 }

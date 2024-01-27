@@ -6,7 +6,6 @@ export type Subscriptions = {
 		| [
 				{
 					subscriptionId: string;
-					subscriptionDate: Date;
 					user: SubscriptionUser;
 				}
 		  ]
