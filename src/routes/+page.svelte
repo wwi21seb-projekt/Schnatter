@@ -57,7 +57,7 @@
 	});
 
 	async function onChange() {
-		feedData= {
+		feedData = {
 			records: [],
 			pagination: {
 				lastPostId: '',
@@ -84,8 +84,9 @@
 			feedType
 		);
 		feedData = result.feedData;
-			maxPostCounter = result.maxPostCounter;
-			hasMorePosts = result.hasMorePosts;
+		maxPostCounter = result.maxPostCounter;
+		hasMorePosts = result.hasMorePosts;
+		console.log(feedData.records);
 	}
 
 	async function onLoadMorePosts() {
@@ -98,7 +99,8 @@
 			slotLimit,
 			feedType
 		);
-		(feedData = result.feedData), (maxPostCounter = result.maxPostCounter);
+		feedData = result.feedData;
+		maxPostCounter = result.maxPostCounter;
 		hasMorePosts = result.hasMorePosts;
 	}
 </script>
@@ -123,14 +125,14 @@
 			</div>
 		{/if}
 	</div>
-	<div class="p-2 flex flex-row justify-center items-start">
+	<div class="p-2 flex flex-col justify-center items-center">
 		<Feed {feedData} />
-	</div>
-	<div class="p-4 flex flex-row justify-center items-start">
-		{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
-			<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
-				>{$t('profile.loadMore')}</button
-			>
-		{/if}
+		<div class="pt-2 pb-8">
+			{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
+				<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
+					>{$t('profile.loadMore')}</button
+				>
+			{/if}
+		</div>
 	</div>
 </main>

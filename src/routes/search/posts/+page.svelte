@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
@@ -13,7 +13,7 @@
 	let hasMorePosts = true;
 	let maxPostCounter = 0;
 	let lastInput = '';
-	let slotLimit = 10;
+	let slotLimit = 2;
 	let feedData: FeedStructure = {
 		records: [],
 		pagination: {
@@ -28,6 +28,19 @@
 	async function handleHashtagInput(event: Event) {
 		let hashtagInput = (event.target as HTMLInputElement).value;
 		lastInput = hashtagInput;
+		// resetting the feed data before each new search
+		hasMorePosts = true;
+		maxPostCounter = 0;
+		if (hashtagInput.length > 0) {
+			feedData = {
+				records: [],
+				pagination: {
+					lastPostId: '',
+					limit: slotLimit,
+					records: 0
+				}
+			};
+		}
 
 		if (hashtagInput.length > 0) {
 			const result = await searchPostsByHashtag(
@@ -40,8 +53,10 @@
 				slotLimit,
 				hasMorePosts
 			);
-			(feedData = result.feedData), (maxPostCounter = result.maxPostCounter);
+			feedData = result.feedData;
+			maxPostCounter = result.maxPostCounter;
 			hasMorePosts = result.hasMorePosts;
+			console.log(feedData.records);
 		}
 	}
 
@@ -59,6 +74,7 @@
 		feedData = result.feedData;
 		maxPostCounter = result.maxPostCounter;
 		hasMorePosts = result.hasMorePosts;
+		console.log(feedData.records);
 	}
 
 	onMount(async () => {
@@ -69,7 +85,6 @@
 </script>
 
 <main>
-	<Toast />
 	<div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
 		<div class="mb-8 flex justify-center items-center gap-4">
 			<a href="/search/users">
@@ -97,10 +112,11 @@
 			<p class="text-center text-gray-500" title="noResultText">{$t('search.posts.noResults')}</p>
 		{/if}
 	</div>
-
-	{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
-		<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
-			>{$t('profile.loadMore')}</button
-		>
-	{/if}
+	<div class="pb-8 flex flex-row justify-center items-start">
+		{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
+			<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
+				>{$t('profile.loadMore')}</button
+			>
+		{/if}
+	</div>
 </main>

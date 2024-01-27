@@ -25,18 +25,27 @@ export async function getFeed(token: string, limit: number, postId: string, feed
 	if (feedType) {
 		params.set('feedType', feedType);
 	}
-	const url: string = get(serverURL) + '/feed?' + params;
 
-	const response = await fetch(url, {
+	const fetchOptions: RequestInit = {
 		method: 'GET',
-		mode: 'cors',
-		headers: {
+		mode: 'cors'
+	};
+
+	if (token) {
+		fetchOptions.headers = {
 			Authorization: 'Bearer ' + token
-		}
-	});
+		};
+	}
+
+	const url: string = get(serverURL) + '/feed?' + params;
+	console.log(url);
+
+	const response = await fetch(url, fetchOptions);
+	console.log(response.status);
 
 	if (response.status === 200) {
 		data = await response.json();
+		console.log(data);
 	}
 	if (response.status !== 200 && response.status !== 500) {
 		customError = await response.json();

@@ -20,7 +20,7 @@ export async function searchPostsByHashtag(
 			if (response.data.records.length !== 0) {
 				maxPostCounter += response.data.records.length;
 				feedData.records = feedData.records.concat(response.data.records);
-				feedData.pagination.lastPostId = response.data?.pagination.lastPostId;
+				feedData.pagination.lastPostId = response.data.pagination.lastPostId;
 			} else if (response.data.records.length === 0) {
 				hasMorePosts = false;
 			}

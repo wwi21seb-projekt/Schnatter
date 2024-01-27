@@ -14,11 +14,12 @@ export async function fetchPosts(
 ) {
 	try {
 		const response = await getFeed(token, limit, feedData.pagination.lastPostId, feedType);
+
 		if (response.status === 200 && response.data) {
 			if (response.data.records.length !== 0) {
-				feedData.records = feedData.records.concat(response.data.records);
-				feedData.pagination.lastPostId = response.data?.pagination.lastPostId;
 				maxPostCounter += response.data.records.length;
+				feedData.records = feedData.records.concat(response.data.records);
+				feedData.pagination.lastPostId = response.data.pagination.lastPostId;
 			} else if (response.data.records.length === 0) {
 				hasMorePosts = false;
 			}

@@ -23,8 +23,8 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 		limit: limit.toString()
 	});
 
-	const url = get(serverURL) + '/posts/' + params;
-
+	const url = get(serverURL) + '/posts?' + params;
+	console.log(url);
 	const response = await fetch(url, {
 		method: 'GET',
 		mode: 'cors',
@@ -40,5 +40,6 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 		customError = await response.json();
 		return { customError: customError, status: response.status };
 	}
+	console.log('status: ' + response.status);
 	return { status: response.status, data: data };
 }
