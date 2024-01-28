@@ -44,7 +44,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@floating-ui/dom": "1.5.4",
+		"@floating-ui/dom": "1.6.1",
 		"@iconify/svelte": "^3.1.6",
 		"@sveltejs/adapter-node": "^4.0.0",
 		"@sveltejs/adapter-static": "^3.0.1",
