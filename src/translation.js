@@ -82,7 +82,14 @@ export default {
 		'search.posts.noResults': 'No posts found!',
 		'following.user.emptyList': 'This account is not following anyone yet',
 		'followers.user.emptyList': 'This account has no followers yet',
-		'footer.imprint': 'Imprint'
+		'footer.imprint': 'Imprint',
+		'navbar.home': 'Home',
+		'navbar.search': 'Search',
+		'navbar.posts': 'Posts',
+		'navbar.messages': 'Messages',
+		'navbar.profile': 'Profile',
+		'navbar.settings': 'Settings',
+		'navbar.logout': 'Logout'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -167,6 +174,13 @@ export default {
 		'search.posts.noResults': 'Keine Beiträge gefunden!',
 		'following.user.emptyList': 'Dieser Account folgt noch niemandem',
 		'followers.user.emptyList': 'Dieser Account hat noch keine Abonnenten',
-		'footer.imprint': 'Impressum'
+		'footer.imprint': 'Impressum',
+		'navbar.home': 'Home',
+		'navbar.search': 'Suche',
+		'navbar.posts': 'Posts',
+		'navbar.messages': 'Nachrichten',
+		'navbar.profile': 'Profil',
+		'navbar.settings': 'Einstellungen',
+		'navbar.logout': 'Ausloggen'
 	}
 };

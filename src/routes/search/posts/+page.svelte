@@ -10,10 +10,8 @@
 	import Feed from '../../../components/Feed.svelte';
 	import { searchPostsByHashtag } from './searchPosts';
 
-	let hasMorePosts = true;
-	let maxPostCounter = 0;
 	let lastInput = '';
-	let slotLimit = 2;
+	let slotLimit = 10;
 	let feedData: FeedStructure = {
 		records: [],
 		pagination: {
@@ -29,8 +27,6 @@
 		let hashtagInput = (event.target as HTMLInputElement).value;
 		lastInput = hashtagInput;
 		// resetting the feed data before each new search
-		hasMorePosts = true;
-		maxPostCounter = 0;
 		if (hashtagInput.length > 0) {
 			feedData = {
 				records: [],
@@ -47,16 +43,11 @@
 				loginToken,
 				toastStore,
 				hashtagInput,
-				maxPostCounter,
 				feedData,
 				feedData.pagination.lastPostId,
-				slotLimit,
-				hasMorePosts
+				slotLimit
 			);
 			feedData = result.feedData;
-			maxPostCounter = result.maxPostCounter;
-			hasMorePosts = result.hasMorePosts;
-			console.log(feedData.records);
 		}
 	}
 
@@ -65,16 +56,11 @@
 			loginToken,
 			toastStore,
 			lastInput,
-			maxPostCounter,
 			feedData,
 			feedData.pagination.lastPostId,
 			slotLimit,
-			hasMorePosts
 		);
 		feedData = result.feedData;
-		maxPostCounter = result.maxPostCounter;
-		hasMorePosts = result.hasMorePosts;
-		console.log(feedData.records);
 	}
 
 	onMount(async () => {
@@ -113,7 +99,7 @@
 		{/if}
 	</div>
 	<div class="pb-8 flex flex-row justify-center items-start">
-		{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
+		{#if feedData.records.length < feedData.pagination.records}
 			<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
 				>{$t('profile.loadMore')}</button
 			>

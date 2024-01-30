@@ -7,22 +7,18 @@ export async function searchPostsByHashtag(
 	token: string,
 	toastStore: ToastStore,
 	q: string,
-	maxPostCounter: number,
 	feedData: Feed,
 	postId: string,
-	limit: number,
-	hasMorePosts: boolean
+	limit: number
 ) {
 	try {
 		const response = await getSearchPosts(token, postId, q, limit);
 
 		if (response.status === 200 && response.data) {
 			if (response.data.records.length !== 0) {
-				maxPostCounter += response.data.records.length;
 				feedData.records = feedData.records.concat(response.data.records);
 				feedData.pagination.lastPostId = response.data.pagination.lastPostId;
-			} else if (response.data.records.length === 0) {
-				hasMorePosts = false;
+				feedData.pagination.records = response.data.pagination.records;
 			}
 		} else if (response.status !== 200 && response.status !== 500 && response.customError) {
 			toastStore.clear();
@@ -32,5 +28,5 @@ export async function searchPostsByHashtag(
 		toastStore.clear();
 		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
 	}
-	return { maxPostCounter, feedData, hasMorePosts };
+	return { feedData };
 }

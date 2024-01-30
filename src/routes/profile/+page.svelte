@@ -31,7 +31,6 @@
 	let editMode: boolean = false;
 	let nickname: string = '';
 	let userStatus: string = '';
-	let maxPostCounter: number = 0;
 	let username: string = '';
 	let usernameParams: string | undefined = '';
 	let subscribed: boolean = false;
@@ -104,7 +103,6 @@
 			subscribed = true;
 		}
 		postData = await getProfilePosts(get(token), username);
-		maxPostCounter = postData.pagination.limit;
 	});
 
 	function changeEditMode() {
@@ -125,7 +123,6 @@
 	}
 	async function loadMorePosts() {
 		postData = await loadPosts(get(token), postData, username);
-		maxPostCounter = Number(maxPostCounter) + Number(postData.pagination.limit);
 	}
 	async function subscribe() {
 		const followStatus = await followUser(get(token), username);
@@ -236,7 +233,7 @@
 						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
 				</div>
-				{#if maxPostCounter == postData.records.length}
+				{#if postData.records.length == postData.pagination.records}
 					<button on:click={loadMorePosts} class="btn variant-filled"
 						>{$t('profile.loadMore')}</button
 					>

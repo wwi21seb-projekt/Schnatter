@@ -12,8 +12,8 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 	let data: Feed = {
 		records: [],
 		pagination: {
-			lastPostId: '',
-			limit: 0,
+			lastPostId: postId,
+			limit: limit,
 			records: 0
 		}
 	};
@@ -24,7 +24,6 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 	});
 
 	const url = get(serverURL) + '/posts?' + params;
-	console.log(url);
 	const response = await fetch(url, {
 		method: 'GET',
 		mode: 'cors',
@@ -40,6 +39,5 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 		customError = await response.json();
 		return { customError: customError, status: response.status };
 	}
-	console.log('status: ' + response.status);
 	return { status: response.status, data: data };
 }

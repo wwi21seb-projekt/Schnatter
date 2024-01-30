@@ -12,15 +12,15 @@ export async function getFeed(token: string, limit: number, postId: string, feed
 	let data: Feed = {
 		records: [],
 		pagination: {
-			lastPostId: '',
-			limit: 0,
+			lastPostId: postId,
+			limit: limit,
 			records: 0
 		}
 	};
-	const params = new URLSearchParams();
-
-	params.set('postId', postId);
-	params.set('limit', limit.toString());
+	const params = new URLSearchParams([
+		['postId', postId],
+		['limit', limit.toString()]
+	]);
 
 	if (feedType) {
 		params.set('feedType', feedType);
@@ -38,14 +38,11 @@ export async function getFeed(token: string, limit: number, postId: string, feed
 	}
 
 	const url: string = get(serverURL) + '/feed?' + params;
-	console.log(url);
 
 	const response = await fetch(url, fetchOptions);
-	console.log(response.status);
 
 	if (response.status === 200) {
 		data = await response.json();
-		console.log(data);
 	}
 	if (response.status !== 200 && response.status !== 500) {
 		customError = await response.json();

@@ -9,9 +9,7 @@
 	import { fetchPosts } from '../lib/FeedPosts';
 	import { t } from '../i18n';
 
-	let hasMorePosts = true;
-	let maxPostCounter = 0;
-	let slotLimit = 2;
+	let slotLimit = 10;
 	let feedType = 'global';
 	let feedData: FeedStructure = {
 		records: [],
@@ -25,34 +23,26 @@
 
 	const toastStore = getToastStore();
 	const loginToken = get(token);
+	let result;
 
 	onMount(async () => {
-		let result;
 		if (loginToken !== '') {
 			result = await fetchPosts(
 				loginToken,
 				toastStore,
-				hasMorePosts,
-				maxPostCounter,
 				feedData,
 				slotLimit,
 				feedType
 			);
 			feedData = result.feedData;
-			maxPostCounter = result.maxPostCounter;
-			hasMorePosts = result.hasMorePosts;
 		} else {
 			result = await fetchPosts(
 				loginToken,
 				toastStore,
-				hasMorePosts,
-				maxPostCounter,
 				feedData,
 				slotLimit
 			);
 			feedData = result.feedData;
-			maxPostCounter = result.maxPostCounter;
-			hasMorePosts = result.hasMorePosts;
 		}
 	});
 
@@ -65,8 +55,6 @@
 				records: 0
 			}
 		};
-		hasMorePosts = true;
-		maxPostCounter = 0;
 		if (value) {
 			feedType = 'personal';
 			value = true;
@@ -74,34 +62,25 @@
 			feedType = 'global';
 			value = false;
 		}
-		let result = await fetchPosts(
+		result = await fetchPosts(
 			loginToken,
 			toastStore,
-			hasMorePosts,
-			maxPostCounter,
 			feedData,
 			slotLimit,
 			feedType
 		);
 		feedData = result.feedData;
-		maxPostCounter = result.maxPostCounter;
-		hasMorePosts = result.hasMorePosts;
-		console.log(feedData.records);
 	}
 
 	async function onLoadMorePosts() {
-		const result = await fetchPosts(
+		result = await fetchPosts(
 			loginToken,
 			toastStore,
-			hasMorePosts,
-			maxPostCounter,
 			feedData,
 			slotLimit,
 			feedType
 		);
 		feedData = result.feedData;
-		maxPostCounter = result.maxPostCounter;
-		hasMorePosts = result.hasMorePosts;
 	}
 </script>
 
@@ -128,9 +107,9 @@
 	<div class="p-2 flex flex-col justify-center items-center">
 		<Feed {feedData} />
 		<div class="pt-2 pb-8">
-			{#if maxPostCounter % slotLimit == 0 && hasMorePosts && feedData.records.length > 0}
+			{#if feedData.records.length < feedData.pagination.records}
 				<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
-					>{$t('profile.loadMore')}</button
+					>{$t('profile.loadMore')} ({feedData.records.length}/{feedData.pagination.records})</button
 				>
 			{/if}
 		</div>
