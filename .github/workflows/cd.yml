@@ -35,4 +35,4 @@ jobs:
           ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
       - name: copy builds to server
         run: |
-          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/schnatter
+          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
