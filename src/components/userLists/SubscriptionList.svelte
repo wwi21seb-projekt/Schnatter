@@ -33,7 +33,6 @@
 	async function handlefollow(event: Event) {
 		const followUsername = (event?.target as HTMLButtonElement)?.id;
 		const response = await followUser(get(token), followUsername);
-		console.log(response);
 		if (response.status == 201) {
 			window.location.reload();
 		} else if (response.status == 500) {
