@@ -1,12 +1,15 @@
+import type { UUID } from 'crypto';
 import type { PaginationUser } from './Pagination';
-import type { SubscriptionUser } from './User';
 
 export type Subscriptions = {
 	records:
 		| [
 				{
-					subscriptionId: string;
-					user: SubscriptionUser;
+					followerId: UUID;
+					followingId: UUID;
+					username: string;
+					nickname: string;
+					profilePictureUrl: string;
 				}
 		  ]
 		| [];
