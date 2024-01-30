@@ -37,4 +37,5 @@ jobs:
         run: |
           ssh ${{ secrets.USER_IP }} 'sudo systemctl stop Schnatter'
           scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl start Schnatter && sudo systemctl status Schnatter'
           
