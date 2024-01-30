@@ -36,4 +36,3 @@ jobs:
       - name: copy builds to server
         run: |
           scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/schnatter
-
