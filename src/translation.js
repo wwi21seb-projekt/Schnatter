@@ -89,7 +89,15 @@ export default {
 		'navbar.messages': 'Messages',
 		'navbar.profile': 'Profile',
 		'navbar.settings': 'Settings',
-		'navbar.logout': 'Logout'
+		'navbar.logout': 'Logout',
+		'post.search.placeholder': 'Search for hashtag...',
+		'toast.send.email': 'We have sent you a new code to your email address',
+		'verify.header': 'Verify your Account',
+		'verify.newCode': 'Request new code',
+		'verify.later': 'Verify later',
+		'verify.confirm': 'Confirm',
+		'verify.explanation':
+			'Please verify your account. Enter the 6-digit code from the email we sent you. If you have not received it, please also check your spam folder.'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -181,6 +189,14 @@ export default {
 		'navbar.messages': 'Nachrichten',
 		'navbar.profile': 'Profil',
 		'navbar.settings': 'Einstellungen',
-		'navbar.logout': 'Ausloggen'
+		'navbar.logout': 'Ausloggen',
+		'post.search.placeholder': 'Suche nach Hashtag...',
+		'toast.send.email': 'Wir haben dir einen neuen Code an deine E-Mail Adresse geschickt',
+		'verify.header': 'Verifiziere dein Konto',
+		'verify.newCode': 'Neuen Code anfordern',
+		'verify.later': 'Später verifizieren',
+		'verify.confirm': 'Bestätigen',
+		'verify.explanation':
+			'Bitte verifiziere dein Konto. Gib den 6-stelligen Code aus der E-Mail ein, den wir dir geschickt haben. Wenn du den Code nicht erhalten hast, überprüfe bitte auch deinen Spam-Ordner.'
 	}
 };

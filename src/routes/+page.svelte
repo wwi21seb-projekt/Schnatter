@@ -27,21 +27,10 @@
 
 	onMount(async () => {
 		if (loginToken !== '') {
-			result = await fetchPosts(
-				loginToken,
-				toastStore,
-				feedData,
-				slotLimit,
-				feedType
-			);
+			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 			feedData = result.feedData;
 		} else {
-			result = await fetchPosts(
-				loginToken,
-				toastStore,
-				feedData,
-				slotLimit
-			);
+			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit);
 			feedData = result.feedData;
 		}
 	});
@@ -62,24 +51,12 @@
 			feedType = 'global';
 			value = false;
 		}
-		result = await fetchPosts(
-			loginToken,
-			toastStore,
-			feedData,
-			slotLimit,
-			feedType
-		);
+		result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 		feedData = result.feedData;
 	}
 
 	async function onLoadMorePosts() {
-		result = await fetchPosts(
-			loginToken,
-			toastStore,
-			feedData,
-			slotLimit,
-			feedType
-		);
+		result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 		feedData = result.feedData;
 	}
 </script>
@@ -109,7 +86,8 @@
 		<div class="pt-2 pb-8">
 			{#if feedData.records.length < feedData.pagination.records}
 				<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
-					>{$t('profile.loadMore')} ({feedData.records.length}/{feedData.pagination.records})</button
+					>{$t('profile.loadMore')} ({feedData.records.length}/{feedData.pagination
+						.records})</button
 				>
 			{/if}
 		</div>

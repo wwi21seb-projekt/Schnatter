@@ -2,6 +2,8 @@ import type { Feed } from '$lib/types/Feed';
 import { createToast } from '$lib/Toasts';
 import { getSearchPosts } from '$lib/utils/SearchPosts';
 import type { ToastStore } from '@skeletonlabs/skeleton';
+import { t } from '../../../i18n';
+import { get } from 'svelte/store';
 
 export async function searchPostsByHashtag(
 	token: string,
@@ -26,7 +28,7 @@ export async function searchPostsByHashtag(
 		}
 	} catch (error) {
 		toastStore.clear();
-		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
 	}
 	return { feedData };
 }

@@ -5,6 +5,7 @@
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import type { CustomError } from '$lib/types/CustomError';
+	import { t } from '../../i18n';
 
 	const toastStore = getToastStore();
 
@@ -40,7 +41,7 @@
 				customError = body.error;
 			}
 		} catch (error) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 		if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.trigger(createToast(customError.message, 'error'));
@@ -59,26 +60,22 @@
 			});
 			statusCode = response.status;
 		} catch (error) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 		if (statusCode == 204) {
-			toastStore.trigger(
-				createToast('We have sent you a new code to your email address', 'success')
-			);
+			toastStore.trigger(createToast($t('toast.send.email'), 'success'));
 		}
 	}
 	$: formCorrectCode = verifyInput.length == 6;
 </script>
 
-<Toast />
 <main class="flex justify-center items-center w-screen h-screen">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[60vh] p-5">
-		<h2 class="h2">Verify your Account</h2>
+		<h2 class="h2">{$t('verify.header')}</h2>
 
 		<form class="w-full h-full flex flex-col items-center justify-around">
 			<p>
-				Please verify your account. Enter the 6-digit code from the email we sent you. If you have
-				not received it, please also check your spam folder.
+				{$t('verify.explanation')}
 			</p>
 			<div class="flex flex-col justify-center items-center">
 				<input
@@ -88,16 +85,16 @@
 					placeholder="XXXXXX"
 				/>
 				<button on:click={resendToken} class="btn bg-transparent text-blue-400">
-					request new code</button
+					{$t('verify.newCode')}</button
 				>
 			</div>
 
 			<div class="flex flex-row items-center justify-around w-2/5">
-				<a href="/"><button class="btn variant-filled-surface">Ask later</button></a>
+				<a href="/"><button class="btn variant-filled-surface">{$t('verify.later')}</button></a>
 				<button
 					on:click={handleSubmit}
 					disabled={!formCorrectCode}
-					class="btn variant-filled-primary">Verify</button
+					class="btn variant-filled-primary">{$t('verify.confirm')}</button
 				>
 			</div>
 		</form>

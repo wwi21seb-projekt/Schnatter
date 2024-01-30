@@ -9,7 +9,7 @@
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
-	import { t} from '../../i18n';
+	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	const loginToken = get(token);
 
@@ -38,11 +38,11 @@
 	function gotoProfile() {
 		window.location.href = '/profile';
 	}
-	
+
 	function play() {
-      var audio = new Audio('quack.mp3');
-      audio.play();
-    }
+		var audio = new Audio('quack.mp3');
+		audio.play();
+	}
 </script>
 
 <AppBar>
@@ -51,8 +51,7 @@
 			<a href="/" on:click={play} on:keyup={play}>
 				<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo Header" />
 			</a>
-			<a href="/"><h1 class="text-4xl">Schnatter</h1>
-			</a>
+			<a href="/"><h1 class="text-4xl">Schnatter</h1> </a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
@@ -68,7 +67,7 @@
 					<Icon class="w-10 h-10" icon="gridicons:add" />
 				</button>
 				<a href="/messages" title={$t('navbar.messages')}>
-					<Icon class="w-10 h-10" icon="entypo:message" />
+					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
 				</a>
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
 					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />

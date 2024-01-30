@@ -2,6 +2,8 @@ import { createToast } from '$lib/Toasts';
 import type { Feed } from '$lib/types/Feed';
 import { getFeed } from '$lib/utils/Feed';
 import type { ToastStore } from '@skeletonlabs/skeleton';
+import { t } from '../i18n';
+import { get } from 'svelte/store';
 
 export async function fetchPosts(
 	token: string,
@@ -25,7 +27,7 @@ export async function fetchPosts(
 		}
 	} catch (error) {
 		toastStore.clear();
-		toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
 	}
 	return { feedData };
 }

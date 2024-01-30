@@ -151,7 +151,7 @@
 				customError = body.error;
 			}
 		} catch (error) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 		if (statusCode !== 201 && statusCode !== 500) {
 			toastStore.trigger(createToast(customError.message, 'error'));

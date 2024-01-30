@@ -60,7 +60,7 @@
 				goto('/verify');
 			}
 		} catch (error) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 	}
 </script>

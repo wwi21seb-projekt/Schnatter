@@ -43,7 +43,7 @@
 				statusCode = response.status;
 			} catch (error) {
 				toastStore.clear();
-				toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+				toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 			}
 			if (statusCode == 200) {
 				const result = await response.json();

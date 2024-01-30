@@ -36,7 +36,7 @@
 		if (response.status == 200 && response.data) {
 			followingData = await response.data;
 		} else if (response.status == 500) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		} else if (response.customError) {
 			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}

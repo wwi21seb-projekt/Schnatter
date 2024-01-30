@@ -48,6 +48,7 @@
 				slotLimit
 			);
 			feedData = result.feedData;
+			console.log(feedData.pagination.records);
 		}
 	}
 
@@ -58,7 +59,7 @@
 			lastInput,
 			feedData,
 			feedData.pagination.lastPostId,
-			slotLimit,
+			slotLimit
 		);
 		feedData = result.feedData;
 	}
@@ -88,7 +89,7 @@
 			class="input w-full"
 			type="search"
 			name="hashtag"
-			placeholder="Search a hashtag..."
+			placeholder={$t('post.search.placeholder')}
 			on:input={handleHashtagInput}
 		/>
 		<div class="mt-4 w-full"></div>
@@ -101,7 +102,7 @@
 	<div class="pb-8 flex flex-row justify-center items-start">
 		{#if feedData.records.length < feedData.pagination.records}
 			<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
-				>{$t('profile.loadMore')}</button
+				>{$t('profile.loadMore')} ({feedData.records.length}/{feedData.pagination.records})</button
 			>
 		{/if}
 	</div>
