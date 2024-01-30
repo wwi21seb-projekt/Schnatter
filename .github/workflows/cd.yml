@@ -1,9 +1,6 @@
 name: Deploy
 
 on:
-  pull_request:
-    branches:
-      - main
   push:
     branches:
       - main
@@ -35,4 +32,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
       - name: copy builds to server
         run: |
-          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/schnatter
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl stop Schnatter'
+          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl start Schnatter && sudo systemctl status Schnatter'
+          
