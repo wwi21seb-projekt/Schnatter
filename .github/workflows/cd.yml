@@ -35,6 +35,6 @@ jobs:
           ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
       - name: copy builds to server
         run: |
-          ssh ${{ secrets.USER_IP }} 'systemctl stop Schnatter'
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl stop Schnatter'
           scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
           
