@@ -8,7 +8,7 @@ export type PostStructure = {
 	author: Author;
 	creationDate: string;
 	content: string;
-	location: GeoLocationCoords | undefined
+	location: GeoLocationCoords | undefined;
 };
 
 export type TextColorPost = {
@@ -21,7 +21,7 @@ export type PostUserProfilStructure = {
 	postId: UUID;
 	creationDate: string;
 	content: string;
-	location: GeoLocationCoords | undefined
+	location: GeoLocationCoords | undefined;
 };
 
 export type LikeObjectStructure = {

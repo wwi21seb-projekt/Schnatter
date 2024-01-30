@@ -23,7 +23,7 @@
 	let statusCode: number = 0;
 	export let currentUsername: string | undefined;
 
-	let locationString= '';
+	let locationString = '';
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
@@ -43,9 +43,9 @@
 	let postDate: string = '';
 
 	onMount(async () => {
-		if (post.location){
-			locationString = await getLocationCity(post.location)
-		} 
+		if (post.location) {
+			locationString = await getLocationCity(post.location);
+		}
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
@@ -105,8 +105,8 @@
 		<header class="card-header w-full flex justify-between items-center">
 			<div class="flex flex-col items-start">
 				<p class="text-xs">{locationString}</p>
-			<p class="text-xs">{postDate}</p>
-		</div>
+				<p class="text-xs">{postDate}</p>
+			</div>
 			{#if deleteOption}
 				<button on:click={deletePost}>
 					<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button

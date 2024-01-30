@@ -37,15 +37,15 @@
 		let bodyData;
 		const geoLocationData = await getLocation();
 		validateCoords(geoLocationData);
-		if(geoLocationData.latitude==0 && geoLocationData.longitude==0){
+		if (geoLocationData.latitude == 0 && geoLocationData.longitude == 0) {
 			bodyData = {
 				content: text
-			}
-		}else{
-			bodyData ={
+			};
+		} else {
+			bodyData = {
 				content: text,
 				location: geoLocationData
-			}
+			};
 		}
 		const url = get(serverURL) + '/posts';
 		const response = await fetch(url, {

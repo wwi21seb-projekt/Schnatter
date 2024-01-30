@@ -10,12 +10,11 @@
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 
 	export let postData;
-	
+
 	let post: PostStructure = postData;
 	let postDate: string = '';
 
-	let locationString= '';
-
+	let locationString = '';
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
@@ -32,9 +31,9 @@
 	];
 
 	onMount(async () => {
-		if (post.location){
-			locationString = await getLocationCity(post.location)
-		} 
+		if (post.location) {
+			locationString = await getLocationCity(post.location);
+		}
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
@@ -69,8 +68,8 @@
 			</div>
 			<div class="flex flex-col items-end">
 				<p class="text-xs">{locationString}</p>
-			<p class="text-xs" title="postdate">{postDate}</p>
-		</div>
+				<p class="text-xs" title="postdate">{postDate}</p>
+			</div>
 		</header>
 		<section class="p-4">
 			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg" title="postcontent">
