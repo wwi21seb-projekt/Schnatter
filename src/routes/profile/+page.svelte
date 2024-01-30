@@ -138,7 +138,7 @@
 	}
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
-		if (unfollowStatus == 204) {
+		if (unfollowStatus.status == 204) {
 			subscribed = false;
 			toastStore.trigger(createToast('User was unfollowed', 'success'));
 		} else {

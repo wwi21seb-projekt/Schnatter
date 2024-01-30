@@ -114,14 +114,13 @@ export async function followUser(token: string, following: string) {
 			following: following
 		})
 	});
-
 	if (response.status !== 201 && response.status !== 500) {
 		const body = await response.json();
 		customError = body.error;
 		return { customError: customError, status: response.status };
 	}
 
-	return { stauts: response.status };
+	return { status: response.status };
 }
 
 export async function unfollowUser(token: string, subscriptionId: string) {
@@ -146,5 +145,5 @@ export async function unfollowUser(token: string, subscriptionId: string) {
 		return { customError: customError, status: response.status };
 	}
 
-	return response.status;
+	return { status: response.status };
 }

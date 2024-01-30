@@ -23,7 +23,7 @@
 		const subId = (event?.target as HTMLButtonElement)?.id;
 		const response = await unfollowUser(get(token), subId);
 
-		if (response == 204) {
+		if (response.status == 204) {
 			window.location.reload();
 		} else {
 			toastStore.trigger(createToast('Something went wrong, please try again later', 'error'));
@@ -33,6 +33,7 @@
 	async function handlefollow(event: Event) {
 		const followUsername = (event?.target as HTMLButtonElement)?.id;
 		const response = await followUser(get(token), followUsername);
+		console.log(response);
 		if (response.status == 201) {
 			window.location.reload();
 		} else if (response.status == 500) {
@@ -49,12 +50,12 @@
 	<ul class="w-full">
 		{#each subscriptionData.records as subscriber}
 			<li class="flex flex-row w-full justify-between">
-				<a href="/profile?username={subscriber.user.username}" class="w-5/6">
+				<a href="/profile?username={subscriber.username}" class="w-5/6">
 					<Avatar src="../default-avatar.png" />
 
 					<span class="flex-auto">
-						<dt>{subscriber.user.username}</dt>
-						<dd class="opacity-50">@{subscriber.user.nickname}</dd>
+						<dt>{subscriber.username}</dt>
+						<dd class="opacity-50">@{subscriber.nickname}</dd>
 					</span>
 				</a>
 				{#if username == get(globalUsername)}
@@ -63,12 +64,12 @@
 							<button
 								class="btn variant-filled-error h-2/3"
 								on:click={deleteSubscription}
-								id={subscriber.subscriptionId}>{$t('profile.unfollow')}</button
+								id={subscriber.followingId}>{$t('profile.unfollow')}</button
 							>
 						{:else if pageRoute == '/profile/follower'}
-							{#if !subscriber.subscriptionId}
+							{#if !subscriber.followingId}
 								<button
-									id={subscriber.user.username}
+									id={subscriber.username}
 									on:click={handlefollow}
 									class="btn variant-filled-primary">{$t('profile.follow')}</button
 								>
