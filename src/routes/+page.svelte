@@ -19,8 +19,7 @@
 			records: 0
 		}
 	};
-	let isPersonalFeed: boolean = false; // FeedType: true = personal, false = global
-
+	let isPersonalFeed: boolean = false;
 	const toastStore = getToastStore();
 	const loginToken = get(token);
 	let result;
