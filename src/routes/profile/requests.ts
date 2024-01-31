@@ -37,7 +37,7 @@ export async function getProfileDetails(token: string, username: string) {
 	return { user: user, statusCode: statusCode };
 }
 export async function getProfilePosts(token: string, username: string) {
-	const params = new URLSearchParams({ offset: '0', limit: '2' });
+	const params = new URLSearchParams({ offset: '0', limit: '10' });
 
 	const serverUrl = get(serverURL);
 

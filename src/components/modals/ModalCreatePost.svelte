@@ -6,14 +6,19 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
+	import { onMount } from 'svelte';
 	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
-
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	let textClick: boolean = true;
 	let imageClick: boolean = false;
+	let focusfield: HTMLTextAreaElement;
 
 	let text: string = '';
+
+	onMount(() => {
+		focusfield.focus();
+	});
 
 	function closeModal() {
 		modalStore.close();
@@ -78,6 +83,7 @@
 			<section>
 				<label class="label p-3">
 					<textarea
+						bind:this={focusfield}
 						class="textarea resize-none"
 						rows="4"
 						bind:value={text}
