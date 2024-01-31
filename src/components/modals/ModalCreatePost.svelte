@@ -8,6 +8,7 @@
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 
+	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	let textClick: boolean = true;
@@ -39,6 +40,19 @@
 	}
 
 	async function sendPost() {
+		let bodyData;
+		const geoLocationData = await getLocation();
+		validateCoords(geoLocationData);
+		if (geoLocationData.latitude == 0 && geoLocationData.longitude == 0) {
+			bodyData = {
+				content: text
+			};
+		} else {
+			bodyData = {
+				content: text,
+				location: geoLocationData
+			};
+		}
 		const url = get(serverURL) + '/posts';
 		const response = await fetch(url, {
 			method: 'POST',
@@ -47,9 +61,7 @@
 				'Content-Type': 'application/json',
 				Authorization: 'Bearer ' + get(token)
 			},
-			body: JSON.stringify({
-				content: text
-			})
+			body: JSON.stringify(bodyData)
 		});
 		if (response.status == 201) {
 			modalStore.close();
