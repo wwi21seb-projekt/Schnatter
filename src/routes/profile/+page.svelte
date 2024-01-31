@@ -148,12 +148,12 @@
 {#if profileData.statusCode == 200}
 	<main class=" flex flex-col items-center justify-start">
 		<div
-			class=" w-full h-[35vh] flex flex-row justify-center items-center border-b-4 border-indigo-800"
+			class=" w-full min-h-[35vh] flex flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
 			<div class="h-[20vh] w-[20vh] rounded-full">
 				<Avatar class="w-full h-full" src={profileData.user.profilePictureUrl} initials="" />
 			</div>
-			<div class="h-[20vh] w-[50vw] p-6">
+			<div class="min-h-[20vh] w-[50vw] p-6">
 				<div class="flex col-row">
 					<h3 class="h3 mr-4">{profileData.user.username}</h3>
 					{#if usernameParams == undefined}
@@ -176,18 +176,26 @@
 						bind:value={nickname}
 						class="mb-4 input w-[15vw]"
 						type="text"
-						placeholder="new nickname"
+						placeholder={$t('profile.placeholder.newNickname')}
 						maxlength="25"
 					/>
 					<textarea
 						bind:value={userStatus}
+						rows="3"
+						cols="60"
 						maxlength="128"
 						class="textarea"
-						placeholder="new Status"
+						placeholder={$t('profile.placeholder.newStatus')}
 					/>
 				{:else}
 					<p class="opacity-70 mb-4">{nickname}</p>
-					<p>{userStatus}</p>
+					{#if userStatus == '' || userStatus == null}
+						<p class="opacity-70 mb-4">{$t('profile.noStatus')}</p>
+					{:else}
+						<p class="whitespace-pre-wrap text-wrap break-words max-w-[95%]">
+							{userStatus}
+						</p>
+					{/if}
 				{/if}
 			</div>
 			<div class="flex flex-col justify-center items-center">
@@ -239,11 +247,6 @@
 						>
 					{/if}
 				</div>
-				{#if postData.records.length == postData.pagination.records}
-					<button on:click={loadMorePosts} class="btn variant-filled"
-						>{$t('profile.loadMore')}</button
-					>
-				{/if}
 			{/if}
 		</div>
 	</main>

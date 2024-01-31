@@ -13,7 +13,7 @@
 	import UserSearchList from '../../../components/userLists/UserSearchList.svelte';
 
 	const toastStore = getToastStore();
-
+	let focusfield: HTMLInputElement;
 	let response: Response;
 	let usernameInput: string;
 	let serverUrl: string;
@@ -24,6 +24,7 @@
 		if (get(token) == '') {
 			goto('/');
 		}
+		focusfield.focus();
 	});
 
 	async function handleUsernameInput(event: Event) {
@@ -64,7 +65,7 @@
 	<div class="mb-8 flex justify-center items-center gap-4">
 		<a href="/search/users">
 			<Icon
-				class="w-10 h-10"
+				class="w-10 h-10 text-primary-500"
 				title="searchUsersIcon"
 				icon="mdi:account-search"
 				style="font-size: 32px; border: 2px solid; border-radius: 5px;"
@@ -86,6 +87,7 @@
 		name="username"
 		on:input={handleUsernameInput}
 		placeholder={$t('search.users.placeholder')}
+		bind:this={focusfield}
 	/>
 	<div class="mt-4 w-full">
 		{#if users != null && users.length > 0}
