@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { registerUsername, serverURL } from '$lib/Store';
