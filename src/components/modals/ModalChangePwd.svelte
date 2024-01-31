@@ -4,7 +4,7 @@
 
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
-	import { serverURL } from '$lib/Store';
+	import { serverURL, token } from '$lib/Store';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 
 	const modalStore = getModalStore();
@@ -81,6 +81,10 @@
 		const response = await fetch(serverUrl, {
 			method: 'PATCH',
 			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + get(token)
+			},
 			body: JSON.stringify({
 				oldPassword: oldPassword,
 				newPassword: password
@@ -88,7 +92,7 @@
 		});
 
 		const statusCode = response.status;
-		if ((await response.status) == 200) {
+		if (statusCode == 204) {
 			$modalStore[0].response(statusCode);
 			modalStore.close();
 		}
@@ -101,7 +105,7 @@
 		value={oldPassword}
 		iconString="mdi:lock-outline"
 		placeholder="{$t('modalChangePassword.oldPassword')}*"
-		type="text"
+		type="pwd"
 		onInput={handleOldPwdInput}
 		validateIcon=""
 		id="oldPwd"

@@ -44,7 +44,7 @@
 		type: 'component',
 		component: modalComponent,
 		response: (response: number) => {
-			if (response == 200) {
+			if (response == 204) {
 				toastStore.trigger(createToast('Pwd was changed', 'success'));
 			} else {
 				toastStore.trigger(createToast('Pwd was not changed', 'error'));
@@ -177,6 +177,7 @@
 						class="mb-4 input w-[15vw]"
 						type="text"
 						placeholder="new nickname"
+						maxlength="25"
 					/>
 					<textarea
 						bind:value={userStatus}

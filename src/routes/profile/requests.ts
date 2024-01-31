@@ -91,7 +91,9 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	postData.pagination = posts.pagination;
-	postData.records = postData.records.concat(posts.records);
+	if (posts.records !== null) {
+		postData.records = postData.records.concat(posts.records);
+	}
 	posts.statusCode = await response.status;
 
 	return postData;

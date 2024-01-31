@@ -105,7 +105,7 @@
 			{/if}
 		</header>
 		<section class="p-4">
-			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg">
+			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg overflow-auto">
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
