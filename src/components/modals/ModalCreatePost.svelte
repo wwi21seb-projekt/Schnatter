@@ -7,6 +7,8 @@
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
+	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
+
 
 	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
 	const toastStore = getToastStore();
