@@ -19,7 +19,7 @@
 			records: 0
 		}
 	};
-	let value: boolean = false; // FeedType: true = personal, false = global
+	let isPersonalFeed: boolean = false; // FeedType: true = personal, false = global
 
 	const toastStore = getToastStore();
 	const loginToken = get(token);
@@ -44,12 +44,12 @@
 				records: 0
 			}
 		};
-		if (value) {
+		if (isPersonalFeed) {
 			feedType = 'personal';
-			value = true;
+			isPersonalFeed = true;
 		} else {
 			feedType = 'global';
-			value = false;
+			isPersonalFeed = false;
 		}
 		result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 		feedData = result.feedData;
@@ -71,10 +71,10 @@
 		{#if loginToken !== ''}
 			<div class="py-3">
 				<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
-					<RadioItem bind:group={value} name="justify" value={false} on:change={onChange}
+					<RadioItem bind:group={isPersonalFeed} name="justify" value={false} on:change={onChange}
 						>{$t('feed.personalFeed')}</RadioItem
 					>
-					<RadioItem bind:group={value} name="justify" value={true} on:change={onChange}
+					<RadioItem bind:group={isPersonalFeed} name="justify" value={true} on:change={onChange}
 						>{$t('feed.globalFeed')}</RadioItem
 					>
 				</RadioGroup>
