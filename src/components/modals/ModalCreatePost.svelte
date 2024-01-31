@@ -48,8 +48,8 @@
 			};
 		} else {
 			bodyData = {
-				content: text,
-				location: geoLocationData
+				content: text
+				//location: geoLocationData
 			};
 		}
 		const url = get(serverURL) + '/posts';
