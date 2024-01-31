@@ -7,8 +7,14 @@
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
+	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 
 	export let postData;
+
+	let post: PostStructure = postData;
+	let postDate: string = '';
+
+	let locationString = '';
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
@@ -24,10 +30,10 @@
 		}
 	];
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
-
-	onMount(() => {
+	onMount(async () => {
+		if (post.location) {
+			locationString = await getLocationCity(post.location);
+		}
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
@@ -60,7 +66,10 @@
 					<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
 				</div>
 			</div>
-			<p class="text-xs" title="postdate">{postDate}</p>
+			<div class="flex flex-col items-end">
+				<p class="text-xs">{locationString}</p>
+				<p class="text-xs" title="postdate">{postDate}</p>
+			</div>
 		</header>
 		<section class="p-4">
 			<p
