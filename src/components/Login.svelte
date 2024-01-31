@@ -61,7 +61,7 @@
 				goto('/verify');
 			}
 		} catch (error) {
-			toastStore.trigger(createToast('Internal Server Error! Please try again later!', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 	}
 </script>
@@ -78,7 +78,7 @@
 				<div class="flex flex-col w-full px-3 pb-2">
 					<LoginInput
 						value={username}
-						iconString="ic:outline-email"
+						iconString="mdi:user"
 						placeholder={$t('login.placeholder.username')}
 						type="text"
 						onInput={handleUsernameInput}
@@ -88,7 +88,7 @@
 				<div class="flex flex-col w-full px-3 pt-2">
 					<LoginInput
 						value={password}
-						iconString="mdi:lock-outline"
+						iconString="mdi:password"
 						placeholder={$t('login.placeholder.password')}
 						onInput={handlePasswordInput}
 						type="pwd"

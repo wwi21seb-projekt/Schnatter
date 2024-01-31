@@ -9,6 +9,7 @@
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
+	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	const loginToken = get(token);
 
@@ -37,39 +38,46 @@
 	function gotoProfile() {
 		window.location.href = '/profile';
 	}
+
+	function play() {
+		var audio = new Audio('quack.mp3');
+		audio.play();
+	}
 </script>
 
 <AppBar>
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo Header" />
-			<a href="/"><h1 class="text-4xl">Schnatter</h1></a>
+			<a href="/" on:click={play} on:keyup={play}>
+				<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo Header" />
+			</a>
+			<a href="/"><h1 class="text-4xl">Schnatter</h1> </a>
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<a href="/" title="home">
+			<a href="/" title={$t('navbar.home')}>
 				<Icon class="w-10 h-10" icon="mdi:home" />
 			</a>
 			{#if loginToken != ''}
-				<a href="/search/users" title="search">
-					<Icon class="w-10 h-10" icon="ic:round-search" />
+				<a href="/search/users" title={$t('navbar.search')}>
+					<Icon class="w-10 h-10" icon="material-symbols:search" />
 				</a>
-				<button on:click={openModal} title="post">
+				<button on:click={openModal} title={$t('navbar.posts')}>
 					<Icon class="w-10 h-10" icon="gridicons:add" />
 				</button>
-				<a href="/messages" title="messages">
-					<Icon class="w-10 h-10" icon="entypo:message" />
+				<a href="/messages" title={$t('navbar.messages')}>
+					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
 				</a>
-				<button on:click={gotoProfile} title="profile">
-					<Icon class="w-10 h-10" icon="gg:profile" style="font-size: 32px" />
+				<button on:click={gotoProfile} title={$t('navbar.profile')}>
+					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />
 				</button>
 			{/if}
-			<button class="" use:popup={popupFeatured}
-				><Icon class="w-10 h-10" icon="material-symbols:settings" /></button
-			>
+			<button class="" use:popup={popupFeatured} title={$t('navbar.settings')}>
+				<Icon class="w-10 h-10" icon="material-symbols:settings" />
+			</button>
 			{#if loginToken != ''}
-				<button on:click={handleLogout} title="logOut">
+				<button on:click={handleLogout} title={$t('navbar.logout')}>
 					<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
 				>
 			{/if}

@@ -1,64 +1,76 @@
 <script lang="ts">
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
-	import { token, serverURL } from '$lib/Store';
+	import { token } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
+	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import Feed from '../../../components/Feed.svelte';
-	import { resetPostsAndFeedData, searchHashtagPosts } from '$lib/FeedFunctions';
-	import { posts, feedData, pageType } from '$lib/FeedDataStore';
-	import { onDestroy } from 'svelte';
+	import { searchPostsByHashtag } from './searchPosts';
 
-	onDestroy(() => {
-		posts.set([]);
-		feedData.set({
-			records: [],
-			pagination: {
-				lastPostId: '',
-				limit: 10,
-				records: 0
-			}
-		});
-	});
-	let prevInput = '';
-	let characterRemoved = false;
-
+	let lastInput = '';
+	let slotLimit = 10;
+	let feedData: FeedStructure = {
+		records: [],
+		pagination: {
+			lastPostId: '',
+			limit: slotLimit,
+			records: 0
+		}
+	};
 	const toastStore = getToastStore();
-
-	const serverUrl = get(serverURL);
+	const loginToken = get(token);
 
 	async function handleHashtagInput(event: Event) {
 		let hashtagInput = (event.target as HTMLInputElement).value;
-
-		if (hashtagInput.length > prevInput.length) {
-			characterRemoved = false;
-		} else if (hashtagInput.length < prevInput.length) {
-			characterRemoved = true;
+		lastInput = hashtagInput;
+		// resetting the feed data before each new search
+		if (hashtagInput.length > 0) {
+			feedData = {
+				records: [],
+				pagination: {
+					lastPostId: '',
+					limit: slotLimit,
+					records: 0
+				}
+			};
 		}
-		prevInput = hashtagInput;
 
 		if (hashtagInput.length > 0) {
-			searchHashtagPosts(serverUrl, toastStore, hashtagInput, characterRemoved);
+			const result = await searchPostsByHashtag(
+				loginToken,
+				toastStore,
+				hashtagInput,
+				feedData,
+				feedData.pagination.lastPostId,
+				slotLimit
+			);
+			feedData = result.feedData;
 		}
-		// is search term is completely removed, do not show any posts
-		else {
-			resetPostsAndFeedData();
-		}
+	}
+
+	async function onLoadMorePosts() {
+		const result = await searchPostsByHashtag(
+			loginToken,
+			toastStore,
+			lastInput,
+			feedData,
+			feedData.pagination.lastPostId,
+			slotLimit
+		);
+		feedData = result.feedData;
 	}
 
 	onMount(async () => {
 		if (get(token) == '') {
 			goto('/');
 		}
-		pageType.set('search');
-		resetPostsAndFeedData();
 	});
 </script>
 
 <main>
-	<Toast />
 	<div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
 		<div class="mb-8 flex justify-center items-center gap-4">
 			<a href="/search/users">
@@ -76,14 +88,21 @@
 			class="input w-full"
 			type="search"
 			name="hashtag"
-			placeholder="Search a hashtag..."
+			placeholder={$t('post.search.placeholder')}
 			on:input={handleHashtagInput}
 		/>
 		<div class="mt-4 w-full"></div>
-		{#if $posts.length > 0}
-			<Feed pageType="search" />
+		{#if feedData.records.length > 0}
+			<Feed {feedData} />
 		{:else}
 			<p class="text-center text-gray-500" title="noResultText">{$t('search.posts.noResults')}</p>
+		{/if}
+	</div>
+	<div class="pb-8 flex flex-row justify-center items-start">
+		{#if feedData.records.length < feedData.pagination.records}
+			<button on:click={onLoadMorePosts} class="btn variant-filled w-full md:w-auto py-2 px-4"
+				>{$t('profile.loadMore')} ({feedData.records.length}/{feedData.pagination.records})</button
+			>
 		{/if}
 	</div>
 </main>
