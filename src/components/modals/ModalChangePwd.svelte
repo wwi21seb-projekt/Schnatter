@@ -92,7 +92,7 @@
 		});
 
 		const statusCode = response.status;
-		if (statusCode == 200) {
+		if (statusCode == 204) {
 			$modalStore[0].response(statusCode);
 			modalStore.close();
 		}

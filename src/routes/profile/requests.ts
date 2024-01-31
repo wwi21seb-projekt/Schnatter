@@ -91,7 +91,6 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 	});
 	const posts: UserPostFetchResponse = await response.json();
 	postData.pagination = posts.pagination;
-	console.log(posts);
 	if (posts.records !== null) {
 		postData.records = postData.records.concat(posts.records);
 	}

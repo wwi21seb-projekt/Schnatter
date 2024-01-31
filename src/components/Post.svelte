@@ -63,7 +63,10 @@
 			<p class="text-xs" title="postdate">{postDate}</p>
 		</header>
 		<section class="p-4">
-			<p class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg" title="postcontent">
+			<p
+				class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg overflow-auto"
+				title="postcontent"
+			>
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
