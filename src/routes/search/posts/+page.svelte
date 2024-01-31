@@ -72,10 +72,7 @@
 			goto('/');
 		}
 		focusfield.focus();
-		
 	});
-
-	;
 </script>
 
 <main>
