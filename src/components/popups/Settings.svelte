@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LightSwitch } from '@skeletonlabs/skeleton';
-	import { locale } from '../../i18n';
+	import { locale, t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	let language = '';
@@ -15,10 +15,10 @@
 </script>
 
 <main class="flex flex-col justify-center p-2">
-	<h5 class="h5">Settings</h5>
+	<h5 class="h5">{$t('settings.header')}</h5>
 	<select value={language} on:input={changelangunage} class="select" name="Langauge" id="Langauge">
-		<option value="en">English</option>
-		<option value="de">German</option>
+		<option value="en">{$t('settings.language.en')}</option>
+		<option value="de">{$t('settings.language.de')}</option>
 	</select>
 	<LightSwitch class="w-10 h-10 mt-2" />
 </main>

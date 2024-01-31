@@ -98,6 +98,9 @@ export default {
 		'verify.confirm': 'Confirm',
 		'verify.explanation':
 			'Please verify your account. Enter the 6-digit code from the email we sent you. If you have not received it, please also check your spam folder.'
+		'settings.header': 'Settings',
+		'settings.language.de': 'German',
+		'settings.language.en': 'English'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -198,5 +201,8 @@ export default {
 		'verify.confirm': 'Bestätigen',
 		'verify.explanation':
 			'Bitte verifiziere dein Konto. Gib den 6-stelligen Code aus der E-Mail ein, den wir dir geschickt haben. Wenn du den Code nicht erhalten hast, überprüfe bitte auch deinen Spam-Ordner.'
+		'settings.header': 'Einstellungen',
+		'settings.language.de': 'Deutsch',
+		'settings.language.en': 'Englisch'
 	}
 };

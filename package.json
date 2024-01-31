@@ -1,7 +1,8 @@
 {
-	"name": "",
+	"name": "schnatter",
 	"version": "0.0.1",
 	"private": true,
+	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -42,7 +43,6 @@
 		"vite-plugin-tailwind-purgecss": "0.2.0",
 		"vitest": "^0.32.4"
 	},
-	"type": "module",
 	"dependencies": {
 		"@floating-ui/dom": "1.5.4",
 		"@iconify/svelte": "^3.1.6",
