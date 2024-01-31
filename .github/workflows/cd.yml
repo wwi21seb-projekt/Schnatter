@@ -1,0 +1,37 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Install node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install pnpm
+        run: npm install -g pnpm
+      - name: install dependencies
+        run: pnpm install
+      - name: build app
+        run: pnpm run build
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIV_KEY }}" > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PUB_KEY }}" > ~/.ssh/id_rsa.pub
+          chmod 600 ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa.pub
+          ssh-keyscan -H ${{ secrets.IP }} >> ~/.ssh/known_hosts
+      - name: copy builds to server
+        run: |
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl stop Schnatter'
+          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
+          ssh ${{ secrets.USER_IP }} 'sudo systemctl start Schnatter && sudo systemctl status Schnatter'

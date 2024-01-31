@@ -126,7 +126,7 @@
 	}
 	async function subscribe() {
 		const followStatus = await followUser(get(token), username);
-		if (followStatus == 201) {
+		if (followStatus.status == 201) {
 			subscribed = true;
 			toastStore.trigger(createToast('User was followed', 'success'));
 		} else {
@@ -135,7 +135,7 @@
 	}
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
-		if (unfollowStatus == 204) {
+		if (unfollowStatus.status == 204) {
 			subscribed = false;
 			toastStore.trigger(createToast('User was unfollowed', 'success'));
 		} else {
@@ -232,6 +232,11 @@
 					{#each postData.records as Post}
 						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
+					{#if maxPostCounter == postData.records.length}
+						<button on:click={loadMorePosts} class="btn variant-filled"
+							>{$t('profile.loadMore')}</button
+						>
+					{/if}
 				</div>
 				{#if postData.records.length == postData.pagination.records}
 					<button on:click={loadMorePosts} class="btn variant-filled"
