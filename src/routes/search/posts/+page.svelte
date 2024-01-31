@@ -48,7 +48,6 @@
 				slotLimit
 			);
 			feedData = result.feedData;
-			console.log(feedData.pagination.records);
 		}
 	}
 
