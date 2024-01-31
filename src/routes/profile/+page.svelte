@@ -232,7 +232,7 @@
 					{#each postData.records as Post}
 						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
 					{/each}
-					{#if maxPostCounter == postData.records.length}
+					{#if postData.records.length < postData.pagination.records}
 						<button on:click={loadMorePosts} class="btn variant-filled"
 							>{$t('profile.loadMore')}</button
 						>
