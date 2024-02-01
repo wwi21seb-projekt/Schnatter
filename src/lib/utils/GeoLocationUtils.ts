@@ -29,7 +29,12 @@ export async function getLocationCity(coordsLocation: GeoLocationCoords) {
 	const response = await fetch(url + params);
 	if (response.status === 200) {
 		const body = await response.json();
-		locationString = body.city + ', ' + body.countryCode;
+		if (body.city && body.countryCode) {
+			locationString = body.city + ', ' + body.countryCode;
+		} else {
+			locationString = '';
+		}
+
 		return locationString;
 	} else {
 		return '';

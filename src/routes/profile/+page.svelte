@@ -190,7 +190,9 @@
 					{#if userStatus == '' || userStatus == null}
 						<p class="opacity-70 mb-4">{$t('profile.noStatus')}</p>
 					{:else}
-						<p class="whitespace-pre-wrap text-wrap break-words max-w-[95%]">
+						<p
+							class="whitespace-pre-wrap text-wrap break-words max-w-[95%] max-h-20 overflow-y-auto"
+						>
 							{userStatus}
 						</p>
 					{/if}
