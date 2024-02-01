@@ -5,7 +5,7 @@
 		LikeObjectStructure
 	} from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { serverURL, token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -18,6 +18,7 @@
 	export let postData;
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	let deleteOption: boolean = true;
 	let statusCode: number = 0;
@@ -41,6 +42,16 @@
 
 	let post: PostUserProfilStructure = postData;
 	let postDate: string = '';
+
+	const modalDelete: ModalSettings = {
+		type: 'confirm',
+		title: $t('modalDeletePost.confirm'),
+		response: (t: boolean) => {
+			if (t) {
+				deletePost();
+			}
+		}
+	};
 
 	onMount(async () => {
 		if (post.location) {
@@ -108,7 +119,11 @@
 				<p class="text-xs">{postDate}</p>
 			</div>
 			{#if deleteOption}
-				<button on:click={deletePost}>
+				<button
+					on:click={() => {
+						modalStore.trigger(modalDelete);
+					}}
+				>
 					<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
 				>
 			{/if}
