@@ -8,6 +8,7 @@
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import { fetchPosts } from '../lib/FeedPosts';
 	import { t } from '../i18n';
+	import { manageSession } from '$lib/utils/Session';
 
 	let slotLimit = 10;
 	let feedType = 'global';
@@ -25,6 +26,7 @@
 	let result;
 
 	onMount(async () => {
+		manageSession();
 		if (loginToken !== '') {
 			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 			feedData = result.feedData;

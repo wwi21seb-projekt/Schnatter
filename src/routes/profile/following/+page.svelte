@@ -8,6 +8,7 @@
 	import SubscriptionList from '../../../components/userLists/SubscriptionList.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
+	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();
 	let offsetList = 0;
@@ -23,6 +24,7 @@
 	};
 
 	onMount(async () => {
+		manageSession();
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 

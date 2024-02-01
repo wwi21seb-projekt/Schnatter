@@ -4,11 +4,11 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
-	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import Feed from '../../../components/Feed.svelte';
 	import { searchPostsByHashtag } from './searchPosts';
+	import { manageSession } from '$lib/utils/Session';
 
 	let focusfield: HTMLInputElement;
 	let lastInput = '';
@@ -68,9 +68,7 @@
 	}
 
 	onMount(async () => {
-		if (get(token) == '') {
-			goto('/');
-		}
+		manageSession();
 		focusfield.focus();
 	});
 </script>
