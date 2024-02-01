@@ -1,5 +1,6 @@
 import { serverURL } from '$lib/Store';
 import type { Imprint } from '$lib/types/Imprint';
+import { get } from 'svelte/store';
 import type { PageServerLoad } from './$types';
 
 export const load = (async () => {
@@ -7,8 +8,7 @@ export const load = (async () => {
 		text: '',
 		status: 0
 	};
-	let serverUrl: string = '';
-	serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+	const serverUrl = get(serverURL);
 	const url: string = serverUrl + '/imprint';
 	const response = await fetch(url);
 	const responseObject = await response.json();

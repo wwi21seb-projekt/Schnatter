@@ -56,17 +56,17 @@
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
-			<a href="/" title={$t('navbar.home')}>
+			<a href="/" data-sveltekit-preload-data="hover" title={$t('navbar.home')}>
 				<Icon class="w-10 h-10" icon="mdi:home" />
 			</a>
 			{#if loginToken != ''}
-				<a href="/search/users" title={$t('navbar.search')}>
+				<a href="/search/users" data-sveltekit-preload-data="hover" title={$t('navbar.search')}>
 					<Icon class="w-10 h-10" icon="material-symbols:search" />
 				</a>
 				<button on:click={openModal} title={$t('navbar.posts')}>
 					<Icon class="w-10 h-10" icon="gridicons:add" />
 				</button>
-				<a href="/messages" title={$t('navbar.messages')}>
+				<a href="/messages" data-sveltekit-preload-data="hover" title={$t('navbar.messages')}>
 					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
 				</a>
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
