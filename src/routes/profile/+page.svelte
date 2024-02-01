@@ -202,13 +202,19 @@
 						<h2 class="h2" title="postcount">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
-					<a href="/profile/follower?username={profileData.user.username}">
+					<a
+						href="/profile/follower?username={profileData.user.username}"
+						data-sveltekit-preload-data="hover"
+					>
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2" title="followerCount">{profileData.user.follower}</h2>
 							<p>{$t('profile.followers')}</p>
 						</div>
 					</a>
-					<a href="/profile/following?username={profileData.user.username}">
+					<a
+						href="/profile/following?username={profileData.user.username}"
+						data-sveltekit-preload-data="hover"
+					>
 						<div class="flex flex-col items-center justify-center">
 							<h2 class="h2" title="followingCount">{profileData.user.following}</h2>
 							<p>{$t('profile.following')}</p>

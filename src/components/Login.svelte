@@ -8,6 +8,7 @@
 	import { globalUsername, refreshToken, registerUsername, serverURL, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
+	import { get } from 'svelte/store';
 
 	const toastStore = getToastStore();
 
@@ -29,9 +30,8 @@
 			message: '',
 			code: ''
 		};
-		let serverUrl: string = '';
 
-		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const serverUrl = get(serverURL);
 		try {
 			const url = serverUrl + '/users/login';
 			const response = await fetch(url, {

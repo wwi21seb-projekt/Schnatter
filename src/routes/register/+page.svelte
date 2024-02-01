@@ -8,6 +8,7 @@
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';
 	import type { CustomError } from '$lib/types/CustomError';
+	import { get } from 'svelte/store';
 
 	const toastStore = getToastStore();
 
@@ -36,7 +37,6 @@
 	let containsIllegalCharacters: boolean;
 	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
 	const checkSpace = /\s/;
-	let serverUrl: string;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -131,7 +131,7 @@
 			message: '',
 			code: ''
 		};
-		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const serverUrl = get(serverURL);
 
 		const url: string = serverUrl + '/users';
 		try {
