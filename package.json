@@ -49,6 +49,7 @@
 		"@sveltejs/adapter-node": "^4.0.0",
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
+		"jwt-decode": "^4.0.0",
 		"svelte-i18n": "^4.0.0",
 		"svelte-local-storage-store": "^0.6.4",
 		"svelte-preprocess": "^5.1.3",

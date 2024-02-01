@@ -7,7 +7,6 @@
 		type ModalSettings
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { goto } from '$app/navigation';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
 	import PostUserProfil from '../../components/PostUserProfil.svelte';
 	import { onMount } from 'svelte';
@@ -27,6 +26,7 @@
 	import { t } from '../../i18n';
 
 	import { createToast } from '$lib/Toasts';
+	import { manageSession } from '$lib/utils/Session';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
@@ -76,9 +76,7 @@
 	};
 
 	onMount(async () => {
-		if (get(token) == '') {
-			goto('/');
-		}
+		manageSession();
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 

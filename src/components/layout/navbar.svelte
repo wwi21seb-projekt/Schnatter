@@ -8,7 +8,7 @@
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import { token } from '$lib/Store';
+	import { refreshToken, token } from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	const loginToken = get(token);
@@ -30,6 +30,7 @@
 
 	function handleLogout() {
 		token.set('');
+		refreshToken.set('');
 		location.reload();
 	}
 	function openModal() {

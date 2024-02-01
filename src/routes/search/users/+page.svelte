@@ -5,12 +5,11 @@
 	import Icon from '@iconify/svelte';
 	import { serverURL, token } from '$lib/Store';
 	import type { User } from '$lib/types/User';
-
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
-	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 	import UserSearchList from '../../../components/userLists/UserSearchList.svelte';
+	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();
 	let focusfield: HTMLInputElement;
@@ -20,9 +19,7 @@
 	let users: Array<User> = [];
 
 	onMount(async () => {
-		if (get(token) == '') {
-			goto('/');
-		}
+		manageSession();
 		focusfield.focus();
 	});
 
