@@ -33,5 +33,5 @@ jobs:
       - name: copy builds to server
         run: |
           ssh ${{ secrets.USER_IP }} 'sudo systemctl stop Schnatter'
-          scp -r build/* ${{ secrets.USER_IP }}:/home/schnatter/build
+          scp -r build/* ${{ secrets.USER_IP }}:${{ secrets.PROJECT_PATH }}
           ssh ${{ secrets.USER_IP }} 'sudo systemctl start Schnatter && sudo systemctl status Schnatter'
