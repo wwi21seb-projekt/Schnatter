@@ -8,7 +8,7 @@
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
-	import PostUserProfil from '../../components/PostUserProfil.svelte';
+	import PostUserProfil from '../../components/posts/PostUserProfil.svelte';
 	import { onMount } from 'svelte';
 	import {
 		followUser,

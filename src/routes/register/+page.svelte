@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
 	import { Toast } from '@skeletonlabs/skeleton';
-	import RegisterInput from '../../components/RegisterInput.svelte';
+	import RegisterInput from '../../components/inputs/RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { goto } from '$app/navigation';

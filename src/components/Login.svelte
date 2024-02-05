@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoginInput from './LoginInput.svelte';
+	import LoginInput from './inputs/LoginInput.svelte';
 	import { t } from '../i18n';
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';

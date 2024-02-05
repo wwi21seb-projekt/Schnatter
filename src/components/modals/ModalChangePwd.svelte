@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon } from '$lib/ValidateInputs';
-	import RegisterInput from '../RegisterInput.svelte';
+	import RegisterInput from '../inputs/RegisterInput.svelte';
 
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
