@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@floating-ui/dom':
-    specifier: 1.6.1
-    version: 1.6.1
+    specifier: 1.6.5
+    version: 1.6.5
   '@iconify/svelte':
     specifier: ^3.1.6
     version: 3.1.6(svelte@4.2.9)
@@ -362,8 +362,8 @@ packages:
       '@floating-ui/utils': 0.2.1
     dev: false
 
-  /@floating-ui/dom@1.6.1:
-    resolution: {integrity: sha512-iA8qE43/H5iGozC3W0YSnVSW42Vh522yyM1gj+BqRwVsTNOyr231PsXDaV04yT39PsO0QL2QpbI/M0ZaLUQgRQ==}
+  /@floating-ui/dom@1.6.5:
+    resolution: {integrity: sha512-Nsdud2X65Dz+1RHjAIP0t8z5e2ff/IRbei6BqFrl1urT8sDVzM1HMQ+R0XcU5ceRfyO3I6ayeqIfh+6Wb8LGTw==}
     dependencies:
       '@floating-ui/core': 1.6.0
       '@floating-ui/utils': 0.2.1
