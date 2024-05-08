@@ -26,16 +26,20 @@
 
 	let post: PostStructure = postData;
 	let postDate: string = '';
+	let isLoggedOut: boolean = false;
 
 	onMount(() => {
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
+		if (loginToken != '' || loginToken == undefined) {
+			 isLoggedOut = true;
+		}
 	});
 
 	function likeHelper() {
 		if (loginToken != '' || loginToken == undefined) {
-			likeObject = likeCounter(likeObject);
+			post = likeCounter(post);
 		}
 	}
 
@@ -74,7 +78,7 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper} title="like">
+				<button disabled={isLoggedOut} on:click={likeHelper} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
 				</button>

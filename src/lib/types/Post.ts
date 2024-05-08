@@ -7,6 +7,8 @@ export type PostStructure = {
 	author: Author;
 	creationDate: string;
 	content: string;
+	likes: number;
+	liked: boolean;
 };
 
 export type TextColorPost = {
