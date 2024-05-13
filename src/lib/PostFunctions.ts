@@ -1,16 +1,15 @@
 import type { PostUserProfilStructure, TextColorPost, PostStructure } from './types/Post';
 import { serverURL } from '$lib/Store';
 import type { CustomError } from './types/CustomError';
-import { getToastStore } from '@skeletonlabs/skeleton';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 import { createToast } from '$lib/Toasts';
 import { t } from '../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';
 
 let statusCode: number = 0;
-const toastStore = getToastStore();
 
-export async function createLike(postId: UUID) {
+export async function createLike(postId: UUID, toastStore: ToastStore) {
 	let serverUrl: string = '';
 	let customError: CustomError = {
 		message: '',
@@ -36,7 +35,7 @@ export async function createLike(postId: UUID) {
 	}
 }
 
-export async function deleteLike(postId: UUID) {
+export async function deleteLike(postId: UUID, toastStore: ToastStore) {
 	let serverUrl: string = '';
 	let customError: CustomError = {
 		message: '',
@@ -62,12 +61,12 @@ export async function deleteLike(postId: UUID) {
 	}
 }
 
-export function likeCounter(post: PostStructure) {
+export function likeCounter(post: PostStructure, toastStore: ToastStore) {
 	post.likes += post.liked ? -1 : 1;
 	if (post.liked) {
-		deleteLike(post.postId);
+		deleteLike(post.postId, toastStore);
 	} else {
-		createLike(post.postId);
+		createLike(post.postId, toastStore);
 	}
 	post.liked = !post.liked;
 	return post;
