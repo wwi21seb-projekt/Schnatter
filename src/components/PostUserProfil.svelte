@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PostUserProfilStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { serverURL, token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -9,14 +9,18 @@
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
 	import { createToast } from '$lib/Toasts';
 	import type { CustomError } from '$lib/types/CustomError';
+	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 
 	export let postData;
 
 	const toastStore = getToastStore();
+	const modalStore = getModalStore();
 
 	let deleteOption: boolean = true;
 	let statusCode: number = 0;
 	export let currentUsername: string | undefined;
+
+	let locationString = '';
 
 	const loginToken = get(token);
 
@@ -31,7 +35,20 @@
 	let post: PostUserProfilStructure = postData;
 	let postDate: string = '';
 
-	onMount(() => {
+	const modalDelete: ModalSettings = {
+		type: 'confirm',
+		title: $t('modalDeletePost.confirm'),
+		response: (t: boolean) => {
+			if (t) {
+				deletePost();
+			}
+		}
+	};
+
+	onMount(async () => {
+		if (post.location) {
+			locationString = await getLocationCity(post.location);
+		}
 		helperHashtagCheck();
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
@@ -91,9 +108,16 @@
 <main class="flex flex-col mb-6">
 	<div class="card w-[60vw] mb-2">
 		<header class="card-header w-full flex justify-between items-center">
-			<p class="text-xs">{postDate}</p>
+			<div class="flex flex-col items-start">
+				<p class="text-xs">{locationString}</p>
+				<p class="text-xs">{postDate}</p>
+			</div>
 			{#if deleteOption}
-				<button on:click={deletePost}>
+				<button
+					on:click={() => {
+						modalStore.trigger(modalDelete);
+					}}
+				>
 					<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
 				>
 			{/if}

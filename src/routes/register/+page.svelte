@@ -8,6 +8,7 @@
 	import { registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';
 	import type { CustomError } from '$lib/types/CustomError';
+	import { get } from 'svelte/store';
 
 	const toastStore = getToastStore();
 
@@ -36,7 +37,6 @@
 	let containsIllegalCharacters: boolean;
 	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
 	const checkSpace = /\s/;
-	let serverUrl: string;
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -131,7 +131,7 @@
 			message: '',
 			code: ''
 		};
-		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const serverUrl = get(serverURL);
 
 		const url: string = serverUrl + '/users';
 		try {
@@ -174,7 +174,6 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={email}
-						title="emailInput"
 						iconString="ic:outline-email"
 						placeholder="{$t('register.mail.header')}*"
 						type="text"
@@ -190,7 +189,6 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={username}
-						title="usernameInput"
 						iconString="mdi:account"
 						placeholder="{$t('register.username.header')}*"
 						type="text"
@@ -212,7 +210,6 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={nickname}
-						title="nicknameInput"
 						iconString="mdi:account-eye-outline"
 						placeholder={$t('register.nickname.header')}
 						type="text"
@@ -228,7 +225,6 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={password}
-						title="passwordInput"
 						iconString="mdi:lock-outline"
 						placeholder="{$t('register.password.header')}*"
 						onInput={handlePasswordInput}
@@ -256,7 +252,6 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={repeatPassword}
-						title="repeatPasswordInput"
 						iconString="mdi:lock-reset"
 						placeholder="{$t('register.password.repeat')}*"
 						type="pwd"

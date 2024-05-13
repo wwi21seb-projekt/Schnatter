@@ -5,12 +5,12 @@
 	import { goto } from '$app/navigation';
 	import type { CustomError } from '$lib/types/CustomError';
 	import { t } from '../../i18n';
+	import { get } from 'svelte/store';
 
 	const toastStore = getToastStore();
 
 	let verifyInput: string = '';
 	let statusCode: number = 0;
-	let username: string;
 
 	function handleInput(event: Event) {
 		const newValue = (event.target as HTMLInputElement).value.replace(/\D/g, '');
@@ -18,13 +18,12 @@
 	}
 
 	async function handleSubmit() {
-		let serverUrl: string = '';
 		let customError: CustomError = {
 			message: '',
 			code: ''
 		};
-		registerUsername.subscribe((prev_val) => (username = prev_val));
-		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const username = get(registerUsername);
+		const serverUrl = get(serverURL);
 		const url = serverUrl + '/users/' + username + '/activate';
 		try {
 			const response = await fetch(url, {
@@ -49,9 +48,8 @@
 		}
 	}
 	async function resendToken() {
-		let serverUrl: string = '';
-		registerUsername.subscribe((prev_val) => (username = prev_val));
-		serverURL.subscribe((prev_val) => (serverUrl = prev_val));
+		const username = get(registerUsername);
+		const serverUrl = get(serverURL);
 		const url = serverUrl + '/users/' + username + '/activate';
 		try {
 			const response = await fetch(url, {

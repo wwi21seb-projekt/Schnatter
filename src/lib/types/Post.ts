@@ -1,6 +1,7 @@
 import type { UUID } from 'crypto';
 import type { Author } from './Author';
 import type { Pagination } from './Pagination';
+import type { GeoLocationCoords } from './GeoLocation';
 
 export type PostStructure = {
 	postId: UUID;
@@ -9,6 +10,7 @@ export type PostStructure = {
 	content: string;
 	likes: number;
 	liked: boolean;
+	location: GeoLocationCoords | undefined;
 };
 
 export type TextColorPost = {
@@ -22,8 +24,11 @@ export type PostUserProfilStructure = {
 	creationDate: string;
 	content: string;
 	likes: number;
-	liked: boolean;
+  liked: boolean;
+	location: GeoLocationCoords | undefined;
 };
+
+
 
 export type UserPostFetchResponse = {
 	records: PostUserProfilStructure[];

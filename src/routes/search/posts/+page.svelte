@@ -4,12 +4,13 @@
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
-	import { goto } from '$app/navigation';
 	import { t } from '../../../i18n';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import Feed from '../../../components/Feed.svelte';
 	import { searchPostsByHashtag } from './searchPosts';
+	import { manageSession } from '$lib/utils/Session';
 
+	let focusfield: HTMLInputElement;
 	let lastInput = '';
 	let slotLimit = 10;
 	let feedData: FeedStructure = {
@@ -25,6 +26,9 @@
 
 	async function handleHashtagInput(event: Event) {
 		let hashtagInput = (event.target as HTMLInputElement).value;
+		if (hashtagInput.startsWith('#')) {
+			hashtagInput = hashtagInput.substring(1);
+		}
 		lastInput = hashtagInput;
 		// resetting the feed data before each new search
 		if (hashtagInput.length > 0) {
@@ -64,9 +68,8 @@
 	}
 
 	onMount(async () => {
-		if (get(token) == '') {
-			goto('/');
-		}
+		manageSession();
+		focusfield.focus();
 	});
 </script>
 
@@ -78,7 +81,7 @@
 			</a>
 			<a href="/search/posts">
 				<Icon
-					class="w-10 h-10"
+					class="w-10 h-10 text-primary-500"
 					icon="mdi:text-box-search"
 					style="font-size: 32px; border: 2px solid; border-radius: 5px;"
 				/>
@@ -90,6 +93,7 @@
 			name="hashtag"
 			placeholder={$t('post.search.placeholder')}
 			on:input={handleHashtagInput}
+			bind:this={focusfield}
 		/>
 		<div class="mt-4 w-full"></div>
 		{#if feedData.records.length > 0}
