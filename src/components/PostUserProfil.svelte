@@ -1,8 +1,5 @@
 <script lang="ts">
-	import type {
-		PostUserProfilStructure,
-		TextColorPost
-	} from '$lib/types/Post';
+	import type { PostUserProfilStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { serverURL, token } from '$lib/Store';
@@ -16,7 +13,6 @@
 	export let postData;
 
 	const toastStore = getToastStore();
-	
 
 	let deleteOption: boolean = true;
 	let statusCode: number = 0;

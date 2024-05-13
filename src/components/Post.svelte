@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { PostStructure, TextColorPost,  } from '$lib/types/Post';
+	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getToastStore, type ToastStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -30,9 +30,8 @@
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
 		if (loginToken != '' || loginToken == undefined) {
-			 isLoggedOut = false;
-		};
-		
+			isLoggedOut = false;
+		}
 	});
 
 	function likeHelper() {

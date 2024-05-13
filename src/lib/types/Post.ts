@@ -25,7 +25,6 @@ export type PostUserProfilStructure = {
 	liked: boolean;
 };
 
-
 export type UserPostFetchResponse = {
 	records: PostUserProfilStructure[];
 	pagination: Pagination;
