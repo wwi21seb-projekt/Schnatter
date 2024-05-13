@@ -24,11 +24,9 @@ export type PostUserProfilStructure = {
 	creationDate: string;
 	content: string;
 	likes: number;
-  liked: boolean;
+	liked: boolean;
 	location: GeoLocationCoords | undefined;
 };
-
-
 
 export type UserPostFetchResponse = {
 	records: PostUserProfilStructure[];

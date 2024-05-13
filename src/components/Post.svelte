@@ -11,9 +11,6 @@
 
 	export let postData;
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
-
 	let locationString = '';
 
 	const loginToken = get(token);
@@ -30,7 +27,6 @@
 	let postDate: string = '';
 	let isLoggedOut: boolean = true;
 	const toastStore = getToastStore();
-
 
 	onMount(async () => {
 		if (post.location) {
