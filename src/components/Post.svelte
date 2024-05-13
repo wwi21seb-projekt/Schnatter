@@ -37,7 +37,7 @@
 
 	function likeHelper() {
 		if (loginToken != '' || loginToken == undefined) {
-			post = likeCounter(post, toastStore);
+			post = likeCounter(post as PostStructure, toastStore) as PostStructure;
 		}
 	}
 

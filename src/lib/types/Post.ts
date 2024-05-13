@@ -21,12 +21,10 @@ export type PostUserProfilStructure = {
 	postId: UUID;
 	creationDate: string;
 	content: string;
-};
-
-export type LikeObjectStructure = {
-	likeCount: number;
+	likes: number;
 	liked: boolean;
 };
+
 
 export type UserPostFetchResponse = {
 	records: PostUserProfilStructure[];

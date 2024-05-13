@@ -61,7 +61,7 @@ export async function deleteLike(postId: UUID, toastStore: ToastStore) {
 	}
 }
 
-export function likeCounter(post: PostStructure, toastStore: ToastStore) {
+export function likeCounter(post: PostStructure | PostUserProfilStructure, toastStore: ToastStore) {
 	post.likes += post.liked ? -1 : 1;
 	if (post.liked) {
 		deleteLike(post.postId, toastStore);
