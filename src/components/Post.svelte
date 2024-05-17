@@ -48,6 +48,10 @@
 	function helperHashtagCheck() {
 		newPost = checkForHashtags(post);
 	}
+	let showComments = false;
+	function setShowButton(){
+		showComments = !showComments;
+	}
 </script>
 
 <main class="flex flex-col mb-6">
@@ -108,9 +112,15 @@
 	</div>
 	{#if loginToken != '' || loginToken == undefined}
 		<div class="card w-[60vw]">
-			<header class="card-header">
+			<header class="card-header flex flex-row items-center">
 				<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
+				<button type="button" class="ml-2 btn btn-sm variant-filled" on:click={setShowButton}
+					>{showComments
+						? $t('post.comments.buttonHideComments')
+						: $t('post.comments.buttonShowComments')}</button
+				>
 			</header>
+			{#if showComments}
 			<section class="p-3 flex flex-col">
 				<div class="flex flex-row">
 					<div class="items-baseline">
@@ -131,6 +141,7 @@
 					</div>
 				</div>
 			</section>
+			{/if}
 		</div>
 	{/if}
 </main>
