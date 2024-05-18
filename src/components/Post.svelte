@@ -94,6 +94,11 @@
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
+				<button type="button" class="ml-2 btn btn-sm variant-filled" on:click={setShowButton}
+					>{showComments
+						? $t('post.comments.buttonHideComments')
+						: $t('post.comments.buttonShowComments')}</button
+				>
 			</div>
 			{#if loginToken != '' || loginToken != undefined}
 				<input
@@ -110,17 +115,11 @@
 			{/if}
 		</footer>
 	</div>
-	{#if loginToken != '' || loginToken == undefined}
+	{#if (loginToken != '' || loginToken == undefined) && showComments}
 		<div class="card w-[60vw]">
 			<header class="card-header flex flex-row items-center">
 				<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
-				<button type="button" class="ml-2 btn btn-sm variant-filled" on:click={setShowButton}
-					>{showComments
-						? $t('post.comments.buttonHideComments')
-						: $t('post.comments.buttonShowComments')}</button
-				>
 			</header>
-			{#if showComments}
 			<section class="p-3 flex flex-col">
 				<div class="flex flex-row">
 					<div class="items-baseline">
@@ -141,7 +140,6 @@
 					</div>
 				</div>
 			</section>
-			{/if}
 		</div>
 	{/if}
 </main>
