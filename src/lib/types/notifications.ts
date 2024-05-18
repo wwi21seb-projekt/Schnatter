@@ -14,7 +14,5 @@ export type Notification = {
 
 export type Notifications = {
         records:
-            [
-                Notification
-            ]
+            Notification[]
     }
