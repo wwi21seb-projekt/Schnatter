@@ -14,7 +14,6 @@ export const token = persisted('token', '');
 export const refreshToken = persisted('refreshToken', '');
 export const globalUsername = persisted('globalUsername', '');
 
-
 // notifications
 
 export const notificationCount = persisted('notificationCount', 0);

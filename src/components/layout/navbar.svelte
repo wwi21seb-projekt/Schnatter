@@ -16,8 +16,6 @@
 
 	const modalStore = getModalStore();
 
-	
-
 	const modal: ModalSettings = {
 		type: 'component',
 		component: 'modalCreatePost'
@@ -88,7 +86,9 @@
 				{#if get(notificationCount) > 0}
 					<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
 						<div class="relative inline-block">
-							<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10">{$notificationCount}</span>
+							<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10"
+								>{$notificationCount}</span
+							>
 							<Icon class="w-10 h-10" icon="clarity:notification-solid" style="font-size: 32px" />
 						</div>
 					</button>

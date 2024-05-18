@@ -38,8 +38,7 @@
 					nickname: '',
 					profilePictureUrl: ''
 				}
-			}
-            ,
+			},
 			{
 				notificationId: '866bea46-e71b-4c68-a67c-c34a0908b356',
 				timestamp: '',
@@ -67,8 +66,8 @@
 		}
 	}
 	async function deleteNotification(notificationId: string) {
-		//const response = await deleteNotificationRequest(notificationId);
-		const response = true;
+		const response = await deleteNotificationRequest(notificationId);
+
 		if (response) {
 			notifications = deleteNotificationById(notifications, notificationId);
 		}
@@ -102,7 +101,7 @@
 				<Avatar class="w-9 h-9" initials={notification.user.username.substring(0, 2)} />
 				<span class="flex-auto font-bold"
 					>"<button
-						title={$t("notifications.tooltip.goToProfile")}
+						title={$t('notifications.tooltip.goToProfile')}
 						class="text-green-500"
 						on:click={() => goto(`/profile?username=${notification.user.username}`)}
 						>{notification.user.nickname || notification.user.username}</button
@@ -113,8 +112,10 @@
 				<hr class="!border-t-2" />
 			{/if}
 		{/each}
-		{#if notifications.records.length === 0 }
-			<p>{$t('notifications.noNotifications')}</p>
+		{#if notifications.records.length === 0}
+			<div class="flex justify-center items-center">
+				<p>{$t('notifications.noNotifications')}</p>
+			</div>
 		{/if}
 	</ul>
 </main>
