@@ -9,7 +9,7 @@ export type CommentStructure ={
     creationDate: string;
 };
 
-export type Comment = {
+export type Comments = {
     records: CommentStructure[];
     pagination: Pagination
 }

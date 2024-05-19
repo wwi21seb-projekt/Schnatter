@@ -1,15 +1,16 @@
-import { serverURL } from '$lib/Store';
+import { serverURL, token } from '$lib/Store';
 import type { CustomError } from '$lib/types/CustomError';
 import { get } from 'svelte/store';
-import type { Comment } from './types/Comment';
+import type { Comments } from './types/Comment';
+import type { UUID } from 'crypto';
 
-export async function fetchComments(token: string, limit: number, postId: string, offset: number ) {
+export async function fetchComments(token: string, limit: number, postId: UUID, offset: number ):Promise<Comments | number> {
     let customError: CustomError = {
 		code: '',
 		message: ''
 	};
 
-    let data: Comment ={
+    let data: Comments ={
         records: [],
         pagination: {
             limit: 0,
@@ -34,7 +35,31 @@ export async function fetchComments(token: string, limit: number, postId: string
         }
     }
 
-    const url: string = get(serverURL) + '/posts' + postId + params;
+    const url: string = get(serverURL) + '/posts/' + postId + '/comments?' + params;
 
     const response = await fetch(url, fetchOptions);
+
+    if (response.status === 200) {
+		data = await response.json();
+        return data
+	}
+    else{
+        return response.status
+    }
+	
+}
+export async function sendComment(postId: UUID, commentText: string){
+    const response = await fetch(`${get(token)}/posts/${postId}/comments`, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + get(token)
+        },
+        body: JSON.stringify({content: commentText})
+    });
+    if(response.status == 201){
+        console.log("Kommentar wurde gesendet")
+    }
+
 }

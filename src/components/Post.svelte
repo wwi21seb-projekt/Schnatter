@@ -8,6 +8,8 @@
 	import { onMount } from 'svelte';
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
+	import Commentsection from './Commentsection.svelte';
+	import { sendComment } from '$lib/CommentFunctions';
 
 	export let postData;
 
@@ -15,6 +17,8 @@
 	let postDate: string = '';
 
 	let locationString = '';
+
+	let commentText: string = '';
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
@@ -49,7 +53,8 @@
 		newPost = checkForHashtags(post);
 	}
 	let showComments = false;
-	function setShowButton(){
+	
+	function setShowButton() {
 		showComments = !showComments;
 	}
 </script>
@@ -87,59 +92,43 @@
 				{/each}
 			</p>
 		</section>
-		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
-			<div class="flex flex-row">
+		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full flow-root">
+			<div class="flex flex-row float-left">
 				<button on:click={likeHelper} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
-				<button type="button" class="ml-2 btn btn-sm variant-filled" on:click={setShowButton}
+				<button
+					type="button"
+					data-sveltekit-preload-data="hover"
+					class="ml-2 btn btn-sm variant-filled"
+					on:click={setShowButton}
 					>{showComments
 						? $t('post.comments.buttonHideComments')
 						: $t('post.comments.buttonShowComments')}</button
 				>
 			</div>
 			{#if loginToken != '' || loginToken != undefined}
-				<input
-					class="input mx-3"
-					title="commentInput"
-					type="text"
-					placeholder={$t('post.postComment.placeholder')}
-					maxlength="256"
-					disabled
-				/>
-				<button class="">
-					<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
-				</button>
+				<div class="flex float-right">
+					<label class="label p-2">
+						<textarea
+							class="textarea resize-none"
+							title="commentInput"
+							bind:value={commentText}
+							placeholder={commentText === '' ? $t('post.postComment.placeholder') : ''}
+							rows="1"
+							maxlength="128" 
+						/>
+					</label>
+					<button class="" on:click={()=>sendComment(post.postId, commentText)}>
+						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
+					</button>
+				</div>
 			{/if}
 		</footer>
 	</div>
 	{#if (loginToken != '' || loginToken == undefined) && showComments}
-		<div class="card w-[60vw]">
-			<header class="card-header flex flex-row items-center">
-				<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
-			</header>
-			<section class="p-3 flex flex-col">
-				<div class="flex flex-row">
-					<div class="items-baseline">
-						<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
-					</div>
-					<div class="flex flex-col">
-						<p class="font-bold">Username</p>
-						<p class="w-full">Kommentar 1 ist hier</p>
-					</div>
-				</div>
-				<div class="flex flex-row">
-					<div class="items-baseline">
-						<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
-					</div>
-					<div class="flex flex-col">
-						<p class="font-bold">Username</p>
-						<p class="w-full">Hier ist der 2. Kommentar</p>
-					</div>
-				</div>
-			</section>
-		</div>
+		<Commentsection postId={post.postId} />
 	{/if}
 </main>
