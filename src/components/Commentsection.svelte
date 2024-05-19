@@ -6,13 +6,13 @@
 	import { get } from 'svelte/store';
 	import { token } from '$lib/Store';
 	import type { UUID } from 'crypto';
-	import type { CommentStructure, Comments } from '$lib/types/Comment';
+	import type { Comments } from '$lib/types/Comment';
 
 	const loginToken = get(token);
 	let limit: number = 10;
 	let offset: number = 0;
 	export let postId: UUID;
-	let commentFetchError: string = "0";
+	let commentFetchError: string = '0';
 	let commentData: Comments = {
 		records: [
 			{
@@ -50,7 +50,7 @@
 </script>
 
 <div class="card w-[60vw]">
-	{#if commentFetchError !== "0"}
+	{#if commentFetchError !== '0'}
 		<div class="items-center p-2">{commentFetchError}</div>
 	{:else}
 		<header class="card-header flex flex-row items-center">

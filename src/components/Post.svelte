@@ -53,7 +53,7 @@
 		newPost = checkForHashtags(post);
 	}
 	let showComments = false;
-	
+
 	function setShowButton() {
 		showComments = !showComments;
 	}
@@ -92,8 +92,8 @@
 				{/each}
 			</p>
 		</section>
-		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full flow-root">
-			<div class="flex flex-row float-left">
+		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
+			<div class="flex flex-row float-left items-center w-[35%]">
 				<button on:click={likeHelper} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
@@ -102,7 +102,7 @@
 				<button
 					type="button"
 					data-sveltekit-preload-data="hover"
-					class="ml-2 btn btn-sm variant-filled"
+					class="ml-2 btn btn-sm border-solid border-2"
 					on:click={setShowButton}
 					>{showComments
 						? $t('post.comments.buttonHideComments')
@@ -110,18 +110,18 @@
 				>
 			</div>
 			{#if loginToken != '' || loginToken != undefined}
-				<div class="flex float-right">
-					<label class="label p-2">
+				<div class="flex float-right w-[65%]">
+					<label class="label p-2 w-full">
 						<textarea
 							class="textarea resize-none"
 							title="commentInput"
 							bind:value={commentText}
 							placeholder={commentText === '' ? $t('post.postComment.placeholder') : ''}
 							rows="1"
-							maxlength="128" 
+							maxlength="128"
 						/>
 					</label>
-					<button class="" on:click={()=>sendComment(post.postId, commentText)}>
+					<button class="w-7" on:click={() => sendComment(post.postId, commentText)}>
 						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
 					</button>
 				</div>

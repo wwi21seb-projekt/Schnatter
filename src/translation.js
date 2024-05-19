@@ -158,7 +158,7 @@ export default {
 		'register.button.register': 'Registrieren',
 		'post.postComment.placeholder': 'Schreib einen Kommentar!',
 		'post.comments.header': 'Kommentare',
-		'post.comments.buttonShowComments': 'Kommentare anzeigen',
+		'post.comments.buttonShowComments': 'Kommentare',
 		'post.comments.buttonHideComments': 'Kommentare verbergen',
 		'post.comments.noComments': 'Es gibt noch keine Kommentare',
 		'modalCreatePost.header.Text': 'Text',
