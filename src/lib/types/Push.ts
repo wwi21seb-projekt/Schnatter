@@ -1,8 +1,9 @@
 export type SubscriptionObject = {
-	type: string;
-	endpoint: string;
-	keys: {
-		p256dh: string;
-		auth: string;
-	};
+    type: string;
+    subscription: {
+        endpoint: string
+        p256dh: string
+        auth: string
+    }
+
 };

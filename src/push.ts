@@ -31,8 +31,8 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 
 			const SubscriptionObject: SubscriptionObject = {
 				type: 'web',
-				endpoint: subscription.endpoint,
-				keys: {
+				subscription: {
+                    endpoint: subscription.endpoint,
 					p256dh: subscription.getKey('p256dh')!.toString(),
 					auth: subscription.getKey('auth')!.toString()
 				}
