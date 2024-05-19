@@ -4,13 +4,8 @@ self.addEventListener('fetch', function () {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('push', function (event: any) {
-
-
 	// TODO: Handle push event
 	const payload = event.data?.text() ?? 'no payload';
 
 	console.log('Push received', payload);
-
-	
-	
 } as EventListener);
