@@ -40,7 +40,7 @@
 		}
 	});
 
-	function likeHelper() {
+	function handleLikeClick() {
 		if (loginToken != '' || loginToken == undefined) {
 			post = likeCounter(post as PostStructure, toastStore) as PostStructure;
 		}
@@ -86,7 +86,7 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button disabled={isLoggedOut} on:click={likeHelper} title="like">
+				<button disabled={isLoggedOut} on:click={handleLikeClick} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>

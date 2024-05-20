@@ -55,7 +55,7 @@
 		checkDeleteOption();
 	});
 
-	function likeHelper() {
+	function handleLickClick() {
 		if (loginToken != '' || loginToken == undefined) {
 			post = likeCounter(post as PostUserProfilStructure, toastStore) as PostUserProfilStructure;
 		}
@@ -131,7 +131,7 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper}>
+				<button on:click={handleLickClick}>
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
