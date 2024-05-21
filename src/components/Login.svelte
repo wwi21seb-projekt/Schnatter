@@ -59,7 +59,6 @@
 				globalUsername.set(username);
 				await subscribeUserToPush();
 				location.reload();
-				
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');
