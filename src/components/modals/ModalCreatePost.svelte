@@ -62,6 +62,7 @@
 			},
 			body: JSON.stringify(bodyData)
 		});
+		console.log(response.status);
 		if (response.status == 201) {
 			modalStore.close();
 			window.location.reload();

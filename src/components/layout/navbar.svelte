@@ -8,7 +8,7 @@
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import { notificationCount, refreshToken, token } from '$lib/Store';
+	import { notificationCount, notificationList, refreshToken, token } from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
@@ -54,6 +54,35 @@
 		var audio = new Audio('quack.mp3');
 		audio.play();
 	}
+	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+		navigator.serviceWorker.addEventListener('message', (event) => {
+			console.log('Received message from service worker', event.data);
+			console.log('Received message from service worker', event.data.type);
+			if (event.data && event.data.type === 'PUSH_NOTIFICATION') {
+				const payload = event.data.payload;
+
+				const notifications = get(notificationList);
+				if (
+					notifications.records.some(
+						(notification) => notification.notificationId === payload.notificationId
+					)
+				) {
+					console.log('Notification already exists');
+					return;
+				} else {
+					notificationList.update((value) => {
+						value.records.push(payload);
+						return value;
+					});
+					notificationCount.update((value) => value + 1);
+					console.log('Notification added');
+				}
+
+				console.log('Push notification received in main application', payload);
+				console.log(get(notificationList));
+			}
+		});
+	}
 </script>
 
 <AppBar>
@@ -83,20 +112,14 @@
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
 					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />
 				</button>
-				{#if get(notificationCount) > 0}
-					<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
-						<div class="relative inline-block">
-							<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10"
-								>{$notificationCount}</span
-							>
-							<Icon class="w-10 h-10" icon="clarity:notification-solid" style="font-size: 32px" />
-						</div>
-					</button>
-				{:else}
-					<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
+				<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
+					<div class="relative inline-block">
+						<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10"
+							>{$notificationCount}</span
+						>
 						<Icon class="w-10 h-10" icon="clarity:notification-solid" style="font-size: 32px" />
-					</button>
-				{/if}
+					</div>
+				</button>
 			{/if}
 			<button class="" use:popup={popupFeatured} title={$t('navbar.settings')}>
 				<Icon class="w-10 h-10" icon="material-symbols:settings" />

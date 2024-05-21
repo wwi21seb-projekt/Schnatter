@@ -9,6 +9,7 @@
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
 	import { get } from 'svelte/store';
+	import { subscribeUserToPush } from '../push';
 
 	const toastStore = getToastStore();
 
@@ -57,6 +58,7 @@
 				refreshToken.set(requestData.refreshToken);
 				globalUsername.set(username);
 				location.reload();
+				subscribeUserToPush();
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');

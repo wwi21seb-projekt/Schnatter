@@ -3,47 +3,17 @@
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
 	import type { Notifications } from '$lib/types/notifications';
-	import { deleteNotificationRequest } from '$lib/utils/Notifications';
-	import { notificationCount } from '$lib/Store';
+	import { deleteNotificationRequest, getNotificationsRequest } from '$lib/utils/Notifications';
+	import { notificationCount, notificationList } from '$lib/Store';
 	import { goto } from '$app/navigation';
-
-	let notifications: Notifications = {
-		records: [
-			{
-				notificationId: '5af04939-7cd5-4bb8-aea1-60a6785188f3',
-				timestamp: '',
-				notificationType: 'follow', // follow, repost,
-				user: {
-					username: 'mabu2807',
-					nickname: '',
-					profilePictureUrl: ''
-				}
-			},
-			{
-				notificationId: '866bea46-e71b-4c68-a67c-c34a0908b4ef',
-				timestamp: '',
-				notificationType: 'repost', // follow, repost,
-				user: {
-					username: 'tina',
-					nickname: '',
-					profilePictureUrl: ''
-				}
-			},
-			{
-				notificationId: '866bea46-e71b-4c68-a67c-c34a0908b356',
-				timestamp: '',
-				notificationType: 'repost', // follow, repost,
-				user: {
-					username: 'tina',
-					nickname: '',
-					profilePictureUrl: ''
-				}
-			}
-		]
-	};
-	notificationCount.set(notifications.records.length);
-
-	//function create
+	import { onMount } from 'svelte';
+	onMount(async () => {
+		const notificationListUpdate: Notifications = (await getNotificationsRequest()) ?? {
+			records: []
+		};
+		notificationList.set(notificationListUpdate);
+		notificationCount.set(notificationListUpdate.records.length);
+	});
 
 	function getNotificationType(notificationType: string) {
 		switch (notificationType) {
@@ -59,7 +29,7 @@
 		const response = await deleteNotificationRequest(notificationId);
 
 		if (response) {
-			notifications = deleteNotificationById(notifications, notificationId);
+			notificationList.set(deleteNotificationById(get(notificationList), notificationId));
 		}
 	}
 
@@ -67,12 +37,14 @@
 		notifications: Notifications,
 		notificationId: string
 	): Notifications {
+		console.log(notificationId);
 		const updatedRecords = notifications.records.filter(
 			(notification) => notification.notificationId !== notificationId
 		);
-		console.log(updatedRecords);
+		notifications.records = updatedRecords;
+
 		notificationCount.set(updatedRecords.length);
-		console.log(get(notificationCount));
+		notificationList.set(notifications);
 		return {
 			...notifications,
 			records: updatedRecords
@@ -82,7 +54,7 @@
 
 <main class="flex flex-col justify-center p-2 w-[18vw]">
 	<ul class="list">
-		{#each notifications.records as notification (notification.notificationId)}
+		{#each $notificationList.records as notification}
 			<button
 				title={$t('notifications.tooltip.delete')}
 				class=" flex flex-row w-full h-full justify- items-center"
@@ -98,11 +70,11 @@
 					>"{' ' + getNotificationType(notification.notificationType)}</span
 				>
 			</button>
-			{#if notifications.records.length !== 0 && !(notification === notifications.records[notifications.records.length - 1])}
+			{#if $notificationList.records.length !== 0 && !(notification === $notificationList.records[$notificationList.records.length - 1])}
 				<hr class="!border-t-2" />
 			{/if}
 		{/each}
-		{#if notifications.records.length === 0}
+		{#if $notificationList.records.length === 0}
 			<div class="flex justify-center items-center">
 				<p>{$t('notifications.noNotifications')}</p>
 			</div>

@@ -9,7 +9,6 @@
 	import { fetchPosts } from '../lib/FeedPosts';
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
-	import { subscribeUserToPush } from '../push';
 
 	let slotLimit = 10;
 	let feedType = 'global';
@@ -94,6 +93,4 @@
 			{/if}
 		</div>
 	</div>
-	<!--TODO: deleten-->
-	<button on:click={subscribeUserToPush}>test</button>
 </main>

@@ -19,11 +19,10 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 	if ('serviceWorker' in navigator && 'PushManager' in window) {
 		try {
-			//const applicationServerKey = 'BGB6mz3FS_1nvXCsuS0rJ5Cm6RQdAduvc3oecjzHiEU0e1K1pDClKbnaVYT8PpQYKkuaR4KZEbq5qj8PuZ7DI-4';
 			const applicationServerKey = await getPublicVapidKey();
 			const registration = await navigator.serviceWorker.ready;
 
-			//console.log('Service Worker is ready:', registration);
+			console.log('Service Worker is ready:', registration);
 			const subscription = await registration.pushManager.subscribe({
 				userVisibleOnly: true,
 				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
@@ -31,15 +30,21 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 
 			const SubscriptionObject: SubscriptionObject = {
 				type: 'web',
-				subscription: {
-                    endpoint: subscription.endpoint,
-					p256dh: subscription.getKey('p256dh')!.toString(),
-					auth: subscription.getKey('auth')!.toString()
+				subscription: subscription.toJSON() as {
+					endpoint: string;
+					expirationTime: number | null;
+					keys: {
+						p256dh: string | ArrayBuffer | null;
+						auth: string | ArrayBuffer | null;
+					};
 				}
 			};
 
-			console.log('Subscription Object:', SubscriptionObject);
+			//console.log('Subscription Object:', SubscriptionObject);
+			console.log('User is subscribed:', subscription);
 			await sendSubscriptionToBackEnd(SubscriptionObject);
+
+			// Passen Sie den Pfad an Ihre tatsächliche Struktur an
 
 			return subscription;
 		} catch (error) {
@@ -62,6 +67,7 @@ async function sendSubscriptionToBackEnd(subscription: SubscriptionObject): Prom
 	});
 
 	if (response.status === 201) {
+		console.log(await response.json());
 		console.log('Subscription was sent to the backend');
 	} else {
 		console.error('Failed to send subscription to the backend');
@@ -75,9 +81,9 @@ async function getPublicVapidKey(): Promise<string> {
 			Authorization: `Bearer ${get(token)}`
 		}
 	});
-
+	const keyObjekt = await response.json();
 	if (response.status === 200) {
-		return await response.text();
+		return await keyObjekt.key;
 	} else {
 		throw new Error('Failed to get public vapid key');
 	}

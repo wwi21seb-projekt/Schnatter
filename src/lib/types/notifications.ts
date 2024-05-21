@@ -1,6 +1,6 @@
 //import type { UUID } from "crypto";
 
-export type Notification = {
+export type NotificationEntity = {
 	notificationId: string;
 	timestamp: string;
 	notificationType: string; //like, comment, repost,
@@ -12,5 +12,5 @@ export type Notification = {
 };
 
 export type Notifications = {
-	records: Notification[];
+	records: NotificationEntity[];
 };
