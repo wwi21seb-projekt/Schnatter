@@ -7,7 +7,6 @@ self.addEventListener('fetch', function () {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('push', function (event: any) {
-	// TODO: Handle push event
 	const payload: NotificationEntity = event.data?.json() ?? 'no payload';
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore

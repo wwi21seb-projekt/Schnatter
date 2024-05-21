@@ -57,8 +57,9 @@
 				token.set(requestData.token);
 				refreshToken.set(requestData.refreshToken);
 				globalUsername.set(username);
+				await subscribeUserToPush();
 				location.reload();
-				subscribeUserToPush();
+				
 			} else if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');
