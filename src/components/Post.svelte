@@ -13,14 +13,14 @@
 
 	const modalStore = getModalStore();
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
 	let repostDate: string = '';
 
 	let locationString = '';
 	let repostLocationString = '';
 
 	const loginToken = get(token);
+	let post: PostStructure = postData;
+	let postDate: string = '';
 
 	const modal: ModalSettings = {
 		type: 'component',
@@ -37,8 +37,6 @@
 		}
 	];
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
 	let isLoggedOut: boolean = true;
 	const toastStore = getToastStore();
 	let newRepostPost: TextColorPost[] = [
