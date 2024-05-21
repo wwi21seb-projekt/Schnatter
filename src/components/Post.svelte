@@ -19,8 +19,8 @@
 	let repostLocationString = '';
 
 	const loginToken = get(token);
-	let post: PostStructure = postData;
 	let postDate: string = '';
+	let post: PostStructure = postData;
 
 	const modal: ModalSettings = {
 		type: 'component',
