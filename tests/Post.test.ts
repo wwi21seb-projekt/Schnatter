@@ -30,10 +30,7 @@ test('Likecount is visible', async ({ page }) => {
 
 test('Can not like when not logged in', async ({ page }) => {
 	await page.goto('/');
-	const likeCountBefore = await page.getByTitle('likeCount').first().textContent();
-	await page.getByTitle('like', { exact: true }).first().click();
-	const likeCountAfter = await page.getByTitle('likeCount').first().textContent();
-	await expect(likeCountAfter).toBe(likeCountBefore);
+	await expect(page.getByRole('button', { name: 'like', exact: true }).first()).toBeDisabled();
 });
 
 test('Can like when logged in', async ({ page }) => {
