@@ -20,6 +20,8 @@
 
 	let commentText: string = '';
 
+	let click: number = 0;
+
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
 		likeCount: 123,
@@ -52,10 +54,16 @@
 	function helperHashtagCheck() {
 		newPost = checkForHashtags(post);
 	}
-	let showComments = false;
-	
+	let showNoComments = false;
+
 	function setShowButton() {
-		showComments = !showComments;
+		showNoComments = !showNoComments;
+	}
+
+	function commentSendButton() {
+		sendComment(post.postId, commentText);
+		commentText = ' ';
+		click++;
 	}
 </script>
 
@@ -92,25 +100,27 @@
 				{/each}
 			</p>
 		</section>
-		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full ">
+		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row float-left items-center w-[35%]">
 				<button on:click={likeHelper} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
-				<button
-					type="button" 
-					data-sveltekit-preload-data="hover"
-					class="ml-2 btn btn-sm border-solid border-2"
-					on:click={setShowButton}
-					>{showComments
-						? $t('post.comments.buttonHideComments')
-						: $t('post.comments.buttonShowComments')}</button
-				>
+				{#if loginToken != ''}
+					<button
+						type="button"
+						data-sveltekit-preload-data="hover"
+						class="ml-2 btn btn-sm border-solid border-2"
+						on:click={setShowButton}
+						>{showNoComments
+							? $t('post.comments.buttonHideComments')
+							: $t('post.comments.buttonShowComments')}</button
+					>
+				{/if}
 			</div>
-			{#if loginToken != '' || loginToken != undefined}
-				<div class="flex float-right  w-[65%]">
+			{#if loginToken != ''}
+				<div class="flex float-right w-[65%]">
 					<label class="label p-2 w-full">
 						<textarea
 							class="textarea resize-none"
@@ -118,17 +128,19 @@
 							bind:value={commentText}
 							placeholder={commentText === '' ? $t('post.postComment.placeholder') : ''}
 							rows="1"
-							maxlength="128" 
+							maxlength="128"
 						/>
 					</label>
-					<button class="w-7" on:click={()=>sendComment(post.postId, commentText)}>
+					<button class="w-7" on:click={commentSendButton}>
 						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
 					</button>
 				</div>
 			{/if}
 		</footer>
 	</div>
-	{#if (loginToken != '' || loginToken == undefined) && showComments}
-		<Commentsection postId={post.postId} />
+	{#if (loginToken != '' || loginToken == undefined) && showNoComments}
+		{#key click}
+			<Commentsection postId={post.postId} />
+		{/key}
 	{/if}
 </main>

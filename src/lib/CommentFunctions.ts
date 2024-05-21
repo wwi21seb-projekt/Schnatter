@@ -29,13 +29,13 @@ export async function fetchComments(
 
 	if (get(token)) {
 		fetchOptions.headers = {
-            'Content-Type': 'application/json',
+			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + get(token)
 		};
 	}
 
-	const url: string = get(serverURL)+ '/posts/' + postId + '/comments?' + params;
-	const response = await fetch(url, fetchOptions)
+	const url: string = get(serverURL) + '/posts/' + postId + '/comments?' + params;
+	const response = await fetch(url, fetchOptions);
 
 	if (response.status === 200) {
 		data = await response.json();
@@ -54,7 +54,5 @@ export async function sendComment(postId: UUID, commentText: string) {
 		},
 		body: JSON.stringify({ content: commentText })
 	});
-	if (response.status == 201) {
-		console.log('Kommentar wurde gesendet');
-	}
+	return response;
 }

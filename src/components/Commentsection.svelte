@@ -3,15 +3,13 @@
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { t } from '../i18n';
-	import { get } from 'svelte/store';
-	import { token } from '$lib/Store';
 	import type { UUID } from 'crypto';
 	import type { Comments } from '$lib/types/Comment';
 
-	const loginToken = get(token);
 	let limit: number = 10;
 	let offset: number = 0;
 	export let postId: UUID;
+
 	let commentFetchError: string = '0';
 	let commentData: Comments = {
 		records: [
@@ -33,7 +31,6 @@
 		}
 	};
 
-	
 	onMount(async () => {
 		const response = await fetchComments(limit, postId, offset);
 		if (typeof response === 'number') {
