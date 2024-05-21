@@ -8,6 +8,7 @@ export type PostStructure = {
 	author: Author;
 	creationDate: string;
 	content: string;
+	repost: PostStructure | null;
 	location: GeoLocationCoords | undefined;
 };
 
