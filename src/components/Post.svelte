@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { PostStructure, TextColorPost, LikeObjectStructure } from '$lib/types/Post';
+	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -13,18 +13,14 @@
 
 	const modalStore = getModalStore();
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
 	let repostDate: string = '';
 
 	let locationString = '';
 	let repostLocationString = '';
 
 	const loginToken = get(token);
-	let likeObject: LikeObjectStructure = {
-		likeCount: 123,
-		liked: false
-	};
+	let postDate: string = '';
+	let post: PostStructure = postData;
 
 	const modal: ModalSettings = {
 		type: 'component',
@@ -41,6 +37,8 @@
 		}
 	];
 
+	let isLoggedOut: boolean = true;
+	const toastStore = getToastStore();
 	let newRepostPost: TextColorPost[] = [
 		{
 			hashtagClass: '',
@@ -68,11 +66,14 @@
 		newPost = parsePostHashtags(post);
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
+		if (loginToken != '' || loginToken == undefined) {
+			isLoggedOut = false;
+		}
 	});
 
-	function likeHelper() {
+	function handleLikeClick() {
 		if (loginToken != '' || loginToken == undefined) {
-			likeObject = likeCounter(likeObject);
+			post = likeCounter(post as PostStructure, toastStore) as PostStructure;
 		}
 	}
 
@@ -156,11 +157,11 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper} title="like">
-					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
+				<button disabled={isLoggedOut} on:click={handleLikeClick} title="like">
+					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
-				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
+				<p class="mr-1" title="likeCount">{post.likes}</p>
 			</div>
 			{#if loginToken != '' && loginToken != undefined}
 				{#if post.repost == undefined || post.repost == null}

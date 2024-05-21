@@ -8,6 +8,8 @@ export type PostStructure = {
 	author: Author;
 	creationDate: string;
 	content: string;
+	likes: number;
+	liked: boolean;
 	repost: PostStructure | null;
 	location: GeoLocationCoords | undefined;
 };
@@ -22,12 +24,9 @@ export type PostUserProfilStructure = {
 	postId: UUID;
 	creationDate: string;
 	content: string;
-	location: GeoLocationCoords | undefined;
-};
-
-export type LikeObjectStructure = {
-	likeCount: number;
+	likes: number;
 	liked: boolean;
+	location: GeoLocationCoords | undefined;
 };
 
 export type UserPostFetchResponse = {

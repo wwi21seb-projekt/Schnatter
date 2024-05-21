@@ -1,9 +1,5 @@
 <script lang="ts">
-	import type {
-		PostUserProfilStructure,
-		TextColorPost,
-		LikeObjectStructure
-	} from '$lib/types/Post';
+	import type { PostUserProfilStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { serverURL, token } from '$lib/Store';
@@ -27,10 +23,6 @@
 	let locationString = '';
 
 	const loginToken = get(token);
-	let likeObject: LikeObjectStructure = {
-		likeCount: 123,
-		liked: false
-	};
 
 	let newPost: TextColorPost[] = [
 		{
@@ -63,8 +55,10 @@
 		checkDeleteOption();
 	});
 
-	function likeHelper() {
-		likeObject = likeCounter(likeObject);
+	function handleLickClick() {
+		if (loginToken != '' || loginToken == undefined) {
+			post = likeCounter(post as PostUserProfilStructure, toastStore) as PostUserProfilStructure;
+		}
 	}
 
 	function helperHashtagCheck() {
@@ -137,11 +131,11 @@
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row">
-				<button on:click={likeHelper}>
-					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
+				<button on:click={handleLickClick}>
+					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
-				<p class="mr-1">{likeObject.likeCount}</p>
+				<p class="mr-1">{post.likes}</p>
 			</div>
 			{#if loginToken != '' || loginToken == undefined}
 				<input
