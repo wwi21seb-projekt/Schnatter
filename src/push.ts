@@ -22,7 +22,6 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 			const applicationServerKey = await getPublicVapidKey();
 			const registration = await navigator.serviceWorker.ready;
 
-			console.log('Service Worker is ready:', registration);
 			const subscription = await registration.pushManager.subscribe({
 				userVisibleOnly: true,
 				applicationServerKey: urlBase64ToUint8Array(applicationServerKey)
@@ -40,15 +39,12 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 				}
 			};
 
-			//console.log('Subscription Object:', SubscriptionObject);
-			console.log('User is subscribed:', subscription);
 			await sendSubscriptionToBackEnd(SubscriptionObject);
 
 			// Passen Sie den Pfad an Ihre tatsächliche Struktur an
 
 			return subscription;
 		} catch (error) {
-			console.error('Failed to subscribe the user: ', error);
 			return null;
 		}
 	}
@@ -56,7 +52,6 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 }
 
 async function sendSubscriptionToBackEnd(subscription: SubscriptionObject): Promise<void> {
-	console.log('Sending subscription to the backend');
 	const response = await fetch(`${get(serverURL)}/push/register`, {
 		method: 'POST',
 		headers: {
@@ -66,11 +61,8 @@ async function sendSubscriptionToBackEnd(subscription: SubscriptionObject): Prom
 		body: JSON.stringify(subscription)
 	});
 
-	if (response.status === 201) {
-		console.log(await response.json());
-		console.log('Subscription was sent to the backend');
-	} else {
-		console.error('Failed to send subscription to the backend');
+	if (response.status !== 201) {
+		throw new Error('Failed to send subscription to backend');
 	}
 }
 

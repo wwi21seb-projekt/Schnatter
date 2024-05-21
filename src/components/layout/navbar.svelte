@@ -56,8 +56,6 @@
 	}
 	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('message', (event) => {
-			console.log('Received message from service worker', event.data);
-			console.log('Received message from service worker', event.data.type);
 			if (event.data && event.data.type === 'PUSH_NOTIFICATION') {
 				const payload = event.data.payload;
 
@@ -67,7 +65,6 @@
 						(notification) => notification.notificationId === payload.notificationId
 					)
 				) {
-					console.log('Notification already exists');
 					return;
 				} else {
 					notificationList.update((value) => {
@@ -75,11 +72,7 @@
 						return value;
 					});
 					notificationCount.update((value) => value + 1);
-					console.log('Notification added');
 				}
-
-				console.log('Push notification received in main application', payload);
-				console.log(get(notificationList));
 			}
 		});
 	}

@@ -37,7 +37,6 @@
 		notifications: Notifications,
 		notificationId: string
 	): Notifications {
-		console.log(notificationId);
 		const updatedRecords = notifications.records.filter(
 			(notification) => notification.notificationId !== notificationId
 		);
