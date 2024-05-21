@@ -162,10 +162,12 @@
 				</button>
 				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
 			</div>
-			{#if loginToken != '' || loginToken != undefined}
-				<button on:click={repostHelper} title="repost">
-					<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
-				</button>
+			{#if loginToken != '' && loginToken != undefined}
+				{#if post.repost == undefined || post.repost == null}
+					<button on:click={repostHelper} title="repost">
+						<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
+					</button>
+				{/if}
 				<input
 					class="input mx-3"
 					title="commentInput"
