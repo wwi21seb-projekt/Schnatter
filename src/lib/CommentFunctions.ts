@@ -4,7 +4,6 @@ import type { Comments } from './types/Comment';
 import type { UUID } from 'crypto';
 
 export async function fetchComments(
-	token: string,
 	limit: number,
 	postId: UUID,
 	offset: number
@@ -28,15 +27,15 @@ export async function fetchComments(
 		mode: 'cors'
 	};
 
-	if (token) {
+	if (get(token)) {
 		fetchOptions.headers = {
-			Authorization: 'Bearer' + token
+            'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + get(token)
 		};
 	}
 
-	const url: string = get(serverURL) + '/posts/' + postId + '/comments?' + params;
-
-	const response = await fetch(url, fetchOptions);
+	const url: string = get(serverURL)+ '/posts/' + postId + '/comments?' + params;
+	const response = await fetch(url, fetchOptions)
 
 	if (response.status === 200) {
 		data = await response.json();
@@ -46,7 +45,7 @@ export async function fetchComments(
 	}
 }
 export async function sendComment(postId: UUID, commentText: string) {
-	const response = await fetch(`${get(token)}/posts/${postId}/comments`, {
+	const response = await fetch(`${get(serverURL)}/posts/${postId}/comments`, {
 		method: 'POST',
 		mode: 'cors',
 		headers: {

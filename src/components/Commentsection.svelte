@@ -33,8 +33,9 @@
 		}
 	};
 
+	
 	onMount(async () => {
-		const response = await fetchComments(loginToken, limit, postId, offset);
+		const response = await fetchComments(limit, postId, offset);
 		if (typeof response === 'number') {
 			if (response == 401) {
 				commentFetchError = 'The request is unauthorized.';
@@ -56,22 +57,22 @@
 		<header class="card-header flex flex-row items-center">
 			<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
 		</header>
-		{#each commentData.records as comment}
-			{#if commentData.records.length == 0}
-				<div>{$t('post.comments.noComments')}</div>
-			{:else}
+		{#if commentData.records == null}
+			<div>{$t('post.comments.noComments')}</div>
+		{:else}
+			{#each commentData.records as comment}
 				<section class="p-3 flex flex-col">
 					<div class="flex flex-row">
 						<div class="items-baseline">
 							<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
 						</div>
 						<div class="flex flex-col">
-							<p class="font-bold">{comment.author.username}</p>
+							<span class="font-bold">{comment.author.username}</span>
 							<p class="w-full">{comment.content}</p>
 						</div>
 					</div>
 				</section>
-			{/if}
-		{/each}
+			{/each}
+		{/if}
 	{/if}
 </div>
