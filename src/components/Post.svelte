@@ -13,8 +13,10 @@
 
 	let post: PostStructure = postData;
 	let postDate: string = '';
+	let repostDate: string = '';
 
 	let locationString = '';
+	let repostLocationString = '';
 
 	const loginToken = get(token);
 	let likeObject: LikeObjectStructure = {
@@ -30,11 +32,31 @@
 		}
 	];
 
+	let newRepostPost: TextColorPost[] = [
+		{
+			hashtagClass: '',
+			text: '',
+			wordID: 0
+		}
+	];
+
 	onMount(async () => {
 		if (post.location) {
 			locationString = await getLocationCity(post.location);
 		}
-		helperHashtagCheck();
+
+		if (post.repost != undefined && post.repost != null) {
+			newRepostPost = helperHashtagCheck(post.repost);
+			if (post.repost.location) {
+				repostLocationString = await getLocationCity(post.repost.location);
+			}
+			if (post.repost.creationDate) {
+				const repostDateConverted: Date = new Date(post.repost.creationDate);
+				repostDate = repostDateConverted.toLocaleDateString();
+			}
+		}
+
+		newPost = helperHashtagCheck(post);
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
 	});
@@ -45,8 +67,14 @@
 		}
 	}
 
-	function helperHashtagCheck() {
-		newPost = checkForHashtags(post);
+	function repostHelper() {
+		if (loginToken != '' && loginToken != undefined) {
+			// repost;
+		}
+	}
+
+	function helperHashtagCheck(post: PostStructure) {
+		return checkForHashtags(post);
 	}
 </script>
 
@@ -81,6 +109,42 @@
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
+				{#if post.repost != undefined || post.repost != null}
+					<header class="card-header w-full flex justify-between items-center">
+						<div class="flex flex-row items-center">
+							<Avatar
+								class="h-[3.5vh] w-[3.5vh] rounded-full mr-1.5"
+								src={post.repost.author.profilePictureUrl}
+								initials=""
+							/>
+							<div class="flex flex-col">
+								<a
+									class="text-[0.5rem]"
+									title="repostAuthorUsername"
+									href="/profile?username={post.repost.author.username}"
+									data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
+								>
+								<p class="font-light text-xs text-[0.5rem]" title="repostAuthorNickname">
+									{post.repost.author.nickname}
+								</p>
+							</div>
+						</div>
+						<div class="flex flex-col items-end">
+							<p class="text-xs text-[0.5rem]">{repostLocationString}</p>
+							<p class="text-xs text-[0.5rem]" title="repostPostdate">{repostDate}</p>
+						</div>
+					</header>
+					<section class="p-4">
+						<p
+							class="h-[10vh] border-solid border-2 border-gray-800 p-1 text-lg overflow-auto"
+							title="repostPostcontent"
+						>
+							{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
+								<span class="{hashtagClass} text-[0.5rem]">{text} </span>
+							{/each}
+						</p>
+					</section>
+				{/if}
 			</p>
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
@@ -92,6 +156,9 @@
 				<p class="mr-1" title="likeCount">{likeObject.likeCount}</p>
 			</div>
 			{#if loginToken != '' || loginToken != undefined}
+				<button on:click={repostHelper} title="repost">
+					<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
+				</button>
 				<input
 					class="input mx-3"
 					title="commentInput"
