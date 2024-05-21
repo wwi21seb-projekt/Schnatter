@@ -8,7 +8,7 @@
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
-	
+
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	let textClick: boolean = true;
@@ -17,7 +17,6 @@
 
 	let text: string = '';
 	let repostId = '';
-	
 
 	onMount(() => {
 		focusfield.focus();

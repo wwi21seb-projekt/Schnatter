@@ -30,7 +30,7 @@
 		type: 'component',
 		component: 'modalCreatePost',
 
-		meta: {repostId: post.postId}
+		meta: { repostId: post.postId }
 	};
 
 	let newPost: TextColorPost[] = [
