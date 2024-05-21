@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@floating-ui/dom':
     specifier: 1.6.5
@@ -9,10 +13,10 @@ dependencies:
     version: 3.1.6(svelte@4.2.9)
   '@sveltejs/adapter-node':
     specifier: ^4.0.0
-    version: 4.0.0(@sveltejs/kit@2.4.1)
+    version: 4.0.0(@sveltejs/kit@2.5.9)
   '@sveltejs/adapter-static':
     specifier: ^3.0.1
-    version: 3.0.1(@sveltejs/kit@2.4.1)
+    version: 3.0.1(@sveltejs/kit@2.5.9)
   '@sveltejs/vite-plugin-svelte':
     specifier: ^3.0.1
     version: 3.0.1(svelte@4.2.9)(vite@5.0.12)
@@ -44,10 +48,10 @@ devDependencies:
     version: 0.3.1(tailwindcss@3.4.1)
   '@sveltejs/adapter-auto':
     specifier: ^3.1.1
-    version: 3.1.1(@sveltejs/kit@2.4.1)
+    version: 3.1.1(@sveltejs/kit@2.5.9)
   '@sveltejs/kit':
     specifier: ^2.4.1
-    version: 2.4.1(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
+    version: 2.5.9(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
   '@tailwindcss/forms':
     specifier: 0.5.7
     version: 0.5.7(tailwindcss@3.4.1)
@@ -909,16 +913,16 @@ packages:
       tailwindcss: 3.4.1
     dev: true
 
-  /@sveltejs/adapter-auto@3.1.1(@sveltejs/kit@2.4.1):
+  /@sveltejs/adapter-auto@3.1.1(@sveltejs/kit@2.5.9):
     resolution: {integrity: sha512-6LeZft2Fo/4HfmLBi5CucMYmgRxgcETweQl/yQoZo/895K3S9YWYN4Sfm/IhwlIpbJp3QNvhKmwCHbsqQNYQpw==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
     dependencies:
-      '@sveltejs/kit': 2.4.1(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
+      '@sveltejs/kit': 2.5.9(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
       import-meta-resolve: 4.1.0
     dev: true
 
-  /@sveltejs/adapter-node@4.0.0(@sveltejs/kit@2.4.1):
+  /@sveltejs/adapter-node@4.0.0(@sveltejs/kit@2.5.9):
     resolution: {integrity: sha512-7R02GTNW+I42X1m5Im/NSr1DlwK1VCDwuDfi0cXgmCsaoZd9m1uFLrMYDx4F4a0K2h5gal02MuCgycgdGhgk0g==}
     peerDependencies:
       '@sveltejs/kit': ^2.4.0
@@ -926,20 +930,20 @@ packages:
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.17.2)
       '@rollup/plugin-json': 6.1.0(rollup@4.17.2)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.17.2)
-      '@sveltejs/kit': 2.4.1(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
+      '@sveltejs/kit': 2.5.9(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
       rollup: 4.17.2
     dev: false
 
-  /@sveltejs/adapter-static@3.0.1(@sveltejs/kit@2.4.1):
+  /@sveltejs/adapter-static@3.0.1(@sveltejs/kit@2.5.9):
     resolution: {integrity: sha512-6lMvf7xYEJ+oGeR5L8DFJJrowkefTK6ZgA4JiMqoClMkKq0s6yvsd3FZfCFvX1fQ0tpCD7fkuRVHsnUVgsHyNg==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
     dependencies:
-      '@sveltejs/kit': 2.4.1(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
+      '@sveltejs/kit': 2.5.9(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12)
     dev: false
 
-  /@sveltejs/kit@2.4.1(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12):
-    resolution: {integrity: sha512-NnDrPOmTjzhgWkwJNPcth3vBMWQmI/QhwbMRXow1p/RkM+17HxP2yQR3GYwIK83rkYSKwQiweyBVWGOjJY4gsg==}
+  /@sveltejs/kit@2.5.9(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.9)(vite@5.0.12):
+    resolution: {integrity: sha512-x8biUVHPQq075/ESH/UO+fwENtAcw0kg9+bloqqEnbLUNWcrWpmcL3vKrKJc4vaVh/CYKFXn47N98Sbt/Y3vKQ==}
     engines: {node: '>=18.13'}
     hasBin: true
     requiresBuild: true
@@ -951,7 +955,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 3.0.1(svelte@4.2.9)(vite@5.0.12)
       '@types/cookie': 0.6.0
       cookie: 0.6.0
-      devalue: 4.3.3
+      devalue: 5.0.0
       esm-env: 1.0.0
       import-meta-resolve: 4.1.0
       kleur: 4.1.5
@@ -1568,8 +1572,8 @@ packages:
     resolution: {integrity: sha512-reYkTUJAZb9gUuZ2RvVCNhVHdg62RHnJ7WJl8ftMi4diZ6NWlciOzQN88pUhSELEwflJht4oQDv0F0BMlwaYtA==}
     engines: {node: '>=8'}
 
-  /devalue@4.3.3:
-    resolution: {integrity: sha512-UH8EL6H2ifcY8TbD2QsxwCC/pr5xSwPvv85LrLXVihmHVC3T3YqTCIwnR5ak0yO1KYqlxrPVOA/JVZJYPy2ATg==}
+  /devalue@5.0.0:
+    resolution: {integrity: sha512-gO+/OMXF7488D+u3ue+G7Y4AA3ZmUnB3eHJXmBTgNHvr4ZNzl36A0ZtG+XCRNYCkYx/bFmw4qtkoFLa+wSrwAA==}
 
   /didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
