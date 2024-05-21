@@ -19,7 +19,7 @@ test('Home is visible', async ({ page }) => {
 test('other buttons not visible when not logged in', async ({ page }) => {
 	await page.goto('/');
 	await expect(page.getByTitle('search')).not.toBeVisible();
-	await expect(page.getByRole('button', { name: 'post' })).not.toBeVisible();
+	await expect(page.getByRole('button', { name: 'Posts', exact: true })).not.toBeVisible();
 	await expect(page.getByTitle('messages')).not.toBeVisible();
 	await expect(page.getByTitle('profile')).not.toBeVisible();
 	await expect(page.getByTitle('logOut')).not.toBeVisible();
@@ -28,7 +28,7 @@ test('other buttons not visible when not logged in', async ({ page }) => {
 test('other buttons visible when logged in', async ({ page }) => {
 	await login(page);
 	await expect(page.getByTitle('search')).toBeVisible();
-	await expect(page.getByRole('button', { name: 'post' })).toBeVisible();
+	await expect(page.getByRole('button', { name: 'Posts', exact: true })).toBeVisible();
 	await expect(page.getByTitle('messages')).toBeVisible();
 	await expect(page.getByTitle('profile')).toBeVisible();
 	await expect(page.getByTitle('logOut')).toBeVisible();
@@ -45,7 +45,7 @@ test('Search button works', async ({ page }) => {
 test('Post button works', async ({ page }) => {
 	await login(page);
 	await page.goto('/');
-	await page.getByRole('button', { name: 'post' }).click();
+	await page.getByRole('button', { name: 'Posts', exact: true }).click();
 	await page.waitForTimeout(1000);
 	await expect(page.getByPlaceholder('Write your post here')).toBeVisible();
 });

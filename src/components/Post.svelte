@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { PostStructure, TextColorPost, LikeObjectStructure } from '$lib/types/Post';
+	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -13,22 +13,39 @@
 
 	export let postData;
 
-	let post: PostStructure = postData;
-	let postDate: string = '';
+	const modalStore = getModalStore();
+
+	let repostDate: string = '';
 
 	let locationString = '';
+	let repostLocationString = '';
 
 	let commentText: string = '';
 
 	let click: number = 0;
 
 	const loginToken = get(token);
-	let likeObject: LikeObjectStructure = {
-		likeCount: 123,
-		liked: false
+	let postDate: string = '';
+	let post: PostStructure = postData;
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: 'modalCreatePost',
+
+		meta: { repostId: post.postId }
 	};
 
 	let newPost: TextColorPost[] = [
+		{
+			hashtagClass: '',
+			text: '',
+			wordID: 0
+		}
+	];
+
+	let isLoggedOut: boolean = true;
+	const toastStore = getToastStore();
+	let newRepostPost: TextColorPost[] = [
 		{
 			hashtagClass: '',
 			text: '',
@@ -40,19 +57,38 @@
 		if (post.location) {
 			locationString = await getLocationCity(post.location);
 		}
-		helperHashtagCheck();
+
+		if (post.repost != undefined && post.repost != null) {
+			newRepostPost = parsePostHashtags(post.repost);
+			if (post.repost.location) {
+				repostLocationString = await getLocationCity(post.repost.location);
+			}
+			if (post.repost.creationDate) {
+				const repostDateConverted: Date = new Date(post.repost.creationDate);
+				repostDate = repostDateConverted.toLocaleDateString();
+			}
+		}
+
+		newPost = parsePostHashtags(post);
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
+		if (loginToken != '' || loginToken == undefined) {
+			isLoggedOut = false;
+		}
 	});
 
-	function likeHelper() {
+	function handleLikeClick() {
 		if (loginToken != '' || loginToken == undefined) {
-			likeObject = likeCounter(likeObject);
+			post = likeCounter(post as PostStructure, toastStore) as PostStructure;
 		}
 	}
 
-	function helperHashtagCheck() {
-		newPost = checkForHashtags(post);
+	function handleRepostClick() {
+		modalStore.trigger(modal);
+	}
+
+	function parsePostHashtags(post: PostStructure) {
+		return checkForHashtags(post);
 	}
 	let showNoComments = false;
 
@@ -92,12 +128,48 @@
 		</header>
 		<section class="p-4">
 			<p
-				class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg overflow-auto"
+				class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg h-auto"
 				title="postcontent"
 			>
 				{#each newPost as { hashtagClass, text, wordID } (wordID)}
 					<span class={hashtagClass}>{text} </span>
 				{/each}
+				{#if post.repost != undefined || post.repost != null}
+					<header class="card-header w-full flex justify-between items-center">
+						<div class="flex flex-row items-center">
+							<Avatar
+								class="h-[5vh] w-[5vh] rounded-full mr-3"
+								src={post.repost.author.profilePictureUrl}
+								initials=""
+							/>
+							<div class="flex flex-col">
+								<a
+									class="text-[0.75rem]"
+									title="repostAuthorUsername"
+									href="/profile?username={post.repost.author.username}"
+									data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
+								>
+								<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
+									{post.repost.author.nickname}
+								</p>
+							</div>
+						</div>
+						<div class="flex flex-col items-end">
+							<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
+							<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
+						</div>
+					</header>
+					<section class="p-4">
+						<p
+							class="h-[10vh] border-solid border-2 border-gray-800 p-1 text-lg h-auto"
+							title="repostPostcontent"
+						>
+							{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
+								<span class="{hashtagClass} text-[0.75rem]">{text} </span>
+							{/each}
+						</p>
+					</section>
+				{/if}
 			</p>
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
