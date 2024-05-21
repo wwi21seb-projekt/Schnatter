@@ -8,6 +8,7 @@
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
+
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 	let textClick: boolean = true;
@@ -15,9 +16,13 @@
 	let focusfield: HTMLTextAreaElement;
 
 	let text: string = '';
+	let repostId = '';
 
 	onMount(() => {
 		focusfield.focus();
+		if ($modalStore[0].meta) {
+			repostId = $modalStore[0].meta.repostId;
+		}
 	});
 
 	function closeModal() {
@@ -44,12 +49,14 @@
 		validateCoords(geoLocationData);
 		if (geoLocationData.latitude == 0 && geoLocationData.longitude == 0) {
 			bodyData = {
-				content: text
+				content: text,
+				repostedPostId: repostId
 			};
 		} else {
 			bodyData = {
-				content: text
-				//location: geoLocationData
+				content: text,
+				//location: geoLocationData,
+				repostedPostId: repostId
 			};
 		}
 		const url = get(serverURL) + '/posts';

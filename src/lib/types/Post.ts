@@ -10,6 +10,7 @@ export type PostStructure = {
 	content: string;
 	likes: number;
 	liked: boolean;
+	repost: PostStructure | null;
 	location: GeoLocationCoords | undefined;
 };
 
