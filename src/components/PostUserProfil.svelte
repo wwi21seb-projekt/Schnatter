@@ -146,10 +146,10 @@
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
 			<div class="flex flex-row float-left items-center w-[35%]">
 				<button on:click={handleLickClick}>
-					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={likeObject.liked ? 'red' : 'white'}
+					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
-				<p class="mr-1">{likeObject.likeCount}</p>
+				<p class="mr-1">{post.likes}</p>
 				{#if loginToken != ''}
 					<button
 						type="button"
