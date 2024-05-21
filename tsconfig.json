@@ -1,6 +1,7 @@
 {
 	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
+		"lib": ["ES2018"],
 		"allowJs": true,
 		"checkJs": true,
 		"esModuleInterop": true,

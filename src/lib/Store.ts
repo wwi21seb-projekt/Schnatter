@@ -1,5 +1,6 @@
 import { persisted } from 'svelte-local-storage-store';
 import { writable } from 'svelte/store';
+import type { Notifications } from './types/notifications';
 
 export const registerUsername = writable('');
 
@@ -13,3 +14,9 @@ export const serverURL = writable('https://server-beta.de/api');
 export const token = persisted('token', '');
 export const refreshToken = persisted('refreshToken', '');
 export const globalUsername = persisted('globalUsername', '');
+
+// notifications
+
+export const notificationCount = persisted('notificationCount', 0);
+
+export const notificationList = persisted('notificationList', { records: [] } as Notifications);

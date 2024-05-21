@@ -8,9 +8,10 @@
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import { refreshToken, token } from '$lib/Store';
+	import { notificationCount, notificationList, refreshToken, token } from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
+	import Notifications from '../popups/Notifications.svelte';
 	const loginToken = get(token);
 
 	const modalStore = getModalStore();
@@ -26,6 +27,15 @@
 		target: 'popupFeatured',
 		// Defines which side of your trigger the popup will appear
 		placement: 'bottom'
+	};
+	const popupNotifications: PopupSettings = {
+		// Represents the type of event that opens/closed the popup
+		event: 'click',
+		// Matches the data-popup value on your popup element
+		target: 'popupNotifications',
+		// Defines which side of your trigger the popup will appear
+		placement: 'bottom',
+		closeQuery: '#will-close'
 	};
 
 	function handleLogout() {
@@ -43,6 +53,28 @@
 	function play() {
 		var audio = new Audio('quack.mp3');
 		audio.play();
+	}
+	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+		navigator.serviceWorker.addEventListener('message', (event) => {
+			if (event.data && event.data.type === 'PUSH_NOTIFICATION') {
+				const payload = event.data.payload;
+
+				const notifications = get(notificationList);
+				if (
+					notifications.records.some(
+						(notification) => notification.notificationId === payload.notificationId
+					)
+				) {
+					return;
+				} else {
+					notificationList.update((value) => {
+						value.records.push(payload);
+						return value;
+					});
+					notificationCount.update((value) => value + 1);
+				}
+			}
+		});
 	}
 </script>
 
@@ -73,6 +105,14 @@
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
 					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />
 				</button>
+				<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
+					<div class="relative inline-block">
+						<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10"
+							>{$notificationCount}</span
+						>
+						<Icon class="w-10 h-10" icon="clarity:notification-solid" style="font-size: 32px" />
+					</div>
+				</button>
 			{/if}
 			<button class="" use:popup={popupFeatured} title={$t('navbar.settings')}>
 				<Icon class="w-10 h-10" icon="material-symbols:settings" />
@@ -86,5 +126,8 @@
 	</svelte:fragment>
 	<div class="card p-4 w-72 shadow-xl" data-popup="popupFeatured">
 		<Settings />
+	</div>
+	<div id="wont-close" class="card p-4 w-[20vw] shadow-xl" data-popup="popupNotifications">
+		<Notifications />
 	</div>
 </AppBar>
