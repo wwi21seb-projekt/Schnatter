@@ -55,7 +55,7 @@
 		}
 
 		if (post.repost != undefined && post.repost != null) {
-			newRepostPost = helperHashtagCheck(post.repost);
+			newRepostPost = parsePostHashtags(post.repost);
 			if (post.repost.location) {
 				repostLocationString = await getLocationCity(post.repost.location);
 			}
@@ -65,7 +65,7 @@
 			}
 		}
 
-		newPost = helperHashtagCheck(post);
+		newPost = parsePostHashtags(post);
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
 	});
@@ -76,11 +76,11 @@
 		}
 	}
 
-	function repostHelper() {
+	function handleRepostClick() {
 		modalStore.trigger(modal);
 	}
 
-	function helperHashtagCheck(post: PostStructure) {
+	function parsePostHashtags(post: PostStructure) {
 		return checkForHashtags(post);
 	}
 </script>
@@ -164,7 +164,7 @@
 			</div>
 			{#if loginToken != '' && loginToken != undefined}
 				{#if post.repost == undefined || post.repost == null}
-					<button on:click={repostHelper} title="repost">
+					<button on:click={handleRepostClick} title="repost">
 						<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
 					</button>
 				{/if}
