@@ -10,12 +10,11 @@ import type { UUID } from 'crypto';
 let statusCode: number = 0;
 
 export async function createLike(postId: UUID, toastStore: ToastStore) {
-	let serverUrl: string = '';
+	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
 		const response = await fetch(url, {
@@ -36,12 +35,11 @@ export async function createLike(postId: UUID, toastStore: ToastStore) {
 }
 
 export async function deleteLike(postId: UUID, toastStore: ToastStore) {
-	let serverUrl: string = '';
+	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	serverURL.subscribe((prev_val) => (serverUrl = prev_val));
 	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
 		const response = await fetch(url, {
