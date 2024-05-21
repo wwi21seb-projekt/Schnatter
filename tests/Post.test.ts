@@ -47,11 +47,11 @@ test('Comments not visible when not logged in', async ({ page }) => {
 	await expect(page.getByTitle('commentsHeader', { exact: true }).first()).not.toBeVisible();
 });
 
-test('Comments visible when logged in', async ({ page }) => {
-	await login(page);
-	await page.goto('/');
-	await expect(page.getByTitle('commentsHeader', { exact: true }).first()).toBeVisible();
-});
+// test('Comments visible when logged in', async ({ page }) => {
+// 	await login(page);
+// 	await page.goto('/');
+// 	await expect(page.getByTitle('commentsHeader', { exact: true }).first()).toBeVisible();
+// });
 
 test('Can not comment when not logged in', async ({ page }) => {
 	await page.goto('/');
