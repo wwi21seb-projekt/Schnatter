@@ -1,5 +1,5 @@
 import type { PostUserProfilStructure, TextColorPost, PostStructure } from './types/Post';
-import { serverURL } from '$lib/Store';
+import { serverURL, token } from '$lib/Store';
 import type { CustomError } from './types/CustomError';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 import { createToast } from '$lib/Toasts';
@@ -19,7 +19,7 @@ export async function createLike(postId: UUID, toastStore: ToastStore) {
 	try {
 		const response = await fetch(url, {
 			method: 'POST',
-			headers: { 'Content-Type': 'application/json' }
+			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});
 		statusCode = response.status;
 		if (statusCode !== 204) {
@@ -44,7 +44,7 @@ export async function deleteLike(postId: UUID, toastStore: ToastStore) {
 	try {
 		const response = await fetch(url, {
 			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json' }
+			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});
 		statusCode = response.status;
 		if (statusCode !== 204) {

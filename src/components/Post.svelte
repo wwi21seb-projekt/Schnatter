@@ -1,33 +1,39 @@
 <script lang="ts">
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
+	import Commentsection from './Commentsection.svelte';
+	import { sendComment } from '$lib/CommentFunctions';
 
 	export let postData;
 
-	const modalStore = getModalStore();
+	//const modalStore = getModalStore();
 
 	let repostDate: string = '';
 
 	let locationString = '';
 	let repostLocationString = '';
 
+	let commentText: string = '';
+
+	let click: number = 0;
+
 	const loginToken = get(token);
 	let postDate: string = '';
 	let post: PostStructure = postData;
 
-	const modal: ModalSettings = {
-		type: 'component',
-		component: 'modalCreatePost',
+	// const modal: ModalSettings = {
+	// 	type: 'component',
+	// 	component: 'modalCreatePost',
 
-		meta: { repostId: post.postId }
-	};
+	// 	meta: { repostId: post.postId }
+	// };
 
 	let newPost: TextColorPost[] = [
 		{
@@ -77,12 +83,23 @@
 		}
 	}
 
-	function handleRepostClick() {
-		modalStore.trigger(modal);
-	}
+	//	function handleRepostClick() {
+	//		modalStore.trigger(modal);
+	//	}
 
 	function parsePostHashtags(post: PostStructure) {
 		return checkForHashtags(post);
+	}
+	let showNoComments = false;
+
+	function setShowButton() {
+		showNoComments = !showNoComments;
+	}
+
+	function commentSendButton() {
+		sendComment(post.postId, commentText);
+		commentText = '';
+		click++;
 	}
 </script>
 
@@ -156,58 +173,46 @@
 			</p>
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
-			<div class="flex flex-row">
+			<div class="flex flex-row float-left items-center w-[35%]">
 				<button disabled={isLoggedOut} on:click={handleLikeClick} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{post.likes}</p>
-			</div>
-			{#if loginToken != '' && loginToken != undefined}
-				{#if post.repost == undefined || post.repost == null}
-					<button on:click={handleRepostClick} title="repost">
-						<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
-					</button>
+				{#if loginToken != ''}
+					<button
+						type="button"
+						data-sveltekit-preload-data="hover"
+						class="ml-2 btn btn-sm border-solid border-2"
+						on:click={setShowButton}
+						>{showNoComments
+							? $t('post.comments.buttonHideComments')
+							: $t('post.comments.buttonShowComments')}</button
+					>
 				{/if}
-				<input
-					class="input mx-3"
-					title="commentInput"
-					type="text"
-					placeholder={$t('post.postComment.placeholder')}
-					maxlength="256"
-					disabled
-				/>
-				<button class="">
-					<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
-				</button>
+			</div>
+			{#if loginToken != ''}
+				<div class="flex float-right w-[65%]">
+					<label class="label p-2 w-full">
+						<textarea
+							class="textarea resize-none"
+							title="commentInput"
+							bind:value={commentText}
+							placeholder={$t('post.postComment.placeholder')}
+							rows="1"
+							maxlength="128"
+						/>
+					</label>
+					<button class="w-7" on:click={commentSendButton}>
+						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
+					</button>
+				</div>
 			{/if}
 		</footer>
 	</div>
-	{#if loginToken != '' || loginToken == undefined}
-		<div class="card w-[60vw]">
-			<header class="card-header">
-				<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
-			</header>
-			<section class="p-3 flex flex-col">
-				<div class="flex flex-row">
-					<div class="items-baseline">
-						<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
-					</div>
-					<div class="flex flex-col">
-						<p class="font-bold">Username</p>
-						<p class="w-full">Kommentar 1 ist hier</p>
-					</div>
-				</div>
-				<div class="flex flex-row">
-					<div class="items-baseline">
-						<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
-					</div>
-					<div class="flex flex-col">
-						<p class="font-bold">Username</p>
-						<p class="w-full">Hier ist der 2. Kommentar</p>
-					</div>
-				</div>
-			</section>
-		</div>
+	{#if (loginToken != '' || loginToken == undefined) && showNoComments}
+		{#key click}
+			<Commentsection postId={post.postId} />
+		{/key}
 	{/if}
 </main>
