@@ -11,9 +11,11 @@
 
 	import { initializeStores } from '@skeletonlabs/skeleton';
 	import ModalCreatePost from '../components/modals/ModalCreatePost.svelte';
+	import ModalChat from '../components/modals/ModalChat.svelte';
 	initializeStores();
 	const modalRegistry: Record<string, ModalComponent> = {
-		modalCreatePost: { ref: ModalCreatePost }
+		modalCreatePost: { ref: ModalCreatePost },
+		modalChat: {ref: ModalChat}
 	};
 </script>
 
