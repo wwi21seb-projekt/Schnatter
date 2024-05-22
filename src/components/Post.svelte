@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -13,7 +13,7 @@
 
 	export let postData;
 
-	//const modalStore = getModalStore();
+	const modalStore = getModalStore();
 
 	let repostDate: string = '';
 
@@ -28,12 +28,12 @@
 	let postDate: string = '';
 	let post: PostStructure = postData;
 
-	// const modal: ModalSettings = {
-	// 	type: 'component',
-	// 	component: 'modalCreatePost',
+	const modal: ModalSettings = {
+		type: 'component',
+		component: 'modalCreatePost',
 
-	// 	meta: { repostId: post.postId }
-	// };
+		meta: { repostId: post.postId }
+	};
 
 	let newPost: TextColorPost[] = [
 		{
@@ -83,9 +83,9 @@
 		}
 	}
 
-	//	function handleRepostClick() {
-	//		modalStore.trigger(modal);
-	//	}
+	function handleRepostClick() {
+		modalStore.trigger(modal);
+	}
 
 	function parsePostHashtags(post: PostStructure) {
 		return checkForHashtags(post);
@@ -179,6 +179,13 @@
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{post.likes}</p>
+				{#if loginToken != '' && loginToken != undefined}
+					{#if post.repost == undefined || post.repost == null}
+						<button on:click={handleRepostClick} title="repost">
+							<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
+						</button>
+					{/if}
+				{/if}
 				{#if loginToken != ''}
 					<button
 						type="button"
