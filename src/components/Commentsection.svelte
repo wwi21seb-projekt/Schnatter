@@ -35,11 +35,11 @@
 		const response = await fetchComments(limit, postId, offset);
 		if (typeof response === 'number') {
 			if (response == 401) {
-				commentFetchError = 'The request is unauthorized.';
+				commentFetchError = $t('post.comments.error.unauthorized');
 			} else if (response == 404) {
-				commentFetchError = 'The comments were not found.';
+				commentFetchError = $t('post.comments.error.notFound');
 			} else {
-				commentFetchError = 'Sorry, we ran into an error!';
+				commentFetchError = $t('post.comments.error.unknown');
 			}
 		} else {
 			commentData = response;

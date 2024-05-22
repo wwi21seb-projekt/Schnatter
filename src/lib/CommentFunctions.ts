@@ -33,9 +33,10 @@ export async function fetchComments(
 			Authorization: 'Bearer ' + get(token)
 		};
 	}
-
-	const url: string = get(serverURL) + '/posts/' + postId + '/comments?' + params;
-	const response = await fetch(url, fetchOptions);
+	const response = await fetch(
+		`${get(serverURL)}/posts/${postId}/comments?/${params}`,
+		fetchOptions
+	);
 
 	if (response.status === 200) {
 		data = await response.json();

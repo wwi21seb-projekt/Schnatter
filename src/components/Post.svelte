@@ -98,7 +98,7 @@
 
 	function commentSendButton() {
 		sendComment(post.postId, commentText);
-		commentText = ' ';
+		commentText = '';
 		click++;
 	}
 </script>
@@ -198,7 +198,7 @@
 							class="textarea resize-none"
 							title="commentInput"
 							bind:value={commentText}
-							placeholder={commentText === '' ? $t('post.postComment.placeholder') : ''}
+							placeholder={$t('post.postComment.placeholder')}
 							rows="1"
 							maxlength="128"
 						/>
