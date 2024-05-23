@@ -13,7 +13,7 @@ export type ChatUser = {
 };
 
 export type ChatMessages = {
-	records: [ChatMessage];
+	records: ChatMessage[];
 	pagination: Pagination;
 };
 

@@ -15,7 +15,7 @@
 	initializeStores();
 	const modalRegistry: Record<string, ModalComponent> = {
 		modalCreatePost: { ref: ModalCreatePost },
-		modalChat: {ref: ModalChat}
+		modalChat: { ref: ModalChat }
 	};
 </script>
 

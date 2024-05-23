@@ -24,7 +24,7 @@
 	const modalChat: ModalSettings = {
 		type: 'component',
 		component: 'modalChat'
-	}
+	};
 	const popupFeatured: PopupSettings = {
 		// Represents the type of event that opens/closed the popup
 		event: 'click',
@@ -107,7 +107,11 @@
 				<button on:click={openModalPost} title={$t('navbar.posts')}>
 					<Icon class="w-10 h-10" icon="gridicons:add" />
 				</button>
-				<button on:click={openModalChat} data-sveltekit-preload-data="hover" title={$t('navbar.messages')}>
+				<button
+					on:click={openModalChat}
+					data-sveltekit-preload-data="hover"
+					title={$t('navbar.messages')}
+				>
 					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
 				</button>
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
