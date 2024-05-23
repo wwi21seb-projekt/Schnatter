@@ -3,6 +3,8 @@
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
+	import { globalUsername } from '$lib/Store';
+	import { get } from 'svelte/store';
 	console.log('modal chat');
 	const modalStore = getModalStore();
 	let currentMessage = '';
@@ -10,7 +12,7 @@
 	const dataMessages: ChatMessages = {
 		records: [
 			{
-				username: 'test',
+				username: 'Nora',
 				content: 'Hier steht der Inhalt der Nachricht',
 				timestamp: 'Zeit'
 			},
@@ -46,10 +48,7 @@
 	function closeModal() {
 		modalStore.close();
 	}
-	function handleChatSearch() {
-		closeModal();
-		console.log(dataChats, dataMessages);
-	}
+	function handleChatSearch() {}
 </script>
 
 <div class="card w-[60vw] h-[80vh] p-2">
@@ -67,35 +66,38 @@
 				/>
 			</div>
 			<div class="bg-surface-500/30 p-4 h-4/6">(list)</div>
-			<div class="bg-surface-500/30 p-4 h-1/6">(footer)</div>
+			<div class="bg-surface-500/30 p-4 h-1/6 align-baseline">
+				<button class="btn-sm variant-filled-primary rounded">
+					{$t('chat.button.add')}
+				</button>
+			</div>
 		</div>
 		<!-- rechte Spalte -->
 		<div class="bg-surface-500/30 flex flex-col w-3/4 h-full justify-between">
 			<section class="w-full flex flex-col-reverse p-2">
-				<!-- {#each chatMessage as message} -->
-				<!-- {#if data.records.username === eigener Name}  -->
-				<div class="flex float-end justify-end mt-2">
-					<div class="card w-3/4 float-end p-4 variant-soft rounded-tr-none space-y-2">
-						<header class="flex justify-between items-center">
-							<p class="font-bold">Username</p>
-							<small class="opacity-50">Zeit</small>
-						</header>
-						<p>Hier steht der Inhalt der Nachricht</p>
-					</div>
-				</div>
-
-				<!-- {:else}  -->
-				<div class="flex flex-col gap-1 mt-2">
-					<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2">
-						<header class="flex justify-between items-center">
-							<p class="font-bold">Gast Username</p>
-							<small class="opacity-50">Zeit</small>
-						</header>
-						<p>Hier steht der andere Text</p>
-					</div>
-				</div>
-				<!-- {/if} -->
-				<!-- {/each} -->
+				{#each dataMessages.records as message}
+					{#if message.username === get(globalUsername)}
+						<div class="flex float-end justify-end mt-2">
+							<div class="card w-3/4 float-end p-4 variant-soft rounded-tr-none space-y-2">
+								<header class="flex justify-between items-center">
+									<p class="font-bold">{message.username}</p>
+									<small class="opacity-50">{message.timestamp}</small>
+								</header>
+								<p>{message.content}</p>
+							</div>
+						</div>
+					{:else}
+						<div class="flex flex-col gap-1 mt-2">
+							<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2">
+								<header class="flex justify-between items-center">
+									<p class="font-bold">{message.username}</p>
+									<small class="opacity-50">{message.timestamp}</small>
+								</header>
+								<p>{message.content}</p>
+							</div>
+						</div>
+					{/if}
+				{/each}
 			</section>
 			<div class="bg-surface-500/30 p-4">
 				<div class="input-group input-group-divider flex-row flex rounded-container-token">

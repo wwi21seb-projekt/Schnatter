@@ -121,7 +121,8 @@ export default {
 		'chat.button.send': 'Send',
 		'chat.placeholder.input': 'Write a message...',
 		'chat.placeholder.search': 'Search chat',
-		'chat.tooltip.search': 'search for chats'
+		'chat.tooltip.search': 'search for chats',
+		'chat.button.add':'Start chat'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -245,6 +246,7 @@ export default {
 		'chat.button.send': 'Senden',
 		'chat.placeholder.input': 'Schreibe eine Nachricht...',
 		'chat.placeholder.search': 'Suche',
-		'chat.tooltip.search': 'Suche nach Chats'
+		'chat.tooltip.search': 'Suche nach Chats',
+		'chat.button.add':'Beginne Chat'
 	}
 };
