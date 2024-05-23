@@ -123,9 +123,10 @@
 		postData = await loadPosts(get(token), postData, username);
 	}
 	async function subscribe() {
-		const followStatus = await followUser(get(token), username);
-		if (followStatus.status == 201) {
+		const followResponse = await followUser(get(token), username);
+		if (followResponse.status == 201) {
 			subscribed = true;
+			profileData.user.subscriptionId = followResponse.response.subscriptionId;
 			toastStore.trigger(createToast('User was followed', 'success'));
 		} else {
 			toastStore.trigger(createToast('User was not followed', 'error'));
