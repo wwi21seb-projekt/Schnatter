@@ -122,7 +122,7 @@ export async function followUser(token: string, following: string) {
 		return { customError: customError, status: response.status };
 	}
 
-	return { status: response.status };
+	return { response: await response.json(), status: response.status };
 }
 
 export async function unfollowUser(token: string, subscriptionId: string) {
