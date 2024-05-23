@@ -119,7 +119,9 @@ export default {
 		'settings.language.de': 'German',
 		'settings.language.en': 'English',
 		'chat.button.send': 'Send',
-		'chat.placeholder.input': 'Write a message...'
+		'chat.placeholder.input': 'Write a message...',
+		'chat.placeholder.search': 'Search chat',
+		'chat.tooltip.search': 'search for chats'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -241,6 +243,8 @@ export default {
 		'settings.language.de': 'Deutsch',
 		'settings.language.en': 'Englisch',
 		'chat.button.send': 'Senden',
-		'chat.placeholder.input': 'Schreibe eine Nachricht...'
+		'chat.placeholder.input': 'Schreibe eine Nachricht...',
+		'chat.placeholder.search': 'Suche',
+		'chat.tooltip.search': 'Suche nach Chats'
 	}
 };
