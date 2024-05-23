@@ -1,10 +1,10 @@
 import { serverURL, token } from '$lib/Store';
-import type { ChatStructure, CreateChat } from '$lib/types/Chat';
+import type { ChatMessages, ChatStructure, CreateChat } from '$lib/types/Chat';
 import type { UUID } from 'crypto';
 import { get } from 'svelte/store';
 
 export async function getChats(): Promise<ChatStructure> {
-	const response = await fetch(`${get(serverURL)}/chat`, {
+	const response = await fetch(`${get(serverURL)}/chats`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -18,13 +18,16 @@ export async function getChats(): Promise<ChatStructure> {
 	return data;
 }
 
-export async function getMessages(chatId: UUID, limit: number, offset: number): Promise<void> {
+export async function getMessages(
+	chatId: UUID,
+	limit: number,
+	offset: number
+): Promise<ChatMessages> {
 	const params = new URLSearchParams([
 		['limit', limit.toString()],
 		['offset', offset.toString()]
 	]);
-
-	const response = await fetch(`${get(serverURL)}/chat/${chatId}?${params}`, {
+	const response = await fetch(`${get(serverURL)}/chats/${chatId}?${params}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -32,8 +35,9 @@ export async function getMessages(chatId: UUID, limit: number, offset: number): 
 		}
 	});
 	if (!response.ok) {
-		throw new Error('Failed to create chat');
+		throw new Error('Faild to fetch messages');
 	}
+	return (await response.json()) as ChatMessages;
 }
 
 export async function createChat(username: string, content: string): Promise<CreateChat> {

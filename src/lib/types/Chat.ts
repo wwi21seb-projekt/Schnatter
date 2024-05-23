@@ -2,8 +2,7 @@ import type { UUID } from 'crypto';
 import type { Pagination } from './Pagination';
 
 export type ChatStructure = {
-	chatId: UUID;
-	users: ChatUser[];
+	records: { chatId: UUID; user: ChatUser }[];
 };
 
 export type ChatUser = {
@@ -20,7 +19,7 @@ export type ChatMessages = {
 export type ChatMessage = {
 	content: string;
 	username: string;
-	timestamp: string;
+	creationDate: string;
 };
 
 export type CreateChat = {

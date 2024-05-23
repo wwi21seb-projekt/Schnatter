@@ -1,62 +1,88 @@
 <script lang="ts">
-	import { getModalStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
 	import { globalUsername } from '$lib/Store';
 	import { get } from 'svelte/store';
+	import { onMount } from 'svelte';
+	import { getChats, getMessages } from '$lib/utils/Chat';
+	import type { UUID } from 'crypto';
 	console.log('modal chat');
 	const modalStore = getModalStore();
+	let highlightedButton = '';
 	let currentMessage = '';
-
-	const dataMessages: ChatMessages = {
-		records: [
-			{
-				username: 'Nora',
-				content: 'Hier steht der Inhalt der Nachricht',
-				timestamp: 'Zeit'
-			},
-			{
-				username: 'test2',
-				content: 'Hier steht der andere Text',
-				timestamp: 'Zeit'
-			}
-		],
+	let dataMessages: ChatMessages = {
+		records: [],
 		pagination: {
-			records: 2,
+			records: 1,
 			limit: 10,
 			offset: 0
 		}
 	};
+	let messageDisabele = true;
 
-	const dataChats: ChatStructure = {
-		chatId: '47c2a53c-c761-4e4c-99e0-75c084160ff4',
-		users: [
+	let dataChats: ChatStructure = {
+		records: [
 			{
-				username: 'test',
-				nickname: 'test',
-				profilePictureUrl: ''
-			},
-			{
-				username: 'test2',
-				nickname: 'test2',
-				profilePictureUrl: ''
+				chatId: '47c2a53c-c761-4e4c-99e0-75c084160ff4',
+				user: {
+					username: '',
+					nickname: '',
+					profilePictureUrl: ''
+				}
 			}
 		]
 	};
 
-	function closeModal() {
-		modalStore.close();
+	let copieChats = Object.assign({}, dataChats);
+
+	onMount(async () => {
+		//löschen, musste nur lint überlisten
+		const user = get(globalUsername);
+		console.log(user);
+		//
+		dataChats = await getChats();
+		copieChats = Object.assign({}, dataChats);
+		console.log(dataChats);
+	});
+
+
+	function handleChatSearch(event: any) {
+		dataChats = Object.assign({}, copieChats);
+		console.log(dataChats);
+		console.log(copieChats);
+		dataChats.records = dataChats.records.filter((record) =>
+			record.user.username.toLowerCase().includes(event.target.value.toLowerCase())
+		);
 	}
-	function handleChatSearch() {}
+
+	async function openChat(chatId: UUID) {
+		messageDisabele = false;
+		dataMessages = await getMessages(chatId, 10, 0);
+		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+		const button = document.getElementById(chatId);
+		if (highlightedButton != '') {
+			const oldButton = document.getElementById(highlightedButton);
+			oldButton?.classList.remove('variant-filled-secondary');
+		}
+		highlightedButton = chatId;
+		button?.classList.add('variant-filled-secondary');
+	}
 </script>
 
 <div class="card w-[60vw] h-[80vh] p-2">
-	<header class="h-[7%]">123</header>
-	<div class="flex flex-row gap-5 h-[93%]">
+	<header class="h-[7%]">
+		<div class="flex items-center justify-start p-4 h-1/6 align-baseline">
+			<button class="btn-sm variant-filled-primary rounded">
+				{$t('chat.button.add')}
+			</button>
+		</div>
+	</header>
+	<div class="flex flex-row h-[93%]">
 		<!-- linke Spalte -->
-		<div class="h-full flex flex-col">
-			<div class="bg-surface-500/30 p-4 h-1/6">
+		<div class="h-full flex flex-col border-r border-surface-500/30">
+			<div class=" p-4 h-1/6 border-y border-surface-500/30">
 				<input
 					class="input w-full"
 					title={$t('chat.tooltip.search')}
@@ -65,41 +91,65 @@
 					on:input={handleChatSearch}
 				/>
 			</div>
-			<div class="bg-surface-500/30 p-4 h-4/6">(list)</div>
-			<div class="bg-surface-500/30 p-4 h-1/6 align-baseline">
-				<button class="btn-sm variant-filled-primary rounded">
-					{$t('chat.button.add')}
-				</button>
+			<div class="p-4 h-4/6">
+				<ul class="list">
+					{#each dataChats.records as record (record.chatId)}
+						<li class="h-9">
+							<button
+								id={record.chatId}
+								on:click={() => openChat(record.chatId)}
+								class="flex items-center rounded hover:variant-filled-primary p-1 w-full h-full"
+								><Avatar class="w-8 h-8s" initials={record.user.username.substring(0, 2)} />
+								<span class="m-2">{record.user.username}</span></button
+							>
+						</li>
+					{/each}
+
+					<!-- ... -->
+				</ul>
 			</div>
 		</div>
 		<!-- rechte Spalte -->
-		<div class="bg-surface-500/30 flex flex-col w-3/4 h-full justify-between">
-			<section class="w-full flex flex-col-reverse p-2">
-				{#each dataMessages.records as message}
-					{#if message.username === get(globalUsername)}
-						<div class="flex float-end justify-end mt-2">
-							<div class="card w-3/4 float-end p-4 variant-soft rounded-tr-none space-y-2">
-								<header class="flex justify-between items-center">
-									<p class="font-bold">{message.username}</p>
-									<small class="opacity-50">{message.timestamp}</small>
-								</header>
-								<p>{message.content}</p>
+		<div class=" flex flex-col w-3/4 h-full justify-between">
+			{#if highlightedButton != ''}
+				<section
+					class="w-full h-full flex flex-col-reverse p-2 overflow-y-scroll border-t border-surface-500/30"
+				>
+					{#each dataMessages.records as message}
+						<!-- {#if message.username === get(globalUsername)} -->
+						{#if message.username === 'yourOwnUser'}
+							<div class="flex float-end justify-end mt-2">
+								<div
+									class="card w-3/4 float-end p-4 variant-soft-primary rounded-tr-none space-y-2"
+								>
+									<header class="flex justify-between items-center">
+										<p class="font-bold">{message.username}</p>
+										<small class="opacity-50">{message.creationDate}</small>
+									</header>
+									<p>{message.content}</p>
+								</div>
 							</div>
-						</div>
-					{:else}
-						<div class="flex flex-col gap-1 mt-2">
-							<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2">
-								<header class="flex justify-between items-center">
-									<p class="font-bold">{message.username}</p>
-									<small class="opacity-50">{message.timestamp}</small>
-								</header>
-								<p>{message.content}</p>
+						{:else}
+							<div class="flex flex-col gap-1 mt-2">
+								<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2 variant-soft">
+									<header class="flex justify-between items-center">
+										<p class="font-bold">{message.username}</p>
+										<small class="opacity-50">{message.creationDate}</small>
+									</header>
+									<p>{message.content}</p>
+								</div>
 							</div>
-						</div>
-					{/if}
-				{/each}
-			</section>
-			<div class="bg-surface-500/30 p-4">
+						{/if}
+					{/each}
+				</section>
+			{:else}
+				<section
+					class="w-full h-full flex justify-center items-center border-t border-surface-500/30"
+				>
+					<p>{$t('chat.message.selectChat')}</p>
+				</section>
+			{/if}
+			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabele}>
 				<div class="input-group input-group-divider flex-row flex rounded-container-token">
 					<textarea
 						bind:value={currentMessage}
@@ -109,8 +159,9 @@
 						placeholder={$t('chat.placeholder.input')}
 						rows="1"
 						maxlength="256"
+						disabled={messageDisabele}
 					/>
-					<button class="variant-filled-primary w-1/12">
+					<button class="variant-filled-primary w-1/12" disabled={messageDisabele}>
 						<Icon
 							class="w-7 h-7 align-middle justify-center"
 							inline
