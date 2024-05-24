@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Avatar, getModalStore } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
@@ -8,8 +8,14 @@
 	import { onMount } from 'svelte';
 	import { getChats, getMessages } from '$lib/utils/Chat';
 	import type { UUID } from 'crypto';
-	console.log('modal chat');
+
 	const modalStore = getModalStore();
+
+    const modalBeginnChat: ModalSettings = {
+        type: 'component',
+        component: 'modalBeginnChat'
+    };
+
 	let highlightedButton = '';
 	let currentMessage = '';
 	let dataMessages: ChatMessages = {
@@ -69,15 +75,29 @@
 		highlightedButton = chatId;
 		button?.classList.add('variant-filled-secondary');
 	}
+
+    function openModalBeginnChat(){
+        modalStore.close();
+        modalStore.trigger(modalBeginnChat);
+    }
+
+    function closeModal() {
+		modalStore.close();
+	}
 </script>
 
 <div class="card w-[60vw] h-[80vh] p-2">
-	<header class="h-[7%]">
+	<header class="h-[7%] flex flex-row justify-between">
 		<div class="flex items-center justify-start p-4 h-1/6 align-baseline">
-			<button class="btn-sm variant-filled-primary rounded">
+			<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginnChat}>
 				{$t('chat.button.add')}
 			</button>
 		</div>
+        <div>
+            <button type="button" class="btn variant-filled-secondary mx-1 justify-end" on:click={closeModal}>
+                {$t('chat.button.close')}
+            </button>
+        </div>
 	</header>
 	<div class="flex flex-row h-[93%]">
 		<!-- linke Spalte -->

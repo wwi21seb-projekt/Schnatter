@@ -123,7 +123,9 @@ export default {
 		'chat.placeholder.input': 'Write a message...',
 		'chat.placeholder.search': 'Search chat',
 		'chat.tooltip.search': 'search for chats',
-		'chat.button.add': 'Start chat'
+		'chat.button.add': 'Start chat',
+		'chat.button.close': 'Close',
+		'chat.newChat.cancel': 'Cancel'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -249,6 +251,8 @@ export default {
 		'chat.placeholder.input': 'Schreibe eine Nachricht...',
 		'chat.placeholder.search': 'Suche',
 		'chat.tooltip.search': 'Suche nach Chats',
-		'chat.button.add': 'Beginne Chat'
+		'chat.button.add': 'Beginne Chat',
+		'chat.button.close': 'Schließen',
+		'chat.newChat.cancel': 'Abbrechen'
 	}
 };
