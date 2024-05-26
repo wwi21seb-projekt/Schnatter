@@ -46,18 +46,14 @@
 	onMount(async () => {
 		//löschen, musste nur lint überlisten
 		const user = get(globalUsername);
-		console.log(user);
 		//
 		dataChats = await getChats();
 		copieChats = Object.assign({}, dataChats);
-		console.log(dataChats);
 	});
 
 
 	function handleChatSearch(event: any) {
 		dataChats = Object.assign({}, copieChats);
-		console.log(dataChats);
-		console.log(copieChats);
 		dataChats.records = dataChats.records.filter((record) =>
 			record.user.username.toLowerCase().includes(event.target.value.toLowerCase())
 		);

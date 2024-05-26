@@ -1,22 +1,18 @@
 <script lang="ts">
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
 	import Icon from '@iconify/svelte';
-	import { serverURL, token } from '$lib/Store';
-	import type { User } from '$lib/types/User';
+	import type { User, UsersforSearch } from '$lib/types/User';
 	import { onMount } from 'svelte';
-	import { get } from 'svelte/store';
 	import { t } from '../../../i18n';
 	import UserSearchList from '../../../components/userLists/UserSearchList.svelte';
 	import { manageSession } from '$lib/utils/Session';
+	import { userSearch } from '$lib/utils/SearchUser';
 
-	const toastStore = getToastStore();
 	let focusfield: HTMLInputElement;
-	let response: Response;
 	let usernameInput: string;
-	let statusCode: number = 0;
 	let users: Array<User> = [];
+	const toastStore = getToastStore();
 
 	onMount(async () => {
 		manageSession();
@@ -26,32 +22,10 @@
 	async function handleUsernameInput(event: Event) {
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
-			const serverUrl = get(serverURL);
-			const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
-
-			try {
-				response = await fetch(url, {
-					mode: 'cors',
-					method: 'GET',
-					headers: {
-						Authorization: 'Bearer ' + get(token)
-					}
-				});
-				statusCode = response.status;
-			} catch (error) {
-				toastStore.clear();
-				toastStore.trigger(createToast($t('toast.internalError'), 'error'));
+			const usersRequest:UsersforSearch|undefined  = await userSearch(usernameInput, toastStore)
+			if (usersRequest){
+				users = usersRequest.records
 			}
-			if (statusCode == 200) {
-				const result = await response.json();
-				users = result.records;
-			} else {
-				users = [];
-				toastStore.clear();
-				toastStore.trigger(createToast('Something went wrong!', 'error'));
-			}
-		} else {
-			users = [];
 		}
 	}
 </script>
