@@ -125,7 +125,10 @@ export default {
 		'chat.tooltip.search': 'search for chats',
 		'chat.button.add': 'Start chat',
 		'chat.button.close': 'Close',
-		'chat.newChat.cancel': 'Cancel'
+		'chat.newChat.cancel': 'Cancel',
+		'chat.newChat.headerChat': 'Start your chat with',
+		'chat.newChat.noUsers': 'No users found',
+		'chat.newChat.noChat': 'No chat started'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -253,6 +256,9 @@ export default {
 		'chat.tooltip.search': 'Suche nach Chats',
 		'chat.button.add': 'Beginne Chat',
 		'chat.button.close': 'Schließen',
-		'chat.newChat.cancel': 'Abbrechen'
+		'chat.newChat.cancel': 'Abbrechen',
+		'chat.newChat.headerChat': 'Starte den Chat mit',
+		'chat.newChat.noUsers': 'Keine User gefunden',
+		'chat.newChat.noChat': 'Noch kein Chat gestartet'
 	}
 };

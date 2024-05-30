@@ -3,8 +3,8 @@
 	import { t } from '../../i18n';
 	import type { User, UsersforSearch } from '$lib/types/User';
 	import { userSearch } from '$lib/utils/SearchUser';
-	import UserSearchList from '../userLists/UserSearchList.svelte';
 	import { onMount } from 'svelte';
+	import Icon from '@iconify/svelte';
 
 	const modalStore = getModalStore();
 	let inputField: HTMLInputElement;
@@ -16,6 +16,10 @@
 		type: 'component',
 		component: 'modalChat'
 	};
+
+	let sendDisabled = true;
+	let initialMessage: string = '';
+	let userNewChat: string;
 
 	onMount(async () => {
 		inputField.focus();
@@ -30,7 +34,15 @@
 		}
 		console.log(users);
 	}
+	function openInitialChat(userName: string) {
+		sendDisabled = false;
+		userNewChat = userName; 
+	}
 	function closeModal() {
+		modalStore.close();
+		modalStore.trigger(modalChat);
+	}
+	function startChat(userName: string){
 		modalStore.close();
 		modalStore.trigger(modalChat);
 	}
@@ -59,13 +71,14 @@
 		</div>
 	</header>
 	<div class="flex flex-row">
-		<div class="p-4 h-4/6 w-2/6 overflow-auto">
+		<div class="p-4 h-2/6 w-2/6 overflow-auto">
 			{#if users != null && users.length > 0}
 				<ul class="list">
 					{#each users as user}
 						<li>
 							<button
 								class="flex items-center rounded hover:variant-filled-primary p-1 w-full h-full"
+								on:click={()=>openInitialChat(user.username)}
 							>
 								<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
 								<span>{user.username}</span>
@@ -73,12 +86,37 @@
 						</li>
 					{/each}
 				</ul>
-                {:else}
-                <span>Es wurden keine User gefunden</span>
+			{:else}
+				<span>{$t('chat.newChat.noUsers')}</span>
 			{/if}
 		</div>
 		<div class="w-4/6">
-			<span>Noch kein Chat gestartet</span>
+			<span class="p-5" hidden={!sendDisabled}>{$t('chat.newChat.noChat')}</span>
+			<div class="border-t border-surface-500/30 p-4" hidden={sendDisabled}>
+				<div class="header mb-5">
+					<span>{$t('chat.newChat.headerChat')} {userNewChat}</span>
+				</div>
+				<div class="input-group input-group-divider flex-row flex rounded-container-token">
+					<textarea
+						bind:value={initialMessage}
+						class="bg-transparent border-0 w-11/12"
+						name="prompt"
+						id="prompt"
+						placeholder={$t('chat.placeholder.input')}
+						rows="2"
+						maxlength="256"
+						disabled={sendDisabled}
+					/>
+					<button class="variant-filled-primary w-1/12" disabled={sendDisabled} on:click={()=> startChat(userNewChat)}>
+						<Icon
+							class="w-7 h-7 align-middle justify-center"
+							inline
+							style="color: antiquewhite"
+							icon="fluent:send-16-filled"
+						/>
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
