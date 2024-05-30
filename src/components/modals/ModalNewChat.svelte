@@ -5,6 +5,7 @@
 	import { userSearch } from '$lib/utils/SearchUser';
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
+	import { createChat } from '$lib/utils/Chat';
 
 	const modalStore = getModalStore();
 	let inputField: HTMLInputElement;
@@ -32,23 +33,23 @@
 				users = usersRequest.records;
 			}
 		}
-		console.log(users);
 	}
 	function openInitialChat(userName: string) {
 		sendDisabled = false;
-		userNewChat = userName; 
+		userNewChat = userName;
 	}
 	function closeModal() {
 		modalStore.close();
 		modalStore.trigger(modalChat);
 	}
-	function startChat(userName: string){
+	async function startChat() {
+		await createChat(userNewChat, initialMessage);
 		modalStore.close();
 		modalStore.trigger(modalChat);
 	}
 </script>
 
-<div class="card w-[40vw] h-[40vh] p-2">
+<div class="card w-[60vw] h-[50vh] p-2">
 	<header class="h-[13%] flex flex-row justify-between">
 		<div class="">
 			<input
@@ -70,15 +71,15 @@
 			</button>
 		</div>
 	</header>
-	<div class="flex flex-row">
-		<div class="p-4 h-2/6 w-2/6 overflow-auto">
+	<div class="flex flex-row h-[87%]">
+		<div class="p-4 h-full w-2/6 overflow-y-scroll">
 			{#if users != null && users.length > 0}
-				<ul class="list">
+				<ul class="list h-full">
 					{#each users as user}
 						<li>
 							<button
-								class="flex items-center rounded hover:variant-filled-primary p-1 w-full h-full"
-								on:click={()=>openInitialChat(user.username)}
+								class="flex items-center rounded hover:variant-filled-primary p-1 w-full"
+								on:click={() => openInitialChat(user.username)}
 							>
 								<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
 								<span>{user.username}</span>
@@ -107,7 +108,11 @@
 						maxlength="256"
 						disabled={sendDisabled}
 					/>
-					<button class="variant-filled-primary w-1/12" disabled={sendDisabled} on:click={()=> startChat(userNewChat)}>
+					<button
+						class="variant-filled-primary w-1/12"
+						disabled={sendDisabled}
+						on:click={startChat}
+					>
 						<Icon
 							class="w-7 h-7 align-middle justify-center"
 							inline

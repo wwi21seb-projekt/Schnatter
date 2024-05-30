@@ -3,7 +3,7 @@
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
-	import { globalUsername } from '$lib/Store';
+	import { chatIdNewChat, globalUsername } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { onMount } from 'svelte';
 	import { getChats, getMessages } from '$lib/utils/Chat';
@@ -11,10 +11,10 @@
 
 	const modalStore = getModalStore();
 
-    const modalBeginnChat: ModalSettings = {
-        type: 'component',
-        component: 'modalBeginnChat'
-    };
+	const modalBeginnChat: ModalSettings = {
+		type: 'component',
+		component: 'modalBeginnChat'
+	};
 
 	let highlightedButton = '';
 	let currentMessage = '';
@@ -44,13 +44,16 @@
 	let copieChats = Object.assign({}, dataChats);
 
 	onMount(async () => {
+		if ($chatIdNewChat) {
+			openChat($chatIdNewChat);
+		}
 		//löschen, musste nur lint überlisten
 		const user = get(globalUsername);
+		console.log(user);
 		//
 		dataChats = await getChats();
 		copieChats = Object.assign({}, dataChats);
 	});
-
 
 	function handleChatSearch(event: any) {
 		dataChats = Object.assign({}, copieChats);
@@ -72,12 +75,12 @@
 		button?.classList.add('variant-filled-secondary');
 	}
 
-    function openModalBeginnChat(){
-        modalStore.close();
-        modalStore.trigger(modalBeginnChat);
-    }
+	function openModalBeginnChat() {
+		modalStore.close();
+		modalStore.trigger(modalBeginnChat);
+	}
 
-    function closeModal() {
+	function closeModal() {
 		modalStore.close();
 	}
 </script>
@@ -89,11 +92,15 @@
 				{$t('chat.button.add')}
 			</button>
 		</div>
-        <div>
-            <button type="button" class="btn variant-filled-secondary mx-1 justify-end" on:click={closeModal}>
-                {$t('chat.button.close')}
-            </button>
-        </div>
+		<div>
+			<button
+				type="button"
+				class="btn variant-filled-secondary mx-1 justify-end"
+				on:click={closeModal}
+			>
+				{$t('chat.button.close')}
+			</button>
+		</div>
 	</header>
 	<div class="flex flex-row h-[93%]">
 		<!-- linke Spalte -->

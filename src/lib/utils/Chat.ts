@@ -1,5 +1,5 @@
-import { serverURL, token } from '$lib/Store';
-import type { ChatMessages, ChatStructure, CreateChat } from '$lib/types/Chat';
+import { chatIdNewChat, serverURL, token } from '$lib/Store';
+import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
 import type { UUID } from 'crypto';
 import { get } from 'svelte/store';
 
@@ -40,8 +40,8 @@ export async function getMessages(
 	return (await response.json()) as ChatMessages;
 }
 
-export async function createChat(username: string, content: string): Promise<CreateChat> {
-	const response = await fetch(`${get(serverURL)}/chat`, {
+export async function createChat(username: string, content: string) {
+	const response = await fetch(`${get(serverURL)}/chats`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -55,5 +55,6 @@ export async function createChat(username: string, content: string): Promise<Cre
 	if (!response.ok) {
 		throw new Error('Failed to create chat');
 	}
-	return (await response.json()) as CreateChat;
+	const newChat = await response.json();
+	chatIdNewChat.set(newChat.chatId);
 }

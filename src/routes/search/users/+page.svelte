@@ -22,9 +22,9 @@
 	async function handleUsernameInput(event: Event) {
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
-			const usersRequest:UsersforSearch|undefined  = await userSearch(usernameInput, toastStore)
-			if (usersRequest){
-				users = usersRequest.records
+			const usersRequest: UsersforSearch | undefined = await userSearch(usernameInput, toastStore);
+			if (usersRequest) {
+				users = usersRequest.records;
 			}
 		}
 	}

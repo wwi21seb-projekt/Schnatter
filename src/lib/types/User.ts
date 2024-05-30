@@ -18,6 +18,6 @@ export type UserFetchResponse = {
 };
 
 export type UsersforSearch = {
-	records: User[],
-	pagination: Pagination
-}
+	records: User[];
+	pagination: Pagination;
+};

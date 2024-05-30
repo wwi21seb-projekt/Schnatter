@@ -17,7 +17,7 @@
 	const modalRegistry: Record<string, ModalComponent> = {
 		modalCreatePost: { ref: ModalCreatePost },
 		modalChat: { ref: ModalChat },
-		modalBeginnChat:{ref: ModalNewChat}
+		modalBeginnChat: { ref: ModalNewChat }
 	};
 </script>
 
