@@ -12,7 +12,7 @@
 	import { subscribeUserToPush } from '../push';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import ModalForgotPwd from './modals/ModalForgotPwd.svelte';
-	
+
 	const modalStore = getModalStore();
 
 	const modalComponent: ModalComponent = { ref: ModalForgotPwd };
@@ -21,7 +21,7 @@
 		type: 'component',
 		component: modalComponent
 	};
-	
+
 	function openForgotPwd() {
 		modalStore.trigger(modal);
 	}
@@ -130,7 +130,9 @@
 				</p>
 				<p>
 					{$t('login.subtitle.forgotPwd')}
-					<button class="text-blue-700" on:click={openForgotPwd}>{$t('login.subtitle.resetPwd')}</button>
+					<button class="text-blue-700" on:click={openForgotPwd}
+						>{$t('login.subtitle.resetPwd')}</button
+					>
 				</p>
 			</div>
 		</div>

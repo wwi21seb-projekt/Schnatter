@@ -30,9 +30,9 @@
 		username = (event.target as HTMLInputElement).value;
 	}
 
-    function handleTokenInput(event: Event) {
-        tokenString = (event.target as HTMLInputElement).value;
-    }
+	function handleTokenInput(event: Event) {
+		tokenString = (event.target as HTMLInputElement).value;
+	}
 
 	function handlePasswordInput(event: Event) {
 		password = (event.target as HTMLInputElement).value;
@@ -88,8 +88,8 @@
 	$: tokenSent = tokenSent;
 
 	async function handleSubmit() {
-        const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
-        const response = await fetch(serverUrl, {
+		const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
+		const response = await fetch(serverUrl, {
 			method: 'PATCH',
 			mode: 'cors',
 			headers: {
@@ -97,22 +97,22 @@
 				Authorization: 'Bearer ' + get(token)
 			},
 			body: JSON.stringify({
-                token: tokenString,
-                newPassword: password
-            })
+				token: tokenString,
+				newPassword: password
+			})
 		});
-        const statusCode = response.status;
-        if (statusCode == 204) {
+		const statusCode = response.status;
+		if (statusCode == 204) {
 			toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
-            modalStore.close()
+			modalStore.close();
 		} else if (statusCode == 400) {
 			toastStore.trigger(createToast($t('toast.userNotFound'), 'error'));
-		}else if (statusCode == 403){
-            toastStore.trigger(createToast($t('toast.tokenInvalid'), 'error'));
-        }else{
-            toastStore.trigger(createToast($t('toast.sometingWrong'), 'error'));
-        }
-    }
+		} else if (statusCode == 403) {
+			toastStore.trigger(createToast($t('toast.tokenInvalid'), 'error'));
+		} else {
+			toastStore.trigger(createToast($t('toast.sometingWrong'), 'error'));
+		}
+	}
 
 	async function sendToken() {
 		const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
@@ -156,7 +156,7 @@
 			>{tokenSent ? $t('modal.forgotPwd.resendToken') : $t('modal.forgotPwd.sendToken')}
 		</button>
 	</div>
-	{#if tokenSent==true}
+	{#if tokenSent == true}
 		<div class="flex flex-col w-full m-auto mt-2">
 			<RegisterInput
 				value={tokenString}
