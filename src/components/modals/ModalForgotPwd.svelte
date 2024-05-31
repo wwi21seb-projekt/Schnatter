@@ -19,7 +19,7 @@
 	let validateIconRepeatPwd = '';
 	let validateIconPwdColor = '';
 	let validateIconRepeatPwdColor = '';
-	let tokenSent: true;
+	let tokenSent: boolean;
 	let isPwdLongEnough: boolean;
 	let hasPwdNumber: boolean;
 	let hasPwdCapitalLetter: boolean;
@@ -29,6 +29,10 @@
 	function handleUsernameInput(event: Event) {
 		username = (event.target as HTMLInputElement).value;
 	}
+
+    function handleTokenInput(event: Event) {
+        tokenString = (event.target as HTMLInputElement).value;
+    }
 
 	function handlePasswordInput(event: Event) {
 		password = (event.target as HTMLInputElement).value;
@@ -100,6 +104,7 @@
         const statusCode = response.status;
         if (statusCode == 204) {
 			toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
+            modalStore.close()
 		} else if (statusCode == 400) {
 			toastStore.trigger(createToast($t('toast.userNotFound'), 'error'));
 		}else if (statusCode == 403){
@@ -123,8 +128,8 @@
 		const statusCode = response.status;
 		if (statusCode == 200) {
 			toastStore.trigger(createToast($t('toast.tokenSent'), 'success'));
-		} else if (statusCode == 404) {
 			tokenSent = true;
+		} else if (statusCode == 404) {
 			toastStore.trigger(createToast($t('toast.userNotFound'), 'error'));
 		}
 	}
@@ -151,14 +156,14 @@
 			>{tokenSent ? $t('modal.forgotPwd.resendToken') : $t('modal.forgotPwd.sendToken')}
 		</button>
 	</div>
-	{#if true}
+	{#if tokenSent==true}
 		<div class="flex flex-col w-full m-auto mt-2">
 			<RegisterInput
 				value={tokenString}
 				iconString="mdi:account-key"
 				placeholder="{$t('modalForgotPassword.token')}*"
 				type="text"
-				onInput={handleUsernameInput}
+				onInput={handleTokenInput}
 				validateIcon=""
 				id="token"
 				validateIconColor=""
