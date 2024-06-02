@@ -6,6 +6,7 @@
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
 	import { createChat } from '$lib/utils/Chat';
+	import { connect, sendMessage } from '$lib/WebSocket';
 
 	const modalStore = getModalStore();
 	let inputField: HTMLInputElement;
@@ -24,6 +25,7 @@
 
 	onMount(async () => {
 		inputField.focus();
+		connect();
 	});
 	async function handleUserChatSearch(event: Event) {
 		userInput = (event.target as HTMLInputElement).value;
@@ -46,6 +48,7 @@
 		await createChat(userNewChat, initialMessage);
 		modalStore.close();
 		modalStore.trigger(modalChat);
+		sendMessage("hallo");
 	}
 </script>
 
