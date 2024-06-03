@@ -2,10 +2,10 @@
 	import { Avatar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
-	import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
-	import { chatIdNewChat, globalUsername } from '$lib/Store';
+	import type { ChatMessage, ChatMessages, ChatStructure } from '$lib/types/Chat';
+	import { chatIdNewChat, globalUsername, token } from '$lib/Store';
 	import { get } from 'svelte/store';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import { getChats, getMessages } from '$lib/utils/Chat';
 	import type { UUID } from 'crypto';
 
@@ -17,7 +17,7 @@
 	};
 
 	let highlightedButton = '';
-	let currentMessage = '';
+	let currentMessage: string = '';
 	let dataMessages: ChatMessages = {
 		records: [],
 		pagination: {
@@ -62,10 +62,33 @@
 		);
 	}
 
+	let socket: WebSocket | null = null;
+	const hostURL = 'localhost:3000/api';
+	const chatId: UUID = '5af04939-7cd5-4bb8-aea1-60a6785188f3';
+	let messages: ChatMessage[] = [];
+
 	async function openChat(chatId: UUID) {
+		if (socket) {
+			socket.close();
+		}
+		socket = new WebSocket('ws://' + hostURL + '/chat?chatId=' + chatId, [`Baerer ${token}`]);
+		socket.addEventListener('message', (event: any) => {
+			messages = [...messages, event.data];
+		});
+		socket.addEventListener('error', (event: any) => {
+			console.error('Websocket error:', event);
+		});
+		socket.addEventListener('close', () => {
+			console.log('WebSocket is closed now.');
+		});
+		socket.addEventListener('open', () => {
+			console.log('WebSocket is open now.');
+		});
+
 		messageDisabele = false;
 		dataMessages = await getMessages(chatId, 10, 0);
 		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+		messages = dataMessages.records;
 		const button = document.getElementById(chatId);
 		if (highlightedButton != '') {
 			const oldButton = document.getElementById(highlightedButton);
@@ -74,6 +97,21 @@
 		highlightedButton = chatId;
 		button?.classList.add('variant-filled-secondary');
 	}
+
+	function sendMessage() {
+		if (socket && socket.readyState === WebSocket.OPEN) {
+			socket.send(currentMessage);
+			currentMessage = '';
+		} else {
+			console.error('failed');
+		}
+	}
+
+	onDestroy(() => {
+		if (socket) {
+			socket.close();
+		}
+	});
 
 	function openModalBeginnChat() {
 		modalStore.close();
@@ -138,7 +176,7 @@
 				<section
 					class="w-full h-full flex flex-col-reverse p-2 overflow-y-scroll border-t border-surface-500/30"
 				>
-					{#each dataMessages.records as message}
+					{#each messages as message}
 						<!-- {#if message.username === get(globalUsername)} -->
 						{#if message.username === 'yourOwnUser'}
 							<div class="flex float-end justify-end mt-2">
@@ -184,7 +222,11 @@
 						maxlength="256"
 						disabled={messageDisabele}
 					/>
-					<button class="variant-filled-primary w-1/12" disabled={messageDisabele}>
+					<button
+						class="variant-filled-primary w-1/12"
+						disabled={messageDisabele}
+						on:click={sendMessage}
+					>
 						<Icon
 							class="w-7 h-7 align-middle justify-center"
 							inline
