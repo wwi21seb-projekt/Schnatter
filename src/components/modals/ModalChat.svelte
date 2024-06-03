@@ -72,10 +72,10 @@
 			socket.close();
 		}
 		socket = new WebSocket('ws://' + hostURL + '/chat?chatId=' + chatId, [`Baerer ${token}`]);
-		socket.addEventListener('message', (event: any) => {
+		socket.addEventListener('message', (event: MessageEvent) => {
 			messages = [...messages, event.data];
 		});
-		socket.addEventListener('error', (event: any) => {
+		socket.addEventListener('error', (event: Event) => {
 			console.error('Websocket error:', event);
 		});
 		socket.addEventListener('close', () => {
