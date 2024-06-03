@@ -19,7 +19,7 @@
 	let text: string = '';
 	let repostId = '';
 
-	interface BodyData{
+	interface BodyData {
 		content: string;
 		location?: GeoLocationCoords;
 		repostedPostId?: string;
@@ -54,12 +54,12 @@
 		const geoLocationData = await getLocation();
 		validateCoords(geoLocationData);
 		const bodyData: BodyData = {
-				content: text,
-			};
+			content: text
+		};
 		if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
 			//bodyData.location = geoLocationData;
 		}
-		if(repostId!=''){
+		if (repostId != '') {
 			bodyData.repostedPostId = repostId;
 		}
 		const url = get(serverURL) + '/posts';
