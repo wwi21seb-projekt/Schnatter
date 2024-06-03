@@ -8,6 +8,7 @@
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
+	import type { GeoLocationCoords } from '$lib/types/GeoLocation';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
@@ -17,6 +18,12 @@
 
 	let text: string = '';
 	let repostId = '';
+
+	interface BodyData {
+		content: string;
+		location?: GeoLocationCoords;
+		repostedPostId?: string;
+	}
 
 	onMount(() => {
 		focusfield.focus();
@@ -44,20 +51,16 @@
 	}
 
 	async function sendPost() {
-		let bodyData;
 		const geoLocationData = await getLocation();
 		validateCoords(geoLocationData);
-		if (geoLocationData.latitude == 0 && geoLocationData.longitude == 0) {
-			bodyData = {
-				content: text,
-				repostedPostId: repostId
-			};
-		} else {
-			bodyData = {
-				content: text,
-				//location: geoLocationData,
-				repostedPostId: repostId
-			};
+		const bodyData: BodyData = {
+			content: text
+		};
+		if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
+			//bodyData.location = geoLocationData;
+		}
+		if (repostId != '') {
+			bodyData.repostedPostId = repostId;
 		}
 		const url = get(serverURL) + '/posts';
 		const response = await fetch(url, {
