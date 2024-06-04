@@ -17,7 +17,7 @@ export type UserFetchResponse = {
 	statusCode: number;
 };
 
-export type UsersforSearch = {
+export type UsersForSearch = {
 	records: User[];
 	pagination: Pagination;
 };

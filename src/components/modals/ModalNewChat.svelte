@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
-	import type { User, UsersforSearch } from '$lib/types/User';
+	import type { User, UsersForSearch } from '$lib/types/User';
 	import { userSearch } from '$lib/utils/SearchUser';
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
@@ -28,7 +28,7 @@
 	async function handleUserChatSearch(event: Event) {
 		userInput = (event.target as HTMLInputElement).value;
 		if (userInput.length > 0) {
-			const usersRequest: UsersforSearch | undefined = await userSearch(userInput, toastStore);
+			const usersRequest: UsersForSearch | undefined = await userSearch(userInput, toastStore);
 			if (usersRequest) {
 				users = usersRequest.records;
 			}

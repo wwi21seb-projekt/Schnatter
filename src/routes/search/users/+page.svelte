@@ -2,7 +2,7 @@
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
-	import type { User, UsersforSearch } from '$lib/types/User';
+	import type { User, UsersForSearch } from '$lib/types/User';
 	import { onMount } from 'svelte';
 	import { t } from '../../../i18n';
 	import UserSearchList from '../../../components/userLists/UserSearchList.svelte';
@@ -22,7 +22,7 @@
 	async function handleUsernameInput(event: Event) {
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
-			const usersRequest: UsersforSearch | undefined = await userSearch(usernameInput, toastStore);
+			const usersRequest: UsersForSearch | undefined = await userSearch(usernameInput, toastStore);
 			if (usersRequest) {
 				users = usersRequest.records;
 			}

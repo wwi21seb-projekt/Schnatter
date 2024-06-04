@@ -13,9 +13,9 @@
 	const modalStore = getModalStore();
 	let userSearch: string = '';
 
-	const modalBeginnChat: ModalSettings = {
+	const modalBeginChat: ModalSettings = {
 		type: 'component',
-		component: 'modalBeginnChat'
+		component: 'modalBeginChat'
 	};
 
 	let highlightedButton = '';
@@ -28,7 +28,7 @@
 			offset: 0
 		}
 	};
-	let messageDisabele = true;
+	let messageDisabeled = true;
 	let socket: WebSocket | null = null;
 	let messages: ChatMessage[] = [];
 
@@ -56,7 +56,6 @@
 	});
 
 	function handleChatSearch() {
-		console.log(event);
 		dataChats = Object.assign({}, copieChats);
 		dataChats.records = dataChats.records.filter((record) =>
 			record.user.username.toLowerCase().includes(userSearch.toLowerCase())
@@ -85,7 +84,7 @@
 			console.error('Websocket error:', event);
 		});
 
-		messageDisabele = false;
+		messageDisabeled = false;
 		dataMessages = await getMessages(chatId, 10, 0);
 		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		messages = dataMessages.records;
@@ -113,9 +112,9 @@
 		}
 	});
 
-	function openModalBeginnChat() {
+	function openModalBeginChat() {
 		modalStore.close();
-		modalStore.trigger(modalBeginnChat);
+		modalStore.trigger(modalBeginChat);
 	}
 
 	function closeModal() {
@@ -126,7 +125,7 @@
 <div class="card w-[60vw] h-[80vh] p-2">
 	<header class="h-[7%] flex flex-row justify-between">
 		<div class="flex items-center justify-start p-4 h-1/6 align-baseline">
-			<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginnChat}>
+			<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginChat}>
 				{$t('chat.button.add')}
 			</button>
 		</div>
@@ -211,7 +210,7 @@
 					<p>{$t('chat.message.selectChat')}</p>
 				</section>
 			{/if}
-			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabele}>
+			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabeled}>
 				<div class="input-group input-group-divider flex-row flex rounded-container-token">
 					<textarea
 						bind:value={currentMessage}
@@ -221,11 +220,11 @@
 						placeholder={$t('chat.placeholder.input')}
 						rows="1"
 						maxlength="256"
-						disabled={messageDisabele}
+						disabled={messageDisabeled}
 					/>
 					<button
 						class="variant-filled-primary w-1/12"
-						disabled={messageDisabele}
+						disabled={messageDisabeled}
 						on:click={sendMessage}
 					>
 						<Icon
