@@ -67,10 +67,12 @@
 	let messages: ChatMessage[] = [];
 
 	async function openChat(chatId: UUID) {
+		console.log('openChat', chatId);
 		if (socket) {
 			socket.close();
 		}
-		socket = new WebSocket( hostURL + '/chat?chatId=' + chatId, [`${token}`]);
+		console.log('openChat', chatId);
+		socket = new WebSocket( hostURL + '/chat?chatId=' + chatId, get(token));
 		socket.addEventListener('message', (event: MessageEvent) => {
 			messages = [...messages, event.data];
 		});
