@@ -2,37 +2,59 @@
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
-	import { token } from '$lib/Store';
+	import { serverURL, token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
+	import { createToast } from '$lib/Toasts';
+	import type { CustomError } from '$lib/types/CustomError';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
-	import Commentsection from './Commentsection.svelte';
 	import { sendComment } from '$lib/CommentFunctions';
+	import Commentsection from './Commentsection.svelte';
 
+	
 	export let postData;
+	export let currentUsername: string | undefined;
 
+	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
-	let repostDate: string = '';
-
+	
+	let deleteOption: boolean = true;
+	let statusCode: number = 0;
+	
 	let locationString = '';
 	let repostLocationString = '';
 
-	let commentText: string = '';
-
-	let click: number = 0;
-
 	const loginToken = get(token);
+
 	let postDate: string = '';
+	let repostDate: string = '';
+
 	let post: PostStructure = postData;
 
-	const modal: ModalSettings = {
+	let isLoggedOut: boolean = true;
+	
+	let showNoComments = false;
+	let commentText: string = '';
+	let click: number = 0;
+
+	const modalRepost: ModalSettings = {
 		type: 'component',
 		component: 'modalCreatePost',
 
 		meta: { repostId: post.postId }
+	};
+
+	const modalDelete: ModalSettings = {
+		type: 'confirm',
+		title: $t('modalDeletePost.confirm'),
+		response: (t: boolean) => {
+			if (t) {
+				deletePost();
+			}
+		}
 	};
 
 	let newPost: TextColorPost[] = [
@@ -43,8 +65,6 @@
 		}
 	];
 
-	let isLoggedOut: boolean = true;
-	const toastStore = getToastStore();
 	let newRepostPost: TextColorPost[] = [
 		{
 			hashtagClass: '',
@@ -58,6 +78,10 @@
 			locationString = await getLocationCity(post.location);
 		}
 
+		const dateConverted: Date = new Date(post.creationDate);
+		postDate = dateConverted.toLocaleDateString();
+		checkDeleteOption();
+
 		if (post.repost != undefined && post.repost != null) {
 			newRepostPost = parsePostHashtags(post.repost);
 			if (post.repost.location) {
@@ -70,8 +94,6 @@
 		}
 
 		newPost = parsePostHashtags(post);
-		const dateConverted: Date = new Date(post.creationDate);
-		postDate = dateConverted.toLocaleDateString();
 		if (loginToken != '' || loginToken == undefined) {
 			isLoggedOut = false;
 		}
@@ -83,14 +105,52 @@
 		}
 	}
 
+	function checkDeleteOption() {
+		if (currentUsername==undefined) {
+			deleteOption = true;
+		} else {
+			deleteOption = false;
+		}
+	}
+
+	async function deletePost() {
+		let customError: CustomError = {
+			message: '',
+			code: ''
+		};
+		const serverUrl = get(serverURL) + '/posts/' + post.postId;
+
+		try {
+			const response = await fetch(serverUrl, {
+				method: 'DELETE',
+				mode: 'cors',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: 'Bearer ' + get(token)
+				}
+			});
+			statusCode = response.status;
+			if (statusCode !== 204) {
+				const body = await response.json();
+				customError = body.error;
+			}
+		} catch (error) {
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
+		}
+		if (statusCode !== 204 && statusCode !== 500) {
+			toastStore.trigger(createToast(customError.message, 'error'));
+		} else if (statusCode == 204) {
+			window.location.reload();
+		}
+	}
+
 	function handleRepostClick() {
-		modalStore.trigger(modal);
+		modalStore.trigger(modalRepost);
 	}
 
 	function parsePostHashtags(post: PostStructure) {
 		return checkForHashtags(post);
 	}
-	let showNoComments = false;
 
 	function setShowButton() {
 		showNoComments = !showNoComments;
@@ -106,25 +166,54 @@
 <main class="flex flex-col mb-6">
 	<div class="card w-[60vw] mb-2" title="post">
 		<header class="card-header w-full flex justify-between items-center">
-			<div class="flex flex-row items-center">
-				<Avatar
-					class="h-[5vh] w-[5vh] rounded-full mr-3"
-					src={post.author.profilePictureUrl}
-					initials=""
-				/>
-				<div class="flex flex-col">
-					<a
-						title="postAuthorUsername"
-						href="/profile?username={post.author.username}"
-						data-sveltekit-preload-data="hover">@{post.author.username}</a
-					>
-					<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
+			{#if post.author}
+				<div class="flex flex-row items-center">
+					<Avatar
+						class="h-[5vh] w-[5vh] rounded-full mr-3"
+						src={post.author.profilePictureUrl}
+						initials=""
+					/>
+					<div class="flex flex-col">
+						<a
+							title="postAuthorUsername"
+							href="/profile?username={post.author.username}"
+							data-sveltekit-preload-data="hover">@{post.author.username}</a
+						>
+						<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
+					</div>
 				</div>
+			<div class="flex flex-row items-center">
+				<div class="flex flex-col">
+					<p class="text-xs">{locationString}</p>
+					<p class="text-xs" title="postdate">{postDate}</p>
+				</div>
+				{#if deleteOption}
+					<button
+						on:click={() => {
+							modalStore.trigger(modalDelete);
+						}}
+					>
+						<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
+					>
+				{/if}
 			</div>
-			<div class="flex flex-col items-end">
-				<p class="text-xs">{locationString}</p>
-				<p class="text-xs" title="postdate">{postDate}</p>
+			{:else}
+			<div class="flex flex-row items-center justify-between w-full">
+				<div class="flex flex-col">
+					<p class="text-xs">{locationString}</p>
+					<p class="text-xs" title="postdate">{postDate}</p>
+				</div>
+				{#if deleteOption}
+					<button
+						on:click={() => {
+							modalStore.trigger(modalDelete);
+						}}
+					>
+						<Icon class="w-7 h-7" icon="ic:baseline-delete"></Icon></button
+					>
+				{/if}
 			</div>
+			{/if}
 		</header>
 		<section class="p-4">
 			<p
@@ -185,8 +274,6 @@
 							<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
 						</button>
 					{/if}
-				{/if}
-				{#if loginToken != ''}
 					<button
 						type="button"
 						data-sveltekit-preload-data="hover"

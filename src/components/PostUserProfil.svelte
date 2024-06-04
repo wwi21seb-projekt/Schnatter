@@ -14,7 +14,7 @@
 	import Commentsection from './Commentsection.svelte';
 
 	export let postData;
-
+	
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
