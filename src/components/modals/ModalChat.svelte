@@ -3,13 +3,15 @@
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessage, ChatMessages, ChatStructure } from '$lib/types/Chat';
-	import { chatIdNewChat, globalUsername, token } from '$lib/Store';
+	import { chatIdNewChat, globalUsername, serverURL, token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { onDestroy, onMount } from 'svelte';
 	import { getChats, getMessages } from '$lib/utils/Chat';
 	import type { UUID } from 'crypto';
+	import { convertDateTime } from '$lib/utils/Time';
 
 	const modalStore = getModalStore();
+	let userSearch: string = '';
 
 	const modalBeginnChat: ModalSettings = {
 		type: 'component',
@@ -27,6 +29,8 @@
 		}
 	};
 	let messageDisabele = true;
+	let socket: WebSocket | null = null;
+	let messages: ChatMessage[] = [];
 
 	let dataChats: ChatStructure = {
 		records: [
@@ -44,46 +48,41 @@
 	let copieChats = Object.assign({}, dataChats);
 
 	onMount(async () => {
+		dataChats = await getChats();
+		copieChats = Object.assign({}, dataChats);
 		if ($chatIdNewChat) {
 			openChat($chatIdNewChat);
 		}
-		//löschen, musste nur lint überlisten
-		const user = get(globalUsername);
-		console.log(user);
-		//
-		dataChats = await getChats();
-		copieChats = Object.assign({}, dataChats);
 	});
 
-	function handleChatSearch(event: any) {
+	function handleChatSearch() {
+		console.log(event);
 		dataChats = Object.assign({}, copieChats);
 		dataChats.records = dataChats.records.filter((record) =>
-			record.user.username.toLowerCase().includes(event.target.value.toLowerCase())
+			record.user.username.toLowerCase().includes(userSearch.toLowerCase())
 		);
 	}
 
-	let socket: WebSocket | null = null;
-	const hostURL = 'wss://server-beta.de/api';
-	let messages: ChatMessage[] = [];
-
 	async function openChat(chatId: UUID) {
-		console.log('openChat', chatId);
 		if (socket) {
 			socket.close();
 		}
-		console.log('openChat', chatId);
-		socket = new WebSocket( hostURL + '/chat?chatId=' + chatId, get(token));
+		chatIdNewChat.set(chatId);
+		const pathArray = get(serverURL).split(':');
+		if (pathArray[0] === 'http') {
+			pathArray[0] = 'ws';
+		} else {
+			pathArray[0] = 'wss';
+		}
+		const hostURL = pathArray[0] + ':' + pathArray[1];
+		socket = new WebSocket(hostURL + '/chat?chatId=' + chatId, get(token));
 		socket.addEventListener('message', (event: MessageEvent) => {
-			messages = [...messages, event.data];
+			const respone = JSON.parse(event.data);
+			messages = [...messages, respone];
+			messages = messages.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		});
 		socket.addEventListener('error', (event: Event) => {
 			console.error('Websocket error:', event);
-		});
-		socket.addEventListener('close', () => {
-			console.log('WebSocket is closed now.');
-		});
-		socket.addEventListener('open', () => {
-			console.log('WebSocket is open now.');
 		});
 
 		messageDisabele = false;
@@ -101,7 +100,7 @@
 
 	function sendMessage() {
 		if (socket && socket.readyState === WebSocket.OPEN) {
-			socket.send(currentMessage);
+			socket.send(JSON.stringify({ content: currentMessage }));
 			currentMessage = '';
 		} else {
 			console.error('failed');
@@ -150,6 +149,7 @@
 					title={$t('chat.tooltip.search')}
 					type="search"
 					placeholder={$t('chat.placeholder.search')}
+					bind:value={userSearch}
 					on:input={handleChatSearch}
 				/>
 			</div>
@@ -179,14 +179,14 @@
 				>
 					{#each messages as message}
 						<!-- {#if message.username === get(globalUsername)} -->
-						{#if message.username === 'yourOwnUser'}
+						{#if message.username === $globalUsername}
 							<div class="flex float-end justify-end mt-2">
 								<div
 									class="card w-3/4 float-end p-4 variant-soft-primary rounded-tr-none space-y-2"
 								>
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{message.creationDate}</small>
+										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
 									</header>
 									<p>{message.content}</p>
 								</div>
@@ -196,7 +196,7 @@
 								<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2 variant-soft">
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{message.creationDate}</small>
+										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
 									</header>
 									<p>{message.content}</p>
 								</div>
