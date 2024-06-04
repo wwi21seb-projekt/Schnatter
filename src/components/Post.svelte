@@ -2,16 +2,15 @@
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
 	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
-	import { serverURL, token } from '$lib/Store';
+	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
-	import { createToast } from '$lib/Toasts';
-	import type { CustomError } from '$lib/types/CustomError';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 	import { sendComment } from '$lib/CommentFunctions';
 	import Commentsection from './Commentsection.svelte';
+	import { deletePost } from '$lib/PostFunctions';
 
 	
 	export let postData;
@@ -22,7 +21,6 @@
 
 	
 	let deleteOption: boolean = true;
-	let statusCode: number = 0;
 	
 	let locationString = '';
 	let repostLocationString = '';
@@ -52,7 +50,7 @@
 		title: $t('modalDeletePost.confirm'),
 		response: (t: boolean) => {
 			if (t) {
-				deletePost();
+				deletePost(post.postId, toastStore);
 			}
 		}
 	};
@@ -110,37 +108,6 @@
 			deleteOption = true;
 		} else {
 			deleteOption = false;
-		}
-	}
-
-	async function deletePost() {
-		let customError: CustomError = {
-			message: '',
-			code: ''
-		};
-		const serverUrl = get(serverURL) + '/posts/' + post.postId;
-
-		try {
-			const response = await fetch(serverUrl, {
-				method: 'DELETE',
-				mode: 'cors',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + get(token)
-				}
-			});
-			statusCode = response.status;
-			if (statusCode !== 204) {
-				const body = await response.json();
-				customError = body.error;
-			}
-		} catch (error) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		}
-		if (statusCode !== 204 && statusCode !== 500) {
-			toastStore.trigger(createToast(customError.message, 'error'));
-		} else if (statusCode == 204) {
-			window.location.reload();
 		}
 	}
 
