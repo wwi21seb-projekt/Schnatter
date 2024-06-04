@@ -63,15 +63,14 @@
 	}
 
 	let socket: WebSocket | null = null;
-	const hostURL = 'localhost:3000/api';
-	const chatId: UUID = '5af04939-7cd5-4bb8-aea1-60a6785188f3';
+	const hostURL = 'wss://server-beta.de/api';
 	let messages: ChatMessage[] = [];
 
 	async function openChat(chatId: UUID) {
 		if (socket) {
 			socket.close();
 		}
-		socket = new WebSocket('wss://' + hostURL + '/chat?chatId=' + chatId, [`${token}`]);
+		socket = new WebSocket( hostURL + '/chat?chatId=' + chatId, [`${token}`]);
 		socket.addEventListener('message', (event: MessageEvent) => {
 			messages = [...messages, event.data];
 		});
