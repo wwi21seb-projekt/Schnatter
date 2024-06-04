@@ -117,7 +117,18 @@ export default {
 			'Please verify your account. Enter the 6-digit code from the email we sent you. If you have not received it, please also check your spam folder.',
 		'settings.header': 'Settings',
 		'settings.language.de': 'German',
-		'settings.language.en': 'English'
+		'settings.language.en': 'English',
+		'chat.message.selectChat': 'Select a chat to start messaging',
+		'chat.button.send': 'Send',
+		'chat.placeholder.input': 'Write a message...',
+		'chat.placeholder.search': 'Search chat',
+		'chat.tooltip.search': 'search for chats',
+		'chat.button.add': 'Start chat',
+		'chat.button.close': 'Close',
+		'chat.newChat.cancel': 'Cancel',
+		'chat.newChat.headerChat': 'Start your chat with',
+		'chat.newChat.noUsers': 'No users found',
+		'chat.newChat.noChat': 'No chat started'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -237,6 +248,17 @@ export default {
 			'Bitte verifiziere dein Konto. Gib den 6-stelligen Code aus der E-Mail ein, den wir dir geschickt haben. Wenn du den Code nicht erhalten hast, überprüfe bitte auch deinen Spam-Ordner.',
 		'settings.header': 'Einstellungen',
 		'settings.language.de': 'Deutsch',
-		'settings.language.en': 'Englisch'
+		'settings.language.en': 'Englisch',
+		'chat.message.selectChat': 'Wähle einen Chat um zu schreiben',
+		'chat.button.send': 'Senden',
+		'chat.placeholder.input': 'Schreibe eine Nachricht...',
+		'chat.placeholder.search': 'Suche',
+		'chat.tooltip.search': 'Suche nach Chats',
+		'chat.button.add': 'Beginne Chat',
+		'chat.button.close': 'Schließen',
+		'chat.newChat.cancel': 'Abbrechen',
+		'chat.newChat.headerChat': 'Starte den Chat mit',
+		'chat.newChat.noUsers': 'Keine User gefunden',
+		'chat.newChat.noChat': 'Noch kein Chat gestartet'
 	}
 };

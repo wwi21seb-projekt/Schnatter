@@ -1,4 +1,5 @@
 import type { UUID } from 'crypto';
+import type { Pagination } from './Pagination';
 
 export type User = {
 	username: string;
@@ -14,4 +15,9 @@ export type User = {
 export type UserFetchResponse = {
 	user: User;
 	statusCode: number;
+};
+
+export type UsersForSearch = {
+	records: User[];
+	pagination: Pagination;
 };

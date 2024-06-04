@@ -50,14 +50,6 @@ test('Post button works', async ({ page }) => {
 	await expect(page.getByPlaceholder('Write your post here')).toBeVisible();
 });
 
-test('Messages button works', async ({ page }) => {
-	await login(page);
-	await page.goto('/');
-	await page.getByTitle('messages').click();
-	await page.waitForTimeout(1000);
-	await expect(page.url()).toContain('/messages');
-});
-
 test('Profile button works', async ({ page }) => {
 	await login(page);
 	await page.goto('/');

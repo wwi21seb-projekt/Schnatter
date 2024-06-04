@@ -16,9 +16,14 @@
 
 	const modalStore = getModalStore();
 
-	const modal: ModalSettings = {
+	const modalPost: ModalSettings = {
 		type: 'component',
 		component: 'modalCreatePost'
+	};
+
+	const modalChat: ModalSettings = {
+		type: 'component',
+		component: 'modalChat'
 	};
 	const popupFeatured: PopupSettings = {
 		// Represents the type of event that opens/closed the popup
@@ -43,8 +48,11 @@
 		refreshToken.set('');
 		location.reload();
 	}
-	function openModal() {
-		modalStore.trigger(modal);
+	function openModalPost() {
+		modalStore.trigger(modalPost);
+	}
+	function openModalChat() {
+		modalStore.trigger(modalChat);
 	}
 	function gotoProfile() {
 		window.location.href = '/profile';
@@ -96,12 +104,16 @@
 				<a href="/search/users" data-sveltekit-preload-data="hover" title={$t('navbar.search')}>
 					<Icon class="w-10 h-10" icon="material-symbols:search" />
 				</a>
-				<button on:click={openModal} title={$t('navbar.posts')}>
+				<button on:click={openModalPost} title={$t('navbar.posts')}>
 					<Icon class="w-10 h-10" icon="gridicons:add" />
 				</button>
-				<a href="/messages" data-sveltekit-preload-data="hover" title={$t('navbar.messages')}>
+				<button
+					on:click={openModalChat}
+					data-sveltekit-preload-data="hover"
+					title={$t('navbar.messages')}
+				>
 					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
-				</a>
+				</button>
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
 					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />
 				</button>
