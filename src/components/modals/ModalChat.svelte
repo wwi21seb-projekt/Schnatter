@@ -71,7 +71,7 @@
 		if (socket) {
 			socket.close();
 		}
-		socket = new WebSocket('ws://' + hostURL + '/chat?chatId=' + chatId, [`${token}`]);
+		socket = new WebSocket('wss://' + hostURL + '/chat?chatId=' + chatId, [`${token}`]);
 		socket.addEventListener('message', (event: MessageEvent) => {
 			messages = [...messages, event.data];
 		});
