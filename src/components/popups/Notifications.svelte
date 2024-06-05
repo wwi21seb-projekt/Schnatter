@@ -21,6 +21,8 @@
 				return get(t)('notifications.follow');
 			case 'repost':
 				return get(t)('notifications.repost');
+			case 'message':
+				return get(t)('notifications.message');
 			default:
 				return get(t)('notifications.default');
 		}
