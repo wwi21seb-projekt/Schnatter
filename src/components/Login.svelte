@@ -73,7 +73,7 @@
 <div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>
-		<div class="h-[50vh] flex flex-col">
+		<div class="h-auto flex flex-col">
 			<form
 				class="flex flex-col justify-around items-center w-full"
 				on:submit|preventDefault={handleSubmit}
