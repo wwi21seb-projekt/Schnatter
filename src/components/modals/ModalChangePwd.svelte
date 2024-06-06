@@ -3,7 +3,7 @@
 	import { t } from '../../i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { type PasswordChange } from '$lib/types/PasswordChange';
-	import { handlePasswordInput, handleRepeatPasswordInput, handleSubmit } from '$lib/utils/ChangePassword';
+	import { handlePasswordInput, handleRepeatPasswordInput, handleChangeSubmit } from '$lib/utils/ChangePassword';
 
 	const modalStore = getModalStore();
 	let oldPassword = '';
@@ -48,7 +48,7 @@
 		oldPassword.length != 0;
 
 	async function callHandleSubmit() {
-		const statusCode = await handleSubmit(passwordChange, oldPassword);
+		const statusCode = await handleChangeSubmit(passwordChange, oldPassword);
 		if (statusCode == 204) {
 			$modalStore[0].response(statusCode);
 			modalStore.close();

@@ -2,6 +2,7 @@ import { type PasswordChange } from '../types/PasswordChange';
 import { changeIconColor, changeValidateIcon } from '$lib/ValidateInputs';
 import { get } from 'svelte/store';
 import { serverURL, token } from '$lib/Store';
+import exp from 'constants';
 
 export async function handlePasswordInput(event: Event, passwordChange: PasswordChange) {
     passwordChange.newPassword = (event.target as HTMLInputElement).value;
@@ -46,7 +47,7 @@ export async function handleRepeatPasswordInput(event: Event, passwordChange: Pa
     passwordChange.validateIconRepeatPwdColor = changeIconColor(passwordChange.validateIconRepeatPwd);
 }
 
-export async function handleSubmit(passwordChange: PasswordChange, oldPassword: string) {
+export async function handleChangeSubmit(passwordChange: PasswordChange, oldPassword: string) {
     const serverUrl = get(serverURL) + '/users';
     const response = await fetch(serverUrl, {
         method: 'PATCH',
@@ -61,5 +62,36 @@ export async function handleSubmit(passwordChange: PasswordChange, oldPassword: 
         })
     });
 
+    return response.status;
+}
+
+export async function handleForgotSubmit(username: string, tokenString: string, passwordChange: PasswordChange) {
+    const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
+    const response = await fetch(serverUrl, {
+        method: 'PATCH',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + get(token)
+        },
+        body: JSON.stringify({
+            token: tokenString,
+            newPassword: passwordChange.newPassword
+        })
+    });
+    return response.status;
+}
+
+export async function sendToken(username: string) {
+    const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
+		const response = await fetch(serverUrl, {
+			method: 'POST',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + get(token)
+			},
+			body: JSON.stringify({})
+		});
     return response.status;
 }
