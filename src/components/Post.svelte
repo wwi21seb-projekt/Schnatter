@@ -181,50 +181,47 @@
 			{/if}
 		</header>
 		<section class="p-4 border-solid border-2 border-white-200 rounded mr-10 ml-10 mt-5 mb-5">
-			<p
-				class="h-[15vh] p-1 text-lg h-auto min-h-[5vh]"
-				title="postcontent"
-			>
-			{#each newPost as { hashtagClass, text, wordID } (wordID)}
-				<span class="{hashtagClass}">{text} </span>
-			{/each}
+			<p class="h-[15vh] p-1 text-lg h-auto min-h-[5vh]" title="postcontent">
+				{#each newPost as { hashtagClass, text, wordID } (wordID)}
+					<span class={hashtagClass}>{text} </span>
+				{/each}
 			</p>
-				{#if post.repost != undefined || post.repost != null}
-					<header class="card-header w-full flex justify-between items-center">
-						<div class="flex flex-row items-center">
-							<Avatar
-								class="h-[5vh] w-[5vh] rounded-full mr-3"
-								src={post.repost.author.profilePictureUrl}
-								initials=""
-							/>
-							<div class="flex flex-col">
-								<a
-									class="text-[0.75rem]"
-									title="repostAuthorUsername"
-									href="/profile?username={post.repost.author.username}"
-									data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
-								>
-								<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
-									{post.repost.author.nickname}
-								</p>
-							</div>
+			{#if post.repost != undefined || post.repost != null}
+				<header class="card-header w-full flex justify-between items-center">
+					<div class="flex flex-row items-center">
+						<Avatar
+							class="h-[5vh] w-[5vh] rounded-full mr-3"
+							src={post.repost.author.profilePictureUrl}
+							initials=""
+						/>
+						<div class="flex flex-col">
+							<a
+								class="text-[0.75rem]"
+								title="repostAuthorUsername"
+								href="/profile?username={post.repost.author.username}"
+								data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
+							>
+							<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
+								{post.repost.author.nickname}
+							</p>
 						</div>
-						<div class="flex flex-col items-end">
-							<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
-							<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
-						</div>
-					</header>
-					<section class="p-4">
-						<p
-							class="h-[10vh] border-solid border-2 border-white-200 rounded p-1 text-lg h-auto"
-							title="repostPostcontent"
-						>
-							{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
-								<span class="{hashtagClass} text-[0.75rem]">{text} </span>
-							{/each}
-						</p>
-					</section>
-				{/if}
+					</div>
+					<div class="flex flex-col items-end">
+						<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
+						<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
+					</div>
+				</header>
+				<section class="p-4">
+					<p
+						class="h-[10vh] border-solid border-2 border-white-200 rounded p-1 text-lg h-auto"
+						title="repostPostcontent"
+					>
+						{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
+							<span class="{hashtagClass} text-[0.75rem]">{text} </span>
+						{/each}
+					</p>
+				</section>
+			{/if}
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-col md:flex-row w-full">
 			<div class="flex flex-row float-left items-center justify-center w-[35%]">
