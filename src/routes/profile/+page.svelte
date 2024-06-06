@@ -8,7 +8,7 @@
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
-	import PostUserProfil from '../../components/PostUserProfil.svelte';
+	import Post from '../../components/Post.svelte';
 	import { onMount } from 'svelte';
 	import {
 		followUser,
@@ -65,7 +65,7 @@
 		},
 		statusCode: 0
 	};
-	let postData: UserPostFetchResponse = {
+	let postsData: UserPostFetchResponse = {
 		records: [],
 		pagination: {
 			limit: 0,
@@ -100,7 +100,7 @@
 		if (profileData.user.subscriptionId != '' && profileData.user.subscriptionId != null) {
 			subscribed = true;
 		}
-		postData = await getProfilePosts(get(token), username);
+		postsData = await getProfilePosts(get(token), username);
 	});
 
 	function changeEditMode() {
@@ -120,7 +120,7 @@
 		modalStore.trigger(modal);
 	}
 	async function loadMorePosts() {
-		postData = await loadPosts(get(token), postData, username);
+		postsData = await loadPosts(get(token), postsData, username);
 	}
 	async function subscribe() {
 		const followResponse = await followUser(get(token), username);
@@ -241,14 +241,14 @@
 			</div>
 		</div>
 		<div>
-			{#if postData.records == null || postData.records.length == 0}
+			{#if postsData.records == null || postsData.records.length == 0}
 				<p class="text-2xl">{$t('profile.noPosts')}</p>
 			{:else}
 				<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
-					{#each postData.records as Post}
-						<PostUserProfil bind:postData={Post} currentUsername={usernameParams} />
+					{#each postsData.records as postData (postData.postId)}
+						<Post bind:postData currentUsername={usernameParams} />
 					{/each}
-					{#if postData.records.length < postData.pagination.records}
+					{#if postsData.records.length < postsData.pagination.records}
 						<button on:click={loadMorePosts} class="btn variant-filled"
 							>{$t('profile.loadMore')}</button
 						>

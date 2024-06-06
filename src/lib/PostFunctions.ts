@@ -9,6 +9,37 @@ import type { UUID } from 'crypto';
 
 let statusCode: number = 0;
 
+export async function deletePost(postId: string, toastStore: ToastStore) {
+	let customError: CustomError = {
+		message: '',
+		code: ''
+	};
+	const serverUrl = get(serverURL) + '/posts/' + postId;
+
+	try {
+		const response = await fetch(serverUrl, {
+			method: 'DELETE',
+			mode: 'cors',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + get(token)
+			}
+		});
+		statusCode = response.status;
+		if (statusCode !== 204) {
+			const body = await response.json();
+			customError = body.error;
+		}
+	} catch (error) {
+		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
+	}
+	if (statusCode !== 204 && statusCode !== 500) {
+		toastStore.trigger(createToast(customError.message, 'error'));
+	} else if (statusCode == 204) {
+		window.location.reload();
+	}
+}
+
 export async function createLike(postId: UUID, toastStore: ToastStore) {
 	const serverUrl = get(serverURL);
 	let customError: CustomError = {
