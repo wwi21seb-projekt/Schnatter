@@ -10,6 +10,21 @@
 	import type { CustomError } from '$lib/types/CustomError';
 	import { get } from 'svelte/store';
 	import { subscribeUserToPush } from '../push';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
+	import ModalForgotPwd from './modals/ModalForgotPwd.svelte';
+
+	const modalStore = getModalStore();
+
+	const modalComponent: ModalComponent = { ref: ModalForgotPwd };
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: modalComponent
+	};
+
+	function openForgotPwd() {
+		modalStore.trigger(modal);
+	}
 
 	const toastStore = getToastStore();
 
@@ -112,6 +127,12 @@
 				<p>
 					{$t('login.subtitle.noaccount')}
 					<a class="text-blue-700" href="/register">{$t('login.subtitle.signup')}</a>
+				</p>
+				<p>
+					{$t('login.subtitle.forgotPwd')}
+					<button class="text-blue-700" on:click={openForgotPwd}
+						>{$t('login.subtitle.resetPwd')}</button
+					>
 				</p>
 			</div>
 		</div>
