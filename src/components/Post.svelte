@@ -180,14 +180,15 @@
 				</div>
 			{/if}
 		</header>
-		<section class="p-4">
+		<section class="p-4 border-solid border-2 border-white-200 rounded mr-10 ml-10 mt-5 mb-5">
 			<p
-				class="h-[15vh] border-solid border-2 border-gray-800 p-1 text-lg h-auto"
+				class="h-[15vh] p-1 text-lg h-auto min-h-[5vh]"
 				title="postcontent"
 			>
-				{#each newPost as { hashtagClass, text, wordID } (wordID)}
-					<span class={hashtagClass}>{text} </span>
-				{/each}
+			{#each newPost as { hashtagClass, text, wordID } (wordID)}
+				<span class="{hashtagClass}">{text} </span>
+			{/each}
+			</p>
 				{#if post.repost != undefined || post.repost != null}
 					<header class="card-header w-full flex justify-between items-center">
 						<div class="flex flex-row items-center">
@@ -215,7 +216,7 @@
 					</header>
 					<section class="p-4">
 						<p
-							class="h-[10vh] border-solid border-2 border-gray-800 p-1 text-lg h-auto"
+							class="h-[10vh] border-solid border-2 border-white-200 rounded p-1 text-lg h-auto"
 							title="repostPostcontent"
 						>
 							{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
@@ -224,10 +225,9 @@
 						</p>
 					</section>
 				{/if}
-			</p>
 		</section>
-		<footer class="card-footer h-18 items-center pb-1 flex flex-row w-full">
-			<div class="flex flex-row float-left items-center w-[35%]">
+		<footer class="card-footer h-18 items-center pb-1 flex flex-col md:flex-row w-full">
+			<div class="flex flex-row float-left items-center justify-center w-[35%]">
 				<button disabled={isLoggedOut} on:click={handleLikeClick} title="like">
 					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
 					></Icon>
