@@ -45,7 +45,7 @@
 	},
 	"dependencies": {
 		"@floating-ui/dom": "1.6.5",
-		"@iconify/svelte": "^3.1.6",
+		"@iconify/svelte": "^4.0.0",
 		"@sveltejs/adapter-node": "^4.0.0",
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
