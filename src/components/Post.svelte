@@ -12,16 +12,14 @@
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost } from '$lib/PostFunctions';
 
-	
 	export let postData;
 	export let currentUsername: string | undefined;
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
 
-	
 	let deleteOption: boolean = true;
-	
+
 	let locationString = '';
 	let repostLocationString = '';
 
@@ -33,7 +31,7 @@
 	let post: PostStructure = postData;
 
 	let isLoggedOut: boolean = true;
-	
+
 	let showNoComments = false;
 	let commentText: string = '';
 	let click: number = 0;
@@ -104,7 +102,7 @@
 	}
 
 	function checkDeleteOption() {
-		if (currentUsername==undefined) {
+		if (currentUsername == undefined) {
 			deleteOption = true;
 		} else {
 			deleteOption = false;
@@ -149,37 +147,37 @@
 						<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
 					</div>
 				</div>
-			<div class="flex flex-row items-center">
-				<div class="flex flex-col">
-					<p class="text-xs">{locationString}</p>
-					<p class="text-xs" title="postdate">{postDate}</p>
+				<div class="flex flex-row items-center">
+					<div class="flex flex-col">
+						<p class="text-xs">{locationString}</p>
+						<p class="text-xs" title="postdate">{postDate}</p>
+					</div>
+					{#if deleteOption}
+						<button
+							on:click={() => {
+								modalStore.trigger(modalDelete);
+							}}
+						>
+							<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
+						>
+					{/if}
 				</div>
-				{#if deleteOption}
-					<button
-						on:click={() => {
-							modalStore.trigger(modalDelete);
-						}}
-					>
-						<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
-					>
-				{/if}
-			</div>
 			{:else}
-			<div class="flex flex-row items-center justify-between w-full">
-				<div class="flex flex-col">
-					<p class="text-xs">{locationString}</p>
-					<p class="text-xs" title="postdate">{postDate}</p>
+				<div class="flex flex-row items-center justify-between w-full">
+					<div class="flex flex-col">
+						<p class="text-xs">{locationString}</p>
+						<p class="text-xs" title="postdate">{postDate}</p>
+					</div>
+					{#if deleteOption}
+						<button
+							on:click={() => {
+								modalStore.trigger(modalDelete);
+							}}
+						>
+							<Icon class="w-7 h-7" icon="ic:baseline-delete"></Icon></button
+						>
+					{/if}
 				</div>
-				{#if deleteOption}
-					<button
-						on:click={() => {
-							modalStore.trigger(modalDelete);
-						}}
-					>
-						<Icon class="w-7 h-7" icon="ic:baseline-delete"></Icon></button
-					>
-				{/if}
-			</div>
 			{/if}
 		</header>
 		<section class="p-4">
