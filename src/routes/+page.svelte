@@ -10,6 +10,9 @@
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
 
+	const loggedIn = 'flex justify-start md:justify-center flex-col ';
+	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col';
+
 	let slotLimit = 10;
 	let feedType = 'global';
 	let feedData: FeedStructure = {
@@ -62,8 +65,8 @@
 	}
 </script>
 
-<main class="">
-	<div class="float-right mr-12">
+<main class={get(token) ? loggedIn : notLoggedIn}>
+	<div class="mr-12">
 		{#if loginToken == ''}
 			<Login />
 		{/if}
