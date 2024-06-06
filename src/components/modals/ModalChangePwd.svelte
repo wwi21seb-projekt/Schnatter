@@ -3,23 +3,27 @@
 	import { t } from '../../i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import { type PasswordChange } from '$lib/types/PasswordChange';
-	import { handlePasswordInput, handleRepeatPasswordInput, handleChangeSubmit } from '$lib/utils/ChangePassword';
+	import {
+		handlePasswordInput,
+		handleRepeatPasswordInput,
+		handleChangeSubmit
+	} from '$lib/utils/ChangePassword';
 
 	const modalStore = getModalStore();
 	let oldPassword = '';
 
 	var passwordChange: PasswordChange = {
-		newPassword: "",
-    	repeatNewPassword: "",
+		newPassword: '',
+		repeatNewPassword: '',
 		isPwdLongEnough: false,
 		hasPwdNumber: false,
 		hasPwdCapitalLetter: false,
 		hasPwdSmallLetter: false,
 		hasPwdSpecailCharacter: false,
-		validateIconPwd: "",
-		validateIconRepeatPwd: "",
-		validateIconPwdColor: "",
-		validateIconRepeatPwdColor: ""
+		validateIconPwd: '',
+		validateIconRepeatPwd: '',
+		validateIconPwdColor: '',
+		validateIconRepeatPwdColor: ''
 	};
 
 	$: passwordChange = passwordChange;

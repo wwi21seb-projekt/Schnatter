@@ -1,6 +1,6 @@
 export type PasswordChange = {
-    newPassword: string;
-    repeatNewPassword: string;
+	newPassword: string;
+	repeatNewPassword: string;
 	isPwdLongEnough: boolean;
 	hasPwdNumber: boolean;
 	hasPwdCapitalLetter: boolean;

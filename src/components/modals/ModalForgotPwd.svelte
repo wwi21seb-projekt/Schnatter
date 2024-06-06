@@ -4,7 +4,12 @@
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { handleForgotSubmit, handlePasswordInput, handleRepeatPasswordInput, sendToken } from '$lib/utils/ChangePassword';
+	import {
+		handleForgotSubmit,
+		handlePasswordInput,
+		handleRepeatPasswordInput,
+		sendToken
+	} from '$lib/utils/ChangePassword';
 	import type { PasswordChange } from '$lib/types/PasswordChange';
 
 	const modalStore = getModalStore();
@@ -14,18 +19,18 @@
 	let tokenString = '';
 	let tokenSent = false;
 
-	var passwordChange : PasswordChange = {
-		newPassword: "",
-		repeatNewPassword: "",
+	var passwordChange: PasswordChange = {
+		newPassword: '',
+		repeatNewPassword: '',
 		isPwdLongEnough: false,
 		hasPwdNumber: false,
 		hasPwdCapitalLetter: false,
 		hasPwdSmallLetter: false,
 		hasPwdSpecailCharacter: false,
-		validateIconPwd: "",
-		validateIconRepeatPwd: "",
-		validateIconPwdColor: "",
-		validateIconRepeatPwdColor: ""
+		validateIconPwd: '',
+		validateIconRepeatPwd: '',
+		validateIconPwdColor: '',
+		validateIconRepeatPwdColor: ''
 	};
 
 	function handleUsernameInput(event: Event) {
@@ -52,7 +57,7 @@
 		passwordChange.hasPwdSmallLetter &&
 		passwordChange.hasPwdSpecailCharacter &&
 		passwordChange.hasPwdNumber &&
-		passwordChange.newPassword === passwordChange.repeatNewPassword
+		passwordChange.newPassword === passwordChange.repeatNewPassword;
 
 	$: tokenSent = tokenSent;
 
