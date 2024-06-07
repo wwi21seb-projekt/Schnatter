@@ -112,6 +112,9 @@
 							<p>{$t('modalCreatePost.fileInput.Message')}</p>
 						</div>
 					</svelte:fragment>
+					<svelte:fragment slot="meta">
+						<p>Allowed .png, .jpg, .webp, .svg</p>
+					</svelte:fragment>
 				</FileDropzone>
 				<label class="label p-3">
 					<textarea
