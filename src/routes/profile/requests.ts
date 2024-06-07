@@ -11,7 +11,7 @@ export async function getProfileDetails(token: string, username: string) {
 		nickname: '',
 		status:
 			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At',
-		profilePictureUrl: '/default-avatar.png',
+		picutre: undefined,
 		follower: 0,
 		following: 0,
 		posts: 0,
@@ -28,12 +28,8 @@ export async function getProfileDetails(token: string, username: string) {
 		}
 	});
 	user = await response.json();
+	console.log(user);
 	statusCode = await response.status;
-
-	if (user.profilePictureUrl == '' || user.profilePictureUrl == undefined) {
-		user.profilePictureUrl = '/default-avatar.png';
-	}
-
 	return { user: user, statusCode: statusCode };
 }
 export async function getProfilePosts(token: string, username: string) {
@@ -55,9 +51,28 @@ export async function getProfilePosts(token: string, username: string) {
 	return posts;
 }
 
-export async function updateUserDetails(token: string, userStatus: string, nickname: string) {
+export async function updateUserDetails(
+	token: string,
+	userStatus: string,
+	nickname: string,
+	pictureURL: string | undefined
+) {
 	const serverUrl = get(serverURL) + '/users';
-
+	let body = {};
+	if (pictureURL === undefined) {
+		console.log('no picture');
+		body = {
+			status: userStatus,
+			nickname: nickname
+		};
+	} else {
+		console.log('picture');
+		body = {
+			status: userStatus,
+			nickname: nickname,
+			picture: pictureURL
+		};
+	}
 	const response = await fetch(serverUrl, {
 		method: 'PUT',
 		mode: 'cors',
@@ -65,10 +80,7 @@ export async function updateUserDetails(token: string, userStatus: string, nickn
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
 		},
-		body: JSON.stringify({
-			nickname: nickname,
-			status: userStatus
-		})
+		body: JSON.stringify(body)
 	});
 
 	return response.status;

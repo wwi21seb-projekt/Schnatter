@@ -39,7 +39,7 @@
 				user: {
 					username: '',
 					nickname: '',
-					profilePictureUrl: ''
+					picture: undefined
 				}
 			}
 		]
@@ -122,7 +122,7 @@
 	}
 </script>
 
-<div class="card w-[60vw] h-[80vh] p-2">
+<div class="card md:w-[60vw] w-screen h-[80vh] p-2">
 	<header class="h-[7%] flex flex-row justify-between">
 		<div class="flex items-center justify-start p-4 h-1/6 align-baseline">
 			<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginChat}>
@@ -160,7 +160,11 @@
 								id={record.chatId}
 								on:click={() => openChat(record.chatId)}
 								class="flex items-center rounded hover:variant-filled-primary p-1 w-full h-full"
-								><Avatar class="w-8 h-8s" initials={record.user.username.substring(0, 2)} />
+								><Avatar
+									class="w-8 h-8s"
+									src={record.user.picture?.pictureURL}
+									initials={record.user.username.substring(0, 2)}
+								/>
 								<span class="m-2">{record.user.username}</span></button
 							>
 						</li>

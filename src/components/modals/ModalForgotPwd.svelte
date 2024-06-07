@@ -86,7 +86,7 @@
 	}
 </script>
 
-<main class="card p-4 w-[25vw]">
+<main class="card p-4 md:w-[25vw] w-11/12">
 	<h3 class="h3 mb-2">{$t('modalForgotPassword.header')}</h3>
 	<RegisterInput
 		value={username}

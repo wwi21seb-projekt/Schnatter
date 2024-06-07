@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
@@ -11,7 +11,7 @@
 	import { sendComment } from '$lib/CommentFunctions';
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost } from '$lib/PostFunctions';
-	import { getInitalsFromUsername } from '$lib/utils/Pictures';
+	import ProfilePicture from './ProfilePicture.svelte';
 
 	export let postData;
 	export let currentUsername: string | undefined;
@@ -130,14 +130,14 @@
 </script>
 
 <main class="flex flex-col mb-6">
-	<div class="card w-[60vw] mb-2" title="post">
+	<div class="card md:w-[60vw] w-[95vw] mb-2 divide-y divide-current" title="post">
 		<header class="card-header w-full flex justify-between items-center">
 			{#if post.author}
 				<div class="flex flex-row items-center">
-					<Avatar
-						class="h-[5vh] w-[5vh] rounded-full mr-3"
-						src={post.author.picture?.pictureURL}
-						initials={getInitalsFromUsername(post.author.username)}
+					<ProfilePicture
+						cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+						src={post.author.picture?.pictureURL ?? ''}
+						username={post.author.username}
 					/>
 					<div class="flex flex-col">
 						<a
@@ -181,47 +181,56 @@
 				</div>
 			{/if}
 		</header>
-		<section class="p-4 border-solid border-2 border-white-200 rounded mr-10 ml-10 mt-5 mb-5">
-			<p class="h-[15vh] p-1 text-lg h-auto min-h-[5vh]" title="postcontent">
-				{#each newPost as { hashtagClass, text, wordID } (wordID)}
-					<span class={hashtagClass}>{text} </span>
-				{/each}
-			</p>
-			{#if post.repost != undefined || post.repost != null}
-				<header class="card-header w-full flex justify-between items-center">
-					<div class="flex flex-row items-center">
-						<Avatar
-							class="h-[5vh] w-[5vh] rounded-full mr-3"
-							src={post.repost.author.picture?.pictureURL}
-							initials={getInitalsFromUsername(post.repost.author.username)}
-						/>
-						<div class="flex flex-col">
-							<a
-								class="text-[0.75rem]"
-								title="repostAuthorUsername"
-								href="/profile?username={post.repost.author.username}"
-								data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
-							>
-							<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
-								{post.repost.author.nickname}
+		<section class="p-6 mt-5 w-full">
+			<div class="flex flex-col">
+				<div class="flex justify-center">
+					<img src={post.picture?.pictureURL} alt="" />
+				</div>
+				<p class="h-auto p-1 text-lg min-h-[5vh]" title="postcontent">
+					{#each newPost as { hashtagClass, text, wordID } (wordID)}
+						<span class={hashtagClass}>{text} </span>
+					{/each}
+				</p>
+			</div>
+			{#if post.repost}
+				<div class="border-solid border-2 border-current rounded divide-y divide-current">
+					{#if post.repost.author}
+						<header class="card-header w-full mb-1 flex justify-between items-center">
+							<div class="flex flex-row items-center">
+								<ProfilePicture
+									cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+									src={post.repost.author.picture?.pictureURL ?? ''}
+									username={post.repost.author.username}
+								/>
+								<div class="flex flex-col">
+									<a
+										class="text-[0.75rem]"
+										title="repostAuthorUsername"
+										href="/profile?username={post.repost.author.username}"
+										data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
+									>
+
+									<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
+										{post.repost.author.nickname}
+									</p>
+								</div>
+							</div>
+							<div class="flex flex-col items-end">
+								<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
+								<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
+							</div>
+						</header>
+						<section class="p-4">
+							<p class="h-[10vh] p-1 text-lg" title="repostPostcontent">
+								{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
+									<span class="{hashtagClass} text-[0.75rem]">{text} </span>
+								{/each}
 							</p>
-						</div>
-					</div>
-					<div class="flex flex-col items-end">
-						<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
-						<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
-					</div>
-				</header>
-				<section class="p-4">
-					<p
-						class="h-[10vh] border-solid border-2 border-white-200 rounded p-1 text-lg h-auto"
-						title="repostPostcontent"
-					>
-						{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
-							<span class="{hashtagClass} text-[0.75rem]">{text} </span>
-						{/each}
-					</p>
-				</section>
+						</section>
+					{:else}
+						<p class="p-4">{$t('post.repost.deleted')}</p>
+					{/if}
+				</div>
 			{/if}
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-col md:flex-row w-full">
