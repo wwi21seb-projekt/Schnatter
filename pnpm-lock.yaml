@@ -44,8 +44,8 @@ devDependencies:
     specifier: 2.8.0
     version: 2.8.0(svelte@4.2.9)
   '@skeletonlabs/tw-plugin':
-    specifier: 0.3.1
-    version: 0.3.1(tailwindcss@3.4.4)
+    specifier: 0.4.0
+    version: 0.4.0(tailwindcss@3.4.4)
   '@sveltejs/adapter-auto':
     specifier: ^3.1.1
     version: 3.1.1(@sveltejs/kit@2.4.1)
@@ -712,8 +712,8 @@ packages:
       svelte: 4.2.9
     dev: true
 
-  /@skeletonlabs/tw-plugin@0.3.1(tailwindcss@3.4.4):
-    resolution: {integrity: sha512-DjjeOHN3HhFQf6gYPT2MUZMkIdw1jeB9mbuKC8etQxUlOR4XitfC7hssRWFJ8RJsvrrN0myCBbdWkVG1JVA96g==}
+  /@skeletonlabs/tw-plugin@0.4.0(tailwindcss@3.4.4):
+    resolution: {integrity: sha512-v6Y4deBq9ByRx3kTRGgekhhYkWEYgNNNu8UXOwJngCStB7w8SwmbNFSeHkluxMbgCgMnJyp220EMpw9nj/rEsQ==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
     dependencies:
