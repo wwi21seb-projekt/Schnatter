@@ -8,6 +8,7 @@
 	import { followUser, unfollowUser } from '../../routes/profile/requests';
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
+	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 	export let subscriptionData: Subscriptions;
 	let username: string = '';
 	let pageRoute: string | null = '';
@@ -50,7 +51,10 @@
 		{#each subscriptionData.records as subscriber}
 			<li class="flex flex-row w-full justify-between">
 				<a href="/profile?username={subscriber.username}" class="w-5/6">
-					<Avatar src="../default-avatar.png" />
+					<Avatar
+						src={subscriber.picture?.pictureURL}
+						initials={getInitalsFromUsername(subscriber.username)}
+					/>
 
 					<span class="flex-auto">
 						<dt>{subscriber.username}</dt>

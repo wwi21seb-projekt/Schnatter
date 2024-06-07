@@ -1,5 +1,6 @@
 export type Picture = {
-    pictureURL: string;
-    width: number;
-    height: number;
+	pictureURL: string;
+	width: number;
+	height: number;
+	tag: string;
 };

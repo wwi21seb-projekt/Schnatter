@@ -2,11 +2,13 @@ import type { UUID } from 'crypto';
 import type { Author } from './Author';
 import type { Pagination } from './Pagination';
 import type { GeoLocationCoords } from './GeoLocation';
+import type { Picture } from './Pictures';
 
 export type PostStructure = {
 	postId: UUID;
 	author: Author;
 	creationDate: string;
+	picture: Picture | undefined;
 	content: string;
 	likes: number;
 	liked: boolean;
@@ -24,6 +26,7 @@ export type PostUserProfilStructure = {
 	postId: UUID;
 	creationDate: string;
 	content: string;
+	picture: Picture | undefined;
 	likes: number;
 	liked: boolean;
 	location: GeoLocationCoords | undefined;

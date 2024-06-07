@@ -1,5 +1,6 @@
 import type { UUID } from 'crypto';
 import type { Pagination } from './Pagination';
+import type { Picture } from './Pictures';
 
 export type ChatStructure = {
 	records: { chatId: UUID; user: ChatUser }[];
@@ -8,7 +9,7 @@ export type ChatStructure = {
 export type ChatUser = {
 	username: string;
 	nickname: string;
-	profilePictureUrl: string | undefined;
+	picture: Picture | undefined;
 };
 
 export type ChatMessages = {

@@ -11,6 +11,7 @@
 	import { sendComment } from '$lib/CommentFunctions';
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost } from '$lib/PostFunctions';
+	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 
 	export let postData;
 	export let currentUsername: string | undefined;
@@ -135,8 +136,8 @@
 				<div class="flex flex-row items-center">
 					<Avatar
 						class="h-[5vh] w-[5vh] rounded-full mr-3"
-						src={post.author.profilePictureUrl}
-						initials=""
+						src={post.author.picture?.pictureURL}
+						initials={getInitalsFromUsername(post.author.username)}
 					/>
 					<div class="flex flex-col">
 						<a
@@ -191,8 +192,8 @@
 					<div class="flex flex-row items-center">
 						<Avatar
 							class="h-[5vh] w-[5vh] rounded-full mr-3"
-							src={post.repost.author.profilePictureUrl}
-							initials=""
+							src={post.repost.author.picture?.pictureURL}
+							initials={getInitalsFromUsername(post.repost.author.username)}
 						/>
 						<div class="flex flex-col">
 							<a

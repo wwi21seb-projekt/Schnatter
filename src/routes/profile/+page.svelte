@@ -27,6 +27,7 @@
 
 	import { createToast } from '$lib/Toasts';
 	import { manageSession } from '$lib/utils/Session';
+	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
@@ -57,7 +58,7 @@
 			username: '',
 			nickname: '',
 			status: '',
-			profilePictureUrl: '',
+			picutre: undefined,
 			follower: 0,
 			following: 0,
 			posts: 0,
@@ -150,7 +151,11 @@
 			class=" w-full min-h-[35vh] flex flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
 			<div class="h-[20vh] w-[20vh] rounded-full">
-				<Avatar class="w-full h-full" src={profileData.user.profilePictureUrl} initials="" />
+				<Avatar
+					class="w-full h-full"
+					src={profileData.user.picutre?.pictureURL}
+					initials={getInitalsFromUsername(profileData.user.username)}
+				/>
 			</div>
 			<div class="min-h-[20vh] w-[50vw] p-6">
 				<div class="flex col-row">
