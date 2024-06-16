@@ -2,7 +2,7 @@ import { serverURL } from '$lib/Store';
 import type { CustomError } from '$lib/types/CustomError';
 import type { UserPostFetchResponse } from '$lib/types/Post';
 import type { User } from '$lib/types/User';
-import { deletePrfixFromBase64 } from '$lib/utils/Pictures';
+import { deletePrefixFromBase64 } from '$lib/utils/Pictures';
 import { get } from 'svelte/store';
 
 export async function getProfileDetails(token: string, username: string) {
@@ -55,21 +55,21 @@ export async function updateUserDetails(
 	token: string,
 	userStatus: string,
 	nickname: string,
-	pictureURL: string | undefined
+	pictureUrl: string | undefined
 ) {
 	const serverUrl = get(serverURL) + '/users';
 	let body = {};
-	if (pictureURL === undefined) {
+	if (pictureUrl === undefined) {
 		body = {
 			status: userStatus,
 			nickname: nickname
 		};
 	} else {
-		pictureURL = deletePrfixFromBase64(pictureURL);
+		pictureUrl = deletePrefixFromBase64(pictureUrl);
 		body = {
 			status: userStatus,
 			nickname: nickname,
-			picture: pictureURL
+			picture: pictureUrl
 		};
 	}
 	const response = await fetch(serverUrl, {

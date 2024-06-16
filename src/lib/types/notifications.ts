@@ -1,5 +1,3 @@
-//import type { UUID } from "crypto";
-
 import type { Picture } from './Pictures';
 
 export type NotificationEntity = {

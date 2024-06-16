@@ -8,7 +8,7 @@ import type { UUID } from 'crypto';
 import { getLocation, validateCoords } from './GeoLocationUtils';
 import type { GeoLocationCoords } from '../types/GeoLocation';
 import type { ToastStore } from '@skeletonlabs/skeleton';
-import { deletePrfixFromBase64 } from './Pictures';
+import { deletePrefixFromBase64 } from './Pictures';
 
 let statusCode: number = 0;
 
@@ -32,7 +32,7 @@ export async function sendPost(text: string, repostId: string, picture: string) 
 		bodyData.repostedPostId = repostId;
 	}
 	if (picture) {
-		picture = deletePrfixFromBase64(picture);
+		picture = deletePrefixFromBase64(picture);
 		bodyData.picture = picture;
 	}
 	const response = await fetch(`${get(serverURL)}/posts`, {

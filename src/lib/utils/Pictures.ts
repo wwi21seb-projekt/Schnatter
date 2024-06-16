@@ -1,4 +1,4 @@
-export function deletePrfixFromBase64(base64: string): string {
+export function deletePrefixFromBase64(base64: string): string {
 	return base64.replace(/^data:image\/[a-z]+;base64,/, '');
 }
 

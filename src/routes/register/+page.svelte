@@ -164,14 +164,14 @@
 
 		const url: string = serverUrl + '/users';
 		try {
-			const respone = await fetch(url, {
+			const response = await fetch(url, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(body)
 			});
-			statusCode = respone.status;
+			statusCode = response.status;
 			if (statusCode !== 200) {
-				const bodyError = await respone.json();
+				const bodyError = await response.json();
 				customError = bodyError.error;
 			}
 		} catch (error) {

@@ -47,7 +47,6 @@
 	}
 
 	async function handleSubmitPost() {
-		//let picture = encodePictureToBase64(selectedImage);
 		let response = await sendPost(text, repostId, selectedImage);
 		if (response == 201) {
 			modalStore.close();
