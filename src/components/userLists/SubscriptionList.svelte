@@ -2,12 +2,13 @@
 	import { page } from '$app/stores';
 	import { globalUsername, token } from '$lib/Store';
 	import type { Subscriptions } from '$lib/types/Subscriptions';
-	import { Avatar, Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { followUser, unfollowUser } from '../../routes/profile/requests';
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
+	import ProfilePicture from '../ProfilePicture.svelte';
 	export let subscriptionData: Subscriptions;
 	let username: string = '';
 	let pageRoute: string | null = '';
@@ -49,16 +50,19 @@
 	<ul class="w-full">
 		{#each subscriptionData.records as subscriber}
 			<li class="flex flex-row w-full justify-between">
-				<a href="/profile?username={subscriber.username}" class="w-5/6">
-					<Avatar src="../default-avatar.png" />
-
+				<a href="/profile?username={subscriber.username}" class="md:w-5/6">
+					<ProfilePicture
+						src={subscriber.picture?.url ?? ''}
+						username={subscriber.username}
+						cssClass=""
+					/>
 					<span class="flex-auto">
 						<dt>{subscriber.username}</dt>
 						<dd class="opacity-50">@{subscriber.nickname}</dd>
 					</span>
 				</a>
 				{#if username == get(globalUsername)}
-					<div class="flex flex-row justify-start items-center w-1/6 ml-2">
+					<div class="flex flex-row justify-start items-center md:w-1/6 ml-2">
 						{#if pageRoute == '/profile/following'}
 							<button
 								class="btn variant-filled-error h-2/3"

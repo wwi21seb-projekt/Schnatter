@@ -52,7 +52,7 @@
 		{#if followingData.records.length == 0}
 			<p class="text-center">{$t('followers.user.emptyList')}</p>
 		{:else}
-			<div class="w-[40vw]">
+			<div class="md:w-[40vw] w-[85vw]">
 				<SubscriptionList subscriptionData={followingData} />
 			</div>
 		{/if}

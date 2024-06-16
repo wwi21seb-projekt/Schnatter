@@ -1,5 +1,6 @@
 import type { UUID } from 'crypto';
 import type { PaginationUser } from './Pagination';
+import type { Picture } from './Pictures';
 
 export type Subscriptions = {
 	records:
@@ -9,7 +10,7 @@ export type Subscriptions = {
 					followingId: UUID;
 					username: string;
 					nickname: string;
-					profilePictureUrl: string;
+					picture: Picture | undefined;
 				}
 		  ]
 		| [];

@@ -2,6 +2,7 @@ import { serverURL } from '$lib/Store';
 import type { CustomError } from '$lib/types/CustomError';
 import type { UserPostFetchResponse } from '$lib/types/Post';
 import type { User } from '$lib/types/User';
+import { deletePrefixFromBase64 } from '$lib/utils/Pictures';
 import { get } from 'svelte/store';
 
 export async function getProfileDetails(token: string, username: string) {
@@ -11,7 +12,7 @@ export async function getProfileDetails(token: string, username: string) {
 		nickname: '',
 		status:
 			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At',
-		profilePictureUrl: '/default-avatar.png',
+		picture: undefined,
 		follower: 0,
 		following: 0,
 		posts: 0,
@@ -29,11 +30,6 @@ export async function getProfileDetails(token: string, username: string) {
 	});
 	user = await response.json();
 	statusCode = await response.status;
-
-	if (user.profilePictureUrl == '' || user.profilePictureUrl == undefined) {
-		user.profilePictureUrl = '/default-avatar.png';
-	}
-
 	return { user: user, statusCode: statusCode };
 }
 export async function getProfilePosts(token: string, username: string) {
@@ -55,9 +51,27 @@ export async function getProfilePosts(token: string, username: string) {
 	return posts;
 }
 
-export async function updateUserDetails(token: string, userStatus: string, nickname: string) {
+export async function updateUserDetails(
+	token: string,
+	userStatus: string,
+	nickname: string,
+	pictureUrl: string | undefined
+) {
 	const serverUrl = get(serverURL) + '/users';
-
+	let body = {};
+	if (pictureUrl === undefined) {
+		body = {
+			status: userStatus,
+			nickname: nickname
+		};
+	} else {
+		pictureUrl = deletePrefixFromBase64(pictureUrl);
+		body = {
+			status: userStatus,
+			nickname: nickname,
+			picture: pictureUrl
+		};
+	}
 	const response = await fetch(serverUrl, {
 		method: 'PUT',
 		mode: 'cors',
@@ -65,10 +79,7 @@ export async function updateUserDetails(token: string, userStatus: string, nickn
 			'Content-Type': 'application/json',
 			Authorization: 'Bearer ' + token
 		},
-		body: JSON.stringify({
-			nickname: nickname,
-			status: userStatus
-		})
+		body: JSON.stringify(body)
 	});
 
 	return response.status;

@@ -4,13 +4,16 @@
 	import { get } from 'svelte/store';
 	import type { Notifications } from '$lib/types/notifications';
 	import { deleteNotificationRequest, getNotificationsRequest } from '$lib/utils/Notifications';
-	import { notificationCount, notificationList } from '$lib/Store';
+	import { notificationCount, notificationList, token } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	onMount(async () => {
-		const notificationListUpdate: Notifications = (await getNotificationsRequest()) ?? {
-			records: []
-		};
+		let notificationListUpdate: Notifications = { records: [] };
+		if (get(token)) {
+			notificationListUpdate = (await getNotificationsRequest()) ?? {
+				records: []
+			};
+		}
 		notificationList.set(notificationListUpdate);
 		notificationCount.set(notificationListUpdate.records.length);
 	});

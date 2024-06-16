@@ -13,11 +13,13 @@
 	import ModalCreatePost from '../components/modals/ModalCreatePost.svelte';
 	import ModalChat from '../components/modals/ModalChat.svelte';
 	import ModalNewChat from '../components/modals/ModalNewChat.svelte';
+	import ModalChangeProfilePicture from '../components/modals/ModalChangeProfilePicture.svelte';
 	initializeStores();
 	const modalRegistry: Record<string, ModalComponent> = {
 		modalCreatePost: { ref: ModalCreatePost },
 		modalChat: { ref: ModalChat },
-		modalBeginChat: { ref: ModalNewChat }
+		modalBeginChat: { ref: ModalNewChat },
+		modalProfilePicture: { ref: ModalChangeProfilePicture }
 	};
 </script>
 

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {
-		Avatar,
 		Toast,
 		getModalStore,
 		type ModalComponent,
@@ -19,7 +18,7 @@
 		updateUserDetails
 	} from './requests';
 	import { get } from 'svelte/store';
-	import { globalUsername, token } from '$lib/Store';
+	import { globalUsername, profilePicture, token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
 	import Icon from '@iconify/svelte';
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
@@ -27,6 +26,7 @@
 
 	import { createToast } from '$lib/Toasts';
 	import { manageSession } from '$lib/utils/Session';
+	import ProfilePicture from '../../components/ProfilePicture.svelte';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
@@ -39,6 +39,11 @@
 
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = { ref: ModalChangePwd };
+
+	const modalProfilePicture: ModalSettings = {
+		type: 'component',
+		component: 'modalProfilePicture'
+	};
 
 	const modal: ModalSettings = {
 		type: 'component',
@@ -57,7 +62,7 @@
 			username: '',
 			nickname: '',
 			status: '',
-			profilePictureUrl: '',
+			picture: undefined,
 			follower: 0,
 			following: 0,
 			posts: 0,
@@ -89,6 +94,7 @@
 			username = usernameParams;
 		}
 		profileData = await getProfileDetails(get(token), username);
+		profilePicture.set(profileData.user.picture?.url ?? '');
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
 
@@ -105,15 +111,24 @@
 
 	function changeEditMode() {
 		editMode = !editMode;
+		if (editMode == false) {
+			profilePicture.set('');
+		}
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), userStatus, nickname);
+		const status = await updateUserDetails(get(token), userStatus, nickname, get(profilePicture));
 		if (status == 200) {
 			editMode = false;
 			toastStore.trigger(createToast('User details were changed', 'success'));
+			profilePicture.set('');
+			window.location.reload();
 		} else {
 			toastStore.trigger(createToast('User details were not changed', 'error'));
 		}
+	}
+
+	function openChangeProfilePicture() {
+		modalStore.trigger(modalProfilePicture);
 	}
 
 	function openChangePwdModal() {
@@ -147,12 +162,21 @@
 {#if profileData.statusCode == 200}
 	<main class=" flex flex-col items-center justify-start">
 		<div
-			class=" w-full min-h-[35vh] flex flex-row justify-center items-center border-b-4 border-indigo-800"
+			class=" w-full min-h-[35vh] flex flex-col md:flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
-			<div class="h-[20vh] w-[20vh] rounded-full">
-				<Avatar class="w-full h-full" src={profileData.user.profilePictureUrl} initials="" />
+			<div class="h-[24vh] rounded-full flex flex-col justify-around">
+				<ProfilePicture
+					src={$profilePicture ?? profileData.user.picture?.url}
+					username={profileData.user.username}
+					cssClass="w-full h-[20vh] aspect-square"
+				/>
+				{#if editMode}
+					<button class="variant-filled-primary" on:click={openChangeProfilePicture}
+						>{$t('profile.changeProfilePicture')}</button
+					>
+				{/if}
 			</div>
-			<div class="min-h-[20vh] w-[50vw] p-6">
+			<div class="Md:min-h-[20vh] w-[50vw] p-6">
 				<div class="flex col-row">
 					<h3 class="h3 mr-4">{profileData.user.username}</h3>
 					{#if usernameParams == undefined}
@@ -200,7 +224,9 @@
 				{/if}
 			</div>
 			<div class="flex flex-col justify-center items-center">
-				<div class="h-[20vh] w-[22vw] flex flex-row justify-around items-center">
+				<div
+					class="md:h-[20vh] h-full my-5 md:w-[22vw] w-screen flex flex-row justify-around items-center"
+				>
 					<div class="flex flex-col items-center justify-center">
 						<h2 class="h2" title="postcount">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>

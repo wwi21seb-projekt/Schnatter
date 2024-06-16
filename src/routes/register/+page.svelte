@@ -1,14 +1,15 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
-	import { Toast } from '@skeletonlabs/skeleton';
+	import { Toast, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../components/RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/Toasts';
 	import { goto } from '$app/navigation';
-	import { registerUsername, serverURL } from '$lib/Store';
+	import { profilePicture, registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';
 	import type { CustomError } from '$lib/types/CustomError';
 	import { get } from 'svelte/store';
+	import ProfilePicture from '../../components/ProfilePicture.svelte';
 
 	const toastStore = getToastStore();
 
@@ -37,6 +38,16 @@
 	let containsIllegalCharacters: boolean;
 	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
 	const checkSpace = /\s/;
+
+	const modalStore = getModalStore();
+
+	const modalProfilePicture: ModalSettings = {
+		type: 'component',
+		component: 'modalProfilePicture'
+	};
+	function openChangeProfilePicture() {
+		modalStore.trigger(modalProfilePicture);
+	}
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -126,29 +137,42 @@
 		hasPwdNumber &&
 		password === repeatPassword &&
 		username.length != 0;
+
 	async function handleSubmit() {
 		let customError: CustomError = {
 			message: '',
 			code: ''
 		};
 		const serverUrl = get(serverURL);
+		let body = {};
+		if (get(profilePicture) !== '') {
+			body = {
+				username: username,
+				password: password,
+				nickname: nickname,
+				email: email,
+				picture: get(profilePicture)
+			};
+		} else {
+			body = {
+				username: username,
+				password: password,
+				nickname: nickname,
+				email: email
+			};
+		}
 
 		const url: string = serverUrl + '/users';
 		try {
-			const respone = await fetch(url, {
+			const response = await fetch(url, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					username: username,
-					password: password,
-					nickname: nickname,
-					email: email
-				})
+				body: JSON.stringify(body)
 			});
-			statusCode = respone.status;
+			statusCode = response.status;
 			if (statusCode !== 200) {
-				const body = await respone.json();
-				customError = body.error;
+				const bodyError = await response.json();
+				customError = bodyError.error;
 			}
 		} catch (error) {
 			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
@@ -157,6 +181,7 @@
 			toastStore.trigger(createToast(customError.message, 'error'));
 		} else if (statusCode == 201) {
 			registerUsername.set(username);
+			profilePicture.set('');
 			goto('/verify');
 		}
 	}
@@ -166,6 +191,7 @@
 <main class=" flex flex-col justify-center items-center h-[90vh]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">{$t('register.header')}</h1>
+
 		<div class="h-[50vh] flex flex-col justify-around items-center">
 			<form class="flex flex-col justify-around items-center w-full">
 				<div class="w-full">
@@ -264,7 +290,15 @@
 				{#if repeatPassword.length != 0 && password != repeatPassword}
 					<p class="text-red-600 text-sm">*{$t('register.password.notMatch')}</p>
 				{/if}
-
+				<div class="flex flex-col items-center">
+					<button
+						class="variant-filled-primary my-2 p-2 rounded-md"
+						on:click={openChangeProfilePicture}>{$t('register.button.addPicture')}</button
+					>
+					{#if $profilePicture != ''}
+						<ProfilePicture src={$profilePicture} username="" cssClass="w-24 h-24" />
+					{/if}
+				</div>
 				<div class="flex flex-row mt-3">
 					<a href="/"
 						><button class="btn variant-filled-surface mr-2">{$t('register.button.cancel')}</button

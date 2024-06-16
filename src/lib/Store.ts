@@ -22,3 +22,6 @@ export const chatIdNewChat = persisted('chatIdNewChat', '' as UUID);
 export const notificationCount = persisted('notificationCount', 0);
 
 export const notificationList = persisted('notificationList', { records: [] } as Notifications);
+
+// profilePicture
+export const profilePicture = writable('');

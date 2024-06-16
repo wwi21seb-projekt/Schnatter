@@ -1,4 +1,4 @@
-//import type { UUID } from "crypto";
+import type { Picture } from './Pictures';
 
 export type NotificationEntity = {
 	notificationId: string;
@@ -7,7 +7,7 @@ export type NotificationEntity = {
 	user: {
 		username: string;
 		nickname: string;
-		profilePictureUrl: string | undefined;
+		picture: Picture | undefined;
 	};
 };
 
