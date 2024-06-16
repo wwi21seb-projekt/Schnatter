@@ -141,7 +141,8 @@ export default {
 		'chat.newChat.cancel': 'Cancel',
 		'chat.newChat.headerChat': 'Start your chat with',
 		'chat.newChat.noUsers': 'No users found',
-		'chat.newChat.noChat': 'No chat started'
+		'chat.newChat.noChat': 'No chat started',
+		'chat.pagination.loadMore': 'Load more'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -285,6 +286,7 @@ export default {
 		'chat.newChat.cancel': 'Abbrechen',
 		'chat.newChat.headerChat': 'Starte den Chat mit',
 		'chat.newChat.noUsers': 'Keine User gefunden',
-		'chat.newChat.noChat': 'Noch kein Chat gestartet'
+		'chat.newChat.noChat': 'Noch kein Chat gestartet',
+		'chat.pagination.loadMore': 'Mehr laden'
 	}
 };

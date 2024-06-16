@@ -177,6 +177,7 @@
 					class="w-full h-full flex flex-col-reverse p-2 overflow-y-scroll border-t border-surface-500/30"
 				>
 					{#each messages as message}
+					{console.log(dataMessages)}
 						<!-- {#if message.username === get(globalUsername)} -->
 						{#if message.username === $globalUsername}
 							<div class="flex float-end justify-end mt-2">
@@ -202,6 +203,9 @@
 							</div>
 						{/if}
 					{/each}
+					<button class="btn variant-filled w-full md:w-auto py-2 px-4"
+						>{$t('chat.pagination.loadMore')} ({dataMessages.pagination.limit > dataMessages.pagination.records? dataMessages.pagination.records:  dataMessages.pagination.limit}/{dataMessages.pagination.records})</button
+					>
 				</section>
 			{:else}
 				<section
