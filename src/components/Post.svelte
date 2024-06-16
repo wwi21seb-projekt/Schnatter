@@ -6,11 +6,11 @@
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
-	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
+	import { checkForHashtags, likeCounter } from '$lib/utils/PostFunctions';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 	import { sendComment } from '$lib/CommentFunctions';
 	import Commentsection from './Commentsection.svelte';
-	import { deletePost } from '$lib/PostFunctions';
+	import { deletePost } from '$lib/utils/PostFunctions';
 	import ProfilePicture from './ProfilePicture.svelte';
 
 	export let postData;
@@ -183,9 +183,11 @@
 		</header>
 		<section class="p-6 mt-5 w-full">
 			<div class="flex flex-col">
-				<div class="flex justify-center">
-					<img class="h-{post.picture?.height} w-{post.picture?.width}" src={post.picture?.url} alt="" />
-				</div>
+				{#if post.picture?.url}
+					<div class="flex justify-center">
+						<img class="max-h-[375px] rounded-md object-contain" src={post.picture?.url} alt="" />
+					</div>
+				{/if}
 				<p class="h-auto p-1 text-lg min-h-[5vh]" title="postcontent">
 					{#each newPost as { hashtagClass, text, wordID } (wordID)}
 						<span class={hashtagClass}>{text} </span>

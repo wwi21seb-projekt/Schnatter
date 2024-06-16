@@ -1,13 +1,14 @@
-import type { PostUserProfilStructure, TextColorPost, PostStructure } from './types/Post';
+import type { PostUserProfilStructure, TextColorPost, PostStructure } from '../types/Post';
 import { serverURL, token } from '$lib/Store';
-import type { CustomError } from './types/CustomError';
+import type { CustomError } from '../types/CustomError';
 import { createToast } from '$lib/Toasts';
-import { t } from '../i18n';
+import { t } from '../../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';
-import { getLocation, validateCoords } from './utils/GeoLocationUtils';
-import type { GeoLocationCoords } from './types/GeoLocation';
+import { getLocation, validateCoords } from './GeoLocationUtils';
+import type { GeoLocationCoords } from '../types/GeoLocation';
 import type { ToastStore } from '@skeletonlabs/skeleton';
+import { deletePrfixFromBase64 } from './Pictures';
 
 let statusCode: number = 0;
 
@@ -25,12 +26,13 @@ export async function sendPost(text: string, repostId: string, picture: string) 
 		content: text
 	};
 	if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
-		//bodyData.location = geoLocationData;
+		bodyData.location = geoLocationData;
 	}
 	if (repostId != '') {
 		bodyData.repostedPostId = repostId;
 	}
-	if (picture != '') {
+	if (picture) {
+		picture = deletePrfixFromBase64(picture);
 		bodyData.picture = picture;
 	}
 	const response = await fetch(`${get(serverURL)}/posts`, {

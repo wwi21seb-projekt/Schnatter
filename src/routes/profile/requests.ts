@@ -2,6 +2,7 @@ import { serverURL } from '$lib/Store';
 import type { CustomError } from '$lib/types/CustomError';
 import type { UserPostFetchResponse } from '$lib/types/Post';
 import type { User } from '$lib/types/User';
+import { deletePrfixFromBase64 } from '$lib/utils/Pictures';
 import { get } from 'svelte/store';
 
 export async function getProfileDetails(token: string, username: string) {
@@ -11,7 +12,7 @@ export async function getProfileDetails(token: string, username: string) {
 		nickname: '',
 		status:
 			'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At',
-		picutre: undefined,
+		picture: undefined,
 		follower: 0,
 		following: 0,
 		posts: 0,
@@ -28,7 +29,6 @@ export async function getProfileDetails(token: string, username: string) {
 		}
 	});
 	user = await response.json();
-	console.log(user);
 	statusCode = await response.status;
 	return { user: user, statusCode: statusCode };
 }
@@ -60,13 +60,12 @@ export async function updateUserDetails(
 	const serverUrl = get(serverURL) + '/users';
 	let body = {};
 	if (pictureURL === undefined) {
-		console.log('no picture');
 		body = {
 			status: userStatus,
 			nickname: nickname
 		};
 	} else {
-		console.log('picture');
+		pictureURL = deletePrfixFromBase64(pictureURL);
 		body = {
 			status: userStatus,
 			nickname: nickname,

@@ -1,5 +1,5 @@
 export type GeoLocationCoords = {
-	latitude: number;
 	longitude: number;
+	latitude: number;
 	accuracy: number;
 };

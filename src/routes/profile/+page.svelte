@@ -62,7 +62,7 @@
 			username: '',
 			nickname: '',
 			status: '',
-			picutre: undefined,
+			picture: undefined,
 			follower: 0,
 			following: 0,
 			posts: 0,
@@ -94,6 +94,7 @@
 			username = usernameParams;
 		}
 		profileData = await getProfileDetails(get(token), username);
+		profilePicture.set(profileData.user.picture?.url ?? '');
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
 
@@ -165,7 +166,7 @@
 		>
 			<div class="h-[24vh] rounded-full flex flex-col justify-around">
 				<ProfilePicture
-					src={$profilePicture ?? profileData.user.picutre?.pictureURL}
+					src={$profilePicture ?? profileData.user.picture?.url}
 					username={profileData.user.username}
 					cssClass="w-full h-[20vh] aspect-square"
 				/>

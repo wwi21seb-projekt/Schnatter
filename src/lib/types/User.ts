@@ -6,7 +6,7 @@ export type User = {
 	username: string;
 	nickname: string;
 	status: string;
-	picutre: Picture | undefined;
+	picture: Picture | undefined;
 	follower: number;
 	following: number;
 	posts: number;

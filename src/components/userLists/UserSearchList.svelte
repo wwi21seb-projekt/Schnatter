@@ -11,7 +11,7 @@
 				<a href="/profile?username={searchedUser.username}" title="userResult" class="w-full">
 					<ProfilePicture
 						cssClass="w-10 h-10 rounded-full"
-						src={searchedUser.picutre?.pictureURL ?? ''}
+						src={searchedUser.picture?.url ?? ''}
 						username={searchedUser.username}
 					/>
 					<span class="flex-auto">

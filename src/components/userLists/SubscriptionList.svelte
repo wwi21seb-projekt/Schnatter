@@ -52,7 +52,7 @@
 			<li class="flex flex-row w-full justify-between">
 				<a href="/profile?username={subscriber.username}" class="md:w-5/6">
 					<ProfilePicture
-						src={subscriber.picture?.pictureURL ?? ''}
+						src={subscriber.picture?.url ?? ''}
 						username={subscriber.username}
 						cssClass=""
 					/>

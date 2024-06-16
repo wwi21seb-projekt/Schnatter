@@ -5,7 +5,7 @@
 	import { createToast } from '$lib/Toasts';
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
-	import { sendPost } from '$lib/PostFunctions';
+	import { sendPost } from '$lib/utils/PostFunctions';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
@@ -18,6 +18,7 @@
 
 	let files: FileList;
 	let pictureSet: boolean = false;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	let selectedImage: any;
 
 	onMount(() => {

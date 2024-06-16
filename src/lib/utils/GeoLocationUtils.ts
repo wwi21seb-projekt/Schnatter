@@ -11,8 +11,8 @@ export async function getLocation() {
 	const position: GeolocationPosition = await new Promise((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(resolve, reject);
 	});
-	dataLocation.latitude = position.coords.latitude;
 	dataLocation.longitude = position.coords.longitude;
+	dataLocation.latitude = position.coords.latitude;
 	dataLocation.accuracy = position.coords.accuracy;
 	return dataLocation;
 }

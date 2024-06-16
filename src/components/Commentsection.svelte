@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { fetchComments } from '$lib/CommentFunctions';
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { t } from '../i18n';
 	import type { UUID } from 'crypto';
 	import type { Comments } from '$lib/types/Comment';
+	import ProfilePicture from './ProfilePicture.svelte';
+	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 
 	let limit: number = 10;
 	let offset: number = 0;
@@ -20,7 +21,12 @@
 				author: {
 					username: '',
 					nickname: '',
-					profilePictureUrl: ''
+					picture: {
+						url: '',
+						height: 0,
+						width: 0,
+						tag: ''
+					}
 				}
 			}
 		],
@@ -55,13 +61,17 @@
 			<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
 		</header>
 		{#if commentData.records == null}
-			<div>{$t('post.comments.noComments')}</div>
+			<div class="m-3">{$t('post.comments.noComments')}</div>
 		{:else}
 			{#each commentData.records as comment}
 				<section class="p-3 flex flex-col">
 					<div class="flex flex-row">
 						<div class="items-baseline">
-							<Avatar class="h-[3vh] w-[3vh] rounded-full mr-2" src="/default-avatar.png" />
+							<ProfilePicture
+								cssClass="h-[3vh] w-[3vh] rounded-full mr-2"
+								src={comment.author.picture?.url ?? ''}
+								username={getInitalsFromUsername(comment.author.username)}
+							/>
 						</div>
 						<div class="flex flex-col">
 							<span class="font-bold">{comment.author.username}</span>
