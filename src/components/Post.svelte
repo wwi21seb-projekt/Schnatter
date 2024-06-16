@@ -136,7 +136,7 @@
 				<div class="flex flex-row items-center">
 					<ProfilePicture
 						cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
-						src={post.author.picture?.pictureURL ?? ''}
+						src={post.author.picture?.url ?? ''}
 						username={post.author.username}
 					/>
 					<div class="flex flex-col">
@@ -184,7 +184,7 @@
 		<section class="p-6 mt-5 w-full">
 			<div class="flex flex-col">
 				<div class="flex justify-center">
-					<img src={post.picture?.pictureURL} alt="" />
+					<img class="h-{post.picture?.height} w-{post.picture?.width}" src={post.picture?.url} alt="" />
 				</div>
 				<p class="h-auto p-1 text-lg min-h-[5vh]" title="postcontent">
 					{#each newPost as { hashtagClass, text, wordID } (wordID)}
@@ -199,7 +199,7 @@
 							<div class="flex flex-row items-center">
 								<ProfilePicture
 									cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
-									src={post.repost.author.picture?.pictureURL ?? ''}
+									src={post.repost.author.picture?.url ?? ''}
 									username={post.repost.author.username}
 								/>
 								<div class="flex flex-col">

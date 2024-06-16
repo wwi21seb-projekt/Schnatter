@@ -162,7 +162,7 @@
 								class="flex items-center rounded hover:variant-filled-primary p-1 w-full h-full"
 								><Avatar
 									class="w-8 h-8s"
-									src={record.user.picture?.pictureURL}
+									src={record.user.picture?.url}
 									initials={record.user.username.substring(0, 2)}
 								/>
 								<span class="m-2">{record.user.username}</span></button

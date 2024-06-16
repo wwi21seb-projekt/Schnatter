@@ -33,8 +33,7 @@ export async function sendPost(text: string, repostId: string, picture: string) 
 	if (picture != '') {
 		bodyData.picture = picture;
 	}
-	const url = get(serverURL) + '/posts';
-	const response = await fetch(url, {
+	const response = await fetch(`${get(serverURL)}/posts`, {
 		method: 'POST',
 		mode: 'cors',
 		headers: {
