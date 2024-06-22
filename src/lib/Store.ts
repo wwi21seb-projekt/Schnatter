@@ -8,7 +8,7 @@ import type { UUID } from 'crypto';
 //http://localhost:3000/api
 //Mockserver global
 //https://projekt-mockserver.mabu2807.de/api
-export const serverURL = writable('https://server-beta.de/api');
+export const serverURL = persisted('serverURL', '');
 
 // User
 export const registerUsername = writable('');
