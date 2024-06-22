@@ -232,7 +232,7 @@
 						<p>{$t('profile.posts')}</p>
 					</div>
 					<a
-						href="/profile/follower?username={profileData.user.username}"
+						href="/profile/followers?username={profileData.user.username}"
 						data-sveltekit-preload-data="hover"
 					>
 						<div class="flex flex-col items-center justify-center">

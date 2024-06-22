@@ -11,15 +11,14 @@
 	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();
-	let offsetList = 0;
-	let limit = 10;
 	let usernameParams: string = '';
 	let username: string = '';
 	let followingData: Subscriptions = {
 		records: [],
 		pagination: {
 			offset: 0,
-			limit: 0
+			limit: 0,
+			records: 0
 		}
 	};
 
@@ -33,7 +32,7 @@
 		} else {
 			username = usernameParams;
 		}
-		const response = await getSubscriptions(get(token), 'following', offsetList, limit, username);
+		const response = await getSubscriptions(get(token), 'following', 0, 10, username);
 
 		if (response.status == 200 && response.data) {
 			followingData = await response.data;
@@ -42,7 +41,6 @@
 		} else if (response.customError) {
 			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}
-		offsetList += limit;
 	});
 </script>
 
