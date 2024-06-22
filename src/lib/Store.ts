@@ -1,6 +1,6 @@
 import { persisted } from 'svelte-local-storage-store';
 import { writable } from 'svelte/store';
-import type { Notifications } from './types/notifications';
+import type { Notifications } from './types/Notifications';
 import type { UUID } from 'crypto';
 
 export const registerUsername = writable('');

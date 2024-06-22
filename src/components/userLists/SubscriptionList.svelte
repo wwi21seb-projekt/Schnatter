@@ -27,7 +27,7 @@
 		if (response.status == 204) {
 			window.location.reload();
 		} else {
-			toastStore.trigger(createToast('Something went wrong, please try again later', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		}
 	}
 
@@ -37,7 +37,7 @@
 		if (response.status == 201) {
 			window.location.reload();
 		} else if (response.status == 500) {
-			toastStore.trigger(createToast('Internal Server Error', 'error'));
+			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
 		} else {
 			toastStore.clear();
 			toastStore.trigger(createToast(response.customError?.message ?? '', 'error'));

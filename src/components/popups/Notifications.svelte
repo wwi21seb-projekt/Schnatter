@@ -1,8 +1,9 @@
+<!-- Notification popup Navbar -->
 <script lang="ts">
 	import { Avatar } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
-	import type { Notifications } from '$lib/types/notifications';
+	import type { Notifications } from '$lib/types/Notifications';
 	import { deleteNotificationRequest, getNotificationsRequest } from '$lib/utils/Notifications';
 	import { notificationCount, notificationList, token } from '$lib/Store';
 	import { goto } from '$app/navigation';

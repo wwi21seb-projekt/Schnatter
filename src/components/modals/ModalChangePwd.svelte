@@ -54,6 +54,7 @@
 	async function callHandleSubmit() {
 		const statusCode = await handleChangeSubmit(passwordChange, oldPassword);
 		if (statusCode == 204) {
+			// @ts-ignore   // skeleton error (https://www.skeleton.dev/utilities/modals)
 			$modalStore[0].response(statusCode);
 			modalStore.close();
 		}

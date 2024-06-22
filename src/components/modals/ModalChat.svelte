@@ -1,3 +1,4 @@
+<!-- Chat model in NavBar -->
 <script lang="ts">
 	import { Avatar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
@@ -68,6 +69,7 @@
 		}
 		chatIdNewChat.set(chatId);
 		const pathArray = get(serverURL).split(':');
+		// for mockserver
 		if (pathArray[0] === 'http') {
 			pathArray[0] = 'ws';
 		} else {
@@ -78,6 +80,7 @@
 		socket.addEventListener('message', (event: MessageEvent) => {
 			const respone = JSON.parse(event.data);
 			messages = [...messages, respone];
+			// sort messages by date
 			messages = messages.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		});
 		socket.addEventListener('error', (event: Event) => {
