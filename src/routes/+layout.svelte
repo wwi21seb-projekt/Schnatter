@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../app.postcss';
 
-	import Navbar from '../components/layout/navbar.svelte';
+	import Navbar from '../components/layout/Navbar.svelte';
 	import Footer from '../components/layout/Footer.svelte';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';

@@ -13,6 +13,7 @@
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
 	const loginToken = get(token);
+	
 
 	const modalStore = getModalStore();
 
