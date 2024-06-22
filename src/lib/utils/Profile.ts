@@ -18,10 +18,7 @@ export async function getProfileDetails(token: string, username: string) {
 		posts: 0,
 		subscriptionId: ''
 	};
-
-	const serverUrl = get(serverURL);
-	const url = serverUrl + '/users/' + username;
-	const response = await fetch(url, {
+	const response = await fetch(`${get(serverURL)}/users/${username}`, {
 		method: 'GET',
 		headers: {
 			'Content-Type': 'application/json',
@@ -34,10 +31,7 @@ export async function getProfileDetails(token: string, username: string) {
 }
 export async function getProfilePosts(token: string, username: string) {
 	const params = new URLSearchParams({ offset: '0', limit: '10' });
-
-	const serverUrl = get(serverURL);
-
-	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
+	const response = await fetch(`${get(serverURL)}/users/${username}/feed?${params}`, {
 		method: 'GET',
 		mode: 'cors',
 		headers: {
@@ -57,7 +51,6 @@ export async function updateUserDetails(
 	nickname: string,
 	pictureUrl: string | undefined
 ) {
-	const serverUrl = get(serverURL) + '/users';
 	let body = {};
 	if (pictureUrl === undefined) {
 		body = {
@@ -72,7 +65,7 @@ export async function updateUserDetails(
 			picture: pictureUrl
 		};
 	}
-	const response = await fetch(serverUrl, {
+	const response = await fetch(`${get(serverURL)}/users`, {
 		method: 'PUT',
 		mode: 'cors',
 		headers: {
@@ -90,9 +83,7 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 		limit: '10'
 	});
 
-	const serverUrl = get(serverURL);
-
-	const response = await fetch(serverUrl + '/users/' + username + '/feed?' + params, {
+	const response = await fetch(`${get(serverURL)}/users/${username}/feed?${params}`, {
 		method: 'GET',
 		mode: 'cors',
 		headers: {
@@ -111,12 +102,11 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 }
 
 export async function followUser(token: string, following: string) {
-	const serverUrl = get(serverURL) + '/subscriptions';
 	let customError: CustomError = {
 		code: '',
 		message: ''
 	};
-	const response = await fetch(serverUrl, {
+	const response = await fetch(`${get(serverURL)}/subscriptions`, {
 		method: 'POST',
 		mode: 'cors',
 		headers: {
@@ -137,13 +127,12 @@ export async function followUser(token: string, following: string) {
 }
 
 export async function unfollowUser(token: string, subscriptionId: string) {
-	const serverUrl = get(serverURL) + '/subscriptions/' + subscriptionId;
 	let customError: CustomError = {
 		code: '',
 		message: ''
 	};
 
-	const response = await fetch(serverUrl, {
+	const response = await fetch(`${get(serverURL)}/subscriptions/${subscriptionId}`, {
 		method: 'DELETE',
 		mode: 'cors',
 		headers: {

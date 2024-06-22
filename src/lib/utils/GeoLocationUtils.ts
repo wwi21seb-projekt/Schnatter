@@ -19,14 +19,14 @@ export async function getLocation() {
 
 export async function getLocationCity(coordsLocation: GeoLocationCoords) {
 	validateCoords(coordsLocation);
-	const url = 'https://api.bigdatacloud.net/data/reverse-geocode-client?';
+	const url = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
 	let locationString;
 	const params = new URLSearchParams({
 		latitude: coordsLocation.latitude.toString(),
 		longitude: coordsLocation.longitude.toString(),
 		localityLanguage: get(locale)
 	});
-	const response = await fetch(url + params);
+	const response = await fetch(`${url}?${params}`);
 	if (response.status === 200) {
 		const body = await response.json();
 		if (body.city && body.countryCode) {

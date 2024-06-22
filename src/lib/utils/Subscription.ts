@@ -28,7 +28,7 @@ export async function getSubscriptions(
 		limit: limit.toString()
 	});
 
-	const url = get(serverURL) + '/subscriptions/' + username + '?' + params;
+	const url = `${get(serverURL)}/subscriptions/${username}?${params}`;
 
 	const response = await fetch(url, {
 		method: 'GET',

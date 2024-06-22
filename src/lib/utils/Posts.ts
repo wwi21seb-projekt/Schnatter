@@ -52,10 +52,9 @@ export async function deletePost(postId: string, toastStore: ToastStore) {
 		message: '',
 		code: ''
 	};
-	const serverUrl = get(serverURL) + '/posts/' + postId;
 
 	try {
-		const response = await fetch(serverUrl, {
+		const response = await fetch(`${get(serverURL)}/posts/§{postId}`, {
 			method: 'DELETE',
 			mode: 'cors',
 			headers: {
@@ -79,14 +78,12 @@ export async function deletePost(postId: string, toastStore: ToastStore) {
 }
 
 export async function createLike(postId: UUID, toastStore: ToastStore) {
-	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});
@@ -104,14 +101,12 @@ export async function createLike(postId: UUID, toastStore: ToastStore) {
 }
 
 export async function deleteLike(postId: UUID, toastStore: ToastStore) {
-	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});

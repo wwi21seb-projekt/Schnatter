@@ -11,11 +11,8 @@ export async function userSearch(
 	usernameInput: string,
 	toastStore: ToastStore
 ): Promise<UsersForSearch | undefined> {
-	const serverUrl = get(serverURL);
-	const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
-
 	try {
-		response = await fetch(url, {
+		response = await fetch(`${get(serverURL)}/users?username=${usernameInput}&offset=0&limit=10`, {
 			mode: 'cors',
 			method: 'GET',
 			headers: {

@@ -26,9 +26,7 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 		postId: postId,
 		limit: limit.toString()
 	});
-
-	const url = get(serverURL) + '/posts?' + params;
-	const response = await fetch(url, {
+	const response = await fetch(`${get(serverURL)}/posts?${params}`, {
 		method: 'GET',
 		mode: 'cors',
 		headers: {

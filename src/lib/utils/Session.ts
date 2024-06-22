@@ -5,12 +5,11 @@ import { jwtDecode } from 'jwt-decode';
 import { get } from 'svelte/store';
 
 export async function refreshTokenFetch(refreshToken: string) {
-	const serverUrl = get(serverURL);
 	let newTokens: NewToken = {
 		token: '',
 		refreshToken: ''
 	};
-	const response = await fetch(serverUrl + '/users/refresh', {
+	const response = await fetch(`${get(serverURL)}/users/refresh`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json'

@@ -2,8 +2,7 @@ import { serverURL } from '$lib/Store';
 import { get } from 'svelte/store';
 
 export async function verifyUser(username: string, verifyInput: string) {
-	const url = `${get(serverURL)}/users/${username}/activate`;
-	const response = await fetch(url, {
+	const response = await fetch(`${get(serverURL)}/users/${username}/activate`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -14,8 +13,7 @@ export async function verifyUser(username: string, verifyInput: string) {
 }
 
 export async function resendToken(username: string) {
-	const url = `${get(serverURL)}/users/${username}/activate`;
-	const response = await fetch(url, {
+	const response = await fetch(`${get(serverURL)}/users/${username}/activate`, {
 		method: 'DELETE'
 	});
 	return response;
