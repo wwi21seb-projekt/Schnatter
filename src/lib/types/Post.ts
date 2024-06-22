@@ -37,3 +37,10 @@ export type UserPostFetchResponse = {
 	pagination: Pagination;
 	statusCode: number;
 };
+
+export interface RequestBodyData {
+	content: string;
+	location?: GeoLocationCoords;
+	repostedPostId?: string;
+	picture?: string;
+}

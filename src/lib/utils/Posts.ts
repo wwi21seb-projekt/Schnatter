@@ -1,4 +1,9 @@
-import type { PostUserProfilStructure, TextColorPost, PostStructure } from '../types/Post';
+import type {
+	PostUserProfilStructure,
+	TextColorPost,
+	PostStructure,
+	RequestBodyData
+} from '../types/Post';
 import { serverURL, token } from '$lib/Store';
 import type { CustomError } from '../types/CustomError';
 import { createToast } from '$lib/utils/Toasts';
@@ -6,23 +11,15 @@ import { t } from '../../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';
 import { getLocation, validateCoords } from './GeoLocationUtils';
-import type { GeoLocationCoords } from '../types/GeoLocation';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 import { deletePrefixFromBase64 } from './Pictures';
 
 let statusCode: number = 0;
 
-interface BodyData {
-	content: string;
-	location?: GeoLocationCoords;
-	repostedPostId?: string;
-	picture?: string;
-}
-
 export async function sendPost(text: string, repostId: string, picture: string) {
 	const geoLocationData = await getLocation();
 	validateCoords(geoLocationData);
-	const bodyData: BodyData = {
+	const bodyData: RequestBodyData = {
 		content: text
 	};
 	if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
@@ -54,7 +51,7 @@ export async function deletePost(postId: string, toastStore: ToastStore) {
 	};
 
 	try {
-		const response = await fetch(`${get(serverURL)}/posts/§{postId}`, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}`, {
 			method: 'DELETE',
 			mode: 'cors',
 			headers: {
