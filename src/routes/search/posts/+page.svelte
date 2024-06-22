@@ -7,8 +7,8 @@
 	import { t } from '../../../i18n';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
 	import Feed from '../../../components/Feed.svelte';
-	import { searchPostsByHashtag } from './searchPosts';
 	import { manageSession } from '$lib/utils/Session';
+	import { searchPostsByHashtag } from '$lib/utils/SearchPosts';
 
 	let focusfield: HTMLInputElement;
 	let lastInput = '';

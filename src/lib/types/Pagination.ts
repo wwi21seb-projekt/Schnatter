@@ -5,4 +5,3 @@ export type FeedPagination = {
 	limit: number;
 	records: number;
 };
-

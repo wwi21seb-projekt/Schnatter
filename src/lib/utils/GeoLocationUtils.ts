@@ -48,4 +48,5 @@ export function validateCoords(geoLocation: GeoLocationCoords) {
 	if (geoLocation.longitude > 180 || geoLocation.longitude < -180) {
 		throw new Error('Invalid longitude');
 	}
+	geoLocation.accuracy = Math.round(geoLocation.accuracy);
 }

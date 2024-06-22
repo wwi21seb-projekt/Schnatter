@@ -3,7 +3,7 @@
 	import { Toast, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../components/RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { goto } from '$app/navigation';
 	import { profilePicture, registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';

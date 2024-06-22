@@ -55,7 +55,7 @@
 			});
 		}
 	});
-//  crop profile picture
+	//  crop profile picture
 	function handleCrop() {
 		if (cropper) {
 			const canvas = cropper.getCroppedCanvas({

@@ -1,7 +1,7 @@
 import type { PostUserProfilStructure, TextColorPost, PostStructure } from '../types/Post';
 import { serverURL, token } from '$lib/Store';
 import type { CustomError } from '../types/CustomError';
-import { createToast } from '$lib/Toasts';
+import { createToast } from '$lib/utils/Toasts';
 import { t } from '../../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';

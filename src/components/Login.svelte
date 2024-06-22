@@ -4,11 +4,10 @@
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
-	import { createToast } from '$lib/Toasts';
-	import { globalUsername, refreshToken, registerUsername, serverURL, token } from '$lib/Store';
+	import { createToast } from '$lib/utils/Toasts';
+	import { globalUsername, refreshToken, registerUsername, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
-	import { get } from 'svelte/store';
 	import { subscribeUserToPush } from '../push';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import ModalForgotPwd from './modals/ModalForgotPwd.svelte';
@@ -57,7 +56,7 @@
 				globalUsername.set(username);
 				await subscribeUserToPush();
 				location.reload();
-			} 
+			}
 			if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');

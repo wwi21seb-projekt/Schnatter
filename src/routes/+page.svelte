@@ -6,7 +6,7 @@
 	import { onMount } from 'svelte';
 	import { RadioGroup, RadioItem, getToastStore } from '@skeletonlabs/skeleton';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
-	import { fetchPosts } from '../lib/FeedPosts';
+	import { fetchPosts } from '../lib/utils/FeedPosts';
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
 

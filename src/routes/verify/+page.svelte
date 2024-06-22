@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
-	import { registerUsername, serverURL } from '$lib/Store';
+	import { createToast } from '$lib/utils/Toasts';
+	import { registerUsername } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import type { CustomError } from '$lib/types/CustomError';
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
+	import { resendToken, verifyUser } from '$lib/utils/Verify';
 
 	const toastStore = getToastStore();
 
@@ -22,39 +23,23 @@
 			message: '',
 			code: ''
 		};
-		const username = get(registerUsername);
-		const serverUrl = get(serverURL);
-		const url = serverUrl + '/users/' + username + '/activate';
 		try {
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					token: verifyInput
-				})
-			});
+			const response = await verifyUser(get(registerUsername), verifyInput);
 			statusCode = response.status;
 			if (statusCode !== 200) {
 				const body = await response.json();
 				customError = body.error;
 			}
 		} catch (error) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		}
-		if (statusCode !== 200 && statusCode !== 500) {
 			toastStore.trigger(createToast(customError.message, 'error'));
-		} else if (statusCode == 200) {
+		}
+		if (statusCode == 200) {
 			goto('/');
 		}
 	}
-	async function resendToken() {
-		const username = get(registerUsername);
-		const serverUrl = get(serverURL);
-		const url = serverUrl + '/users/' + username + '/activate';
+	async function resend() {
 		try {
-			const response = await fetch(url, {
-				method: 'DELETE'
-			});
+			const response = await resendToken(get(registerUsername));
 			statusCode = response.status;
 		} catch (error) {
 			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
@@ -81,7 +66,7 @@
 					class="input variant-form-material w-[80px]"
 					placeholder="XXXXXX"
 				/>
-				<button on:click={resendToken} class="btn bg-transparent text-blue-400">
+				<button on:click={resend} class="btn bg-transparent text-blue-400">
 					{$t('verify.newCode')}</button
 				>
 			</div>

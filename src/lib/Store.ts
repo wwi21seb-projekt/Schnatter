@@ -3,8 +3,6 @@ import { writable } from 'svelte/store';
 import type { Notifications } from './types/Notifications';
 import type { UUID } from 'crypto';
 
-export const registerUsername = writable('');
-
 //https://server-beta.de/api
 //https://server-alpha.tech/api
 //http://localhost:3000/api
@@ -12,9 +10,13 @@ export const registerUsername = writable('');
 //https://projekt-mockserver.mabu2807.de/api
 export const serverURL = writable('https://server-beta.de/api');
 
+// User
+export const registerUsername = writable('');
 export const token = persisted('token', '');
 export const refreshToken = persisted('refreshToken', '');
 export const globalUsername = persisted('globalUsername', '');
+
+// chat
 export const chatIdNewChat = persisted('chatIdNewChat', '' as UUID);
 
 // notifications

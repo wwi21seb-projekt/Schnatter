@@ -1,5 +1,5 @@
 /// <reference types="@sveltejs/kit" />
-import type { NotificationEntity } from '$lib/types/notifications';
+import { NotificationEntity } from './lib/types/Notifications';
 
 self.addEventListener('fetch', function () {
 	return;

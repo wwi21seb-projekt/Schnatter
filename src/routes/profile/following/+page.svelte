@@ -7,7 +7,7 @@
 	import { t } from '../../../i18n';
 	import SubscriptionList from '../../../components/userLists/SubscriptionList.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();

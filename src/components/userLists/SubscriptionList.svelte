@@ -5,8 +5,8 @@
 	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
-	import { followUser, unfollowUser } from '../../routes/profile/requests';
-	import { createToast } from '$lib/Toasts';
+	import { followUser, unfollowUser } from '../../lib/utils/Profile';
+	import { createToast } from '$lib/utils/Toasts';
 	import { t } from '../../i18n';
 	import ProfilePicture from '../ProfilePicture.svelte';
 	export let subscriptionData: Subscriptions;

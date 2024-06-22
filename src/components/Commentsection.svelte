@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchComments } from '$lib/CommentFunctions';
+	import { fetchComments } from '$lib/utils/Comments';
 	import { onMount } from 'svelte';
 	import { t } from '../i18n';
 	import type { UUID } from 'crypto';

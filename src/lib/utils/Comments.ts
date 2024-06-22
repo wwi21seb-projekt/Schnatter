@@ -1,6 +1,6 @@
 import { serverURL, token } from '$lib/Store';
 import { get } from 'svelte/store';
-import type { Comments } from './types/Comment';
+import type { Comments } from '../types/Comment';
 import type { UUID } from 'crypto';
 
 export async function fetchComments(
@@ -39,7 +39,7 @@ export async function fetchComments(
 	);
 
 	if (response.status === 200) {
-		data = await response.json();
+		data = (await response.json()) as Comments;
 		return data;
 	} else {
 		return response.status;

@@ -20,7 +20,7 @@ export async function refreshTokenFetch(refreshToken: string) {
 		})
 	});
 	if (response.status == 200) {
-		newTokens = await response.json();
+		newTokens = (await response.json()) as NewToken;
 	}
 
 	return newTokens;

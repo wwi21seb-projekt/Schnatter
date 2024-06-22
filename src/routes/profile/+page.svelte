@@ -16,7 +16,7 @@
 		loadPosts,
 		unfollowUser,
 		updateUserDetails
-	} from './requests';
+	} from '../../lib/utils/Profile';
 	import { get } from 'svelte/store';
 	import { globalUsername, profilePicture, token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
@@ -24,7 +24,7 @@
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
 	import { t } from '../../i18n';
 
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { manageSession } from '$lib/utils/Session';
 	import ProfilePicture from '../../components/ProfilePicture.svelte';
 
@@ -50,9 +50,9 @@
 		component: modalComponent,
 		response: (response: number) => {
 			if (response == 204) {
-				toastStore.trigger(createToast('Pwd was changed', 'success'));
+				toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
 			} else {
-				toastStore.trigger(createToast('Pwd was not changed', 'error'));
+				toastStore.trigger(createToast('toast.pwdNotReset', 'error'));
 			}
 		}
 	};
@@ -99,7 +99,7 @@
 		userStatus = profileData.user.status;
 
 		if (profileData.statusCode == 500) {
-			toastStore.trigger(createToast('User details could not be loaded', 'error'));
+			toastStore.trigger(createToast($t('prolile.userDetails.notFound'), 'error'));
 		}
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
@@ -119,11 +119,11 @@
 		const status = await updateUserDetails(get(token), userStatus, nickname, get(profilePicture));
 		if (status == 200) {
 			editMode = false;
-			toastStore.trigger(createToast('User details were changed', 'success'));
+			toastStore.trigger(createToast($t('profile.userDetails.changed'), 'success'));
 			profilePicture.set('');
 			window.location.reload();
 		} else {
-			toastStore.trigger(createToast('User details were not changed', 'error'));
+			toastStore.trigger(createToast($t('profile.userDetails.notChanged'), 'error'));
 		}
 	}
 
@@ -142,18 +142,18 @@
 		if (followResponse.status == 201) {
 			subscribed = true;
 			profileData.user.subscriptionId = followResponse.response.subscriptionId;
-			toastStore.trigger(createToast('User was followed', 'success'));
+			toastStore.trigger(createToast($t('toastmessage.profile.follow.success'), 'success'));
 		} else {
-			toastStore.trigger(createToast('User was not followed', 'error'));
+			toastStore.trigger(createToast($t('toastmessage.profile.follow.error'), 'error'));
 		}
 	}
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
 		if (unfollowStatus.status == 204) {
 			subscribed = false;
-			toastStore.trigger(createToast('User was unfollowed', 'success'));
+			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.success'), 'success'));
 		} else {
-			toastStore.trigger(createToast('User was not unfollowed', 'error'));
+			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.error'), 'error'));
 		}
 	}
 </script>
