@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/ValidateInputs';
+	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/utils/ValidateInputs';
 	import { Toast, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../components/RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
