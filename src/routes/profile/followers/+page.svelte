@@ -33,7 +33,6 @@
 			username = usernameParams;
 		}
 		const response = await getSubscriptions(get(token), 'followers', 0, 10, username);
-		console.log(response);
 		if (response.status == 200 && response.data) {
 			followerData = await response.data;
 		} else if (response.status == 500) {
