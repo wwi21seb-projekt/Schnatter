@@ -4,7 +4,7 @@ import type { Notifications } from './types/Notifications';
 import type { UUID } from 'crypto';
 
 //https://server-beta.de/api
-//https://server-alpha.tech/api
+//https://alpha.c930.net/api
 //http://localhost:3000/api
 //Mockserver global
 //https://projekt-mockserver.mabu2807.de/api

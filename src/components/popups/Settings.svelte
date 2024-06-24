@@ -29,7 +29,7 @@
 	<LightSwitch class="w-10 h-10 mt-2" />
 	<h5 class="h5 my-1">{$t('settings.server')}</h5>
 	<select value={server} on:input={changeServer} class="select" name="Server" id="Server">
-		<option value="https://server-alpha.tech/api">Server-alpha</option>
+		<option value="https://alpha.c930.net/api">Server-alpha</option>
 		<option value="https://server-beta.de/api">Server-beta</option>
 		<option value="https://projekt-mockserver.mabu2807.de/api">Mockserver-Server</option>
 		<option value="http://localhost:3000/api">Mockserver-local</option>
