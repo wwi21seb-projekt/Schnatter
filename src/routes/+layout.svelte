@@ -5,7 +5,7 @@
 	import Footer from '../components/layout/Footer.svelte';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppShell, Modal, storePopup } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal, Toast, storePopup } from '@skeletonlabs/skeleton';
 	import { type ModalComponent } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -23,7 +23,8 @@
 	};
 </script>
 
-<Modal components={modalRegistry} />
+<Toast zIndex="1100" />
+<Modal zIndex="1000" components={modalRegistry} />
 <AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />

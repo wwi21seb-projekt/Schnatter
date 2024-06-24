@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { globalUsername, token } from '$lib/Store';
 	import type { Subscriptions } from '$lib/types/Subscriptions';
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { followUser, unfollowUser } from '../../lib/utils/Profile';
@@ -67,7 +67,6 @@
 	}
 </script>
 
-<Toast />
 <div class="flex justify-center flex-col items-center">
 	<nav class="list-nav w-full">
 		<ul class="w-full">

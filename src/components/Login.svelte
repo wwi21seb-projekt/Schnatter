@@ -1,7 +1,6 @@
 <script lang="ts">
 	import LoginInput from './LoginInput.svelte';
 	import { t } from '../i18n';
-	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { createToast } from '$lib/utils/Toasts';
@@ -67,7 +66,6 @@
 	}
 </script>
 
-<Toast />
 <div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>

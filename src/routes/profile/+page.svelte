@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		Toast,
-		getModalStore,
-		type ModalComponent,
-		type ModalSettings
-	} from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
 	import Post from '../../components/Post.svelte';
@@ -158,7 +153,6 @@
 	}
 </script>
 
-<Toast />
 {#if profileData.statusCode == 200}
 	<main class=" flex flex-col items-center justify-start">
 		<div

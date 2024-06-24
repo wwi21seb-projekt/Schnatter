@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import type { User, UsersForSearch } from '$lib/types/User';
@@ -30,7 +29,6 @@
 	}
 </script>
 
-<Toast />
 <div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
 	<div class="mb-8 flex justify-center items-center gap-4">
 		<a href="/search/users" data-sveltekit-preload-data="hover">
