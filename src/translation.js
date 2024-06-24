@@ -234,7 +234,7 @@ export default {
 		'modalChangePassword.newPassword': 'Neues Passwort',
 		'modalChangePassword.newPasswordRepeat': 'Neues Passwort wiederholen',
 		'modalForgotPassword.header': 'Passwort zurücksetzen',
-		'modalForgotPassword.email': 'Nutzername',
+		'modalForgotPassword.username': 'Nutzername',
 		'modalForgotPassword.token': 'Code',
 		'modalChangePassword.pwdReset': 'Passwort zurücksetzen',
 		'modal.forgotPwd.sendToken': 'Code senden',

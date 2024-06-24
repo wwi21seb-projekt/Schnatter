@@ -158,7 +158,7 @@
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 {#if profileData.statusCode == 200}
 	<main class=" flex flex-col items-center justify-start">
 		<div

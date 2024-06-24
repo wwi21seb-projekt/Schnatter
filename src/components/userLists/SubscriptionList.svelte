@@ -67,7 +67,7 @@
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 <div class="flex justify-center flex-col items-center">
 	<nav class="list-nav w-full">
 		<ul class="w-full">
