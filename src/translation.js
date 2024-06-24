@@ -96,7 +96,7 @@ export default {
 		'toast.tokenInvalid': 'Invalid Code!',
 		'toast.userNotFound': 'User not found!',
 		'toast.tokenSent': 'Code sended',
-		'toast.pwdReset': 'passwor changed',
+		'toast.pwdReset': 'password changed',
 		'toast.pwdNotReset': 'password could not be changed!',
 		'profile.follow': 'Follow',
 		'profile.unfollow': 'Unfollow',
