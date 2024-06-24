@@ -40,7 +40,6 @@ export async function subscribeUserToPush(): Promise<PushSubscription | null> {
 			};
 
 			await sendSubscriptionToBackEnd(SubscriptionObject);
-			// Passen Sie den Pfad an Ihre tatsächliche Struktur an
 
 			return subscription;
 		} catch (error) {

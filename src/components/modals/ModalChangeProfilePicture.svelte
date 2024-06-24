@@ -1,3 +1,4 @@
+<!-- Change profile Picture on profile view and registration -->
 <script lang="ts">
 	import Cropper from 'cropperjs';
 	import 'cropperjs/dist/cropper.css';
@@ -25,7 +26,7 @@
 			reader.readAsDataURL(file);
 		}
 	}
-
+	// get croped profile picture
 	afterUpdate(() => {
 		if (imageElement && imageDataUrl) {
 			if (cropper) {
@@ -54,7 +55,7 @@
 			});
 		}
 	});
-
+	//  crop profile picture
 	function handleCrop() {
 		if (cropper) {
 			const canvas = cropper.getCroppedCanvas({

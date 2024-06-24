@@ -1,3 +1,5 @@
+<!-- App Header -->
+
 <script lang="ts">
 	import {
 		AppBar,
@@ -13,7 +15,6 @@
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
 	const loginToken = get(token);
-	
 
 	const modalStore = getModalStore();
 
@@ -58,11 +59,12 @@
 	function gotoProfile() {
 		window.location.href = '/profile';
 	}
-
+	// Icon Sound
 	function play() {
 		var audio = new Audio('quack.mp3');
 		audio.play();
 	}
+	// Service Worker Push Notification
 	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('message', (event) => {
 			if (event.data && event.data.type === 'PUSH_NOTIFICATION') {

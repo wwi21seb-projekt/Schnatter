@@ -1,7 +1,7 @@
 import type { PostStructure } from './Post';
-import type { Pagination } from './FeedPagination';
+import type { FeedPagination } from './Pagination';
 
 export type Feed = {
 	records: PostStructure[];
-	pagination: Pagination;
+	pagination: FeedPagination;
 };

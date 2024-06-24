@@ -1,8 +1,8 @@
-import { createToast } from '$lib/Toasts';
+import { createToast } from '$lib/utils/Toasts';
 import type { Feed } from '$lib/types/Feed';
 import { getFeed } from '$lib/utils/Feed';
 import type { ToastStore } from '@skeletonlabs/skeleton';
-import { t } from '../i18n';
+import { t } from '../../i18n';
 import { get } from 'svelte/store';
 
 export async function fetchPosts(

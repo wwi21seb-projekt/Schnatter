@@ -37,15 +37,13 @@ export async function getFeed(token: string, limit: number, postId: string, feed
 		};
 	}
 
-	const url: string = get(serverURL) + '/feed?' + params;
-
-	const response = await fetch(url, fetchOptions);
+	const response = await fetch(`${get(serverURL)}/feed?${params}`, fetchOptions);
 
 	if (response.status === 200) {
-		data = await response.json();
+		data = (await response.json()) as Feed;
 	}
 	if (response.status !== 200 && response.status !== 500) {
-		customError = await response.json();
+		customError = (await response.json()) as CustomError;
 		return { customError: customError, status: response.status };
 	}
 	return { status: response.status, data: data };

@@ -6,11 +6,10 @@
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
-	import { checkForHashtags, likeCounter } from '$lib/utils/PostFunctions';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
-	import { sendComment } from '$lib/CommentFunctions';
+	import { sendComment } from '$lib/utils/Comments';
 	import Commentsection from './Commentsection.svelte';
-	import { deletePost } from '$lib/utils/PostFunctions';
+	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
 	import ProfilePicture from './ProfilePicture.svelte';
 
 	export let postData;

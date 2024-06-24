@@ -1,10 +1,13 @@
 <script lang="ts">
-	import type { PageData } from './$types';
 	import { t } from '../../i18n';
 	import type { Imprint } from '$lib/types/Imprint';
+	import { onMount } from 'svelte';
+	import { imprint } from '$lib/utils/Imprint';
+	let backendImprint: Imprint = { text: '' };
 
-	export let data: PageData;
-	const backendImprint: Imprint = data.imprint;
+	onMount(async () => {
+		backendImprint = (await imprint()) as Imprint;
+	});
 </script>
 
 <main class="flex flex-col justify-center items-center mt-3">
@@ -38,10 +41,10 @@
 			<p class="text-justify mr-2">{$t('imprint.frontend.copyright')}</p>
 		</div>
 	</div>
-	<div class="card bg-red p-2 w-[80vw]">
+	<div class="card bg-red p-2 w-[80vw] mb-3">
 		<h1 class="font-bold text-2xl">{$t('imprint.backend.header')}</h1>
-		{#if backendImprint.status == 500}
-			<p>$t('toast.internalError')</p>
+		{#if !backendImprint}
+			<p>{$t('toast.internalError')}</p>
 		{:else}
 			<p>{backendImprint.text}</p>
 		{/if}

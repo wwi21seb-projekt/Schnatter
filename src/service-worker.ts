@@ -1,5 +1,4 @@
 /// <reference types="@sveltejs/kit" />
-import type { NotificationEntity } from '$lib/types/notifications';
 
 self.addEventListener('fetch', function () {
 	return;
@@ -7,7 +6,7 @@ self.addEventListener('fetch', function () {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('push', function (event: any) {
-	const payload: NotificationEntity = event.data?.json() ?? 'no payload';
+	const payload = event.data?.json() ?? 'no payload';
 	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 	//@ts-ignore
 	self.clients.matchAll().then((clients) => {

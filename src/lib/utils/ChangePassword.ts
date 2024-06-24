@@ -1,5 +1,5 @@
-import { type PasswordChange } from '../types/PasswordChange';
-import { changeIconColor, changeValidateIcon } from '$lib/ValidateInputs';
+import { type PasswordChange } from '../types/PasswordChecks';
+import { changeIconColor, changeValidateIcon } from '$lib/utils/ValidateInputs';
 import { get } from 'svelte/store';
 import { serverURL, token } from '$lib/Store';
 
@@ -47,8 +47,7 @@ export async function handleRepeatPasswordInput(event: Event, passwordChange: Pa
 }
 
 export async function handleChangeSubmit(passwordChange: PasswordChange, oldPassword: string) {
-	const serverUrl = get(serverURL) + '/users';
-	const response = await fetch(serverUrl, {
+	const response = await fetch(`${get(serverURL)}/users`, {
 		method: 'PATCH',
 		mode: 'cors',
 		headers: {
@@ -69,8 +68,7 @@ export async function handleForgotSubmit(
 	tokenString: string,
 	passwordChange: PasswordChange
 ) {
-	const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
-	const response = await fetch(serverUrl, {
+	const response = await fetch(`${get(serverURL)}/users/${username}/reset-password`, {
 		method: 'PATCH',
 		mode: 'cors',
 		headers: {
@@ -86,7 +84,7 @@ export async function handleForgotSubmit(
 }
 
 export async function sendToken(username: string) {
-	const serverUrl = get(serverURL) + '/users/' + username + '/reset-password';
+	const serverUrl = `${get(serverURL)}/users/${username}/reset-password`;
 	const response = await fetch(serverUrl, {
 		method: 'POST',
 		mode: 'cors',

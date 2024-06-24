@@ -1,5 +1,5 @@
 import { serverURL, token } from '$lib/Store';
-import { createToast } from '$lib/Toasts';
+import { createToast } from '$lib/utils/Toasts';
 import type { UsersForSearch } from '$lib/types/User';
 import { type ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
@@ -11,11 +11,8 @@ export async function userSearch(
 	usernameInput: string,
 	toastStore: ToastStore
 ): Promise<UsersForSearch | undefined> {
-	const serverUrl = get(serverURL);
-	const url: string = serverUrl + '/users?username=' + usernameInput + '&offset=0&limit=10';
-
 	try {
-		response = await fetch(url, {
+		response = await fetch(`${get(serverURL)}/users?username=${usernameInput}&offset=0&limit=10`, {
 			mode: 'cors',
 			method: 'GET',
 			headers: {
@@ -28,7 +25,7 @@ export async function userSearch(
 		toastStore.trigger(createToast('Internal Error', 'error'));
 	}
 	if (statusCode == 200) {
-		return await response.json();
+		return (await response.json()) as UsersForSearch;
 	} else {
 		toastStore.clear();
 		toastStore.trigger(createToast('Something went wrong!', 'error'));

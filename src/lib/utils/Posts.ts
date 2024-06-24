@@ -1,28 +1,25 @@
-import type { PostUserProfilStructure, TextColorPost, PostStructure } from '../types/Post';
+import type {
+	PostUserProfilStructure,
+	TextColorPost,
+	PostStructure,
+	RequestBodyData
+} from '../types/Post';
 import { serverURL, token } from '$lib/Store';
 import type { CustomError } from '../types/CustomError';
-import { createToast } from '$lib/Toasts';
+import { createToast } from '$lib/utils/Toasts';
 import { t } from '../../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';
 import { getLocation, validateCoords } from './GeoLocationUtils';
-import type { GeoLocationCoords } from '../types/GeoLocation';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 import { deletePrefixFromBase64 } from './Pictures';
 
 let statusCode: number = 0;
 
-interface BodyData {
-	content: string;
-	location?: GeoLocationCoords;
-	repostedPostId?: string;
-	picture?: string;
-}
-
 export async function sendPost(text: string, repostId: string, picture: string) {
 	const geoLocationData = await getLocation();
 	validateCoords(geoLocationData);
-	const bodyData: BodyData = {
+	const bodyData: RequestBodyData = {
 		content: text
 	};
 	if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
@@ -52,10 +49,9 @@ export async function deletePost(postId: string, toastStore: ToastStore) {
 		message: '',
 		code: ''
 	};
-	const serverUrl = get(serverURL) + '/posts/' + postId;
 
 	try {
-		const response = await fetch(serverUrl, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}`, {
 			method: 'DELETE',
 			mode: 'cors',
 			headers: {
@@ -79,14 +75,12 @@ export async function deletePost(postId: string, toastStore: ToastStore) {
 }
 
 export async function createLike(postId: UUID, toastStore: ToastStore) {
-	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});
@@ -104,14 +98,12 @@ export async function createLike(postId: UUID, toastStore: ToastStore) {
 }
 
 export async function deleteLike(postId: UUID, toastStore: ToastStore) {
-	const serverUrl = get(serverURL);
 	let customError: CustomError = {
 		message: '',
 		code: ''
 	};
-	const url = serverUrl + '/posts/' + postId + '/likes';
 	try {
-		const response = await fetch(url, {
+		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
 			method: 'DELETE',
 			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
 		});

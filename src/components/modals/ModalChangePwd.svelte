@@ -2,7 +2,7 @@
 	import RegisterInput from '../RegisterInput.svelte';
 	import { t } from '../../i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { type PasswordChange } from '$lib/types/PasswordChange';
+	import { type PasswordChange } from '$lib/types/PasswordChecks';
 	import {
 		handlePasswordInput,
 		handleRepeatPasswordInput,
@@ -54,6 +54,7 @@
 	async function callHandleSubmit() {
 		const statusCode = await handleChangeSubmit(passwordChange, oldPassword);
 		if (statusCode == 204) {
+			// @ts-expect-error  | skeleton error (https://www.skeleton.dev/utilities/modals)
 			$modalStore[0].response(statusCode);
 			modalStore.close();
 		}

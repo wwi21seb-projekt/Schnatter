@@ -1,3 +1,4 @@
+<!-- App Footer -->
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
