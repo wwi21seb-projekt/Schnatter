@@ -49,8 +49,8 @@ importers:
         specifier: ^1.41.1
         version: 1.44.1
       '@skeletonlabs/skeleton':
-        specifier: 2.10.0
-        version: 2.10.0(svelte@4.2.9)
+        specifier: 2.10.1
+        version: 2.10.1(svelte@4.2.9)
       '@skeletonlabs/tw-plugin':
         specifier: 0.4.0
         version: 0.4.0(tailwindcss@3.4.4)
@@ -537,8 +537,8 @@ packages:
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
 
-  '@skeletonlabs/skeleton@2.10.0':
-    resolution: {integrity: sha512-jPdDT9PCkGmlUgsgNvR99bK6N2pWG2GfdapwWqDVZkKIhTsLz4TeJNF3H26Pfkicoj4hNz486+WYa7iSpbn80g==}
+  '@skeletonlabs/skeleton@2.10.1':
+    resolution: {integrity: sha512-Gy2wkBsLJSaGkZn6UELnhD2fJ2on486Ypql3hfZiTsbfwaJ46aykubiB9h3WlVuCQKMhtQ8AXrJKJLl2TXtIZw==}
     peerDependencies:
       svelte: ^3.56.0 || ^4.0.0
 
@@ -2400,7 +2400,7 @@ snapshots:
 
   '@sinclair/typebox@0.27.8': {}
 
-  '@skeletonlabs/skeleton@2.10.0(svelte@4.2.9)':
+  '@skeletonlabs/skeleton@2.10.1(svelte@4.2.9)':
     dependencies:
       esm-env: 1.0.0
       svelte: 4.2.9
