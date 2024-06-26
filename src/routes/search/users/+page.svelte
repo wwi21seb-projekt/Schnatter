@@ -31,7 +31,7 @@
 </script>
 
 <Toast />
-<div class="mt-8 mb-8 w-3/5 min-h-screen mx-auto">
+<div class="mt-8 w-3/5 min-h-screen mx-auto mb-[70px]">
 	<div class="mb-8 flex justify-center items-center gap-4">
 		<a href="/search/users" data-sveltekit-preload-data="hover">
 			<Icon

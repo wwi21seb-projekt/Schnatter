@@ -10,8 +10,8 @@
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
 
-	const loggedIn = 'flex justify-start md:justify-center flex-col ';
-	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col';
+	const loggedIn = 'flex justify-start md:justify-center flex-col mb-[70px]';
+	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col mb-[70px]';
 
 	let slotLimit = 10;
 	let feedType = 'global';
