@@ -99,14 +99,23 @@
 				<div class="header mb-5">
 					<span>{$t('chat.newChat.headerChat')} {userNewChat}</span>
 				</div>
-				<div class="input-group input-group-divider flex-row flex rounded-container-token">
+				<form
+					class="input-group input-group-divider flex-row flex rounded-container-token"
+					on:submit={startChat}
+				>
 					<textarea
+						on:keypress={(event) => {
+							if (event.key === 'Enter') {
+								event.preventDefault();
+								startChat();
+							}
+						}}
 						bind:value={initialMessage}
 						class="bg-transparent border-0 w-11/12"
 						name="prompt"
 						id="prompt"
 						placeholder={$t('chat.placeholder.input')}
-						rows="2"
+						rows="1"
 						maxlength="256"
 						disabled={sendDisabled}
 					/>
@@ -122,7 +131,7 @@
 							icon="fluent:send-16-filled"
 						/>
 					</button>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>
