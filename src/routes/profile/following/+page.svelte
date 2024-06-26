@@ -44,7 +44,7 @@
 	});
 </script>
 
-<main class="flex flex-col items-center min-h-[70vh] mt-[90px]">
+<main class="flex flex-col items-center mt-16 min-h-[70vh] mb-[70px] mt-[90px]">
 	<h2 class="h2 mb-10">{$t('profile.following')}</h2>
 	<div class="mb-20">
 		{#if followingData.records.length == 0}

@@ -28,5 +28,7 @@
 <AppShell zIndex="-1">
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />
-	<svelte:fragment slot="footer"><Footer /></svelte:fragment>
+	<svelte:fragment slot="footer"
+		><div class="fixed left-0 bottom-0 right-0"><Footer /></div></svelte:fragment
+	>
 </AppShell>

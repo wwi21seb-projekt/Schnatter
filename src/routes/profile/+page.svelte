@@ -166,7 +166,7 @@
 
 <Toast zIndex="1100" />
 {#if profileData.statusCode == 200}
-	<main class=" flex flex-col items-center justify-start mt-[90px]">
+	<main class=" flex flex-col items-center justify-start mb-[70px] mt-[90px]">
 		<div
 			class=" w-full min-h-[35vh] flex flex-col md:flex-row justify-center items-center border-b-4 border-indigo-800"
 		>

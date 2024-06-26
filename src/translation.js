@@ -120,6 +120,7 @@ export default {
 		'following.user.emptyList': 'This account is not following anyone yet',
 		'followers.user.emptyList': 'This account has no followers yet',
 		'footer.imprint': 'Imprint',
+		'footer.about': 'About us',
 		'navbar.home': 'Home',
 		'navbar.search': 'Search',
 		'navbar.posts': 'Posts',
@@ -157,7 +158,29 @@ export default {
 		'chat.newChat.cancel': 'Cancel',
 		'chat.newChat.headerChat': 'Start your chat with',
 		'chat.newChat.noUsers': 'No users found',
-		'chat.newChat.noChat': 'No chat started'
+		'chat.newChat.noChat': 'No chat started',
+		'about.header': 'About us',
+		'about.tabs.project': 'Project',
+		'about.tabs.team': 'Team',
+		'about.tabs.video': 'Video',
+		'about.tabs.architecture': 'Architecture',
+		'about.projekt.hint':
+			'This project is a student project of the DHBW Mannheim! It is therefore not intended for official use!',
+		'about.projekt.projDescTitle': 'Project description:',
+		'about.projekt.desc': 'The project is intended to imitate a social media platform.',
+		'about.projekt.topic':
+			'The main focus here should be the residual interface between several front and back ends that were developed in parallel.',
+		'about.projekt.backends':
+			'To switch between the different backends, click on the cogwheel icon in the top right-hand corner and change the server. The two fully implemented servers Alpha and Beta are available. You can also select the mock server. Both as a deployed server version and as a local version on your computer (make sure the mock server url is "http://localhost:3000"). The mock server versions do not have a database for saving data.',
+		'about.projekt.contect':
+			'If you have any problems with the application, you can find our contact information in the',
+		'about.projekt.imprint': 'Imprint',
+		'about.team.header': 'Team members:',
+		'about.video.header': 'Product Video:',
+		'about.projekt.svelte':
+			'The project was developed with the Svelte framework. Skeleton UI with Tailwind.css was used for the styling.',
+		'about.projekt.tests': 'Playwright was used for the tests',
+		'about.projekt.moreInformations': 'You can find all further information in the following video:'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -280,6 +303,7 @@ export default {
 		'following.user.emptyList': 'Dieser Account folgt noch niemandem',
 		'followers.user.emptyList': 'Dieser Account hat noch keine Abonnenten',
 		'footer.imprint': 'Impressum',
+		'footer.about': 'Über uns',
 		'navbar.home': 'Home',
 		'navbar.search': 'Suche',
 		'navbar.posts': 'Posts',
@@ -317,6 +341,29 @@ export default {
 		'chat.newChat.cancel': 'Abbrechen',
 		'chat.newChat.headerChat': 'Starte den Chat mit',
 		'chat.newChat.noUsers': 'Keine User gefunden',
-		'chat.newChat.noChat': 'Noch kein Chat gestartet'
+		'chat.newChat.noChat': 'Noch kein Chat gestartet',
+		'about.header': 'Über uns',
+		'about.tabs.project': 'Projekt',
+		'about.tabs.team': 'Team',
+		'about.tabs.video': 'Video',
+		'about.tabs.architecture': 'Architektur',
+		'about.projekt.hint':
+			'Bei diesem Projekt handelt es sich um ein Studentenprojekt der DHBW Mannheim! Sie ist somit nicht für den offiziellen Gebrauch vorgesehen!',
+		'about.projekt.projDescTitle': 'Projektbeschreibung:',
+		'about.projekt.desc':
+			'Das Projekt soll die Nachahmung einer Sozial-Media Plattform darstellen.',
+		'about.projekt.topic':
+			'Hauptaugenmerk sollte hierbei die Rest-Schnittstelle zwischen mehreren Front- und Backends sein, die parallel zueinander entwickelt wurden.',
+		'about.projekt.backends':
+			'Um zwischen den unterschiedlichen Backends wechseln zu können, klicke oben rechts auf das Zahnrad Symbol und ändere dort den Server. Zur Verfügung stehen die beiden vollständig implementierten Server Alpha und Beta. Zudem kannst du noch den Mockserver auswählen. Sowohl als deployte Server Version, als auch als lokale Version bei dir auf dem Rechner (Stelle sicher das Mockserver-url "http://localhost:3000" ist). Bei den Mockserver-Varianten ist keine Datenbank zum Speichern von Daten hinterlegt.',
+		'about.projekt.contect':
+			'Solltest du Probleme mit der Anwendung haben, findest du unsere Kontaktinformationen im',
+		'about.projekt.imprint': 'Impressum',
+		'about.team.header': 'Teammitglieder',
+		'about.video.header': 'Produkt Video',
+		'about.projekt.svelte':
+			'Das Projekt wurde mit dem Svelte-Framework entwickelt. Dazu wurde Skeleton-UI mit Tailwind.css für das Styling verwendet.',
+		'about.projekt.tests': 'Für die Tests wurde Playwright verwendet',
+		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:'
 	}
 };
