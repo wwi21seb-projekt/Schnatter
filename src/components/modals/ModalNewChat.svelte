@@ -43,6 +43,8 @@
 		modalStore.trigger(modalChat);
 	}
 	async function startChat() {
+		console.log('Starting chat with: ', userNewChat);
+		console.log('Initial message: ', initialMessage);
 		await createChat(userNewChat, initialMessage);
 		modalStore.close();
 		modalStore.trigger(modalChat);

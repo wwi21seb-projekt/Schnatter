@@ -51,7 +51,7 @@
 	$: formCorrectCode = verifyInput.length == 6;
 </script>
 
-<main class="flex justify-center items-center w-screen h-screen">
+<main class="flex justify-center items-center w-screen h-screen mt-[90px]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[60vh] p-5">
 		<h2 class="h2">{$t('verify.header')}</h2>
 
