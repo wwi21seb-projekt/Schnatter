@@ -2,11 +2,11 @@
 <script lang="ts">
 	import Cropper from 'cropperjs';
 	import 'cropperjs/dist/cropper.css';
-	import { afterUpdate } from 'svelte';
+	import { afterUpdate, onDestroy } from 'svelte';
 	import { t } from '../../i18n';
 
 	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { profilePicture } from '$lib/Store';
+	import { modalHiddenCss, newProfilePicture } from '$lib/Store';
 
 	const modalStore = getModalStore();
 
@@ -69,9 +69,12 @@
 	}
 
 	function handleSubmit() {
-		profilePicture.set(croppedImageDataUrl);
+		newProfilePicture.set(croppedImageDataUrl);
 		modalStore.close();
 	}
+	onDestroy(() => {
+		modalHiddenCss.set('');
+	});
 </script>
 
 <main class="card md:w-[60vw] w-[98vw] min-h-[80vh] h-auto">

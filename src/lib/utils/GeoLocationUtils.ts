@@ -19,7 +19,7 @@ export async function getLocation() {
 
 export async function getLocationCity(coordsLocation: GeoLocationCoords) {
 	validateCoords(coordsLocation);
-	const url = 'https://api.bigdatacloud.net/data/reverse-geocode-client';
+	const url = 'https://api-bdc.net/data/reverse-geocode-client';
 	let locationString;
 	const params = new URLSearchParams({
 		latitude: coordsLocation.latitude.toString(),

@@ -77,11 +77,11 @@
 						<ProfilePicture
 							src={subscriber.picture?.url ?? ''}
 							username={subscriber.username}
-							cssClass=""
+							cssClass="isolation-auto"
 						/>
 						<span class="flex-auto">
 							<dt>{subscriber.username}</dt>
-							<dd class="opacity-50">@{subscriber.nickname}</dd>
+							<dd class="text-gray-600">@{subscriber.nickname}</dd>
 						</span>
 					</a>
 					{#if username == get(globalUsername)}

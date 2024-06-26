@@ -134,7 +134,7 @@
 			{#if post.author}
 				<div class="flex flex-row items-center">
 					<ProfilePicture
-						cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+						cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
 						src={post.author.picture?.url ?? ''}
 						username={post.author.username}
 					/>
@@ -199,7 +199,7 @@
 						<header class="card-header w-full mb-1 flex justify-between items-center">
 							<div class="flex flex-row items-center">
 								<ProfilePicture
-									cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+									cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
 									src={post.repost.author.picture?.url ?? ''}
 									username={post.repost.author.username}
 								/>

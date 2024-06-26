@@ -68,7 +68,7 @@
 					<div class="flex flex-row">
 						<div class="items-baseline">
 							<ProfilePicture
-								cssClass="h-[3vh] w-[3vh] rounded-full mr-2"
+								cssClass="h-[3vh] w-[3vh] rounded-full mr-2 isolation-auto"
 								src={comment.author.picture?.url ?? ''}
 								username={getInitalsFromUsername(comment.author.username)}
 							/>

@@ -5,11 +5,12 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/utils/Toasts';
 	import { goto } from '$app/navigation';
-	import { profilePicture, registerUsername, serverURL } from '$lib/Store';
+	import { modalHiddenCss, newProfilePicture, registerUsername, serverURL } from '$lib/Store';
 	import { t } from '../../i18n';
 	import type { CustomError } from '$lib/types/CustomError';
 	import { get } from 'svelte/store';
 	import ProfilePicture from '../../components/ProfilePicture.svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	const toastStore = getToastStore();
 
@@ -46,8 +47,16 @@
 		component: 'modalProfilePicture'
 	};
 	function openChangeProfilePicture() {
+		modalHiddenCss.set('hidden');
 		modalStore.trigger(modalProfilePicture);
 	}
+	onMount(() => {
+		newProfilePicture.set(undefined);
+		modalHiddenCss.set('');
+	});
+	onDestroy(() => {
+		newProfilePicture.set(undefined);
+	});
 
 	function handleEmailInput(event: Event) {
 		email = (event.target as HTMLInputElement).value;
@@ -145,13 +154,13 @@
 		};
 		const serverUrl = get(serverURL);
 		let body = {};
-		if (get(profilePicture) !== '') {
+		if (!get(newProfilePicture)) {
 			body = {
 				username: username,
 				password: password,
 				nickname: nickname,
 				email: email,
-				picture: get(profilePicture)
+				picture: get(newProfilePicture)
 			};
 		} else {
 			body = {
@@ -181,13 +190,13 @@
 			toastStore.trigger(createToast(customError.message, 'error'));
 		} else if (statusCode == 201) {
 			registerUsername.set(username);
-			profilePicture.set('');
+			newProfilePicture.set(undefined);
 			goto('/verify');
 		}
 	}
 </script>
 
-<Toast zIndex="1100" />
+<Toast />
 <main class=" flex flex-col justify-center items-center h-[90vh]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">{$t('register.header')}</h1>
@@ -295,8 +304,12 @@
 						class="variant-filled-primary my-2 p-2 rounded-md"
 						on:click={openChangeProfilePicture}>{$t('register.button.addPicture')}</button
 					>
-					{#if $profilePicture != ''}
-						<ProfilePicture src={$profilePicture} username="" cssClass="w-24 h-24" />
+					{#if $newProfilePicture}
+						<ProfilePicture
+							src={$newProfilePicture}
+							username=""
+							cssClass="w-24 h-24 isolation-auto"
+						/>
 					{/if}
 				</div>
 				<div class="flex flex-row mt-3">
@@ -304,12 +317,14 @@
 						><button class="btn variant-filled-surface mr-2">{$t('register.button.cancel')}</button
 						></a
 					>
-					<button
-						disabled={!areAllInputsCorrect}
-						class="btn variant-filled-primary ml-2"
-						type="submit"
-						on:click={handleSubmit}>{$t('register.button.register')}</button
-					>
+					<div class={$modalHiddenCss}>
+						<button
+							disabled={!areAllInputsCorrect}
+							class="btn variant-filled-primary ml-2"
+							type="submit"
+							on:click={handleSubmit}>{$t('register.button.register')}</button
+						>
+					</div>
 				</div>
 			</form>
 		</div>

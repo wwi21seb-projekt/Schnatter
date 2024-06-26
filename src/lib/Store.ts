@@ -27,3 +27,8 @@ export const notificationList = persisted('notificationList', { records: [] } as
 
 // profilePicture
 export const profilePicture = writable('');
+export const newProfilePicture = writable<string | undefined>(undefined);
+
+//helper
+
+export const modalHiddenCss = writable('');

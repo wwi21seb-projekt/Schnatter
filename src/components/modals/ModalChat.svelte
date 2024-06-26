@@ -192,7 +192,7 @@
 								>
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
+										<small class="text-gray-400">{convertDateTime(message.creationDate)}</small>
 									</header>
 									<p>{message.content}</p>
 								</div>
@@ -202,7 +202,7 @@
 								<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2 variant-soft">
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
+										<small class="text-gray-400">{convertDateTime(message.creationDate)}</small>
 									</header>
 									<p>{message.content}</p>
 								</div>
