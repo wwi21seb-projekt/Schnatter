@@ -5,10 +5,11 @@
 	import Team from '../../components/aboutTabs/Team.svelte';
 	let tabSet: number = 0;
 	import Architecture from '../../components/aboutTabs/Architecture.svelte';
+	import { t } from '../../i18n';
 </script>
 
 <main class="felx flex-row w-screen m-10 mb-[70px]">
-	<h1 class="h1">About us</h1>
+	<h1 class="h1">{$t('about.header')}</h1>
 	<div class="mt-3 w-11/12">
 		<TabGroup>
 			<Tab bind:group={tabSet} name="tab3" value={0}>Projekt</Tab>
