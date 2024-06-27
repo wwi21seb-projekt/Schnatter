@@ -71,7 +71,6 @@ export async function updateUserDetails(
 			picture: pictureUrl
 		};
 	}
-	console.log(body);
 	const response = await fetch(`${get(serverURL)}/users`, {
 		method: 'PUT',
 		mode: 'cors',
