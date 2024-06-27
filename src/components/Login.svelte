@@ -67,7 +67,7 @@
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 <div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>

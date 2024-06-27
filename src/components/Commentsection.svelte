@@ -6,46 +6,25 @@
 	import type { Comments } from '$lib/types/Comment';
 	import ProfilePicture from './ProfilePicture.svelte';
 	import { getInitalsFromUsername } from '$lib/utils/Pictures';
+	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { createToast } from '$lib/utils/Toasts';
 
 	let limit: number = 10;
 	let offset: number = 0;
+	export let commentData: Comments;
 	export let postId: UUID;
 
-	let commentFetchError: string = '0';
-	let commentData: Comments = {
-		records: [
-			{
-				commentId: '539328e8-8750-4f42-9d53-d31409877c33',
-				content: '',
-				creationDate: '',
-				author: {
-					username: '',
-					nickname: '',
-					picture: {
-						url: '',
-						height: 0,
-						width: 0,
-						tag: ''
-					}
-				}
-			}
-		],
-		pagination: {
-			limit: 10,
-			offset: 0,
-			records: 1
-		}
-	};
+	const toastStore = getToastStore();
 
 	onMount(async () => {
 		const response = await fetchComments(limit, postId, offset);
 		if (typeof response === 'number') {
 			if (response == 401) {
-				commentFetchError = $t('post.comments.error.unauthorized');
+				toastStore.trigger(createToast($t('post.comments.error.unauthorized')));
 			} else if (response == 404) {
-				commentFetchError = $t('post.comments.error.notFound');
+				toastStore.trigger(createToast($t('post.comments.error.notFound')));
 			} else {
-				commentFetchError = $t('post.comments.error.unknown');
+				toastStore.trigger(createToast($t('post.comments.error.unknown')));
 			}
 		} else {
 			commentData = response;
@@ -53,33 +32,29 @@
 	});
 </script>
 
-<div class="card w-[60vw]">
-	{#if commentFetchError !== '0'}
-		<div class="items-center p-2">{commentFetchError}</div>
+<div class="card w-[60vw] max-h-96 overflow-auto">
+	<header class="card-header flex flex-row items-center">
+		<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
+	</header>
+	{#if commentData.records == null}
+		<div class="m-3">{$t('post.comments.noComments')}</div>
 	{:else}
-		<header class="card-header flex flex-row items-center">
-			<p class="font-bold text-xl" title="commentsHeader">{$t('post.comments.header')}</p>
-		</header>
-		{#if commentData.records == null}
-			<div class="m-3">{$t('post.comments.noComments')}</div>
-		{:else}
-			{#each commentData.records as comment}
-				<section class="p-3 flex flex-col">
-					<div class="flex flex-row">
-						<div class="items-baseline">
-							<ProfilePicture
-								cssClass="h-[3vh] w-[3vh] rounded-full mr-2"
-								src={comment.author.picture?.url ?? ''}
-								username={getInitalsFromUsername(comment.author.username)}
-							/>
-						</div>
-						<div class="flex flex-col">
-							<span class="font-bold">{comment.author.username}</span>
-							<p class="w-full">{comment.content}</p>
-						</div>
+		{#each commentData.records as comment}
+			<section class="p-3 flex flex-col">
+				<div class="flex flex-row">
+					<div class="items-baseline">
+						<ProfilePicture
+							cssClass="h-[3vh] w-[3vh] rounded-full mr-2 isolation-auto"
+							src={comment.author.picture?.url ?? ''}
+							username={getInitalsFromUsername(comment.author.username)}
+						/>
 					</div>
-				</section>
-			{/each}
-		{/if}
+					<div class="flex flex-col">
+						<span class="font-bold">{comment.author.username}</span>
+						<p class="w-full">{comment.content}</p>
+					</div>
+				</div>
+			</section>
+		{/each}
 	{/if}
 </div>

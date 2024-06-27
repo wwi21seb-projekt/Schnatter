@@ -192,9 +192,9 @@
 								>
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
+										<small class="text-gray-400">{convertDateTime(message.creationDate)}</small>
 									</header>
-									<p>{message.content}</p>
+									<p class="text-wrap max-w-full break-words">{message.content}</p>
 								</div>
 							</div>
 						{:else}
@@ -202,9 +202,9 @@
 								<div class="card w-3/4 float-start p-4 rounded-tl-none space-y-2 variant-soft">
 									<header class="flex justify-between items-center">
 										<p class="font-bold">{message.username}</p>
-										<small class="opacity-50">{convertDateTime(message.creationDate)}</small>
+										<small class="text-gray-400">{convertDateTime(message.creationDate)}</small>
 									</header>
-									<p>{message.content}</p>
+									<p class="text-wrap max-w-full break-words">{message.content}</p>
 								</div>
 							</div>
 						{/if}
@@ -218,8 +218,17 @@
 				</section>
 			{/if}
 			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabeled}>
-				<div class="input-group input-group-divider flex-row flex rounded-container-token">
+				<form
+					class="input-group input-group-divider flex-row flex rounded-container-token"
+					onclick={sendMessage}
+				>
 					<textarea
+						on:keypress={(event) => {
+							if (event.key === 'Enter') {
+								event.preventDefault();
+								sendMessage();
+							}
+						}}
 						bind:value={currentMessage}
 						class="bg-transparent border-0 w-11/12"
 						name="prompt"
@@ -241,7 +250,7 @@
 							icon="fluent:send-16-filled"
 						/>
 					</button>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

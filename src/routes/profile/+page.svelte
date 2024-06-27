@@ -18,7 +18,7 @@
 		updateUserDetails
 	} from '../../lib/utils/Profile';
 	import { get } from 'svelte/store';
-	import { globalUsername, profilePicture, token } from '$lib/Store';
+	import { globalUsername, newProfilePicture, profilePicture, token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
 	import Icon from '@iconify/svelte';
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
@@ -95,8 +95,6 @@
 		}
 		profileData = await getProfileDetails(get(token), username);
 		profilePicture.set(profileData.user.picture?.url ?? '');
-		nickname = profileData.user.nickname;
-		userStatus = profileData.user.status;
 
 		if (profileData.statusCode == 500) {
 			toastStore.trigger(createToast($t('prolile.userDetails.notFound'), 'error'));
@@ -111,16 +109,18 @@
 
 	function changeEditMode() {
 		editMode = !editMode;
-		if (editMode == false) {
-			profilePicture.set('');
-		}
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), userStatus, nickname, get(profilePicture));
+		const status = await updateUserDetails(
+			get(token),
+			userStatus,
+			nickname,
+			get(newProfilePicture)
+		);
 		if (status == 200) {
 			editMode = false;
 			toastStore.trigger(createToast($t('profile.userDetails.changed'), 'success'));
-			profilePicture.set('');
+			newProfilePicture.set(undefined);
 			window.location.reload();
 		} else {
 			toastStore.trigger(createToast($t('profile.userDetails.notChanged'), 'error'));
@@ -129,6 +129,10 @@
 
 	function openChangeProfilePicture() {
 		modalStore.trigger(modalProfilePicture);
+	}
+	function deleteImage() {
+		newProfilePicture.set('');
+		profileData.user.picture = undefined;
 	}
 
 	function openChangePwdModal() {
@@ -158,23 +162,31 @@
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 {#if profileData.statusCode == 200}
-	<main class=" flex flex-col items-center justify-start mb-[70px]">
+	<main class=" flex flex-col items-center justify-start mb-[70px] mt-[90px]">
 		<div
 			class=" w-full min-h-[35vh] flex flex-col md:flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
 			<div class="h-[24vh] rounded-full flex flex-col justify-around">
 				<ProfilePicture
-					src={$profilePicture ?? profileData.user.picture?.url}
-					username={profileData.user.username}
-					cssClass="w-full h-[20vh] aspect-square"
+					src={profileData.user.picture?.url}
+					username={profileData.user.username ?? $profilePicture}
+					cssClass="w-full h-[20vh] aspect-square isolation-auto"
 				/>
-				{#if editMode}
-					<button class="variant-filled-primary" on:click={openChangeProfilePicture}
-						>{$t('profile.changeProfilePicture')}</button
-					>
-				{/if}
+				<div class="flex justify-center m-1">
+					{#if editMode}
+						<button
+							class="variant-filled-primary rounded-sm p-1"
+							on:click={openChangeProfilePicture}>{$t('profile.changeProfilePicture')}</button
+						>
+						{#if profileData.user.picture?.url || $newProfilePicture}
+							<button class="w-10 h-10" on:click={deleteImage}
+								><Icon class="w-10 h-10" icon="material-symbols-light:delete-outline" /></button
+							>
+						{/if}
+					{/if}
+				</div>
 			</div>
 			<div class="Md:min-h-[20vh] w-[50vw] p-6">
 				<div class="flex col-row">
@@ -211,9 +223,9 @@
 						placeholder={$t('profile.placeholder.newStatus')}
 					/>
 				{:else}
-					<p class="opacity-70 mb-4">{nickname}</p>
+					<p class="text-gray-400 mb-4">{nickname}</p>
 					{#if userStatus == '' || userStatus == null}
-						<p class="opacity-70 mb-4">{$t('profile.noStatus')}</p>
+						<p class="text-gray-600 mb-4">{$t('profile.noStatus')}</p>
 					{:else}
 						<p
 							class="whitespace-pre-wrap text-wrap break-words max-w-[95%] max-h-20 overflow-y-auto"

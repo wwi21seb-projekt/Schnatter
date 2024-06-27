@@ -57,6 +57,12 @@ export async function updateUserDetails(
 			status: userStatus,
 			nickname: nickname
 		};
+	} else if (pictureUrl === '') {
+		body = {
+			status: userStatus,
+			nickname: nickname,
+			picture: ''
+		};
 	} else {
 		pictureUrl = deletePrefixFromBase64(pictureUrl);
 		body = {

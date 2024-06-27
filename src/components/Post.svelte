@@ -7,10 +7,11 @@
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
-	import { sendComment } from '$lib/utils/Comments';
+	import { fetchComments, sendComment } from '$lib/utils/Comments';
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
 	import ProfilePicture from './ProfilePicture.svelte';
+	import type { Comments } from '$lib/types/Comment';
 
 	export let postData;
 	export let currentUsername: string | undefined;
@@ -19,6 +20,8 @@
 	const modalStore = getModalStore();
 
 	let deleteOption: boolean = true;
+	let limit: number = 10;
+	let offset: number = 0;
 
 	let locationString = '';
 	let repostLocationString = '';
@@ -50,6 +53,30 @@
 			if (t) {
 				deletePost(post.postId, toastStore);
 			}
+		}
+	};
+	let commentData: Comments = {
+		records: [
+			{
+				commentId: '539328e8-8750-4f42-9d53-d31409877c33',
+				content: '',
+				creationDate: '',
+				author: {
+					username: '',
+					nickname: '',
+					picture: {
+						url: '',
+						height: 0,
+						width: 0,
+						tag: ''
+					}
+				}
+			}
+		],
+		pagination: {
+			limit: 100,
+			offset: 0,
+			records: 1
 		}
 	};
 
@@ -117,14 +144,18 @@
 		return checkForHashtags(post);
 	}
 
-	function setShowButton() {
+	async function setShowButton() {
 		showNoComments = !showNoComments;
+		if (showNoComments) {
+			commentData = await fetchComments(limit, postData.postId, offset);
+		}
 	}
 
 	function commentSendButton() {
 		sendComment(post.postId, commentText);
 		commentText = '';
 		click++;
+		commentData = fetchComments(limit, postData.postId, offset);
 	}
 </script>
 
@@ -134,7 +165,7 @@
 			{#if post.author}
 				<div class="flex flex-row items-center">
 					<ProfilePicture
-						cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+						cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
 						src={post.author.picture?.url ?? ''}
 						username={post.author.username}
 					/>
@@ -199,7 +230,7 @@
 						<header class="card-header w-full mb-1 flex justify-between items-center">
 							<div class="flex flex-row items-center">
 								<ProfilePicture
-									cssClass="h-[5vh] w-[5vh] rounded-full mr-3"
+									cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
 									src={post.repost.author.picture?.url ?? ''}
 									username={post.repost.author.username}
 								/>
@@ -259,9 +290,9 @@
 				{/if}
 			</div>
 			{#if loginToken != ''}
-				<div class="flex float-right w-[65%]">
+				<form class="flex float-right w-[65%]" on:submit={commentSendButton}>
 					<label class="label p-2 w-full">
-						<textarea
+						<input
 							class="textarea resize-none"
 							title="commentInput"
 							bind:value={commentText}
@@ -270,16 +301,16 @@
 							maxlength="128"
 						/>
 					</label>
-					<button class="w-7" on:click={commentSendButton}>
+					<button class="w-7" type="submit">
 						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
 					</button>
-				</div>
+				</form>
 			{/if}
 		</footer>
 	</div>
 	{#if (loginToken != '' || loginToken == undefined) && showNoComments}
 		{#key click}
-			<Commentsection postId={post.postId} />
+			<Commentsection postId={post.postId} {commentData} />
 		{/key}
 	{/if}
 </main>
