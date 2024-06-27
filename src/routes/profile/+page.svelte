@@ -108,8 +108,6 @@
 	});
 
 	function changeEditMode() {
-		console.log(profileData.user.nickname);
-		console.log(profileData.user.picture?.url);
 		editMode = !editMode;
 	}
 	async function handleDetailSubmit() {
