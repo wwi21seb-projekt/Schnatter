@@ -16,6 +16,10 @@
 	let text: string = '';
 	let repostId = '';
 
+	const highlightedButton = 'p-2 variant-filled-secondary';
+	const notHighlightedButton = 'p-2';
+	let buttonTextCss = highlightedButton;
+	let buttonImageCss = notHighlightedButton;
 	let files: FileList;
 	let pictureSet: boolean = false;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,11 +35,12 @@
 	function closeModal() {
 		modalStore.close();
 	}
-
 	function clickText() {
 		if (!textClick) {
 			textClick = true;
 		}
+		buttonTextCss = highlightedButton;
+		buttonImageCss = notHighlightedButton;
 		imageClick = false;
 	}
 
@@ -43,6 +48,8 @@
 		if (!imageClick) {
 			imageClick = true;
 		}
+		buttonImageCss = highlightedButton;
+		buttonTextCss = notHighlightedButton;
 		textClick = false;
 	}
 
@@ -70,8 +77,12 @@
 	<div class="card w-[40vw]">
 		<header class="card-header flex justify-center items-center">
 			<div class="w-min flex justify-center outline-none border-none">
-				<button class="p-2" on:click={clickText}>{$t('modalCreatePost.header.Text')}</button>
-				<button class="p-2" on:click={clickImage}>{$t('modalCreatePost.header.Image')}</button>
+				<button id="1" class={buttonTextCss} on:click={clickText}
+					>{$t('modalCreatePost.header.Text')}</button
+				>
+				<button id="2" class={buttonImageCss} on:click={clickImage}
+					>{$t('modalCreatePost.header.Image')}</button
+				>
 			</div>
 		</header>
 		{#if textClick == true}

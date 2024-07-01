@@ -109,6 +109,12 @@
 		}
 	}
 
+	async function loadMoreMessages() {
+		dataMessages = await getMessages($chatIdNewChat, 10, messages.length);
+		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+		messages = [...messages, ...dataMessages.records];
+	}
+
 	onDestroy(() => {
 		if (socket) {
 			socket.close();
@@ -125,22 +131,14 @@
 	}
 </script>
 
-<div class="card md:w-[60vw] w-screen h-[80vh] p-2">
-	<header class="h-[7%] flex flex-row justify-between">
-		<div class="flex items-center justify-start p-4 h-1/6 align-baseline">
-			<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginChat}>
-				{$t('chat.button.add')}
-			</button>
-		</div>
-		<div>
-			<button
-				type="button"
-				class="btn variant-filled-secondary mx-1 justify-end"
-				on:click={closeModal}
-			>
-				{$t('chat.button.close')}
-			</button>
-		</div>
+<div class="card w-[60vw] h-[80vh] p-2">
+	<header class="h-[7%] flex flex-row justify-between items-center mb-2">
+		<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginChat}>
+			{$t('chat.button.add')}
+		</button>
+		<button type="button" class="variant-filled-secondary btn-sm rounded" on:click={closeModal}>
+			{$t('chat.button.close')}
+		</button>
 	</header>
 	<div class="flex flex-row h-[93%]">
 		<!-- linke Spalte -->
@@ -209,6 +207,14 @@
 							</div>
 						{/if}
 					{/each}
+					{#if messages.length < dataMessages.pagination.records}
+						<button
+							class="btn variant-filled w-full md:w-auto py-2 px-4"
+							on:click={loadMoreMessages}
+							>{$t('chat.pagination.loadMore')} ({messages.length ?? dataMessages.records.length} / {dataMessages
+								.pagination.records})</button
+						>
+					{/if}
 				</section>
 			{:else}
 				<section
