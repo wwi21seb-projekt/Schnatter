@@ -16,14 +16,10 @@
 	let text: string = '';
 	let repostId = '';
 
-	let highlightedButton = '';
-	let oldButton = '';
-
-	interface BodyData {
-		content: string;
-		location?: GeoLocationCoords;
-		repostedPostId?: string;
-	}
+	const highlightedButton = 'p-2 variant-filled-secondary';
+	const notHighlightedButton = 'p-2';
+	let buttonTextCss = highlightedButton;
+	let buttonImageCss = notHighlightedButton;
 	let files: FileList;
 	let pictureSet: boolean = false;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -43,10 +39,8 @@
 		if (!textClick) {
 			textClick = true;
 		}
-		highlightedButton = document.getElementById(1);
-		oldButton = document.getElementById(2);
-		highlightedButton?.classList.add('variant-filled-secondary');
-		oldButton?.classList.remove('variant-filled-secondary');
+		buttonTextCss = highlightedButton;
+		buttonImageCss = notHighlightedButton;
 		imageClick = false;
 	}
 
@@ -54,10 +48,8 @@
 		if (!imageClick) {
 			imageClick = true;
 		}
-		highlightedButton = document.getElementById(2);
-		oldButton = document.getElementById(1);
-		highlightedButton?.classList.add('variant-filled-secondary');
-		oldButton?.classList.remove('variant-filled-secondary');
+		buttonImageCss = highlightedButton;
+		buttonTextCss = notHighlightedButton;
 		textClick = false;
 	}
 
@@ -85,8 +77,10 @@
 	<div class="card w-[40vw]">
 		<header class="card-header flex justify-center items-center">
 			<div class="w-min flex justify-center outline-none border-none">
-				<button id="1" class="p-2" on:click={clickText}>{$t('modalCreatePost.header.Text')}</button>
-				<button id="2" class="p-2" on:click={clickImage}
+				<button id="1" class={buttonTextCss} on:click={clickText}
+					>{$t('modalCreatePost.header.Text')}</button
+				>
+				<button id="2" class={buttonImageCss} on:click={clickImage}
 					>{$t('modalCreatePost.header.Image')}</button
 				>
 			</div>
