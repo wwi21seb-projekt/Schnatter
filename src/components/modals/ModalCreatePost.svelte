@@ -95,8 +95,10 @@
 	<div class="card w-[40vw]">
 		<header class="card-header flex justify-center items-center">
 			<div class="w-min flex justify-center outline-none border-none">
-				<button id=1 class="p-2" on:click={clickText}>{$t('modalCreatePost.header.Text')}</button>
-				<button id=2 class="p-2" on:click={clickImage}>{$t('modalCreatePost.header.Image')}</button>
+				<button id="1" class="p-2" on:click={clickText}>{$t('modalCreatePost.header.Text')}</button>
+				<button id="2" class="p-2" on:click={clickImage}
+					>{$t('modalCreatePost.header.Image')}</button
+				>
 			</div>
 		</header>
 		{#if textClick == true}
