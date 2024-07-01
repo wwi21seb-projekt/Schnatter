@@ -4,14 +4,14 @@
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
-	import { createToast } from '$lib/Toasts';
-	import { globalUsername, refreshToken, registerUsername, serverURL, token } from '$lib/Store';
+	import { createToast } from '$lib/utils/Toasts';
+	import { globalUsername, refreshToken, registerUsername, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
-	import { get } from 'svelte/store';
 	import { subscribeUserToPush } from '../push';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import ModalForgotPwd from './modals/ModalForgotPwd.svelte';
+	import { login } from '$lib/utils/Login';
 
 	const modalStore = getModalStore();
 
@@ -30,7 +30,6 @@
 
 	let username: string = '';
 	let password: string = '';
-	let statusCode: number = 0;
 
 	function handleUsernameInput(event: Event) {
 		username = (event.target as HTMLInputElement).value;
@@ -42,29 +41,12 @@
 
 	$: allInputFieldsFilled = password.length != 0 && username.length != 0;
 	async function handleSubmit() {
-		let customError: CustomError = {
-			message: '',
-			code: ''
-		};
-
-		const serverUrl = get(serverURL);
 		try {
-			const url = serverUrl + '/users/login';
-			const response = await fetch(url, {
-				mode: 'cors',
-				method: 'POST',
-
-				body: JSON.stringify({
-					username: username,
-					password: password
-				})
-			});
-			statusCode = response.status;
+			const response = await login(username, password);
+			const statusCode = response.status;
 			if (statusCode !== 200) {
 				const body = await response.json();
-				customError = body.error;
-			}
-			if (statusCode !== 200 && statusCode !== 500 && statusCode !== 403) {
+				const customError: CustomError = body.error;
 				toastStore.clear();
 				toastStore.trigger(createToast(customError.message, 'error'));
 			} else if (statusCode == 200) {
@@ -74,7 +56,8 @@
 				globalUsername.set(username);
 				await subscribeUserToPush();
 				location.reload();
-			} else if (statusCode == 403) {
+			}
+			if (statusCode == 403) {
 				registerUsername.set(username);
 				goto('/verify');
 			}
@@ -84,7 +67,7 @@
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 <div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>

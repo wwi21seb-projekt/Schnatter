@@ -1,14 +1,11 @@
 <script lang="ts">
-	import { serverURL, token } from '$lib/Store';
 	import Icon from '@iconify/svelte';
 	import { FileDropzone, getModalStore } from '@skeletonlabs/skeleton';
-	import { get } from 'svelte/store';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
-	import { getLocation, validateCoords } from '$lib/utils/GeoLocationUtils';
-	import type { GeoLocationCoords } from '$lib/types/GeoLocation';
+	import { sendPost } from '$lib/utils/Posts';
 
 	const toastStore = getToastStore();
 	const modalStore = getModalStore();
@@ -27,6 +24,10 @@
 		location?: GeoLocationCoords;
 		repostedPostId?: string;
 	}
+	let files: FileList;
+	let pictureSet: boolean = false;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	let selectedImage: any;
 
 	onMount(() => {
 		focusfield.focus();
@@ -60,34 +61,23 @@
 		textClick = false;
 	}
 
-	async function sendPost() {
-		const geoLocationData = await getLocation();
-		validateCoords(geoLocationData);
-		const bodyData: BodyData = {
-			content: text
-		};
-		if (geoLocationData.latitude != 0 || geoLocationData.longitude != 0) {
-			//bodyData.location = geoLocationData;
-		}
-		if (repostId != '') {
-			bodyData.repostedPostId = repostId;
-		}
-		const url = get(serverURL) + '/posts';
-		const response = await fetch(url, {
-			method: 'POST',
-			mode: 'cors',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + get(token)
-			},
-			body: JSON.stringify(bodyData)
-		});
-		if (response.status == 201) {
+	async function handleSubmitPost() {
+		let response = await sendPost(text, repostId, selectedImage);
+		if (response == 201) {
 			modalStore.close();
 			window.location.reload();
 		} else {
 			toastStore.trigger(createToast('We were running into a problem! Sorry', 'error'));
 		}
+	}
+
+	function onChangePicture(imageUploaded: Blob) {
+		pictureSet = true;
+		let reader = new FileReader();
+		reader.readAsDataURL(imageUploaded);
+		reader.onload = (e) => {
+			selectedImage = e.target?.result;
+		};
 	}
 </script>
 
@@ -117,18 +107,36 @@
 		{/if}
 		{#if imageClick == true}
 			<section class="p-3 flex flex-col">
-				<FileDropzone name="files" accept="image/*">
+				<FileDropzone
+					name="files"
+					accept="image/*"
+					bind:files
+					on:change={() => onChangePicture(files[0])}
+				>
 					<svelte:fragment slot="message">
-						<div class="flex flex-col items-center">
-							<Icon class="w-12 h-12" icon="line-md:upload-loop"></Icon>
-							<p>{$t('modalCreatePost.fileInput.Message')}</p>
-						</div>
+						{#if !pictureSet}
+							<div class="flex flex-col items-center">
+								<Icon class="w-12 h-12" icon="line-md:upload-loop"></Icon>
+								<p>{$t('modalCreatePost.fileInput.Message')}</p>
+							</div>
+						{:else}
+							<img
+								class="max-h-[400px]"
+								src={selectedImage}
+								alt={$t('modalCreatePost.pictures.altText')}
+							/>
+						{/if}
+					</svelte:fragment>
+					<svelte:fragment slot="meta">
+						<p>{$t('modalCreatePost.pictures.fileTypes')}</p>
 					</svelte:fragment>
 				</FileDropzone>
 				<label class="label p-3">
 					<textarea
 						class="textarea h-auto resize-none"
 						placeholder={$t('modalCreatePost.textInputImage.Placeholder')}
+						bind:value={text}
+						rows="2"
 						maxlength="256"
 					/>
 				</label>
@@ -138,7 +146,7 @@
 			<button type="button" class="btn variant-filled-secondary mx-1" on:click={closeModal}
 				>{$t('modalCreatePost.button.close')}</button
 			>
-			<button type="button" class="btn variant-filled-primary mx-1" on:click={sendPost}
+			<button type="button" class="btn variant-filled-primary mx-1" on:click={handleSubmitPost}
 				>{$t('modalCreatePost.button.post')}</button
 			>
 		</footer>

@@ -1,5 +1,5 @@
 import { chatIdNewChat, serverURL, token } from '$lib/Store';
-import type { ChatMessages, ChatStructure } from '$lib/types/Chat';
+import type { ChatMessages, ChatStructure, CreateChat } from '$lib/types/Chat';
 import type { UUID } from 'crypto';
 import { get } from 'svelte/store';
 
@@ -55,6 +55,6 @@ export async function createChat(username: string, content: string) {
 	if (!response.ok) {
 		throw new Error('Failed to create chat');
 	}
-	const newChat = await response.json();
+	const newChat = (await response.json()) as CreateChat;
 	chatIdNewChat.set(newChat.chatId);
 }

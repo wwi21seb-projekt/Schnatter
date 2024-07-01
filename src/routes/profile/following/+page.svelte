@@ -7,19 +7,18 @@
 	import { t } from '../../../i18n';
 	import SubscriptionList from '../../../components/userLists/SubscriptionList.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();
-	let offsetList = 0;
-	let limit = 10;
 	let usernameParams: string = '';
 	let username: string = '';
 	let followingData: Subscriptions = {
 		records: [],
 		pagination: {
 			offset: 0,
-			limit: 0
+			limit: 0,
+			records: 0
 		}
 	};
 
@@ -33,7 +32,7 @@
 		} else {
 			username = usernameParams;
 		}
-		const response = await getSubscriptions(get(token), 'following', offsetList, limit, username);
+		const response = await getSubscriptions(get(token), 'following', 0, 10, username);
 
 		if (response.status == 200 && response.data) {
 			followingData = await response.data;
@@ -42,17 +41,16 @@
 		} else if (response.customError) {
 			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}
-		offsetList += limit;
 	});
 </script>
 
-<main class="flex flex-col items-center mt-16 min-h-[70vh]">
+<main class="flex flex-col items-center mt-16 min-h-[70vh] mb-[70px] mt-[90px]">
 	<h2 class="h2 mb-10">{$t('profile.following')}</h2>
 	<div class="mb-20">
 		{#if followingData.records.length == 0}
 			<p class="text-center">{$t('followers.user.emptyList')}</p>
 		{:else}
-			<div class="w-[40vw]">
+			<div class="md:w-[40vw] w-[85vw]">
 				<SubscriptionList subscriptionData={followingData} />
 			</div>
 		{/if}

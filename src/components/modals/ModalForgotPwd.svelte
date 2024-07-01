@@ -1,7 +1,7 @@
 <script lang="ts">
 	import RegisterInput from '../RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { t } from '../../i18n';
 	import { getModalStore } from '@skeletonlabs/skeleton';
 	import {
@@ -10,7 +10,7 @@
 		handleRepeatPasswordInput,
 		sendToken
 	} from '$lib/utils/ChangePassword';
-	import type { PasswordChange } from '$lib/types/PasswordChange';
+	import type { PasswordChange } from '$lib/types/PasswordChecks';
 
 	const modalStore = getModalStore();
 	const toastStore = getToastStore();
@@ -86,7 +86,7 @@
 	}
 </script>
 
-<main class="card p-4 w-[25vw]">
+<main class="card p-4 md:w-[25vw] w-11/12">
 	<h3 class="h3 mb-2">{$t('modalForgotPassword.header')}</h3>
 	<RegisterInput
 		value={username}

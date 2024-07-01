@@ -1,6 +1,5 @@
 <script lang="ts">
 	import {
-		Avatar,
 		Toast,
 		getModalStore,
 		type ModalComponent,
@@ -17,16 +16,17 @@
 		loadPosts,
 		unfollowUser,
 		updateUserDetails
-	} from './requests';
+	} from '../../lib/utils/Profile';
 	import { get } from 'svelte/store';
-	import { globalUsername, token } from '$lib/Store';
+	import { globalUsername, newProfilePicture, profilePicture, token } from '$lib/Store';
 	import type { UserFetchResponse } from '$lib/types/User';
 	import Icon from '@iconify/svelte';
 	import ModalChangePwd from '../../components/modals/ModalChangePwd.svelte';
 	import { t } from '../../i18n';
 
-	import { createToast } from '$lib/Toasts';
+	import { createToast } from '$lib/utils/Toasts';
 	import { manageSession } from '$lib/utils/Session';
+	import ProfilePicture from '../../components/ProfilePicture.svelte';
 
 	let editMode: boolean = false;
 	let nickname: string = '';
@@ -40,14 +40,19 @@
 	const modalStore = getModalStore();
 	const modalComponent: ModalComponent = { ref: ModalChangePwd };
 
+	const modalProfilePicture: ModalSettings = {
+		type: 'component',
+		component: 'modalProfilePicture'
+	};
+
 	const modal: ModalSettings = {
 		type: 'component',
 		component: modalComponent,
 		response: (response: number) => {
 			if (response == 204) {
-				toastStore.trigger(createToast('Pwd was changed', 'success'));
+				toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
 			} else {
-				toastStore.trigger(createToast('Pwd was not changed', 'error'));
+				toastStore.trigger(createToast('toast.pwdNotReset', 'error'));
 			}
 		}
 	};
@@ -57,7 +62,7 @@
 			username: '',
 			nickname: '',
 			status: '',
-			profilePictureUrl: '',
+			picture: undefined,
 			follower: 0,
 			following: 0,
 			posts: 0,
@@ -89,11 +94,10 @@
 			username = usernameParams;
 		}
 		profileData = await getProfileDetails(get(token), username);
-		nickname = profileData.user.nickname;
-		userStatus = profileData.user.status;
+		profilePicture.set(profileData.user.picture?.url ?? '');
 
 		if (profileData.statusCode == 500) {
-			toastStore.trigger(createToast('User details could not be loaded', 'error'));
+			toastStore.trigger(createToast($t('prolile.userDetails.notFound'), 'error'));
 		}
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
@@ -107,13 +111,28 @@
 		editMode = !editMode;
 	}
 	async function handleDetailSubmit() {
-		const status = await updateUserDetails(get(token), userStatus, nickname);
+		const status = await updateUserDetails(
+			get(token),
+			userStatus,
+			nickname,
+			get(newProfilePicture)
+		);
 		if (status == 200) {
 			editMode = false;
-			toastStore.trigger(createToast('User details were changed', 'success'));
+			toastStore.trigger(createToast($t('profile.userDetails.changed'), 'success'));
+			newProfilePicture.set(undefined);
+			window.location.reload();
 		} else {
-			toastStore.trigger(createToast('User details were not changed', 'error'));
+			toastStore.trigger(createToast($t('profile.userDetails.notChanged'), 'error'));
 		}
+	}
+
+	function openChangeProfilePicture() {
+		modalStore.trigger(modalProfilePicture);
+	}
+	function deleteImage() {
+		newProfilePicture.set('');
+		profileData.user.picture = undefined;
 	}
 
 	function openChangePwdModal() {
@@ -127,32 +146,49 @@
 		if (followResponse.status == 201) {
 			subscribed = true;
 			profileData.user.subscriptionId = followResponse.response.subscriptionId;
-			toastStore.trigger(createToast('User was followed', 'success'));
+			toastStore.trigger(createToast($t('toastmessage.profile.follow.success'), 'success'));
 		} else {
-			toastStore.trigger(createToast('User was not followed', 'error'));
+			toastStore.trigger(createToast($t('toastmessage.profile.follow.error'), 'error'));
 		}
 	}
 	async function unsubscribe() {
 		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
 		if (unfollowStatus.status == 204) {
 			subscribed = false;
-			toastStore.trigger(createToast('User was unfollowed', 'success'));
+			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.success'), 'success'));
 		} else {
-			toastStore.trigger(createToast('User was not unfollowed', 'error'));
+			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.error'), 'error'));
 		}
 	}
 </script>
 
-<Toast />
+<Toast zIndex="1100" />
 {#if profileData.statusCode == 200}
-	<main class=" flex flex-col items-center justify-start">
+	<main class=" flex flex-col items-center justify-start mb-[70px] mt-[90px]">
 		<div
-			class=" w-full min-h-[35vh] flex flex-row justify-center items-center border-b-4 border-indigo-800"
+			class=" w-full min-h-[35vh] flex flex-col md:flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
-			<div class="h-[20vh] w-[20vh] rounded-full">
-				<Avatar class="w-full h-full" src={profileData.user.profilePictureUrl} initials="" />
+			<div class="h-[24vh] rounded-full flex flex-col justify-around">
+				<ProfilePicture
+					src={profileData.user.picture?.url}
+					username={profileData.user.username ?? $profilePicture}
+					cssClass="w-full h-[20vh] aspect-square isolation-auto"
+				/>
+				<div class="flex justify-center m-1">
+					{#if editMode}
+						<button
+							class="variant-filled-primary rounded-sm p-1"
+							on:click={openChangeProfilePicture}>{$t('profile.changeProfilePicture')}</button
+						>
+						{#if profileData.user.picture?.url || $newProfilePicture}
+							<button class="w-10 h-10" on:click={deleteImage}
+								><Icon class="w-10 h-10" icon="material-symbols-light:delete-outline" /></button
+							>
+						{/if}
+					{/if}
+				</div>
 			</div>
-			<div class="min-h-[20vh] w-[50vw] p-6">
+			<div class="Md:min-h-[20vh] w-[50vw] p-6">
 				<div class="flex col-row">
 					<h3 class="h3 mr-4">{profileData.user.username}</h3>
 					{#if usernameParams == undefined}
@@ -187,9 +223,9 @@
 						placeholder={$t('profile.placeholder.newStatus')}
 					/>
 				{:else}
-					<p class="opacity-70 mb-4">{nickname}</p>
+					<p class="text-gray-400 mb-4">{nickname}</p>
 					{#if userStatus == '' || userStatus == null}
-						<p class="opacity-70 mb-4">{$t('profile.noStatus')}</p>
+						<p class="text-gray-600 mb-4">{$t('profile.noStatus')}</p>
 					{:else}
 						<p
 							class="whitespace-pre-wrap text-wrap break-words max-w-[95%] max-h-20 overflow-y-auto"
@@ -200,13 +236,15 @@
 				{/if}
 			</div>
 			<div class="flex flex-col justify-center items-center">
-				<div class="h-[20vh] w-[22vw] flex flex-row justify-around items-center">
+				<div
+					class="md:h-[20vh] h-full my-5 md:w-[22vw] w-screen flex flex-row justify-around items-center"
+				>
 					<div class="flex flex-col items-center justify-center">
 						<h2 class="h2" title="postcount">{profileData.user.posts}</h2>
 						<p>{$t('profile.posts')}</p>
 					</div>
 					<a
-						href="/profile/follower?username={profileData.user.username}"
+						href="/profile/followers?username={profileData.user.username}"
 						data-sveltekit-preload-data="hover"
 					>
 						<div class="flex flex-col items-center justify-center">

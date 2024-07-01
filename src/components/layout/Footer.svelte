@@ -1,3 +1,4 @@
+<!-- App Footer -->
 <script lang="ts">
 	import { AppBar } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
@@ -14,6 +15,7 @@
 	</svelte:fragment>
 
 	<svelte:fragment slot="trail">
+		<a href="/about">{$t('footer.about')}</a>
 		<a href="/imprint">{$t('footer.imprint')}</a>
 	</svelte:fragment>
 </AppBar>

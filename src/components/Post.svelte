@@ -1,16 +1,17 @@
 <script lang="ts">
 	import type { PostStructure, TextColorPost } from '$lib/types/Post';
 	import Icon from '@iconify/svelte';
-	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { t } from '../i18n';
 	import { onMount } from 'svelte';
-	import { checkForHashtags, likeCounter } from '$lib/PostFunctions';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
-	import { sendComment } from '$lib/CommentFunctions';
+	import { fetchComments, sendComment } from '$lib/utils/Comments';
 	import Commentsection from './Commentsection.svelte';
-	import { deletePost } from '$lib/PostFunctions';
+	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
+	import ProfilePicture from './ProfilePicture.svelte';
+	import type { Comments } from '$lib/types/Comment';
 
 	export let postData;
 	export let currentUsername: string | undefined;
@@ -19,6 +20,8 @@
 	const modalStore = getModalStore();
 
 	let deleteOption: boolean = true;
+	let limit: number = 10;
+	let offset: number = 0;
 
 	let locationString = '';
 	let repostLocationString = '';
@@ -50,6 +53,30 @@
 			if (t) {
 				deletePost(post.postId, toastStore);
 			}
+		}
+	};
+	let commentData: Comments = {
+		records: [
+			{
+				commentId: '539328e8-8750-4f42-9d53-d31409877c33',
+				content: '',
+				creationDate: '',
+				author: {
+					username: '',
+					nickname: '',
+					picture: {
+						url: '',
+						height: 0,
+						width: 0,
+						tag: ''
+					}
+				}
+			}
+		],
+		pagination: {
+			limit: 100,
+			offset: 0,
+			records: 1
 		}
 	};
 
@@ -117,26 +144,30 @@
 		return checkForHashtags(post);
 	}
 
-	function setShowButton() {
+	async function setShowButton() {
 		showNoComments = !showNoComments;
+		if (showNoComments) {
+			commentData = await fetchComments(limit, postData.postId, offset);
+		}
 	}
 
 	function commentSendButton() {
 		sendComment(post.postId, commentText);
 		commentText = '';
 		click++;
+		commentData = fetchComments(limit, postData.postId, offset);
 	}
 </script>
 
 <main class="flex flex-col mb-6">
-	<div class="card w-[60vw] mb-2" title="post">
+	<div class="card md:w-[60vw] w-[95vw] mb-2 divide-y divide-current" title="post">
 		<header class="card-header w-full flex justify-between items-center">
 			{#if post.author}
 				<div class="flex flex-row items-center">
-					<Avatar
-						class="h-[5vh] w-[5vh] rounded-full mr-3"
-						src={post.author.profilePictureUrl}
-						initials=""
+					<ProfilePicture
+						cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
+						src={post.author.picture?.url ?? ''}
+						username={post.author.username}
 					/>
 					<div class="flex flex-col">
 						<a
@@ -180,47 +211,58 @@
 				</div>
 			{/if}
 		</header>
-		<section class="p-4 border-solid border-2 border-white-200 rounded mr-10 ml-10 mt-5 mb-5">
-			<p class="h-[15vh] p-1 text-lg h-auto min-h-[5vh]" title="postcontent">
-				{#each newPost as { hashtagClass, text, wordID } (wordID)}
-					<span class={hashtagClass}>{text} </span>
-				{/each}
-			</p>
-			{#if post.repost != undefined || post.repost != null}
-				<header class="card-header w-full flex justify-between items-center">
-					<div class="flex flex-row items-center">
-						<Avatar
-							class="h-[5vh] w-[5vh] rounded-full mr-3"
-							src={post.repost.author.profilePictureUrl}
-							initials=""
-						/>
-						<div class="flex flex-col">
-							<a
-								class="text-[0.75rem]"
-								title="repostAuthorUsername"
-								href="/profile?username={post.repost.author.username}"
-								data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
-							>
-							<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
-								{post.repost.author.nickname}
+		<section class="p-6 mt-5 w-full">
+			<div class="flex flex-col">
+				{#if post.picture?.url}
+					<div class="flex justify-center">
+						<img class="max-h-[375px] rounded-md object-contain" src={post.picture?.url} alt="" />
+					</div>
+				{/if}
+				<p class="h-auto p-1 text-lg min-h-[5vh]" title="postcontent">
+					{#each newPost as { hashtagClass, text, wordID } (wordID)}
+						<span class={hashtagClass}>{text} </span>
+					{/each}
+				</p>
+			</div>
+			{#if post.repost}
+				<div class="border-solid border-2 border-current rounded divide-y divide-current">
+					{#if post.repost.author}
+						<header class="card-header w-full mb-1 flex justify-between items-center">
+							<div class="flex flex-row items-center">
+								<ProfilePicture
+									cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
+									src={post.repost.author.picture?.url ?? ''}
+									username={post.repost.author.username}
+								/>
+								<div class="flex flex-col">
+									<a
+										class="text-[0.75rem]"
+										title="repostAuthorUsername"
+										href="/profile?username={post.repost.author.username}"
+										data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
+									>
+
+									<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
+										{post.repost.author.nickname}
+									</p>
+								</div>
+							</div>
+							<div class="flex flex-col items-end">
+								<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
+								<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
+							</div>
+						</header>
+						<section class="p-4">
+							<p class="h-[10vh] p-1 text-lg" title="repostPostcontent">
+								{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
+									<span class="{hashtagClass} text-[0.75rem]">{text} </span>
+								{/each}
 							</p>
-						</div>
-					</div>
-					<div class="flex flex-col items-end">
-						<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
-						<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
-					</div>
-				</header>
-				<section class="p-4">
-					<p
-						class="h-[10vh] border-solid border-2 border-white-200 rounded p-1 text-lg h-auto"
-						title="repostPostcontent"
-					>
-						{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
-							<span class="{hashtagClass} text-[0.75rem]">{text} </span>
-						{/each}
-					</p>
-				</section>
+						</section>
+					{:else}
+						<p class="p-4">{$t('post.repost.deleted')}</p>
+					{/if}
+				</div>
 			{/if}
 		</section>
 		<footer class="card-footer h-18 items-center pb-1 flex flex-col md:flex-row w-full">
@@ -248,9 +290,9 @@
 				{/if}
 			</div>
 			{#if loginToken != ''}
-				<div class="flex float-right w-[65%]">
+				<form class="flex float-right w-[65%]" on:submit={commentSendButton}>
 					<label class="label p-2 w-full">
-						<textarea
+						<input
 							class="textarea resize-none"
 							title="commentInput"
 							bind:value={commentText}
@@ -259,16 +301,16 @@
 							maxlength="128"
 						/>
 					</label>
-					<button class="w-7" on:click={commentSendButton}>
+					<button class="w-7" type="submit">
 						<Icon class="w-7 h-7" icon="fluent:send-16-filled"></Icon>
 					</button>
-				</div>
+				</form>
 			{/if}
 		</footer>
 	</div>
 	{#if (loginToken != '' || loginToken == undefined) && showNoComments}
 		{#key click}
-			<Commentsection postId={post.postId} />
+			<Commentsection postId={post.postId} {commentData} />
 		{/key}
 	{/if}
 </main>

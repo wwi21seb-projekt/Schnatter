@@ -1,5 +1,5 @@
 import { serverURL, token } from '$lib/Store';
-import type { Notifications } from '$lib/types/notifications';
+import type { Notifications } from '$lib/types/Notifications';
 import { get } from 'svelte/store';
 
 export async function deleteNotificationRequest(notificationId: string): Promise<boolean> {

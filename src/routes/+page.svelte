@@ -2,16 +2,16 @@
 	import { get } from 'svelte/store';
 	import Login from '../components/Login.svelte';
 	import Feed from '../components/Feed.svelte';
-	import { token } from '$lib/Store';
+	import { serverURL, token } from '$lib/Store';
 	import { onMount } from 'svelte';
 	import { RadioGroup, RadioItem, getToastStore } from '@skeletonlabs/skeleton';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
-	import { fetchPosts } from '../lib/FeedPosts';
+	import { fetchPosts } from '../lib/utils/FeedPosts';
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
-
-	const loggedIn = 'flex justify-start md:justify-center flex-col ';
-	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col';
+	const loggedIn = 'flex justify-start md:justify-center flex-col mb-[70px] mt-[90px]';
+	const notLoggedIn =
+		'flex md:flex-row-reverse justify-start md:justify-center flex-col mb-[70px] mt-[90px]';
 
 	let slotLimit = 10;
 	let feedType = 'global';
@@ -29,6 +29,9 @@
 	let result;
 
 	onMount(async () => {
+		if (get(serverURL) === '') {
+			serverURL.set('https://server-beta.de/api');
+		}
 		manageSession();
 		if (loginToken !== '') {
 			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);

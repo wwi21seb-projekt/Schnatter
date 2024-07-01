@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '../app.postcss';
 
-	import Navbar from '../components/layout/navbar.svelte';
+	import Navbar from '../components/layout/Navbar.svelte';
 	import Footer from '../components/layout/Footer.svelte';
 	// Floating UI for Popups
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
-	import { AppShell, Modal, storePopup } from '@skeletonlabs/skeleton';
+	import { AppShell, Modal, Toast, storePopup } from '@skeletonlabs/skeleton';
 	import { type ModalComponent } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 
@@ -13,17 +13,22 @@
 	import ModalCreatePost from '../components/modals/ModalCreatePost.svelte';
 	import ModalChat from '../components/modals/ModalChat.svelte';
 	import ModalNewChat from '../components/modals/ModalNewChat.svelte';
+	import ModalChangeProfilePicture from '../components/modals/ModalChangeProfilePicture.svelte';
 	initializeStores();
 	const modalRegistry: Record<string, ModalComponent> = {
 		modalCreatePost: { ref: ModalCreatePost },
 		modalChat: { ref: ModalChat },
-		modalBeginChat: { ref: ModalNewChat }
+		modalBeginChat: { ref: ModalNewChat },
+		modalProfilePicture: { ref: ModalChangeProfilePicture }
 	};
 </script>
 
-<Modal components={modalRegistry} />
-<AppShell>
+<Toast zIndex="10" />
+<Modal zIndex="8" components={modalRegistry} />
+<AppShell zIndex="-1">
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />
-	<svelte:fragment slot="footer"><Footer /></svelte:fragment>
+	<svelte:fragment slot="footer"
+		><div class="fixed left-0 bottom-0 right-0"><Footer /></div></svelte:fragment
+	>
 </AppShell>

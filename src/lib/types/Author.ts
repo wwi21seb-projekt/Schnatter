@@ -1,5 +1,7 @@
+import type { Picture } from './Pictures';
+
 export type Author = {
 	username: string;
 	nickname: string;
-	profilePictureUrl: string | undefined;
+	picture: Picture | undefined;
 };

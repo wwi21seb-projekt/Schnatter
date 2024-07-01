@@ -1,8 +1,8 @@
 <script lang="ts">
 	import RegisterInput from '../RegisterInput.svelte';
 	import { t } from '../../i18n';
-	import { getModalStore } from '@skeletonlabs/skeleton';
-	import { type PasswordChange } from '$lib/types/PasswordChange';
+	import { Toast, getModalStore } from '@skeletonlabs/skeleton';
+	import { type PasswordChange } from '$lib/types/PasswordChecks';
 	import {
 		handlePasswordInput,
 		handleRepeatPasswordInput,
@@ -54,13 +54,15 @@
 	async function callHandleSubmit() {
 		const statusCode = await handleChangeSubmit(passwordChange, oldPassword);
 		if (statusCode == 204) {
+			// @ts-expect-error  | skeleton error (https://www.skeleton.dev/utilities/modals)
 			$modalStore[0].response(statusCode);
 			modalStore.close();
 		}
 	}
 </script>
 
-<main class="card p-4 w-[25vw]">
+<Toast zIndex="1100" />
+<main class="card p-4 md:w-[25vw] w-[98vw]">
 	<h3 class="h3 mb-2">{$t('modalChangePassword.header')}</h3>
 	<RegisterInput
 		value={oldPassword}
