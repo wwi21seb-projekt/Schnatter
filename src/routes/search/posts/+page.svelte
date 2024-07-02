@@ -74,7 +74,7 @@
 </script>
 
 <main>
-	<div class="mb-[122px] w-3/5 min-h-screen mx-auto mt-[122px]">
+	<div class="mb-8 w-3/5 min-h-screen mx-auto mt-[122px]">
 		<div class="mb-8 flex justify-center items-center gap-4">
 			<a href="/search/users">
 				<Icon class="w-10 h-10" icon="mdi:account-search-outline" style="font-size: 32px" />

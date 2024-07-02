@@ -13,7 +13,7 @@
 	import ProfilePicture from './ProfilePicture.svelte';
 	import type { Comments } from '$lib/types/Comment';
 
-	export let postData;
+	export let postData: PostStructure;
 	export let currentUsername: string | undefined;
 
 	const toastStore = getToastStore();
@@ -147,15 +147,15 @@
 	async function setShowButton() {
 		showNoComments = !showNoComments;
 		if (showNoComments) {
-			commentData = await fetchComments(limit, postData.postId, offset);
+			commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
 		}
 	}
 
-	function commentSendButton() {
+	async function commentSendButton() {
 		sendComment(post.postId, commentText);
 		commentText = '';
 		click++;
-		commentData = fetchComments(limit, postData.postId, offset);
+		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
 	}
 </script>
 
@@ -253,6 +253,15 @@
 							</div>
 						</header>
 						<section class="p-4">
+							{#if post.repost.picture?.url}
+								<div class="flex justify-center">
+									<img
+										class="max-h-[375px] rounded-md object-contain"
+										src={post.repost.picture?.url}
+										alt=""
+									/>
+								</div>
+							{/if}
 							<p class="h-[10vh] p-1 text-lg" title="repostPostcontent">
 								{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
 									<span class="{hashtagClass} text-[0.75rem]">{text} </span>
@@ -297,7 +306,6 @@
 							title="commentInput"
 							bind:value={commentText}
 							placeholder={$t('post.postComment.placeholder')}
-							rows="1"
 							maxlength="128"
 						/>
 					</label>
@@ -310,7 +318,7 @@
 	</div>
 	{#if (loginToken != '' || loginToken == undefined) && showNoComments}
 		{#key click}
-			<Commentsection postId={post.postId} {commentData} />
+			<Commentsection postId={post.postId} commentData={commentData ?? 404} />
 		{/key}
 	{/if}
 </main>

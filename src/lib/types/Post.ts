@@ -6,7 +6,7 @@ import type { Picture } from './Pictures';
 
 export type PostStructure = {
 	postId: UUID;
-	author: Author;
+	author: Author | undefined;
 	creationDate: string;
 	picture: Picture | undefined;
 	content: string;
@@ -22,18 +22,8 @@ export type TextColorPost = {
 	wordID: number;
 };
 
-export type PostUserProfilStructure = {
-	postId: UUID;
-	creationDate: string;
-	content: string;
-	picture: Picture | undefined;
-	likes: number;
-	liked: boolean;
-	location: GeoLocationCoords | undefined;
-};
-
 export type UserPostFetchResponse = {
-	records: PostUserProfilStructure[];
+	records: PostStructure[];
 	pagination: Pagination;
 	statusCode: number;
 };

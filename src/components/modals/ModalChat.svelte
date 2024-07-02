@@ -131,7 +131,7 @@
 	}
 </script>
 
-<div class="card w-[60vw] h-[80vh] p-2">
+<div class="card w-[60vw] h-[75vh] p-2">
 	<header class="h-[7%] flex flex-row justify-between items-center mb-2">
 		<button class="btn-sm variant-filled-primary rounded" on:click={openModalBeginChat}>
 			{$t('chat.button.add')}
@@ -224,10 +224,7 @@
 				</section>
 			{/if}
 			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabeled}>
-				<form
-					class="input-group input-group-divider flex-row flex rounded-container-token"
-					onclick={sendMessage}
-				>
+				<form class="input-group input-group-divider flex-row flex rounded-container-token">
 					<textarea
 						on:keypress={(event) => {
 							if (event.key === 'Enter') {

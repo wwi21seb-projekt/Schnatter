@@ -197,7 +197,7 @@
 </script>
 
 <Toast />
-<main class=" flex flex-col justify-center items-center h-[90vh] mb-[70px] mt-[90px]">
+<main class=" flex flex-col justify-center items-center h-[90vh] mt-[90px]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">{$t('register.header')}</h1>
 

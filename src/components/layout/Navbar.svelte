@@ -89,7 +89,7 @@
 	}
 </script>
 
-<AppBar class="fixed top-0 left-0 right-0">
+<AppBar zIndex="9" class="fixed top-0 left-0 right-0">
 	<svelte:fragment slot="lead">
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<a href="/" on:click={play} on:keyup={play}>
