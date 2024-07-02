@@ -9,9 +9,8 @@
 	import { fetchPosts } from '../lib/utils/FeedPosts';
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
-	const loggedIn = 'flex justify-start md:justify-center flex-col mb-[70px] mt-[90px]';
-	const notLoggedIn =
-		'flex md:flex-row-reverse justify-start md:justify-center flex-col mb-[70px] mt-[90px]';
+	const loggedIn = 'flex justify-start md:justify-center flex-col mt-[90px]';
+	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col mt-[90px]';
 
 	let slotLimit = 10;
 	let feedType = 'global';

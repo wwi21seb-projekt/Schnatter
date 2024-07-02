@@ -6,6 +6,7 @@ const config: PlaywrightTestConfig = {
 		port: 4173
 	},
 	testDir: 'tests',
+	workers: 1,
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/
 };
 
