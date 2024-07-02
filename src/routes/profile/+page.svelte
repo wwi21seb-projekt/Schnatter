@@ -283,8 +283,8 @@
 				<p class="text-2xl">{$t('profile.noPosts')}</p>
 			{:else}
 				<div class="flex flex-col items-center justify-start mt-3 mb-3 w-full">
-					{#each postsData.records as postData (postData.postId)}
-						<Post bind:postData currentUsername={usernameParams} />
+					{#each postsData.records as signlePostData (signlePostData.postId)}
+						<Post postData={signlePostData} currentUsername={usernameParams} />
 					{/each}
 					{#if postsData.records.length < postsData.pagination.records}
 						<button on:click={loadMorePosts} class="btn variant-filled"

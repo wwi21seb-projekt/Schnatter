@@ -3,11 +3,7 @@ import { get } from 'svelte/store';
 import type { Comments } from '../types/Comment';
 import type { UUID } from 'crypto';
 
-export async function fetchComments(
-	limit: number,
-	postId: UUID,
-	offset: number
-): Promise<Comments | number> {
+export async function fetchComments(limit: number, postId: UUID, offset: number) {
 	let data: Comments = {
 		records: [],
 		pagination: {
@@ -40,9 +36,7 @@ export async function fetchComments(
 
 	if (response.status === 200) {
 		data = (await response.json()) as Comments;
-		return data;
-	} else {
-		return response.status;
+		return data as Comments;
 	}
 }
 export async function sendComment(postId: UUID, commentText: string) {

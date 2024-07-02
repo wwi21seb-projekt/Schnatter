@@ -25,7 +25,7 @@
 
 <Toast zIndex="10" />
 <Modal zIndex="8" components={modalRegistry} />
-<AppShell zIndex="-1">
+<AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />
 	<svelte:fragment slot="footer"
