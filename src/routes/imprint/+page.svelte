@@ -10,7 +10,7 @@
 	});
 </script>
 
-<main class="flex flex-col justify-center items-center mb-[70px] mt-[90px]">
+<main class="flex flex-col justify-center items-center mt-[90px]">
 	<div class="card bg-red p-2 w-[80vw] mb-5">
 		<h1 class="font-bold text-2xl">{$t('imprint.frontend.header')}</h1>
 		<div class="mt-2">
