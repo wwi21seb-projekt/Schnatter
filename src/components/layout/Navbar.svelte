@@ -10,7 +10,14 @@
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import { notificationCount, notificationList, refreshToken, token } from '$lib/Store';
+	import {
+		globalUsername,
+		notificationCount,
+		notificationList,
+		profilePicture,
+		refreshToken,
+		token
+	} from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
@@ -48,6 +55,9 @@
 	function handleLogout() {
 		token.set('');
 		refreshToken.set('');
+		globalUsername.set('');
+		profilePicture.set('');
+		notificationList.set({ records: [] });
 		location.reload();
 	}
 	function openModalPost() {

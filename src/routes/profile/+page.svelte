@@ -7,7 +7,7 @@
 	} from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
-	import Post from '../../components/Post.svelte';
+	import Post from '../../components/posts/Post.svelte';
 	import { onMount } from 'svelte';
 	import {
 		followUser,
@@ -52,7 +52,7 @@
 			if (response == 204) {
 				toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
 			} else {
-				toastStore.trigger(createToast('toast.pwdNotReset', 'error'));
+				toastStore.trigger(createToast($t('toast.pwdNotReset'), 'warni	'));
 			}
 		}
 	};
@@ -172,7 +172,7 @@
 				<ProfilePicture
 					src={profileData.user.picture?.url}
 					username={profileData.user.username ?? $profilePicture}
-					cssClass="w-full h-[20vh] aspect-square isolation-auto"
+					cssClass="w-full max-h-[20vh] aspect-square isolation-auto"
 				/>
 				<div class="flex justify-center m-1">
 					{#if editMode}

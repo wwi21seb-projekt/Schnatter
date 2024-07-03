@@ -127,7 +127,7 @@
 			disabled={!areAllInputsCorrect}
 			on:click={callHandleSubmit}
 			class="btn variant-filled-primary ml-2"
-			type="submit">{$t('register.button.register')}</button
+			type="submit">{$t('modalChangePassword.changeButton')}</button
 		>
 	</div>
 </main>

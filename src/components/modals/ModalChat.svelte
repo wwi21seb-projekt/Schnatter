@@ -4,7 +4,7 @@
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessage, ChatMessages, ChatStructure } from '$lib/types/Chat';
-	import { chatIdNewChat, globalUsername, serverURL, token } from '$lib/Store';
+	import { chatIdNewChat, chats, globalUsername, serverURL, token } from '$lib/Store';
 	import { get } from 'svelte/store';
 	import { onDestroy, onMount } from 'svelte';
 	import { getChats, getMessages } from '$lib/utils/Chat';
@@ -50,6 +50,7 @@
 
 	onMount(async () => {
 		dataChats = await getChats();
+		chats.set(dataChats);
 		copieChats = Object.assign({}, dataChats);
 		if ($chatIdNewChat) {
 			openChat($chatIdNewChat);
@@ -153,7 +154,7 @@
 					on:input={handleChatSearch}
 				/>
 			</div>
-			<div class="p-4 h-4/6">
+			<div class="p-4 h-5/6 overflow-auto">
 				<ul class="list">
 					{#each dataChats.records as record (record.chatId)}
 						<li class="h-9">

@@ -14,6 +14,7 @@ export type PostStructure = {
 	liked: boolean;
 	repost: PostStructure | null;
 	location: GeoLocationCoords | undefined;
+	comments: number | undefined;
 };
 
 export type TextColorPost = {

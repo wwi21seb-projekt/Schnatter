@@ -6,7 +6,7 @@
 	import { token } from '$lib/Store';
 	import { t } from '../../../i18n';
 	import type { Feed as FeedStructure } from '$lib/types/Feed';
-	import Feed from '../../../components/Feed.svelte';
+	import Feed from '../../../components/posts/Feed.svelte';
 	import { manageSession } from '$lib/utils/Session';
 	import { searchPostsByHashtag } from '$lib/utils/SearchPosts';
 
