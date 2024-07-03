@@ -24,7 +24,7 @@ export async function getNotificationsRequest(): Promise<Notifications | null> {
 		}
 	});
 	if (response.status === 200) {
-		return await response.json();
+		return (await response.json()) as Notifications;
 	} else {
 		return null;
 	}

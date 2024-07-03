@@ -57,8 +57,8 @@
 	}
 </script>
 
-<main class="flex flex-col justify-center p-2 w-[18vw]">
-	<ul class="list">
+<main class="flex flex-col justify-center w-[18vw] max-h-72 overflow-auto">
+	<ul class="list m-2">
 		{#each $notificationList.records as notification}
 			<button
 				title={$t('notifications.tooltip.delete')}

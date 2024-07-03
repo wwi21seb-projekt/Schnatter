@@ -4,6 +4,7 @@
 	import {
 		AppBar,
 		getModalStore,
+		getToastStore,
 		popup,
 		type ModalSettings,
 		type PopupSettings
@@ -21,9 +22,11 @@
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
+	import { createNotificationToast } from '$lib/utils/Toasts';
 	const loginToken = get(token);
 
 	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 
 	const modalPost: ModalSettings = {
 		type: 'component',
@@ -90,9 +93,11 @@
 				} else {
 					notificationList.update((value) => {
 						value.records.push(payload);
+
 						return value;
 					});
 					notificationCount.update((value) => value + 1);
+					toastStore.trigger(createNotificationToast(payload));
 				}
 			}
 		});
