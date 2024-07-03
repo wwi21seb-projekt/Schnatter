@@ -100,7 +100,7 @@
 			</section>
 		{/if}
 		{#if imageClick == true}
-			<section class="p-3 flex flex-col">
+			<section class="p-3 flex flex-col max-h-[65vh] overflow-auto">
 				<FileDropzone
 					name="files"
 					accept="image/*"
@@ -136,7 +136,7 @@
 				</label>
 			</section>
 		{/if}
-		<footer class="card-footer flex flex-row justify-end">
+		<footer class="card-footer flex flex-row justify-end mt-2">
 			<button type="button" class="btn variant-filled-secondary mx-1" on:click={closeModal}
 				>{$t('modalCreatePost.button.close')}</button
 			>

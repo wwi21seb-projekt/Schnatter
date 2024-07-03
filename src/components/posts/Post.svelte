@@ -156,6 +156,7 @@
 		commentText = '';
 		click++;
 		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+		post.comments = commentData.records.length;
 	}
 </script>
 

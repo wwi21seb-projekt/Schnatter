@@ -77,7 +77,7 @@
 	});
 </script>
 
-<main class="card md:w-[60vw] w-[98vw] min-h-[80vh] max-h-[85vh] overflow-auto h-auto">
+<main class="card md:w-[60vw] w-[98vw] min-h-[70vh] max-h-[75vh] overflow-scroll">
 	<div class="mx-auto">
 		<div class="flex justify-center my-4">
 			{#if imageDataUrl}
