@@ -12,7 +12,6 @@
 	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
 	import ProfilePicture from '../ProfilePicture.svelte';
 	import type { Comments } from '$lib/types/Comment';
-	import { enhance } from '$app/forms';
 
 	export let postData: PostStructure;
 	export let currentUsername: string | undefined;
@@ -301,7 +300,11 @@
 				{/if}
 			</div>
 			{#if loginToken != ''}
-				<form class="flex float-right w-[65%]" on:submit|preventDefault={commentSendButton} id="formComment" >
+				<form
+					class="flex float-right w-[65%]"
+					on:submit|preventDefault={commentSendButton}
+					id="formComment"
+				>
 					<label class="label p-2 w-full">
 						<input
 							class="textarea resize-none"
