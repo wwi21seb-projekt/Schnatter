@@ -6,6 +6,8 @@
 	import { onMount } from 'svelte';
 	import Icon from '@iconify/svelte';
 	import { createChat } from '$lib/utils/Chat';
+	import { get } from 'svelte/store';
+	import { chats } from '$lib/Store';
 
 	const modalStore = getModalStore();
 	let inputField: HTMLInputElement;
@@ -31,6 +33,9 @@
 			const usersRequest: UsersForSearch | undefined = await userSearch(userInput, toastStore);
 			if (usersRequest) {
 				users = usersRequest.records;
+				const usernamesToRemove = new Set(get(chats).records.map((chat) => chat.user.username));
+
+				users = users.filter((user) => !usernamesToRemove.has(user.username));
 			}
 		}
 	}
@@ -117,11 +122,7 @@
 						maxlength="256"
 						disabled={sendDisabled}
 					/>
-					<button
-						class="variant-filled-primary w-1/12"
-						disabled={sendDisabled}
-						on:click={startChat}
-					>
+					<button class="variant-filled-primary w-1/12" disabled={sendDisabled}>
 						<Icon
 							class="w-7 h-7 align-middle justify-center"
 							inline

@@ -2,6 +2,7 @@ import { persisted } from 'svelte-local-storage-store';
 import { writable } from 'svelte/store';
 import type { Notifications } from './types/Notifications';
 import type { UUID } from 'crypto';
+import type { ChatStructure } from './types/Chat';
 
 //https://server-beta.de/api
 //https://alpha.c930.net/api
@@ -32,3 +33,5 @@ export const newProfilePicture = writable<string | undefined>(undefined);
 //helper
 
 export const modalHiddenCss = writable('');
+
+export const chats = writable({ records: [] } as ChatStructure);

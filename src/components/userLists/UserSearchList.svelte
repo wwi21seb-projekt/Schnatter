@@ -7,10 +7,10 @@
 <nav class="list-nav w-full">
 	<ul class="w-full">
 		{#each searchData as searchedUser}
-			<li class="flex flex-row w-full justify-between">
-				<a href="/profile?username={searchedUser.username}" title="userResult" class="w-full">
+			<li class="flex flex-row w-full justify-between h-20">
+				<a href="/profile?username={searchedUser.username}" title="userResult" class="w-full h-20">
 					<ProfilePicture
-						cssClass="w-10 h-10 rounded-full isolation-auto"
+						cssClass="w-10 h-full rounded-full isolation-auto"
 						src={searchedUser.picture?.url ?? ''}
 						username={searchedUser.username}
 					/>

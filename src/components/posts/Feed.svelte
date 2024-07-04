@@ -7,6 +7,6 @@
 
 <main class="flex flex-col items-center">
 	{#each feedData.records as postData (postData.postId)}
-		<Post bind:postData currentUsername={postData.author.username} />
+		<Post bind:postData currentUsername={postData.author?.username} />
 	{/each}
 </main>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import LoginInput from './LoginInput.svelte';
-	import { t } from '../i18n';
+	import { t } from '../../i18n';
 	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
@@ -8,9 +8,9 @@
 	import { globalUsername, refreshToken, registerUsername, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
 	import type { CustomError } from '$lib/types/CustomError';
-	import { subscribeUserToPush } from '../push';
+	import { subscribeUserToPush } from '../../push';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
-	import ModalForgotPwd from './modals/ModalForgotPwd.svelte';
+	import ModalForgotPwd from '../modals/ModalForgotPwd.svelte';
 	import { login } from '$lib/utils/Login';
 
 	const modalStore = getModalStore();

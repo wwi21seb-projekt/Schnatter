@@ -4,19 +4,29 @@
 	import {
 		AppBar,
 		getModalStore,
+		getToastStore,
 		popup,
 		type ModalSettings,
 		type PopupSettings
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import { notificationCount, notificationList, refreshToken, token } from '$lib/Store';
+	import {
+		globalUsername,
+		notificationCount,
+		notificationList,
+		profilePicture,
+		refreshToken,
+		token
+	} from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
+	import { createNotificationToast } from '$lib/utils/Toasts';
 	const loginToken = get(token);
 
 	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 
 	const modalPost: ModalSettings = {
 		type: 'component',
@@ -48,6 +58,9 @@
 	function handleLogout() {
 		token.set('');
 		refreshToken.set('');
+		globalUsername.set('');
+		profilePicture.set('');
+		notificationList.set({ records: [] });
 		location.reload();
 	}
 	function openModalPost() {
@@ -80,9 +93,11 @@
 				} else {
 					notificationList.update((value) => {
 						value.records.push(payload);
+
 						return value;
 					});
 					notificationCount.update((value) => value + 1);
+					toastStore.trigger(createNotificationToast(payload));
 				}
 			}
 		});

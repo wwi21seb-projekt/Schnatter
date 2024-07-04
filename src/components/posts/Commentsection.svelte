@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { fetchComments } from '$lib/utils/Comments';
 	import { onMount } from 'svelte';
-	import { t } from '../i18n';
+	import { t } from '../../i18n';
 	import type { UUID } from 'crypto';
 	import type { Comments } from '$lib/types/Comment';
-	import ProfilePicture from './ProfilePicture.svelte';
+	import ProfilePicture from '../ProfilePicture.svelte';
 	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { createToast } from '$lib/utils/Toasts';
@@ -20,14 +20,14 @@
 		const response = await fetchComments(limit, postId, offset);
 		if (typeof response === 'number') {
 			if (response == 401) {
-				toastStore.trigger(createToast($t('post.comments.error.unauthorized')));
+				toastStore.trigger(createToast($t('post.comments.error.unauthorized'), 'error'));
 			} else if (response == 404) {
-				toastStore.trigger(createToast($t('post.comments.error.notFound')));
+				toastStore.trigger(createToast($t('post.comments.error.notFound'), 'error'));
 			} else {
-				toastStore.trigger(createToast($t('post.comments.error.unknown')));
+				toastStore.trigger(createToast($t('post.comments.error.unknown'), 'error'));
 			}
 		} else {
-			commentData = response;
+			commentData = response as Comments;
 		}
 	});
 </script>

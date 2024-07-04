@@ -1,9 +1,4 @@
-import type {
-	PostUserProfilStructure,
-	TextColorPost,
-	PostStructure,
-	RequestBodyData
-} from '../types/Post';
+import type { TextColorPost, PostStructure, RequestBodyData } from '../types/Post';
 import { serverURL, token } from '$lib/Store';
 import type { CustomError } from '../types/CustomError';
 import { createToast } from '$lib/utils/Toasts';
@@ -120,7 +115,7 @@ export async function deleteLike(postId: UUID, toastStore: ToastStore) {
 	}
 }
 
-export function likeCounter(post: PostStructure | PostUserProfilStructure, toastStore: ToastStore) {
+export function likeCounter(post: PostStructure, toastStore: ToastStore) {
 	post.likes += post.liked ? -1 : 1;
 	if (post.liked) {
 		deleteLike(post.postId, toastStore);
@@ -131,7 +126,7 @@ export function likeCounter(post: PostStructure | PostUserProfilStructure, toast
 	return post;
 }
 
-export function checkForHashtags(post: PostUserProfilStructure | PostStructure) {
+export function checkForHashtags(post: PostStructure) {
 	const text = post.content;
 	const words = text.split(' ');
 	let wordId: number = 0;
@@ -144,7 +139,7 @@ export function checkForHashtags(post: PostUserProfilStructure | PostStructure) 
 	];
 
 	if (words !== null) {
-		newPost = words.map((word) => {
+		newPost = words.map((word: string) => {
 			let hashtagClass: string = '';
 			if (word.startsWith('#')) {
 				hashtagClass = 'text-blue-600';

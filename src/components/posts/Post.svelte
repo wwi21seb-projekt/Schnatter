@@ -4,13 +4,13 @@
 	import { getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { token } from '$lib/Store';
 	import { get } from 'svelte/store';
-	import { t } from '../i18n';
+	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { getLocationCity } from '$lib/utils/GeoLocationUtils';
 	import { fetchComments, sendComment } from '$lib/utils/Comments';
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
-	import ProfilePicture from './ProfilePicture.svelte';
+	import ProfilePicture from '../ProfilePicture.svelte';
 	import type { Comments } from '$lib/types/Comment';
 
 	export let postData: PostStructure;
@@ -156,6 +156,7 @@
 		commentText = '';
 		click++;
 		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+		post.comments = commentData.records.length;
 	}
 </script>
 
@@ -294,12 +295,16 @@
 						on:click={setShowButton}
 						>{showNoComments
 							? $t('post.comments.buttonHideComments')
-							: $t('post.comments.buttonShowComments')}</button
+							: post.comments + ' ' + $t('post.comments.buttonShowComments')}</button
 					>
 				{/if}
 			</div>
 			{#if loginToken != ''}
-				<form class="flex float-right w-[65%]" on:submit={commentSendButton}>
+				<form
+					class="flex float-right w-[65%]"
+					on:submit|preventDefault={commentSendButton}
+					id="formComment"
+				>
 					<label class="label p-2 w-full">
 						<input
 							class="textarea resize-none"

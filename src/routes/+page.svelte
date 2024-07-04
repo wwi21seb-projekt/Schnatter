@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import Login from '../components/Login.svelte';
-	import Feed from '../components/Feed.svelte';
+	import Login from '../components/login/Login.svelte';
+	import Feed from '../components/posts/Feed.svelte';
 	import { serverURL, token } from '$lib/Store';
 	import { onMount } from 'svelte';
 	import { RadioGroup, RadioItem, getToastStore } from '@skeletonlabs/skeleton';
