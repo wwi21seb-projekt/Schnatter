@@ -77,13 +77,6 @@
 		var audio = new Audio('quack.mp3');
 		audio.play();
 	}
-	if ((!$token || $token == '') && typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-		navigator.serviceWorker.getRegistrations().then((registrations) => {
-			for (const registration of registrations) {
-				registration.unregister();
-			}
-		});
-	}
 	// Service Worker Push Notification
 	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('message', (event) => {
