@@ -93,6 +93,7 @@
 		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		messages = dataMessages.records;
 		const button = document.getElementById(chatId);
+		//highlight current chat in list
 		if (highlightedButton != '') {
 			const oldButton = document.getElementById(highlightedButton);
 			oldButton?.classList.remove('variant-filled-secondary');
@@ -242,9 +243,9 @@
 						maxlength="256"
 						disabled={messageDisabeled}
 					/>
+					{#if currentMessage != ''}
 					<button
 						class="variant-filled-primary w-1/12"
-						disabled={messageDisabeled}
 						on:click={sendMessage}
 					>
 						<Icon
@@ -254,6 +255,7 @@
 							icon="fluent:send-16-filled"
 						/>
 					</button>
+					{/if}
 				</form>
 			</div>
 		</div>
