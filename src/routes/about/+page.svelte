@@ -8,7 +8,7 @@
 	import { t } from '../../i18n';
 </script>
 
-<main class="felx flex-row w-screen m-10 mb-[70px]">
+<main class="felx flex-row w-screen mx-10 my-[75px]">
 	<h1 class="h1">{$t('about.header')}</h1>
 	<div class="mt-3 w-11/12">
 		<TabGroup>
