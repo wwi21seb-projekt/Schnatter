@@ -244,17 +244,14 @@
 						disabled={messageDisabeled}
 					/>
 					{#if currentMessage != ''}
-					<button
-						class="variant-filled-primary w-1/12"
-						on:click={sendMessage}
-					>
-						<Icon
-							class="w-7 h-7 align-middle justify-center"
-							inline
-							style="color: antiquewhite"
-							icon="fluent:send-16-filled"
-						/>
-					</button>
+						<button class="variant-filled-primary w-1/12" on:click={sendMessage}>
+							<Icon
+								class="w-7 h-7 align-middle justify-center"
+								inline
+								style="color: antiquewhite"
+								icon="fluent:send-16-filled"
+							/>
+						</button>
 					{/if}
 				</form>
 			</div>
