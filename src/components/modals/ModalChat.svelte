@@ -103,7 +103,7 @@
 	}
 
 	function sendMessage() {
-		if (socket && socket.readyState === WebSocket.OPEN) {
+		if (socket && socket.readyState === WebSocket.OPEN && currentMessage) {
 			socket.send(JSON.stringify({ content: currentMessage }));
 			currentMessage = '';
 		} else {
