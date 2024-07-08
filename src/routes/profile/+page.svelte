@@ -146,6 +146,7 @@
 		if (followResponse.status == 201) {
 			subscribed = true;
 			profileData.user.subscriptionId = followResponse.response.subscriptionId;
+			profileData.user.follower += 1;
 			toastStore.trigger(createToast($t('toastmessage.profile.follow.success'), 'success'));
 		} else {
 			toastStore.trigger(createToast($t('toastmessage.profile.follow.error'), 'error'));
@@ -156,6 +157,7 @@
 		if (unfollowStatus.status == 204) {
 			subscribed = false;
 			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.success'), 'success'));
+			profileData.user.follower -= 1;
 		} else {
 			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.error'), 'error'));
 		}
