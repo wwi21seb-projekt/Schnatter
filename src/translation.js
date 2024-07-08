@@ -182,7 +182,7 @@ export default {
 			'If you have any problems with the application, you can find our contact information in the',
 		'about.projekt.imprint': 'Imprint',
 		'about.team.header': 'Team members:',
-		'about.video.header': 'Product Video:',
+		'about.video.header': 'Product Videos:',
 		'about.projekt.svelte':
 			'The project was developed with the Svelte framework. Skeleton UI with Tailwind.css was used for the styling.',
 		'about.projekt.tests': 'Playwright was used for the tests',
