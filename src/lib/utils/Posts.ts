@@ -128,7 +128,7 @@ export function likeCounter(post: PostStructure, toastStore: ToastStore) {
 
 export function checkForHashtags(post: PostStructure) {
 	const text = post.content;
-	const words = text.split(' ');
+	const words = text.split(/(\s+)/);
 	let wordId: number = 0;
 	let newPost: TextColorPost[] = [
 		{

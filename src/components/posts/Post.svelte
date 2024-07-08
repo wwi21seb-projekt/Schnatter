@@ -293,7 +293,8 @@
 						data-sveltekit-preload-data="hover"
 						class="ml-2 btn btn-sm border-solid border-2"
 						on:click={setShowButton}
-						>{showNoComments
+					>
+						{showNoComments
 							? $t('post.comments.buttonHideComments')
 							: post.comments + ' ' + $t('post.comments.buttonShowComments')}</button
 					>
