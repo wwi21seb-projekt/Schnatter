@@ -154,9 +154,13 @@
 	async function commentSendButton() {
 		sendComment(post.postId, commentText);
 		commentText = '';
-		click++;
+		
 		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
-		post.comments = commentData.records.length;
+		if(post.comments != undefined){
+			post.comments +=1;
+			console.log(post.comments);	
+			}
+		post.comments = post.comments ?? 1;
 	}
 </script>
 
@@ -296,7 +300,7 @@
 					>
 						{showNoComments
 							? $t('post.comments.buttonHideComments')
-							: post.comments + ' ' + $t('post.comments.buttonShowComments')}</button
+							: post.comments + ' ' + (post.comments === 1 ? $t('post.comments.buttonShowComment') : $t('post.comments.buttonShowComments'))}</button
 					>
 				{/if}
 			</div>
