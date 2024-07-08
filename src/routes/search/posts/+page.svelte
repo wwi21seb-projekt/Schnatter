@@ -77,12 +77,12 @@
 	<div class="mb-8 w-3/5 min-h-screen mx-auto mt-[122px]">
 		<div class="mb-8 flex justify-center items-center gap-4">
 			<a href="/search/users">
-				<Icon class="w-10 h-10" icon="mdi:account-search-outline" style="font-size: 32px" />
+				<Icon class="w-10 h-10" icon="clarity:user-line" style="font-size: 32px" />
 			</a>
 			<a href="/search/posts">
 				<Icon
 					class="w-10 h-10 text-primary-500"
-					icon="mdi:text-box-search"
+					icon="clarity:hashtag-line"
 					style="font-size: 32px; border: 2px solid; border-radius: 5px;"
 				/>
 			</a>
@@ -98,7 +98,8 @@
 		<div class="mt-4 w-full"></div>
 		{#if feedData.records.length > 0}
 			<Feed {feedData} />
-		{:else}
+		{/if}
+		{#if feedData.records.length == 0 && lastInput.length > 0}
 			<p class="text-center text-gray-500" title="noResultText">{$t('search.posts.noResults')}</p>
 		{/if}
 	</div>

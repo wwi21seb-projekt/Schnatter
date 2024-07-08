@@ -106,6 +106,8 @@
 		if (socket && socket.readyState === WebSocket.OPEN && currentMessage) {
 			socket.send(JSON.stringify({ content: currentMessage }));
 			currentMessage = '';
+			const textArea = document.getElementById('prompt') as HTMLTextAreaElement;
+			textArea.focus;
 		} else {
 			console.error('failed');
 		}
@@ -226,7 +228,7 @@
 				</section>
 			{/if}
 			<div class="border-t border-surface-500/30 p-4" hidden={messageDisabeled}>
-				<form class="input-group input-group-divider flex-row flex rounded-container-token">
+				<form class="input-group p-0 input-group-divider flex-row flex rounded-container-token">
 					<textarea
 						on:keypress={(event) => {
 							if (event.key === 'Enter') {
@@ -235,7 +237,7 @@
 							}
 						}}
 						bind:value={currentMessage}
-						class="bg-transparent border-0 w-11/12"
+						class="bg-transparent border-0 w-full"
 						name="prompt"
 						id="prompt"
 						placeholder={$t('chat.placeholder.input')}
@@ -243,16 +245,20 @@
 						maxlength="256"
 						disabled={messageDisabeled}
 					/>
-					{#if currentMessage != ''}
-						<button class="variant-filled-primary w-1/12" on:click={sendMessage}>
-							<Icon
-								class="w-7 h-7 align-middle justify-center"
-								inline
-								style="color: antiquewhite"
-								icon="fluent:send-16-filled"
-							/>
-						</button>
-					{/if}
+					<button
+						class="variant-filled-primary w-10 p-0"
+						disabled={currentMessage == '' ? true : false}
+						on:click={sendMessage}
+					>
+						<Icon
+							class="justify-center w-full  h-full m-0"
+							inline
+							style="color: white"
+							icon={currentMessage == ''
+								? 'material-symbols-light:cancel-schedule-send'
+								: 'material-symbols-light:send'}
+						/>
+					</button>
 				</form>
 			</div>
 		</div>

@@ -37,7 +37,7 @@
 			<Icon
 				class="w-10 h-10 text-primary-500"
 				title="searchUsersIcon"
-				icon="mdi:account-search"
+				icon="clarity:user-line"
 				style="font-size: 32px; border: 2px solid; border-radius: 5px;"
 			/>
 		</a>
@@ -45,7 +45,7 @@
 			<Icon
 				class="w-10 h-10"
 				title="searchPostsIcon"
-				icon="mdi:text-box-search-outline"
+				icon="clarity:hashtag-line"
 				style="font-size: 32px"
 			/>
 		</a>

@@ -79,7 +79,7 @@
 				<div class="flex flex-col w-full px-3 pb-2">
 					<LoginInput
 						value={username}
-						iconString="mdi:user"
+						iconString="clarity:user-line"
 						placeholder={$t('login.placeholder.username')}
 						type="text"
 						onInput={handleUsernameInput}
@@ -89,7 +89,7 @@
 				<div class="flex flex-col w-full px-3 pt-2">
 					<LoginInput
 						value={password}
-						iconString="mdi:password"
+						iconString="clarity:lock-line"
 						placeholder={$t('login.placeholder.password')}
 						onInput={handlePasswordInput}
 						type="pwd"

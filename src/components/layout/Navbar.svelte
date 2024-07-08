@@ -116,40 +116,40 @@
 	<svelte:fragment slot="trail">
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<a href="/" data-sveltekit-preload-data="hover" title={$t('navbar.home')}>
-				<Icon class="w-10 h-10" icon="mdi:home" />
+				<Icon class="w-10 h-10" icon="clarity:home-line" />
 			</a>
 			{#if loginToken != ''}
 				<a href="/search/users" data-sveltekit-preload-data="hover" title={$t('navbar.search')}>
-					<Icon class="w-10 h-10" icon="material-symbols:search" />
+					<Icon class="w-10 h-10" icon="clarity:search-line" />
 				</a>
 				<button on:click={openModalPost} title={$t('navbar.posts')}>
-					<Icon class="w-10 h-10" icon="gridicons:add" />
+					<Icon class="w-10 h-10" icon="clarity:add-line" />
 				</button>
 				<button
 					on:click={openModalChat}
 					data-sveltekit-preload-data="hover"
 					title={$t('navbar.messages')}
 				>
-					<Icon class="w-10 h-10" icon="mdi:message-bubble" />
+					<Icon class="w-10 h-10" icon="clarity:chat-bubble-line" />
 				</button>
 				<button on:click={gotoProfile} title={$t('navbar.profile')}>
-					<Icon class="w-10 h-10" icon="clarity:user-solid" style="font-size: 32px" />
+					<Icon class="w-10 h-10" icon="clarity:user-line" style="font-size: 32px" />
 				</button>
 				<button use:popup={popupNotifications} title={$t('navbar.notifications')}>
 					<div class="relative inline-block">
 						<span class="badge-icon variant-filled-warning absolute -top-0 -right-0 z-10"
 							>{$notificationCount}</span
 						>
-						<Icon class="w-10 h-10" icon="clarity:notification-solid" style="font-size: 32px" />
+						<Icon class="w-10 h-10" icon="clarity:notification-line" style="font-size: 32px" />
 					</div>
 				</button>
 			{/if}
 			<button class="" use:popup={popupFeatured} title={$t('navbar.settings')}>
-				<Icon class="w-10 h-10" icon="material-symbols:settings" />
+				<Icon class="w-10 h-10" icon="clarity:settings-line" />
 			</button>
 			{#if loginToken != ''}
 				<button on:click={handleLogout} title={$t('navbar.logout')}>
-					<Icon class="w-10 h-10" icon="ic:baseline-logout" style="font-size: 32px" /></button
+					<Icon class="w-10 h-10" icon="clarity:logout-line" style="font-size: 32px" /></button
 				>
 			{/if}
 		</div>

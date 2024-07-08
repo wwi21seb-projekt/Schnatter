@@ -6,7 +6,6 @@
 	import { serverURL, token } from '$lib/Store';
 	let language = '';
 	let server = get(serverURL);
-
 	onMount(() => {
 		language = get(locale);
 	});

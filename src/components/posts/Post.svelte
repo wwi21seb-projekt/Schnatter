@@ -154,12 +154,12 @@
 	async function commentSendButton() {
 		sendComment(post.postId, commentText);
 		commentText = '';
-		
+
 		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
-		if(post.comments != undefined){
-			post.comments +=1;
-			console.log(post.comments);	
-			}
+		if (post.comments != undefined) {
+			post.comments += 1;
+			console.log(post.comments);
+		}
 		post.comments = post.comments ?? 1;
 	}
 </script>
@@ -194,7 +194,7 @@
 								modalStore.trigger(modalDelete);
 							}}
 						>
-							<Icon class="w-7 h-7 mr-2" icon="ic:baseline-delete"></Icon></button
+							<Icon class="w-7 h-7 mr-2" icon="clarity:trash-line"></Icon></button
 						>
 					{/if}
 				</div>
@@ -210,7 +210,7 @@
 								modalStore.trigger(modalDelete);
 							}}
 						>
-							<Icon class="w-7 h-7" icon="ic:baseline-delete"></Icon></button
+							<Icon class="w-7 h-7" icon="clarity:trash-line"></Icon></button
 						>
 					{/if}
 				</div>
@@ -282,14 +282,14 @@
 		<footer class="card-footer h-18 items-center pb-1 flex flex-col md:flex-row w-full">
 			<div class="flex flex-row float-left items-center justify-center w-[35%]">
 				<button disabled={isLoggedOut} on:click={handleLikeClick} title="like">
-					<Icon class="w-7 h-7 mr-1" icon="ph:heart-fill" color={post.liked ? 'red' : 'white'}
+					<Icon class="w-7 h-7 mr-1" icon="clarity:heart-solid" color={post.liked ? 'red' : 'white'}
 					></Icon>
 				</button>
 				<p class="mr-1" title="likeCount">{post.likes}</p>
 				{#if loginToken != '' && loginToken != undefined}
 					{#if post.repost == undefined || post.repost == null}
 						<button on:click={handleRepostClick} title="repost">
-							<Icon class="w-7 h-7 mr-1" icon="mdi:autorenew"></Icon>
+							<Icon class="w-7 h-7 mr-1" icon="clarity:repeat-line"></Icon>
 						</button>
 					{/if}
 					<button
@@ -300,7 +300,11 @@
 					>
 						{showNoComments
 							? $t('post.comments.buttonHideComments')
-							: post.comments + ' ' + (post.comments === 1 ? $t('post.comments.buttonShowComment') : $t('post.comments.buttonShowComments'))}</button
+							: post.comments +
+								' ' +
+								(post.comments === 1
+									? $t('post.comments.buttonShowComment')
+									: $t('post.comments.buttonShowComments'))}</button
 					>
 				{/if}
 			</div>
