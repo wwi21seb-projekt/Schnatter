@@ -114,7 +114,7 @@
 							}
 						}}
 						bind:value={initialMessage}
-						class="bg-transparent border-0 w-11/12"
+						class="bg-transparent border-0 w-full"
 						name="prompt"
 						id="prompt"
 						placeholder={$t('chat.placeholder.input')}
@@ -122,12 +122,17 @@
 						maxlength="256"
 						disabled={sendDisabled}
 					/>
-					<button class="variant-filled-primary w-1/12" disabled={sendDisabled}>
+					<button
+						class="variant-filled-primary w-10 p-0"
+						disabled={initialMessage == '' ? true : false}
+					>
 						<Icon
-							class="w-7 h-7 align-middle justify-center"
+							class="justify-center w-full  h-full m-0"
 							inline
-							style="color: antiquewhite"
-							icon="fluent:send-16-filled"
+							style="color: white"
+							icon={initialMessage == ''
+								? 'material-symbols-light:cancel-schedule-send'
+								: 'material-symbols-light:send'}
 						/>
 					</button>
 				</form>

@@ -184,7 +184,7 @@
 						>
 						{#if profileData.user.picture?.url || $newProfilePicture}
 							<button class="w-10 h-10" on:click={deleteImage}
-								><Icon class="w-10 h-10" icon="material-symbols-light:delete-outline" /></button
+								><Icon class="w-10 h-10" icon="clarity:trash-line" /></button
 							>
 						{/if}
 					{/if}
@@ -196,14 +196,14 @@
 					{#if usernameParams == undefined}
 						{#if editMode == true}
 							<button on:click={handleDetailSubmit} class=""
-								><Icon class="w-7 h-7" icon="material-symbols:save-outline"></Icon></button
+								><Icon class="w-7 h-7" icon="clarity:floppy-line"></Icon></button
 							>
 							<button on:click={changeEditMode} class="ml-2"
-								><Icon class="w-7 h-7" icon="material-symbols:cancel-outline"></Icon></button
+								><Icon class="w-7 h-7" icon="clarity:cancel-line"></Icon></button
 							>
 						{:else}
 							<button on:click={changeEditMode} class="">
-								<Icon class="w-7 h-7" icon="material-symbols:edit-outline"></Icon></button
+								<Icon class="w-7 h-7" icon="clarity:edit-line"></Icon></button
 							>
 						{/if}
 					{/if}
@@ -265,7 +265,7 @@
 					</a>
 					{#if usernameParams == undefined}
 						<button on:click={openChangePwdModal} class="ml-2"
-							><Icon class="w-10 h-10" icon="mdi:password-reset"></Icon></button
+							><Icon class="w-12 h-12" icon="material-symbols-light:lock-reset"></Icon></button
 						>
 					{/if}
 				</div>

@@ -74,8 +74,10 @@
 		if (username.length > 0) {
 			if (username.length < 25 && checkLatin1RegExp.test(username) && !checkSpace.test(username)) {
 				validateIconUsername = changeValidateIcon(true);
+				containsIllegalCharacters = false;
 			} else {
 				validateIconUsername = changeValidateIcon(false);
+
 				if (!checkLatin1RegExp.test(username)) {
 					containsIllegalCharacters = true;
 				}
@@ -209,7 +211,7 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={email}
-						iconString="ic:outline-email"
+						iconString="clarity:email-line"
 						placeholder="{$t('register.mail.header')}*"
 						type="text"
 						onInput={handleEmailInput}
@@ -224,7 +226,7 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={username}
-						iconString="mdi:account"
+						iconString="clarity:user-line"
 						placeholder="{$t('register.username.header')}*"
 						type="text"
 						onInput={handleUsernameInput}
@@ -260,7 +262,7 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={password}
-						iconString="mdi:lock-outline"
+						iconString="clarity:lock-line"
 						placeholder="{$t('register.password.header')}*"
 						onInput={handlePasswordInput}
 						validateIcon={validateIconPwd}
@@ -287,7 +289,7 @@
 				<div class="flex flex-col w-full m-auto mt-2">
 					<RegisterInput
 						value={repeatPassword}
-						iconString="mdi:lock-reset"
+						iconString="material-symbols-light:lock-reset"
 						placeholder="{$t('register.password.repeat')}*"
 						type="pwd"
 						onInput={handleRepeatPasswordInput}

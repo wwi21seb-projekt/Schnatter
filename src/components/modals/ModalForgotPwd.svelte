@@ -90,7 +90,7 @@
 	<h3 class="h3 mb-2">{$t('modalForgotPassword.header')}</h3>
 	<RegisterInput
 		value={username}
-		iconString="clarity:user-solid"
+		iconString="clarity:user-line"
 		placeholder="{$t('modalForgotPassword.username')}*"
 		type="text"
 		onInput={handleUsernameInput}
@@ -111,7 +111,7 @@
 		<div class="flex flex-col w-full m-auto mt-2">
 			<RegisterInput
 				value={tokenString}
-				iconString="mdi:account-key"
+				iconString="material-symbols-light:key-outline"
 				placeholder="{$t('modalForgotPassword.token')}*"
 				type="text"
 				onInput={handleTokenInput}
@@ -124,7 +124,7 @@
 		<div class="flex flex-col w-full m-auto mt-2">
 			<RegisterInput
 				value={passwordChange.newPassword}
-				iconString="mdi:lock-outline"
+				iconString="clarity:lock-line"
 				placeholder="{$t('modalChangePassword.newPassword')}*"
 				onInput={callHandlePasswordInput}
 				validateIcon={passwordChange.validateIconPwd}
@@ -151,7 +151,7 @@
 		<div class="flex flex-col w-full m-auto mt-2">
 			<RegisterInput
 				value={passwordChange.repeatNewPassword}
-				iconString="mdi:lock-reset"
+				iconString="material-symbols-light:lock-reset"
 				placeholder="{$t('modalChangePassword.newPasswordRepeat')}*"
 				type="pwd"
 				onInput={callHandleRepeatPasswordInput}
