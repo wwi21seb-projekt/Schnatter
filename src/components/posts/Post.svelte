@@ -158,7 +158,6 @@
 		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
 		if (post.comments != undefined) {
 			post.comments += 1;
-			console.log(post.comments);
 		}
 		post.comments = post.comments ?? 1;
 	}

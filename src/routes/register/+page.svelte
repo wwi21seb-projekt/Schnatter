@@ -78,9 +78,7 @@
 			} else {
 				validateIconUsername = changeValidateIcon(false);
 
-				console.log('contains illrs');
 				if (!checkLatin1RegExp.test(username)) {
-					console.log('contains illegal characters');
 					containsIllegalCharacters = true;
 				}
 			}
