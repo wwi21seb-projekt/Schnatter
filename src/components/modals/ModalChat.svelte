@@ -246,12 +246,12 @@
 						disabled={messageDisabeled}
 					/>
 					<button
-						class="variant-filled-primary w-10 p-0"
+						class="variant-filled-primary w-14"
 						disabled={currentMessage == '' ? true : false}
 						on:click={sendMessage}
 					>
 						<Icon
-							class="justify-center w-full  h-full m-0"
+							class="justify-center w-full h-full"
 							inline
 							style="color: white"
 							icon={currentMessage == ''
