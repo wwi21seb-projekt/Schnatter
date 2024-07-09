@@ -123,11 +123,11 @@
 						disabled={sendDisabled}
 					/>
 					<button
-						class="variant-filled-primary w-10 p-0"
+						class="variant-filled-primary w-14"
 						disabled={initialMessage == '' ? true : false}
 					>
 						<Icon
-							class="justify-center w-full  h-full m-0"
+							class="justify-center w-full  h-full"
 							inline
 							style="color: white"
 							icon={initialMessage == ''
