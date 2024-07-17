@@ -12,6 +12,7 @@ import { deletePrefixFromBase64 } from './Pictures';
 let statusCode: number = 0;
 
 export async function sendPost(text: string, repostId: string, picture: string) {
+	//Enter the coordinates to determine the location, if they are specified
 	const geoLocationData = await getLocation();
 	validateCoords(geoLocationData);
 	const bodyData: RequestBodyData = {
@@ -128,6 +129,7 @@ export function likeCounter(post: PostStructure, toastStore: ToastStore) {
 
 export function checkForHashtags(post: PostStructure) {
 	const text = post.content;
+	//the text is separated into individual parts at each space and Enter
 	const words = text.split(/(\s+)/);
 	let wordId: number = 0;
 	let newPost: TextColorPost[] = [
@@ -140,6 +142,8 @@ export function checkForHashtags(post: PostStructure) {
 
 	if (words !== null) {
 		newPost = words.map((word: string) => {
+			//all parts of the text are checked to see if they begin with a #,
+			//if this is the case they are colored blue
 			let hashtagClass: string = '';
 			if (word.startsWith('#')) {
 				hashtagClass = 'text-blue-600';

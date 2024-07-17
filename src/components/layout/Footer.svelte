@@ -4,6 +4,7 @@
 	import { t } from '../../i18n';
 </script>
 
+<!--footer component that can be seen on every page-->
 <AppBar>
 	<svelte:fragment slot="lead">
 		<img

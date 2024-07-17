@@ -10,10 +10,11 @@
 		language = get(locale);
 	});
 
-	function changelangunage() {
-		locale.set((document.getElementById('Langauge') as HTMLSelectElement).value);
+	function changeLanguage() {
+		locale.set((document.getElementById('Language') as HTMLSelectElement).value);
 	}
 	function changeServer() {
+		//every user can change the backend server when logged out
 		serverURL.set((document.getElementById('Server') as HTMLSelectElement).value);
 		window.location.reload();
 	}
@@ -21,7 +22,7 @@
 
 <main class="flex flex-col justify-center p-2">
 	<h5 class="h5 my-1">{$t('settings.header')}</h5>
-	<select value={language} on:input={changelangunage} class="select" name="Langauge" id="Langauge">
+	<select value={language} on:input={changeLanguage} class="select" name="Language" id="Language">
 		<option value="en">{$t('settings.language.en')}</option>
 		<option value="de">{$t('settings.language.de')}</option>
 	</select>

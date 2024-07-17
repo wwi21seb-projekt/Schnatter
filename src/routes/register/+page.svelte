@@ -20,6 +20,7 @@
 	let nickname = '';
 	let password = '';
 	let repeatPassword = '';
+	//Definition of all variables for checking the inputs
 	let validateIconEmail = '';
 	let validateIconUsername = '';
 	let validateIconNickname = '';
@@ -37,6 +38,7 @@
 	let hasPwdSpecailCharacter: boolean;
 	let isEmailValid: boolean;
 	let containsIllegalCharacters: boolean;
+	//regex to check if the username has only allowed characters
 	const checkLatin1RegExp = /^[a-zA-Z0-9.,_\-@]+$/;
 	const checkSpace = /\s/;
 
@@ -101,6 +103,7 @@
 	function handlePasswordInput(event: Event) {
 		password = (event.target as HTMLInputElement).value;
 		if (password.length != 0) {
+			//check with regex of all required characters in the password
 			hasPwdCapitalLetter = /[A-Z]/.test(password);
 			hasPwdSmallLetter = /[a-z]/.test(password);
 			hasPwdNumber = /\d/.test(password);
@@ -193,6 +196,7 @@
 		} else if (statusCode == 201) {
 			registerUsername.set(username);
 			newProfilePicture.set(undefined);
+			//if the request was successful you are automatically directed to the Verify page to enter the code received
 			goto('/verify');
 		}
 	}
@@ -320,6 +324,7 @@
 						></a
 					>
 					<div class={$modalHiddenCss}>
+						<!--you can only submit the inputs if all checks were successful-->
 						<button
 							disabled={!areAllInputsCorrect}
 							class="btn variant-filled-primary ml-2"

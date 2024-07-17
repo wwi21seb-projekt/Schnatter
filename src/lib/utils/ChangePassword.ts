@@ -6,6 +6,7 @@ import { serverURL, token } from '$lib/Store';
 export async function handlePasswordInput(event: Event, passwordChange: PasswordChange) {
 	passwordChange.newPassword = (event.target as HTMLInputElement).value;
 	if (passwordChange.newPassword.length != 0) {
+		//Check whether the password meets the requirements, with regex
 		passwordChange.hasPwdCapitalLetter = /[A-Z]/.test(passwordChange.newPassword);
 		passwordChange.hasPwdSmallLetter = /[a-z]/.test(passwordChange.newPassword);
 		passwordChange.hasPwdNumber = /\d/.test(passwordChange.newPassword);

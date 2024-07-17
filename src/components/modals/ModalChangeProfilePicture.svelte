@@ -16,6 +16,7 @@
 	let imageElement: HTMLImageElement | null = null;
 
 	function handleFileChange(event: Event) {
+		//new image is received and saved in the url
 		const input = event.target as HTMLInputElement;
 		const file = input.files ? input.files[0] : null;
 		if (file) {
@@ -26,7 +27,7 @@
 			reader.readAsDataURL(file);
 		}
 	}
-	// get croped profile picture
+	// get cropped profile picture
 	afterUpdate(() => {
 		if (imageElement && imageDataUrl) {
 			if (cropper) {

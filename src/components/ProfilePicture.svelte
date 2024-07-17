@@ -12,5 +12,6 @@
 {:else if src}
 	<Avatar class={cssClass} {src} alt="profile Picture" />
 {:else}
+	<!--if there is no set profile picture, the initials of the user are set-->
 	<Avatar class={cssClass} initials={getInitalsFromUsername(username)} />
 {/if}

@@ -52,7 +52,7 @@
 			if (response == 204) {
 				toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
 			} else {
-				toastStore.trigger(createToast($t('toast.pwdNotReset'), 'warni	'));
+				toastStore.trigger(createToast($t('toast.pwdNotReset'), 'warning'));
 			}
 		}
 	};
@@ -82,6 +82,7 @@
 
 	onMount(async () => {
 		manageSession();
+		//Check whether you are on your own profile page or on another user's page
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 
@@ -118,6 +119,7 @@
 			get(newProfilePicture)
 		);
 		if (status == 200) {
+			//if the request was successful, the data is set and the page is reloaded for updating
 			editMode = false;
 			toastStore.trigger(createToast($t('profile.userDetails.changed'), 'success'));
 			newProfilePicture.set(undefined);
@@ -177,6 +179,7 @@
 					cssClass="w-full max-h-[20vh] aspect-square isolation-auto"
 				/>
 				<div class="flex justify-center m-1">
+					<!--Edit mode only displayed for own profile-->
 					{#if editMode}
 						<button
 							class="variant-filled-primary rounded-sm p-1"

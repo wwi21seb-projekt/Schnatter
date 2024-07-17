@@ -7,6 +7,7 @@
 
 <main class="flex flex-col items-center">
 	{#each feedData.records as postData (postData.postId)}
+		<!--The post is created for each record-->
 		<Post bind:postData currentUsername={postData.author?.username} />
 	{/each}
 </main>

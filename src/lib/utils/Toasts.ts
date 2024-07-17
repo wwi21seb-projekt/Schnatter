@@ -13,6 +13,7 @@ export function createToast(message: string, background: string) {
 }
 
 export function createNotificationToast(payload: unknown) {
+	//all notifications are checked for their content and based on this there are the toast displays for the users
 	const notifications = payload as NotificationEntity;
 	let message = '';
 	switch (notifications.notificationType) {

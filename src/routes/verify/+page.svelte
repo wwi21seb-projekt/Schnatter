@@ -48,6 +48,7 @@
 			toastStore.trigger(createToast($t('toast.send.email'), 'success'));
 		}
 	}
+	//Check if length is 6, otherwise you are not allowed to submit
 	$: formCorrectCode = verifyInput.length == 6;
 </script>
 

@@ -48,6 +48,7 @@
 		modalStore.trigger(modalChat);
 	}
 	async function startChat() {
+		//when a new chat is created, the new modal is closed and the normal chat modal is displayed again
 		await createChat(userNewChat, initialMessage);
 		modalStore.close();
 		modalStore.trigger(modalChat);

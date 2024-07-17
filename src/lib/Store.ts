@@ -18,6 +18,7 @@ export const refreshToken = persisted('refreshToken', '');
 export const globalUsername = persisted('globalUsername', '');
 
 // chat
+//persisted, because the last opened chat is displayed directly when the chat window is opened
 export const chatIdNewChat = persisted('chatIdNewChat', '' as UUID);
 
 // notifications

@@ -9,10 +9,12 @@
 	import { fetchPosts } from '../lib/utils/FeedPosts';
 	import { t } from '../i18n';
 	import { manageSession } from '$lib/utils/Session';
+	//depending on whether you are logged in or not, there are different tailwind classes
 	const loggedIn = 'flex justify-start md:justify-center flex-col mt-[90px]';
 	const notLoggedIn = 'flex md:flex-row-reverse justify-start md:justify-center flex-col mt-[90px]';
 
 	let slotLimit = 10;
+	//general default setting is the display of global feed
 	let feedType = 'global';
 	let feedData: FeedStructure = {
 		records: [],
@@ -28,10 +30,13 @@
 	let result;
 
 	onMount(async () => {
+		//connected to Breta-Server by default
+		//but can also be changed later by the user
 		if (get(serverURL) === '') {
 			serverURL.set('https://server-beta.de/api');
 		}
 		manageSession();
+		//Check whether you are logged in, then feed depending on type
 		if (loginToken !== '') {
 			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);
 			feedData = result.feedData;
