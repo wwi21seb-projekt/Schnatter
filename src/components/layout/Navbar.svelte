@@ -104,8 +104,10 @@
 	}
 </script>
 
+<!--header components that can be seen on every page-->
 <AppBar zIndex="9" class="fixed top-0 left-0 right-0">
 	<svelte:fragment slot="lead">
+		<!--on the respective icon is always the redirection to the page-->
 		<div style="gap: 1rem; display: flex; align-items: center;">
 			<a href="/" on:click={play} on:keyup={play}>
 				<img class="w-11 h-11" src="/Schnatter_Logo.webp" alt="Schnatter Logo Header" />
@@ -119,6 +121,7 @@
 				<Icon class="w-10 h-10" icon="clarity:home-line" />
 			</a>
 			{#if loginToken != ''}
+				<!--some functions are only displayed when you are logged in-->
 				<a href="/search/users" data-sveltekit-preload-data="hover" title={$t('navbar.search')}>
 					<Icon class="w-10 h-10" icon="clarity:search-line" />
 				</a>

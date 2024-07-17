@@ -8,6 +8,7 @@ export async function getLocation() {
 		longitude: 0,
 		accuracy: 0
 	};
+	//Read out your current position to obtain coordinates
 	const position: GeolocationPosition = await new Promise((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(resolve, reject);
 	});
@@ -19,8 +20,10 @@ export async function getLocation() {
 
 export async function getLocationCity(coordsLocation: GeoLocationCoords) {
 	validateCoords(coordsLocation);
+	//Call the API via which we carry out location determination
 	const url = 'https://api-bdc.net/data/reverse-geocode-client';
 	let locationString;
+	//Transfer of own coordinates to determine the location
 	const params = new URLSearchParams({
 		latitude: coordsLocation.latitude.toString(),
 		longitude: coordsLocation.longitude.toString(),
@@ -42,6 +45,7 @@ export async function getLocationCity(coordsLocation: GeoLocationCoords) {
 }
 
 export function validateCoords(geoLocation: GeoLocationCoords) {
+	//check whether it can be real coordinate values to prevent errors
 	if (geoLocation.latitude > 90 || geoLocation.latitude < -90) {
 		throw new Error('Invalid latitude');
 	}

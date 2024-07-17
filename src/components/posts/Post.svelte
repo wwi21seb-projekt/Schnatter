@@ -100,7 +100,7 @@
 		if (post.location) {
 			locationString = await getLocationCity(post.location);
 		}
-
+		//Conversion of the date so that it is displayed in a nicer format
 		const dateConverted: Date = new Date(post.creationDate);
 		postDate = dateConverted.toLocaleDateString();
 		checkDeleteOption();
@@ -297,6 +297,7 @@
 						class="ml-2 btn btn-sm border-solid border-2"
 						on:click={setShowButton}
 					>
+						<!--Display whether and how many comments there are-->
 						{showNoComments
 							? $t('post.comments.buttonHideComments')
 							: post.comments +

@@ -49,9 +49,11 @@
 	let copieChats = Object.assign({}, dataChats);
 
 	onMount(async () => {
+		//all existing chats are loaded when the modal is opened
 		dataChats = await getChats();
 		chats.set(dataChats);
 		copieChats = Object.assign({}, dataChats);
+		//Last open chat is displayed
 		if ($chatIdNewChat) {
 			openChat($chatIdNewChat);
 		}
@@ -65,6 +67,7 @@
 	}
 
 	async function openChat(chatId: UUID) {
+		//Existing WebSocket is closed
 		if (socket) {
 			socket.close();
 		}
@@ -77,10 +80,12 @@
 			pathArray[0] = 'wss';
 		}
 		const hostURL = pathArray[0] + ':' + pathArray[1];
+		//new websocket is created, call via the host url and with the respective chatId
 		socket = new WebSocket(hostURL + '/chat?chatId=' + chatId, get(token));
+		//An event listener is created to directly display new incoming messages
 		socket.addEventListener('message', (event: MessageEvent) => {
-			const respone = JSON.parse(event.data);
-			messages = [...messages, respone];
+			const response = JSON.parse(event.data);
+			messages = [...messages, response];
 			// sort messages by date
 			messages = messages.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		});
@@ -90,6 +95,7 @@
 
 		messageDisabeled = false;
 		dataMessages = await getMessages(chatId, 10, 0);
+		// sort messages by date
 		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		messages = dataMessages.records;
 		const button = document.getElementById(chatId);
@@ -103,6 +109,7 @@
 	}
 
 	function sendMessage() {
+		//message is sent when the websocket is ready to receive and there is a message available
 		if (socket && socket.readyState === WebSocket.OPEN && currentMessage) {
 			socket.send(JSON.stringify({ content: currentMessage }));
 			currentMessage = '';
@@ -145,7 +152,7 @@
 		</button>
 	</header>
 	<div class="flex flex-row h-[93%]">
-		<!-- linke Spalte -->
+		<!-- left column -->
 		<div class="h-full flex flex-col border-r border-surface-500/30">
 			<div class=" p-4 h-1/6 border-y border-surface-500/30">
 				<input
@@ -174,19 +181,16 @@
 							>
 						</li>
 					{/each}
-
-					<!-- ... -->
 				</ul>
 			</div>
 		</div>
-		<!-- rechte Spalte -->
+		<!-- right column -->
 		<div class=" flex flex-col w-3/4 h-full justify-between">
 			{#if highlightedButton != ''}
 				<section
 					class="w-full h-full flex flex-col-reverse p-2 overflow-y-scroll border-t border-surface-500/30"
 				>
 					{#each messages as message}
-						<!-- {#if message.username === get(globalUsername)} -->
 						{#if message.username === $globalUsername}
 							<div class="flex float-end justify-end mt-2">
 								<div

@@ -51,6 +51,7 @@
 			<p class="text-center">{$t('followers.user.emptyList')}</p>
 		{:else}
 			<div class="md:w-[40vw] w-[85vw]">
+				<!--insert an outsourced component-->
 				<SubscriptionList subscriptionData={followingData} />
 			</div>
 		{/if}

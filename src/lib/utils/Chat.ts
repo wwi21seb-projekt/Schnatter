@@ -56,5 +56,6 @@ export async function createChat(username: string, content: string) {
 		throw new Error('Failed to create chat');
 	}
 	const newChat = (await response.json()) as CreateChat;
+	//set the chatIdNewChat in the Store.ts
 	chatIdNewChat.set(newChat.chatId);
 }

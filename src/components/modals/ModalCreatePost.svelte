@@ -16,6 +16,7 @@
 	let text: string = '';
 	let repostId = '';
 
+	//for displaying in the post selection whether text or image post
 	const highlightedButton = 'p-2 variant-filled-secondary';
 	const notHighlightedButton = 'p-2';
 	let buttonTextCss = highlightedButton;
@@ -36,6 +37,7 @@
 		modalStore.close();
 	}
 	function clickText() {
+		//function to color the selection options, here is the text button
 		if (!textClick) {
 			textClick = true;
 		}
@@ -45,6 +47,7 @@
 	}
 
 	function clickImage() {
+		//function to color the selection options, here is the image button
 		if (!imageClick) {
 			imageClick = true;
 		}
@@ -65,7 +68,9 @@
 
 	function onChangePicture(imageUploaded: Blob) {
 		pictureSet = true;
+		//A filereader is created that receives the uploaded images
 		let reader = new FileReader();
+		//uploaded image is saved
 		reader.readAsDataURL(imageUploaded);
 		reader.onload = (e) => {
 			selectedImage = e.target?.result;
