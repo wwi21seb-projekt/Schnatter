@@ -15,6 +15,7 @@
 	import ModalNewChat from '../components/modals/ModalNewChat.svelte';
 	import ModalChangeProfilePicture from '../components/modals/ModalChangeProfilePicture.svelte';
 	initializeStores();
+	//Assignment of the individual modals to the modal registry
 	const modalRegistry: Record<string, ModalComponent> = {
 		modalCreatePost: { ref: ModalCreatePost },
 		modalChat: { ref: ModalChat },
@@ -23,8 +24,10 @@
 	};
 </script>
 
+<!--General layout of the pages-->
 <Toast zIndex="10" />
 <Modal zIndex="8" components={modalRegistry} />
+<!--Fixed layout: navbar at the top, then main content and footer at the bottom for each page-->
 <AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
 	<slot />

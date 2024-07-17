@@ -26,6 +26,7 @@
 
 	async function handleHashtagInput(event: Event) {
 		let hashtagInput = (event.target as HTMLInputElement).value;
+		//Hashtag is removed, so it doesn't matter how the search term is entered
 		if (hashtagInput.startsWith('#')) {
 			hashtagInput = hashtagInput.substring(1);
 		}

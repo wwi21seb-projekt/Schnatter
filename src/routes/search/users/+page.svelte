@@ -20,6 +20,7 @@
 	});
 
 	async function handleUsernameInput(event: Event) {
+		//entered user name is updated and searched with each new input, always current matching results
 		usernameInput = (event.target as HTMLInputElement).value;
 		if (usernameInput.length > 0) {
 			const usersRequest: UsersForSearch | undefined = await userSearch(usernameInput, toastStore);
