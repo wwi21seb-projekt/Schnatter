@@ -17,6 +17,7 @@ export function handleRequestError(
 	toastStore: ToastStore,
 	resourceType: string | undefined
 ) {
+	toastStore.clear();
 	switch (status) {
 		case 401:
 			unauthorizedError(toastStore);

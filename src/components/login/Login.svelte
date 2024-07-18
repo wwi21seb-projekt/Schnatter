@@ -90,11 +90,8 @@
 				</div>
 
 				<div class="flex flex-row mt-3 justify-center text-center">
-					<button
-						on:click={handleSubmit}
-						disabled={!allInputFieldsFilled}
-						class="btn variant-filled-primary"
-						type="submit">{$t('login.submit.btn')}</button
+					<button disabled={!allInputFieldsFilled} class="btn variant-filled-primary" type="submit"
+						>{$t('login.submit.btn')}</button
 					>
 				</div>
 			</form>
