@@ -62,26 +62,18 @@
 	$: tokenSent = tokenSent;
 
 	async function callHandleSubmit() {
-		const statusCode = await handleForgotSubmit(username, tokenString, passwordChange);
+		const statusCode = await handleForgotSubmit(username, tokenString, passwordChange, toastStore);
 		if (statusCode == 204) {
 			toastStore.trigger(createToast($t('toast.pwdReset'), 'success'));
 			modalStore.close();
-		} else if (statusCode == 400) {
-			toastStore.trigger(createToast($t('toast.userNotFound'), 'error'));
-		} else if (statusCode == 403) {
-			toastStore.trigger(createToast($t('toast.tokenInvalid'), 'error'));
-		} else {
-			toastStore.trigger(createToast($t('toast.sometingWrong'), 'error'));
 		}
 	}
 
 	async function handleSendToken() {
-		const statusCode = await sendToken(username);
+		const statusCode = await sendToken(username, toastStore);
 		if (statusCode == 200) {
 			toastStore.trigger(createToast($t('toast.tokenSent'), 'success'));
 			tokenSent = true;
-		} else if (statusCode == 404) {
-			toastStore.trigger(createToast($t('toast.userNotFound'), 'error'));
 		}
 	}
 </script>

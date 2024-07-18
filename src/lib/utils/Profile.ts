@@ -1,11 +1,13 @@
 import { serverURL } from '$lib/Store';
-import type { CustomError } from '$lib/types/CustomError';
 import type { UserPostFetchResponse } from '$lib/types/Post';
 import type { User } from '$lib/types/User';
 import { deletePrefixFromBase64 } from '$lib/utils/Pictures';
 import { get } from 'svelte/store';
+import { handleRequestError } from './ErrorHandling';
+import type { ToastStore } from '@skeletonlabs/skeleton';
+import { t } from '../../i18n';
 
-export async function getProfileDetails(token: string, username: string) {
+export async function getProfileDetails(token: string, username: string, toastStore: ToastStore) {
 	let statusCode: number = 0;
 	let user: User = {
 		username: 'not Found',
@@ -25,11 +27,14 @@ export async function getProfileDetails(token: string, username: string) {
 			Authorization: 'Bearer ' + token
 		}
 	});
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	user = await response.json();
 	statusCode = await response.status;
 	return { user: user, statusCode: statusCode };
 }
-export async function getProfilePosts(token: string, username: string) {
+export async function getProfilePosts(token: string, username: string, toastStore: ToastStore) {
 	const params = new URLSearchParams({ offset: '0', limit: '10' });
 	const response = await fetch(`${get(serverURL)}/users/${username}/feed?${params}`, {
 		method: 'GET',
@@ -39,6 +44,9 @@ export async function getProfilePosts(token: string, username: string) {
 			Authorization: 'Bearer ' + token
 		}
 	});
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	const posts: UserPostFetchResponse = await response.json();
 	posts.statusCode = await response.status;
 
@@ -49,7 +57,8 @@ export async function updateUserDetails(
 	token: string,
 	userStatus: string,
 	nickname: string,
-	pictureUrl: string | undefined
+	pictureUrl: string | undefined,
+	toastStore: ToastStore
 ) {
 	let body = {};
 	if (pictureUrl === undefined) {
@@ -80,10 +89,17 @@ export async function updateUserDetails(
 		},
 		body: JSON.stringify(body)
 	});
-
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	return response.status;
 }
-export async function loadPosts(token: string, postData: UserPostFetchResponse, username: string) {
+export async function loadPosts(
+	token: string,
+	postData: UserPostFetchResponse,
+	username: string,
+	toastStore: ToastStore
+) {
 	const params = new URLSearchParams({
 		offset: postData.records.length.toString(),
 		limit: '10'
@@ -97,21 +113,18 @@ export async function loadPosts(token: string, postData: UserPostFetchResponse, 
 			Authorization: 'Bearer ' + token
 		}
 	});
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	const posts: UserPostFetchResponse = await response.json();
 	postData.pagination = posts.pagination;
 	if (posts.records !== null) {
 		postData.records = postData.records.concat(posts.records);
 	}
-	posts.statusCode = await response.status;
-
 	return postData;
 }
 
-export async function followUser(token: string, following: string) {
-	let customError: CustomError = {
-		code: '',
-		message: ''
-	};
+export async function followUser(token: string, following: string, toastStore: ToastStore) {
 	const response = await fetch(`${get(serverURL)}/subscriptions`, {
 		method: 'POST',
 		mode: 'cors',
@@ -123,21 +136,14 @@ export async function followUser(token: string, following: string) {
 			following: following
 		})
 	});
-	if (response.status !== 201 && response.status !== 500) {
-		const body = await response.json();
-		customError = body.error;
-		return { customError: customError, status: response.status };
+	if (response.status !== 201) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
 	}
 
 	return { response: await response.json(), status: response.status };
 }
 
-export async function unfollowUser(token: string, subscriptionId: string) {
-	let customError: CustomError = {
-		code: '',
-		message: ''
-	};
-
+export async function unfollowUser(token: string, subscriptionId: string, toastStore: ToastStore) {
 	const response = await fetch(`${get(serverURL)}/subscriptions/${subscriptionId}`, {
 		method: 'DELETE',
 		mode: 'cors',
@@ -146,12 +152,13 @@ export async function unfollowUser(token: string, subscriptionId: string) {
 			Authorization: 'Bearer ' + token
 		}
 	});
-	if (response.status !== 204 && response.status !== 500) {
-		const body = await response.json();
-		customError = body.error;
-
-		return { customError: customError, status: response.status };
+	if (response.status !== 204) {
+		handleRequestError(
+			response.status,
+			toastStore,
+			get(t)('requestError.resourceType.subscription')
+		);
 	}
 
-	return { status: response.status };
+	return response.status;
 }

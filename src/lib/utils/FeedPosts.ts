@@ -13,7 +13,13 @@ export async function fetchPosts(
 	feedType?: string
 ) {
 	try {
-		const response = await getFeed(token, limit, feedData.pagination.lastPostId, feedType);
+		const response = await getFeed(
+			token,
+			limit,
+			feedData.pagination.lastPostId,
+			toastStore,
+			feedType
+		);
 
 		if (response.status === 200 && response.data) {
 			if (response.data.records.length !== 0) {
@@ -21,9 +27,6 @@ export async function fetchPosts(
 				feedData.pagination.lastPostId = response.data.pagination.lastPostId;
 				feedData.pagination.records = response.data.pagination.records;
 			}
-		} else if (response.status !== 200 && response.status !== 500 && response.customError) {
-			toastStore.clear();
-			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}
 	} catch (error) {
 		toastStore.clear();

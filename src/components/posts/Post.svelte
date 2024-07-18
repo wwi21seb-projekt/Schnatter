@@ -147,15 +147,15 @@
 	async function setShowButton() {
 		showNoComments = !showNoComments;
 		if (showNoComments) {
-			commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+			commentData = (await fetchComments(limit, postData.postId, offset, toastStore)) as Comments;
 		}
 	}
 
 	async function commentSendButton() {
-		sendComment(post.postId, commentText);
+		sendComment(post.postId, commentText, toastStore);
 		commentText = '';
 
-		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+		commentData = (await fetchComments(limit, postData.postId, offset, toastStore)) as Comments;
 		if (post.comments != undefined) {
 			post.comments += 1;
 		}

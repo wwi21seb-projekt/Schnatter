@@ -2,8 +2,11 @@ import { chatIdNewChat, serverURL, token } from '$lib/Store';
 import type { ChatMessages, ChatStructure, CreateChat } from '$lib/types/Chat';
 import type { UUID } from 'crypto';
 import { get } from 'svelte/store';
+import { handleRequestError } from './ErrorHandling';
+import type { ToastStore } from '@skeletonlabs/skeleton';
+import { t } from '../../i18n';
 
-export async function getChats(): Promise<ChatStructure> {
+export async function getChats(toastStore: ToastStore): Promise<ChatStructure> {
 	const response = await fetch(`${get(serverURL)}/chats`, {
 		method: 'GET',
 		headers: {
@@ -12,7 +15,7 @@ export async function getChats(): Promise<ChatStructure> {
 		}
 	});
 	if (!response.ok) {
-		throw new Error('Failed to fetch chats');
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.chat'));
 	}
 	const data: ChatStructure = (await response.json()) as ChatStructure;
 	return data;
@@ -21,7 +24,8 @@ export async function getChats(): Promise<ChatStructure> {
 export async function getMessages(
 	chatId: UUID,
 	limit: number,
-	offset: number
+	offset: number,
+	toastStore: ToastStore
 ): Promise<ChatMessages> {
 	const params = new URLSearchParams([
 		['limit', limit.toString()],
@@ -35,12 +39,12 @@ export async function getMessages(
 		}
 	});
 	if (!response.ok) {
-		throw new Error('Faild to fetch messages');
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.chat'));
 	}
 	return (await response.json()) as ChatMessages;
 }
 
-export async function createChat(username: string, content: string) {
+export async function createChat(username: string, content: string, toastStore: ToastStore) {
 	const response = await fetch(`${get(serverURL)}/chats`, {
 		method: 'POST',
 		headers: {
@@ -53,7 +57,7 @@ export async function createChat(username: string, content: string) {
 		})
 	});
 	if (!response.ok) {
-		throw new Error('Failed to create chat');
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.chat'));
 	}
 	const newChat = (await response.json()) as CreateChat;
 	//set the chatIdNewChat in the Store.ts

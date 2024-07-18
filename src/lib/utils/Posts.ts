@@ -1,17 +1,21 @@
 import type { TextColorPost, PostStructure, RequestBodyData } from '../types/Post';
 import { serverURL, token } from '$lib/Store';
-import type { CustomError } from '../types/CustomError';
-import { createToast } from '$lib/utils/Toasts';
 import { t } from '../../i18n';
 import { get } from 'svelte/store';
 import type { UUID } from 'crypto';
 import { getLocation, validateCoords } from './GeoLocationUtils';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 import { deletePrefixFromBase64 } from './Pictures';
+import { handleRequestError } from './ErrorHandling';
 
 let statusCode: number = 0;
 
-export async function sendPost(text: string, repostId: string, picture: string) {
+export async function sendPost(
+	text: string,
+	repostId: string,
+	picture: string,
+	toastStore: ToastStore
+) {
 	//Enter the coordinates to determine the location, if they are specified
 	const geoLocationData = await getLocation();
 	validateCoords(geoLocationData);
@@ -37,82 +41,47 @@ export async function sendPost(text: string, repostId: string, picture: string) 
 		},
 		body: JSON.stringify(bodyData)
 	});
+	handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
 	return response.status;
 }
 
 export async function deletePost(postId: string, toastStore: ToastStore) {
-	let customError: CustomError = {
-		message: '',
-		code: ''
-	};
-
-	try {
-		const response = await fetch(`${get(serverURL)}/posts/${postId}`, {
-			method: 'DELETE',
-			mode: 'cors',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + get(token)
-			}
-		});
-		statusCode = response.status;
-		if (statusCode !== 204) {
-			const body = await response.json();
-			customError = body.error;
+	const response = await fetch(`${get(serverURL)}/posts/${postId}`, {
+		method: 'DELETE',
+		mode: 'cors',
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: 'Bearer ' + get(token)
 		}
-	} catch (error) {
-		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
-	}
-	if (statusCode !== 204 && statusCode !== 500) {
-		toastStore.trigger(createToast(customError.message, 'error'));
-	} else if (statusCode == 204) {
-		window.location.reload();
+	});
+	statusCode = response.status;
+	if (statusCode !== 204) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.post'));
+	} else {
+		location.reload();
 	}
 }
 
 export async function createLike(postId: UUID, toastStore: ToastStore) {
-	let customError: CustomError = {
-		message: '',
-		code: ''
-	};
-	try {
-		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
-		});
-		statusCode = response.status;
-		if (statusCode !== 204) {
-			const body = await response.json();
-			customError = body.error;
-		}
-	} catch (error) {
-		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
-	}
-	if (statusCode !== 204 && statusCode !== 500) {
-		toastStore.trigger(createToast(customError.message, 'error'));
+	const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
+	});
+	statusCode = response.status;
+	if (statusCode !== 204) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.post'));
 	}
 }
 
 export async function deleteLike(postId: UUID, toastStore: ToastStore) {
-	let customError: CustomError = {
-		message: '',
-		code: ''
-	};
-	try {
-		const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
-			method: 'DELETE',
-			headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
-		});
-		statusCode = response.status;
-		if (statusCode !== 204) {
-			const body = await response.json();
-			customError = body.error;
-		}
-	} catch (error) {
-		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
-	}
-	if (statusCode !== 204 && statusCode !== 500) {
-		toastStore.trigger(createToast(customError.message, 'error'));
+	const response = await fetch(`${get(serverURL)}/posts/${postId}/likes`, {
+		method: 'DELETE',
+		headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + get(token) }
+	});
+	statusCode = response.status;
+
+	if (statusCode !== 204) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.post'));
 	}
 }
 

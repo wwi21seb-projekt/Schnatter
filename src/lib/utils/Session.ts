@@ -3,8 +3,12 @@ import { refreshToken, serverURL, token } from '$lib/Store';
 import type { NewToken, TokenStructure } from '$lib/types/Token';
 import { jwtDecode } from 'jwt-decode';
 import { get } from 'svelte/store';
+import { logout } from './Logout';
+import { handleRequestError } from './ErrorHandling';
+import { t } from '../../i18n';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 
-export async function refreshTokenFetch(refreshToken: string) {
+export async function refreshTokenFetch(refreshToken: string, toastStore: ToastStore) {
 	let newTokens: NewToken = {
 		token: '',
 		refreshToken: ''
@@ -21,11 +25,11 @@ export async function refreshTokenFetch(refreshToken: string) {
 	if (response.status == 200) {
 		newTokens = (await response.json()) as NewToken;
 	}
-
+	handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
 	return newTokens;
 }
 
-export async function manageSession() {
+export async function manageSession(toastStore: ToastStore) {
 	const date = new Date();
 	if (get(token)) {
 		const tokenData = decodeToken(get(token));
@@ -34,19 +38,15 @@ export async function manageSession() {
 			const refreshTokenData = decodeToken(get(refreshToken));
 			const refreshTokenDate = new Date(Number(refreshTokenData.exp) * 1000);
 			if (refreshTokenDate < date) {
-				token.set('');
-				refreshToken.set('');
-				window.location.reload();
+				logout();
 			} else {
-				const newTokens: NewToken = await refreshTokenFetch(get(refreshToken));
+				const newTokens: NewToken = await refreshTokenFetch(get(refreshToken), toastStore);
 				if (newTokens.token !== '' && newTokens.refreshToken !== '') {
 					token.set(newTokens.token);
 					refreshToken.set(newTokens.refreshToken);
-					window.location.reload();
+					location.reload();
 				} else {
-					token.set('');
-					refreshToken.set('');
-					window.location.reload();
+					logout();
 				}
 			}
 		}

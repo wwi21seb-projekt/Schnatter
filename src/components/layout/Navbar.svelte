@@ -11,18 +11,12 @@
 	} from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import { get } from 'svelte/store';
-	import {
-		globalUsername,
-		notificationCount,
-		notificationList,
-		profilePicture,
-		refreshToken,
-		token
-	} from '$lib/Store';
+	import { notificationCount, notificationList, token } from '$lib/Store';
 	import { t } from '../../i18n';
 	import Settings from '../popups/Settings.svelte';
 	import Notifications from '../popups/Notifications.svelte';
 	import { createNotificationToast } from '$lib/utils/Toasts';
+	import { logout } from '$lib/utils/Logout';
 	const loginToken = get(token);
 
 	const modalStore = getModalStore();
@@ -56,12 +50,7 @@
 	};
 
 	function handleLogout() {
-		token.set('');
-		refreshToken.set('');
-		globalUsername.set('');
-		profilePicture.set('');
-		notificationList.set({ records: [] });
-		location.reload();
+		logout();
 	}
 	function openModalPost() {
 		modalStore.trigger(modalPost);

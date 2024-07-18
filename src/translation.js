@@ -187,7 +187,25 @@ export default {
 		'about.projekt.svelte':
 			'The project was developed with the Svelte framework. Skeleton UI with Tailwind.css was used for the styling.',
 		'about.projekt.tests': 'Playwright was used for the tests',
-		'about.projekt.moreInformations': 'You can find all further information in the following video:'
+		'about.projekt.moreInformations':
+			'You can find all further information in the following video:',
+		'requestError.resourceType.user': 'User',
+		'requestError.resourceType.post': 'Post',
+		'requestError.resourceType.comment': 'Comment',
+		'requestError.resourceType.chat': 'Chat',
+		'requestError.resourceType.message': 'Message',
+		'requestError.resourceType.notification': 'Notification',
+		'requestError.resourceType.profile': 'Profile',
+		'requestError.resourceType.notFound': 'not found',
+		'requestError.resourceType.badRequest': 'An unknown error occurred. Please try again later.',
+		'requestError.resourceType.any': 'Ressource',
+		'requestError.notFound': 'not found',
+		'requestError.unauthorized': 'Unauthorized! You will now be logged out!',
+		'requestError.forbidden': 'Forbidden',
+		'requestError.internalServerError':
+			'An internal server error occurred. Please try again later.',
+		'requestError.unknown': 'An unknown error occurred. Please try again later.',
+		'requestError.password.wrong': 'Password is wrong'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -378,6 +396,24 @@ export default {
 		'about.projekt.svelte':
 			'Das Projekt wurde mit dem Svelte-Framework entwickelt. Dazu wurde Skeleton-UI mit Tailwind.css für das Styling verwendet.',
 		'about.projekt.tests': 'Für die Tests wurde Playwright verwendet',
-		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:'
+		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:',
+		'requestError.resourceType.user': 'Nutzer',
+		'requestError.resourceType.post': 'Post',
+		'requestError.resourceType.comment': 'Konmentar',
+		'requestError.resourceType.chat': 'Chat',
+		'requestError.resourceType.message': 'Nachricht',
+		'requestError.resourceType.notification': 'Benachrichtigung',
+		'requestError.resourceType.profile': 'Profil',
+		'requestError.resourceType.any': 'Ressource',
+		'requestError.notFound': 'konnte nicht gefunden werden',
+		'requestError.unauthorized': 'Zugriff ist nicht erlaubt! Sie werden nun ausgeloggt!',
+		'requestError.forbidden': 'Zugriff ist nicht erlaubt',
+		'requestError.internalServerError':
+			'Ein interner Serverfehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.badRequest':
+			'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.unknown':
+			'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.password.wrong': 'Passwort ist falsch'
 	}
 };

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import Icon from '@iconify/svelte';
 	import type { User, UsersForSearch } from '$lib/types/User';
@@ -15,7 +14,7 @@
 	const toastStore = getToastStore();
 
 	onMount(async () => {
-		manageSession();
+		manageSession(toastStore);
 		focusfield.focus();
 	});
 
@@ -31,7 +30,6 @@
 	}
 </script>
 
-<Toast zIndex="1100" />
 <div class=" w-3/5 min-h-screen mx-auto mt-[122px]">
 	<div class="mb-8 flex justify-center items-center gap-4">
 		<a href="/search/users" data-sveltekit-preload-data="hover">

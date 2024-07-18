@@ -7,7 +7,6 @@
 	import { t } from '../../../i18n';
 	import SubscriptionList from '../../../components/userLists/SubscriptionList.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/utils/Toasts';
 	import { manageSession } from '$lib/utils/Session';
 
 	const toastStore = getToastStore();
@@ -23,7 +22,7 @@
 	};
 
 	onMount(async () => {
-		manageSession();
+		manageSession(toastStore);
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
 
@@ -32,13 +31,9 @@
 		} else {
 			username = usernameParams;
 		}
-		const response = await getSubscriptions(get(token), 'followers', 0, 10, username);
+		const response = await getSubscriptions(get(token), 'followers', 0, 10, username, toastStore);
 		if (response.status == 200 && response.data) {
 			followerData = await response.data;
-		} else if (response.status == 500) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		} else if (response.customError) {
-			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}
 	});
 </script>

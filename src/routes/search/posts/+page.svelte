@@ -69,7 +69,7 @@
 	}
 
 	onMount(async () => {
-		manageSession();
+		manageSession(toastStore);
 		focusfield.focus();
 	});
 </script>

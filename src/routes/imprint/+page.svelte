@@ -3,10 +3,11 @@
 	import type { Imprint } from '$lib/types/Imprint';
 	import { onMount } from 'svelte';
 	import { imprint } from '$lib/utils/Imprint';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	let backendImprint: Imprint = { text: '' };
 
 	onMount(async () => {
-		backendImprint = (await imprint()) as Imprint;
+		backendImprint = (await imprint(getToastStore())) as Imprint;
 	});
 </script>
 
