@@ -22,7 +22,7 @@ export async function getChats(toastStore: ToastStore): Promise<ChatStructure> {
 }
 
 export async function getMessages(
-	chatId: UUID,
+	chatId: UUID | string,
 	limit: number,
 	offset: number,
 	toastStore: ToastStore

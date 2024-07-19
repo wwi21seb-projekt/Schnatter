@@ -41,7 +41,9 @@ export async function sendPost(
 		},
 		body: JSON.stringify(bodyData)
 	});
-	handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
+	if (response.status !== 201) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
+	}
 	return response.status;
 }
 

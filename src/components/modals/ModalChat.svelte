@@ -56,6 +56,7 @@
 		copieChats = Object.assign({}, dataChats);
 		//Last open chat is displayed
 		if ($chatIdNewChat) {
+			console.log('chatIdNewChat', $chatIdNewChat);
 			openChat($chatIdNewChat);
 		}
 	});
@@ -67,7 +68,7 @@
 		);
 	}
 
-	async function openChat(chatId: UUID) {
+	async function openChat(chatId: UUID | string) {
 		//Existing WebSocket is closed
 		if (socket) {
 			socket.close();
@@ -122,9 +123,11 @@
 	}
 
 	async function loadMoreMessages() {
-		dataMessages = await getMessages($chatIdNewChat, 10, messages.length, toastStore);
-		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
-		messages = [...messages, ...dataMessages.records];
+		if ($chatIdNewChat) {
+			dataMessages = await getMessages($chatIdNewChat, 10, messages.length, toastStore);
+			dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+			messages = [...messages, ...dataMessages.records];
+		}
 	}
 
 	onDestroy(() => {

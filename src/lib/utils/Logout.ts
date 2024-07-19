@@ -1,5 +1,12 @@
 import { goto } from '$app/navigation';
-import { globalUsername, notificationList, profilePicture, refreshToken, token } from '$lib/Store';
+import {
+	chatIdNewChat,
+	globalUsername,
+	notificationList,
+	profilePicture,
+	refreshToken,
+	token
+} from '$lib/Store';
 
 export function logout() {
 	token.set('');
@@ -7,6 +14,7 @@ export function logout() {
 	globalUsername.set('');
 	profilePicture.set('');
 	notificationList.set({ records: [] });
+	chatIdNewChat.set('');
 	if (location.pathname !== '/') {
 		goto('/');
 		setTimeout(() => {
