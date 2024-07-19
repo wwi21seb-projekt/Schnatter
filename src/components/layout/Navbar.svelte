@@ -68,6 +68,7 @@
 	}
 	// Service Worker Push Notification
 	if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+		// Listen for messages from service worker
 		navigator.serviceWorker.addEventListener('message', (event) => {
 			if (event.data && event.data.type === 'PUSH_NOTIFICATION') {
 				const payload = event.data.payload;

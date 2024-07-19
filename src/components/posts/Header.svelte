@@ -6,6 +6,7 @@
 	export let repostDate: string;
 </script>
 
+<!-- Header Section for Posts and reposts without the delete option on profile page-->
 <div class="flex flex-row items-center">
 	<ProfilePicture
 		cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"

@@ -5,6 +5,7 @@
 	export let contentText: TextColorPost[];
 </script>
 
+<!--Content Section for Posts and reposts-->
 <section class="p-4">
 	{#if postPicture}
 		<div class="flex justify-center">

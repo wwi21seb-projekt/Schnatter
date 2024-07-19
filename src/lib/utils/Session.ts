@@ -35,11 +35,14 @@ export async function manageSession(toastStore: ToastStore) {
 		const tokenData = decodeToken(get(token));
 		const tokenDate = new Date(Number(tokenData.exp) * 1000);
 		if (tokenDate < date) {
+			//if token is expired
 			const refreshTokenData = decodeToken(get(refreshToken));
 			const refreshTokenDate = new Date(Number(refreshTokenData.exp) * 1000);
 			if (refreshTokenDate < date) {
+				//if refreshToken is expired
 				logout();
 			} else {
+				//get new tokens
 				const newTokens: NewToken = await refreshTokenFetch(get(refreshToken), toastStore);
 				if (newTokens.token !== '' && newTokens.refreshToken !== '') {
 					token.set(newTokens.token);
@@ -55,6 +58,7 @@ export async function manageSession(toastStore: ToastStore) {
 	}
 }
 
+// decode token to get the expiration dates
 export function decodeToken(token: string) {
 	const decodedToken: TokenStructure = jwtDecode(token);
 	return decodedToken;

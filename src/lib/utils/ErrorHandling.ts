@@ -1,3 +1,6 @@
+// Schemas can be defined here for how errors are to be handled for a request.
+//!!! Important !!! Logic for the successful execution of a request is not stored here.
+
 import { type ToastStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 import { t } from '../../i18n';
@@ -11,7 +14,7 @@ import {
 } from './Error';
 import { logout } from './Logout';
 
-// functions for normal error handling
+// this function is used in the api calls to handle general errors
 export function handleRequestError(
 	status: number,
 	toastStore: ToastStore,
