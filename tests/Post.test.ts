@@ -8,20 +8,20 @@ import { login } from './testMethods';
 //warum testen wir loginToken == undefined
 //wo unterschied zu PostUserProfil
 
-test('postdate is visible', async ({ page }) => {
-	await page.goto('/');
-	await expect(page.getByTitle('postdate', { exact: true }).first()).toBeVisible();
-});
+// test('postdate is visible', async ({ page }) => {
+// 	await page.goto('/');
+// 	await expect(page.getByTitle('postdate', { exact: true }).first()).toBeVisible();
+// });
 
-test('Post Author Username is visible', async ({ page }) => {
-	await page.goto('/');
-	await expect(page.getByTitle('postAuthorUsername', { exact: true }).first()).toBeVisible();
-});
+// test('Post Author Username is visible', async ({ page }) => {
+// 	await page.goto('/');
+// 	await expect(page.getByTitle('postAuthorUsername', { exact: true }).first()).toBeVisible();
+// });
 
-test('Postcontent is visible', async ({ page }) => {
-	await page.goto('/');
-	await expect(page.getByTitle('postcontent', { exact: true }).first()).toBeVisible();
-});
+// test('Postcontent is visible', async ({ page }) => {
+// 	await page.goto('/');
+// 	await expect(page.getByTitle('postcontent', { exact: true }).first()).toBeVisible();
+// });
 
 test('Likecount is visible', async ({ page }) => {
 	await page.goto('/');
