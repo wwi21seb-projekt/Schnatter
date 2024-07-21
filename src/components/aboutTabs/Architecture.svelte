@@ -13,7 +13,7 @@
 		title="Schnatter"
 		width="720"
 		height="405"
-		src="/schnatter.mp4"
+		src="https://youtu.be/t5PvmXyIYRk"
 		frameborder="0"
 		allow="autoplay"
 		allowfullscreen

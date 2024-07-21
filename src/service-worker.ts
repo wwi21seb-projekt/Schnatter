@@ -4,6 +4,8 @@ self.addEventListener('fetch', function () {
 	return;
 });
 
+//Eventlistener for push Events in the Service Worker
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 self.addEventListener('push', function (event: any) {
 	const payload = event.data?.json() ?? 'no payload';

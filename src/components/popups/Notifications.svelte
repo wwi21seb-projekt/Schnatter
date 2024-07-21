@@ -1,6 +1,6 @@
 <!-- Notification popup Navbar -->
 <script lang="ts">
-	import { Avatar } from '@skeletonlabs/skeleton';
+	import { Avatar, getToastStore } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
 	import type { Notifications } from '$lib/types/Notifications';
@@ -8,10 +8,11 @@
 	import { notificationCount, notificationList, token } from '$lib/Store';
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
+	const toastStore = getToastStore();
 	onMount(async () => {
 		let notificationListUpdate: Notifications = { records: [] };
 		if (get(token)) {
-			notificationListUpdate = (await getNotificationsRequest()) ?? {
+			notificationListUpdate = (await getNotificationsRequest(toastStore)) ?? {
 				records: []
 			};
 		}
@@ -32,7 +33,7 @@
 		}
 	}
 	async function deleteNotification(notificationId: string) {
-		const response = await deleteNotificationRequest(notificationId);
+		const response = await deleteNotificationRequest(notificationId, toastStore);
 
 		if (response) {
 			notificationList.set(deleteNotificationById(get(notificationList), notificationId));

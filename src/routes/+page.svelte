@@ -35,7 +35,7 @@
 		if (get(serverURL) === '') {
 			serverURL.set('https://server-beta.de/api');
 		}
-		manageSession();
+		manageSession(toastStore);
 		//Check whether you are logged in, then feed depending on type
 		if (loginToken !== '') {
 			result = await fetchPosts(loginToken, toastStore, feedData, slotLimit, feedType);

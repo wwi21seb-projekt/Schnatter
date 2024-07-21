@@ -111,15 +111,9 @@ export default {
 		'profile.placeholder.newNickname': 'Set new nickname',
 		'profile.placeholder.newStatus': 'Set new status',
 		'profile.changeProfilePicture': 'Change Picture',
-		'prolile.userDetails.notFound': 'Userdetails not found',
 		'profile.userDetails.changed': 'Userdetails successfully changed',
-		'profile.userDetails.notChanged': 'Userdetails unsuccessfully changed',
 		'toastmessage.profile.follow.success': 'User successfully followed',
-		'toastmessage.profile.follow.error': 'User unsuccessfully followed',
 		'toastmessage.profile.unfollow.success': 'User successfully unfollowed',
-		'toastmessage.profile.unfollow.error': 'User unsuccessfully unfollowed',
-		'toastmessage.profile.changeUserDetails.success': 'Userdetails successfully changed',
-		'toastmessage.profile.changeUserDetails.error': 'Userdetails unsuccessfully changed',
 		'search.users.placeholder': 'Search for users...',
 		'search.users.noResults': 'No users found!',
 		'search.posts.noResults': 'No posts found!',
@@ -187,7 +181,26 @@ export default {
 		'about.projekt.svelte':
 			'The project was developed with the Svelte framework. Skeleton UI with Tailwind.css was used for the styling.',
 		'about.projekt.tests': 'Playwright was used for the tests',
-		'about.projekt.moreInformations': 'You can find all further information in the following video:'
+		'about.projekt.moreInformations':
+			'You can find all further information in the following video:',
+		'requestError.resourceType.user': 'User',
+		'requestError.resourceType.post': 'Post',
+		'requestError.resourceType.comment': 'Comment',
+		'requestError.resourceType.chat': 'Chat',
+		'requestError.resourceType.message': 'Message',
+		'requestError.resourceType.notification': 'Notification',
+		'requestError.resourceType.profile': 'Profile',
+		'requestError.resourceType.notFound': 'not found',
+		'requestError.resourceType.badRequest': 'An unknown error occurred. Please try again later.',
+		'requestError.resourceType.any': 'Ressource',
+		'requestError.notFound': 'not found',
+		'requestError.unauthorized': 'Unauthorized! You will now be logged out!',
+		'requestError.forbidden': 'Forbidden! Please check your inputs!',
+		'requestError.internalServerError':
+			'An internal server error occurred. Please try again later.',
+		'requestError.unknown': 'An unknown error occurred. Please try again later.',
+		'requestError.password.wrong':
+			'The credentials are invalid. Please check the credentials and try again.'
 	},
 	de: {
 		'imprint.frontend.header': 'Impressum Frontend',
@@ -301,15 +314,9 @@ export default {
 		'profile.placeholder.newNickname': 'Neuen Spitznamen eingeben',
 		'profile.placeholder.newStatus': 'Neuen Status eingeben',
 		'profile.changeProfilePicture': 'Bild ändern',
-		'prolile.userDetails.notFound': 'Userdetails nicht gefunden',
 		'profile.userDetails.changed': 'Nutzerdetails erfolgreich geändert',
-		'profile.userDetails.notChanged': 'Nutzerdetails konnten nicht geändert werden',
 		'toastmessage.profile.follow.success': 'User erfolgreich abonniert',
-		'toastmessage.profile.follow.error': 'Fehler beim Abonnieren des Users',
 		'toastmessage.profile.unfollow.success': 'User erfolgreich deabonniert',
-		'toastmessage.profile.unfollow.error': 'Fehler beim Deabonnieren des Users',
-		'toastmessage.profile.changeUserDetails.success': 'Userdetails erfolgreich geändert',
-		'toastmessage.profile.changeUserDetails.error': 'Userdetails konnten nicht geändert werden',
 		'search.users.placeholder': 'Suche Nutzer...',
 		'search.users.noResults': 'Keine Nutzer gefunden!',
 		'search.posts.noResults': 'Keine Beiträge gefunden!',
@@ -378,6 +385,25 @@ export default {
 		'about.projekt.svelte':
 			'Das Projekt wurde mit dem Svelte-Framework entwickelt. Dazu wurde Skeleton-UI mit Tailwind.css für das Styling verwendet.',
 		'about.projekt.tests': 'Für die Tests wurde Playwright verwendet',
-		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:'
+		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:',
+		'requestError.resourceType.user': 'Nutzer',
+		'requestError.resourceType.post': 'Post',
+		'requestError.resourceType.comment': 'Kommentar',
+		'requestError.resourceType.chat': 'Chat',
+		'requestError.resourceType.message': 'Nachricht',
+		'requestError.resourceType.notification': 'Benachrichtigung',
+		'requestError.resourceType.profile': 'Profil',
+		'requestError.resourceType.any': 'Ressource',
+		'requestError.notFound': 'konnte nicht gefunden werden',
+		'requestError.unauthorized': 'Zugriff ist nicht erlaubt! Du wirst nun ausgeloggt!',
+		'requestError.forbidden': 'Zugriff verweigert! Bitte überprüfe deine Eingaben!',
+		'requestError.internalServerError':
+			'Ein interner Serverfehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.badRequest':
+			'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.unknown':
+			'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es später erneut.',
+		'requestError.password.wrong':
+			'Die Anmeldeinformationen sind ungültig. Bitte überprüfe deine Anmeldedaten und versuche es erneut.'
 	}
 };

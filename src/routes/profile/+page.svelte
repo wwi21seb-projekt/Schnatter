@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		Toast,
-		getModalStore,
-		type ModalComponent,
-		type ModalSettings
-	} from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import type { UserPostFetchResponse } from '$lib/types/Post';
 	import Post from '../../components/posts/Post.svelte';
@@ -81,7 +76,7 @@
 	};
 
 	onMount(async () => {
-		manageSession();
+		manageSession(toastStore);
 		//Check whether you are on your own profile page or on another user's page
 		const url = window.location.search;
 		usernameParams = url.split('=')[1];
@@ -94,18 +89,15 @@
 		} else {
 			username = usernameParams;
 		}
-		profileData = await getProfileDetails(get(token), username);
+		profileData = await getProfileDetails(get(token), username, toastStore);
 		profilePicture.set(profileData.user.picture?.url ?? '');
 
-		if (profileData.statusCode == 500) {
-			toastStore.trigger(createToast($t('prolile.userDetails.notFound'), 'error'));
-		}
 		nickname = profileData.user.nickname;
 		userStatus = profileData.user.status;
 		if (profileData.user.subscriptionId != '' && profileData.user.subscriptionId != null) {
 			subscribed = true;
 		}
-		postsData = await getProfilePosts(get(token), username);
+		postsData = await getProfilePosts(get(token), username, toastStore);
 	});
 
 	function changeEditMode() {
@@ -116,16 +108,14 @@
 			get(token),
 			userStatus,
 			nickname,
-			get(newProfilePicture)
+			get(newProfilePicture),
+			toastStore
 		);
 		if (status == 200) {
 			//if the request was successful, the data is set and the page is reloaded for updating
 			editMode = false;
 			toastStore.trigger(createToast($t('profile.userDetails.changed'), 'success'));
 			newProfilePicture.set(undefined);
-			window.location.reload();
-		} else {
-			toastStore.trigger(createToast($t('profile.userDetails.notChanged'), 'error'));
 		}
 	}
 
@@ -141,34 +131,33 @@
 		modalStore.trigger(modal);
 	}
 	async function loadMorePosts() {
-		postsData = await loadPosts(get(token), postsData, username);
+		postsData = await loadPosts(get(token), postsData, username, toastStore);
 	}
 	async function subscribe() {
-		const followResponse = await followUser(get(token), username);
+		const followResponse = await followUser(get(token), username, toastStore);
 		if (followResponse.status == 201) {
 			subscribed = true;
 			profileData.user.subscriptionId = followResponse.response.subscriptionId;
 			profileData.user.follower += 1;
 			toastStore.trigger(createToast($t('toastmessage.profile.follow.success'), 'success'));
-		} else {
-			toastStore.trigger(createToast($t('toastmessage.profile.follow.error'), 'error'));
 		}
 	}
 	async function unsubscribe() {
-		const unfollowStatus = await unfollowUser(get(token), profileData.user.subscriptionId);
-		if (unfollowStatus.status == 204) {
+		const unfollowStatus = await unfollowUser(
+			get(token),
+			profileData.user.subscriptionId,
+			toastStore
+		);
+		if (unfollowStatus == 204) {
 			subscribed = false;
 			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.success'), 'success'));
 			profileData.user.follower -= 1;
-		} else {
-			toastStore.trigger(createToast($t('toastmessage.profile.unfollow.error'), 'error'));
 		}
 	}
 </script>
 
-<Toast zIndex="1100" />
 {#if profileData.statusCode == 200}
-	<main class=" flex flex-col items-center justify-start mt-[90px]">
+	<main class=" flex flex-col items-center justify-start mt-[90px] h-screen">
 		<div
 			class=" w-full min-h-[35vh] flex flex-col md:flex-row justify-center items-center border-b-4 border-indigo-800"
 		>
@@ -301,5 +290,5 @@
 		</div>
 	</main>
 {:else}
-	<p class="text-2xl">{$t('profile.noUser')}</p>
+	<p class="text-2xl flex h-[80vh] justify-center items-center">{$t('profile.noUser')}</p>
 {/if}

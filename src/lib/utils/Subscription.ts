@@ -1,23 +1,22 @@
 import { serverURL } from '$lib/Store';
-import type { CustomError } from '$lib/types/CustomError';
 import type { Subscriptions } from '$lib/types/Subscriptions';
 import { get } from 'svelte/store';
+import { handleRequestError } from './ErrorHandling';
+import { t } from '../../i18n';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 
 export async function getSubscriptions(
 	token: string,
 	type: string,
 	offset: number,
 	limit: number,
-	username: string
+	username: string,
+	toastStore: ToastStore
 ) {
-	let customError: CustomError = {
-		code: '',
-		message: ''
-	};
-
 	let data: Subscriptions = {
 		records: [],
 		pagination: {
+			records: 0,
 			limit: 0,
 			offset: 0
 		}
@@ -42,9 +41,10 @@ export async function getSubscriptions(
 	if (response.status === 200) {
 		data = (await response.json()) as Subscriptions;
 	}
-	if (response.status !== 200 && response.status !== 500) {
-		customError = (await response.json()) as CustomError;
-		return { customError: customError, status: response.status };
+
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
 	}
+
 	return { status: response.status, data: data };
 }

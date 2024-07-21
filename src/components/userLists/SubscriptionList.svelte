@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { globalUsername, token } from '$lib/Store';
 	import type { Subscriptions } from '$lib/types/Subscriptions';
-	import { Toast, getToastStore } from '@skeletonlabs/skeleton';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import { followUser, unfollowUser } from '../../lib/utils/Profile';
@@ -23,9 +23,9 @@
 
 	async function deleteSubscription(event: Event) {
 		const subId = (event?.target as HTMLButtonElement)?.id;
-		const response = await unfollowUser(get(token), subId);
+		const response = await unfollowUser(get(token), subId, toastStore);
 
-		if (response.status == 204) {
+		if (response == 204) {
 			window.location.reload();
 		} else {
 			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
@@ -41,33 +41,24 @@
 			listtype,
 			subscriptionData.records.length,
 			10,
-			username
+			username,
+			toastStore
 		);
 		if (response.status == 200 && response.data) {
 			subscriptionData = (await response.data) as Subscriptions;
 			subscriptionData.records = [...records, ...subscriptionData.records];
-		} else if (response.status == 500) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		} else if (response.customError) {
-			toastStore.trigger(createToast(response.customError.message, 'error'));
 		}
 	}
 
 	async function handlefollow(event: Event) {
 		const followUsername = (event?.target as HTMLButtonElement)?.id;
-		const response = await followUser(get(token), followUsername);
+		const response = await followUser(get(token), followUsername, toastStore);
 		if (response.status == 201) {
 			window.location.reload();
-		} else if (response.status == 500) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		} else {
-			toastStore.clear();
-			toastStore.trigger(createToast(response.customError?.message ?? '', 'error'));
 		}
 	}
 </script>
 
-<Toast zIndex="1100" />
 <div class="flex justify-center flex-col items-center">
 	<nav class="list-nav w-full">
 		<ul class="w-full">

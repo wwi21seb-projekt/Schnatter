@@ -2,6 +2,9 @@ import { type PasswordChange } from '../types/PasswordChecks';
 import { changeIconColor, changeValidateIcon } from '$lib/utils/ValidateInputs';
 import { get } from 'svelte/store';
 import { serverURL, token } from '$lib/Store';
+import { handleRequestError } from './ErrorHandling';
+import { t } from '../../i18n';
+import type { ToastStore } from '@skeletonlabs/skeleton';
 
 export async function handlePasswordInput(event: Event, passwordChange: PasswordChange) {
 	passwordChange.newPassword = (event.target as HTMLInputElement).value;
@@ -47,7 +50,11 @@ export async function handleRepeatPasswordInput(event: Event, passwordChange: Pa
 	passwordChange.validateIconRepeatPwdColor = changeIconColor(passwordChange.validateIconRepeatPwd);
 }
 
-export async function handleChangeSubmit(passwordChange: PasswordChange, oldPassword: string) {
+export async function handleChangeSubmit(
+	passwordChange: PasswordChange,
+	oldPassword: string,
+	toastStore: ToastStore
+) {
 	const response = await fetch(`${get(serverURL)}/users`, {
 		method: 'PATCH',
 		mode: 'cors',
@@ -60,14 +67,17 @@ export async function handleChangeSubmit(passwordChange: PasswordChange, oldPass
 			newPassword: passwordChange.newPassword
 		})
 	});
-
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	return response.status;
 }
 
 export async function handleForgotSubmit(
 	username: string,
 	tokenString: string,
-	passwordChange: PasswordChange
+	passwordChange: PasswordChange,
+	toastStore: ToastStore
 ) {
 	const response = await fetch(`${get(serverURL)}/users/${username}/reset-password`, {
 		method: 'PATCH',
@@ -81,10 +91,14 @@ export async function handleForgotSubmit(
 			newPassword: passwordChange.newPassword
 		})
 	});
+	if (!response.ok) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
+
 	return response.status;
 }
 
-export async function sendToken(username: string) {
+export async function sendToken(username: string, toastStore: ToastStore) {
 	const serverUrl = `${get(serverURL)}/users/${username}/reset-password`;
 	const response = await fetch(serverUrl, {
 		method: 'POST',
@@ -95,5 +109,8 @@ export async function sendToken(username: string) {
 		},
 		body: JSON.stringify({})
 	});
+	if (response.status !== 204) {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
+	}
 	return response.status;
 }

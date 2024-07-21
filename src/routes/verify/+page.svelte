@@ -3,7 +3,6 @@
 	import { createToast } from '$lib/utils/Toasts';
 	import { registerUsername } from '$lib/Store';
 	import { goto } from '$app/navigation';
-	import type { CustomError } from '$lib/types/CustomError';
 	import { t } from '../../i18n';
 	import { get } from 'svelte/store';
 	import { resendToken, verifyUser } from '$lib/utils/Verify';
@@ -19,31 +18,15 @@
 	}
 
 	async function handleSubmit() {
-		let customError: CustomError = {
-			message: '',
-			code: ''
-		};
-		try {
-			const response = await verifyUser(get(registerUsername), verifyInput);
-			statusCode = response.status;
-			if (statusCode !== 200) {
-				const body = await response.json();
-				customError = body.error;
-			}
-		} catch (error) {
-			toastStore.trigger(createToast(customError.message, 'error'));
-		}
-		if (statusCode == 200) {
+		const response = await verifyUser(get(registerUsername), verifyInput, toastStore);
+		if (response.status == 200) {
 			goto('/');
 		}
 	}
 	async function resend() {
-		try {
-			const response = await resendToken(get(registerUsername));
-			statusCode = response.status;
-		} catch (error) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		}
+		const response = await resendToken(get(registerUsername), toastStore);
+		statusCode = response.status;
+
 		if (statusCode == 204) {
 			toastStore.trigger(createToast($t('toast.send.email'), 'success'));
 		}

@@ -2,7 +2,6 @@
 	import Icon from '@iconify/svelte';
 	import { FileDropzone, getModalStore } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/utils/Toasts';
 	import { t } from '../../i18n';
 	import { onMount } from 'svelte';
 	import { sendPost } from '$lib/utils/Posts';
@@ -57,12 +56,10 @@
 	}
 
 	async function handleSubmitPost() {
-		let response = await sendPost(text, repostId, selectedImage);
+		let response = await sendPost(text, repostId, selectedImage, toastStore);
 		if (response == 201) {
 			modalStore.close();
 			window.location.reload();
-		} else {
-			toastStore.trigger(createToast('We were running into a problem! Sorry', 'error'));
 		}
 	}
 

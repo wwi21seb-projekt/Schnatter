@@ -10,8 +10,9 @@
 	import { fetchComments, sendComment } from '$lib/utils/Comments';
 	import Commentsection from './Commentsection.svelte';
 	import { deletePost, checkForHashtags, likeCounter } from '$lib/utils/Posts';
-	import ProfilePicture from '../ProfilePicture.svelte';
 	import type { Comments } from '$lib/types/Comment';
+	import Content from './Content.svelte';
+	import Header from './Header.svelte';
 
 	export let postData: PostStructure;
 	export let currentUsername: string | undefined;
@@ -147,15 +148,15 @@
 	async function setShowButton() {
 		showNoComments = !showNoComments;
 		if (showNoComments) {
-			commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+			commentData = (await fetchComments(limit, postData.postId, offset, toastStore)) as Comments;
 		}
 	}
 
 	async function commentSendButton() {
-		sendComment(post.postId, commentText);
+		sendComment(post.postId, commentText, toastStore);
 		commentText = '';
 
-		commentData = (await fetchComments(limit, postData.postId, offset)) as Comments;
+		commentData = (await fetchComments(limit, postData.postId, offset, toastStore)) as Comments;
 		if (post.comments != undefined) {
 			post.comments += 1;
 		}
@@ -167,36 +168,16 @@
 	<div class="card md:w-[60vw] w-[95vw] mb-2 divide-y divide-current" title="post">
 		<header class="card-header w-full flex justify-between items-center">
 			{#if post.author}
-				<div class="flex flex-row items-center">
-					<ProfilePicture
-						cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
-						src={post.author.picture?.url ?? ''}
-						username={post.author.username}
-					/>
-					<div class="flex flex-col">
-						<a
-							title="postAuthorUsername"
-							href="/profile?username={post.author.username}"
-							data-sveltekit-preload-data="hover">@{post.author.username}</a
-						>
-						<p class="font-light text-sm" title="postAuthorNickname">{post.author.nickname}</p>
-					</div>
-				</div>
-				<div class="flex flex-row items-center">
-					<div class="flex flex-col">
-						<p class="text-xs">{locationString}</p>
-						<p class="text-xs" title="postdate">{postDate}</p>
-					</div>
-					{#if deleteOption}
-						<button
-							on:click={() => {
-								modalStore.trigger(modalDelete);
-							}}
-						>
-							<Icon class="w-7 h-7 mr-2" icon="clarity:trash-line"></Icon></button
-						>
-					{/if}
-				</div>
+				<Header author={post.author} {repostDate} {repostLocationString} />
+				{#if deleteOption}
+					<button
+						on:click={() => {
+							modalStore.trigger(modalDelete);
+						}}
+					>
+						<Icon class="w-7 h-7 mr-2" icon="clarity:trash-line"></Icon></button
+					>
+				{/if}
 			{:else}
 				<div class="flex flex-row items-center justify-between w-full">
 					<div class="flex flex-col">
@@ -217,61 +198,15 @@
 		</header>
 		<section class="p-6 mt-5 w-full">
 			<div class="flex flex-col">
-				{#if post.picture?.url}
-					<div class="flex justify-center">
-						<img class="max-h-[375px] rounded-md object-contain" src={post.picture?.url} alt="" />
-					</div>
-				{/if}
-				<p class="h-auto p-1 text-lg min-h-[5vh]" title="postcontent">
-					{#each newPost as { hashtagClass, text, wordID } (wordID)}
-						<span class={hashtagClass}>{text} </span>
-					{/each}
-				</p>
+				<Content postPicture={post.picture?.url} contentText={newPost} />
 			</div>
 			{#if post.repost}
 				<div class="border-solid border-2 border-current rounded divide-y divide-current">
 					{#if post.repost.author}
 						<header class="card-header w-full mb-1 flex justify-between items-center">
-							<div class="flex flex-row items-center">
-								<ProfilePicture
-									cssClass="h-[5vh] w-[5vh] rounded-full mr-3 isolation-auto"
-									src={post.repost.author.picture?.url ?? ''}
-									username={post.repost.author.username}
-								/>
-								<div class="flex flex-col">
-									<a
-										class="text-[0.75rem]"
-										title="repostAuthorUsername"
-										href="/profile?username={post.repost.author.username}"
-										data-sveltekit-preload-data="hover">@{post.repost.author.username}</a
-									>
-
-									<p class="font-light text-xs text-[0.75rem]" title="repostAuthorNickname">
-										{post.repost.author.nickname}
-									</p>
-								</div>
-							</div>
-							<div class="flex flex-col items-end">
-								<p class="text-xs text-[0.75rem]">{repostLocationString}</p>
-								<p class="text-xs text-[0.75rem]" title="repostPostdate">{repostDate}</p>
-							</div>
+							<Header author={post.repost.author} {repostDate} {repostLocationString} />
 						</header>
-						<section class="p-4">
-							{#if post.repost.picture?.url}
-								<div class="flex justify-center">
-									<img
-										class="max-h-[375px] rounded-md object-contain"
-										src={post.repost.picture?.url}
-										alt=""
-									/>
-								</div>
-							{/if}
-							<p class="h-[10vh] p-1 text-lg" title="repostPostcontent">
-								{#each newRepostPost as { hashtagClass, text, wordID } (wordID)}
-									<span class="{hashtagClass} text-[0.75rem]">{text} </span>
-								{/each}
-							</p>
-						</section>
+						<Content postPicture={post.repost.picture?.url} contentText={newRepostPost} />
 					{:else}
 						<p class="p-4">{$t('post.repost.deleted')}</p>
 					{/if}

@@ -1,18 +1,17 @@
 import { serverURL } from '$lib/Store';
-import type { CustomError } from '$lib/types/CustomError';
 import type { Feed } from '$lib/types/Feed';
 import { get } from 'svelte/store';
-
-import { createToast } from '$lib/utils/Toasts';
 import type { ToastStore } from '@skeletonlabs/skeleton';
 import { t } from '../../i18n';
+import { handleRequestError } from './ErrorHandling';
 
-export async function getSearchPosts(token: string, postId: string, q: string, limit: number) {
-	let customError: CustomError = {
-		code: '',
-		message: ''
-	};
-
+export async function getSearchPosts(
+	token: string,
+	postId: string,
+	q: string,
+	limit: number,
+	toastStore: ToastStore
+) {
 	let data: Feed = {
 		records: [],
 		pagination: {
@@ -36,10 +35,8 @@ export async function getSearchPosts(token: string, postId: string, q: string, l
 
 	if (response.status === 200) {
 		data = (await response.json()) as Feed;
-	}
-	if (response.status !== 200 && response.status !== 500) {
-		customError = (await response.json()) as CustomError;
-		return { customError: customError, status: response.status };
+	} else {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.post'));
 	}
 	return { status: response.status, data: data };
 }
@@ -52,22 +49,15 @@ export async function searchPostsByHashtag(
 	postId: string,
 	limit: number
 ) {
-	try {
-		const response = await getSearchPosts(token, postId, q, limit);
+	const response = await getSearchPosts(token, postId, q, limit, toastStore);
 
-		if (response.status === 200 && response.data) {
-			if (response.data.records.length !== 0) {
-				feedData.records = feedData.records.concat(response.data.records);
-				feedData.pagination.lastPostId = response.data.pagination.lastPostId;
-				feedData.pagination.records = response.data.pagination.records;
-			}
-		} else if (response.status !== 200 && response.status !== 500 && response.customError) {
-			toastStore.clear();
-			toastStore.trigger(createToast(response.customError.message, 'error'));
+	if (response.status === 200 && response.data) {
+		if (response.data.records.length !== 0) {
+			feedData.records = feedData.records.concat(response.data.records);
+			feedData.pagination.lastPostId = response.data.pagination.lastPostId;
+			feedData.pagination.records = response.data.pagination.records;
 		}
-	} catch (error) {
-		toastStore.clear();
-		toastStore.trigger(createToast(get(t)('toast.internalError'), 'error'));
 	}
+
 	return { feedData };
 }

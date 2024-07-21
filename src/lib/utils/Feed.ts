@@ -1,14 +1,17 @@
 import { serverURL } from '$lib/Store';
-import type { CustomError } from '$lib/types/CustomError';
 import { get } from 'svelte/store';
 import type { Feed } from '$lib/types/Feed';
+import { handleRequestError } from './ErrorHandling';
+import type { ToastStore } from '@skeletonlabs/skeleton';
+import { t } from '../../i18n';
 
-export async function getFeed(token: string, limit: number, postId: string, feedType?: string) {
-	let customError: CustomError = {
-		code: '',
-		message: ''
-	};
-
+export async function getFeed(
+	token: string,
+	limit: number,
+	postId: string,
+	toastStore: ToastStore,
+	feedType?: string
+) {
 	let data: Feed = {
 		records: [],
 		pagination: {
@@ -41,10 +44,8 @@ export async function getFeed(token: string, limit: number, postId: string, feed
 
 	if (response.status === 200) {
 		data = (await response.json()) as Feed;
-	}
-	if (response.status !== 200 && response.status !== 500) {
-		customError = (await response.json()) as CustomError;
-		return { customError: customError, status: response.status };
+	} else {
+		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.any'));
 	}
 	return { status: response.status, data: data };
 }

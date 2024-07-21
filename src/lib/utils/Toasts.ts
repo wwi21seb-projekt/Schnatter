@@ -7,7 +7,8 @@ export function createToast(message: string, background: string) {
 	const toast: ToastSettings = {
 		message: message,
 		timeout: 20000,
-		background: 'variant-filled-' + background
+		background: 'variant-filled-' + background,
+		classes: 'z-10000'
 	};
 	return toast;
 }
@@ -37,7 +38,8 @@ export function createNotificationToast(payload: unknown) {
 	const toast: ToastSettings = {
 		message: message,
 		timeout: 20000,
-		background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white'
+		background: 'bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 text-white',
+		classes: 'z-10000'
 	};
 	return toast;
 }

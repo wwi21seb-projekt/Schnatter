@@ -7,7 +7,6 @@
 	import ProfilePicture from '../ProfilePicture.svelte';
 	import { getInitalsFromUsername } from '$lib/utils/Pictures';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/utils/Toasts';
 
 	let limit: number = 10;
 	let offset: number = 0;
@@ -17,16 +16,8 @@
 	const toastStore = getToastStore();
 
 	onMount(async () => {
-		const response = await fetchComments(limit, postId, offset);
-		if (typeof response === 'number') {
-			if (response == 401) {
-				toastStore.trigger(createToast($t('post.comments.error.unauthorized'), 'error'));
-			} else if (response == 404) {
-				toastStore.trigger(createToast($t('post.comments.error.notFound'), 'error'));
-			} else {
-				toastStore.trigger(createToast($t('post.comments.error.unknown'), 'error'));
-			}
-		} else {
+		const response = await fetchComments(limit, postId, offset, toastStore);
+		if (typeof response !== 'number') {
 			commentData = response as Comments;
 		}
 	});

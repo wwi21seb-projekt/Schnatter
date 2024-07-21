@@ -1,6 +1,6 @@
 <!-- Chat model in NavBar -->
 <script lang="ts">
-	import { Avatar, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { Avatar, getModalStore, getToastStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import { t } from '../../i18n';
 	import Icon from '@iconify/svelte';
 	import type { ChatMessage, ChatMessages, ChatStructure } from '$lib/types/Chat';
@@ -12,6 +12,7 @@
 	import { convertDateTime } from '$lib/utils/Time';
 
 	const modalStore = getModalStore();
+	const toastStore = getToastStore();
 	let userSearch: string = '';
 
 	const modalBeginChat: ModalSettings = {
@@ -50,7 +51,7 @@
 
 	onMount(async () => {
 		//all existing chats are loaded when the modal is opened
-		dataChats = await getChats();
+		dataChats = await getChats(toastStore);
 		chats.set(dataChats);
 		copieChats = Object.assign({}, dataChats);
 		//Last open chat is displayed
@@ -66,7 +67,7 @@
 		);
 	}
 
-	async function openChat(chatId: UUID) {
+	async function openChat(chatId: UUID | string) {
 		//Existing WebSocket is closed
 		if (socket) {
 			socket.close();
@@ -94,7 +95,7 @@
 		});
 
 		messageDisabeled = false;
-		dataMessages = await getMessages(chatId, 10, 0);
+		dataMessages = await getMessages(chatId, 10, 0, toastStore);
 		// sort messages by date
 		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
 		messages = dataMessages.records;
@@ -121,9 +122,11 @@
 	}
 
 	async function loadMoreMessages() {
-		dataMessages = await getMessages($chatIdNewChat, 10, messages.length);
-		dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
-		messages = [...messages, ...dataMessages.records];
+		if ($chatIdNewChat) {
+			dataMessages = await getMessages($chatIdNewChat, 10, messages.length, toastStore);
+			dataMessages.records.sort((a, b) => b.creationDate.localeCompare(a.creationDate));
+			messages = [...messages, ...dataMessages.records];
+		}
 	}
 
 	onDestroy(() => {

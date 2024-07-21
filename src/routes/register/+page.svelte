@@ -1,20 +1,18 @@
 <script lang="ts">
 	import { changeIconColor, changeValidateIcon, isValidEmail } from '$lib/utils/ValidateInputs';
-	import { Toast, getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
+	import { getModalStore, type ModalSettings } from '@skeletonlabs/skeleton';
 	import RegisterInput from '../../components/RegisterInput.svelte';
 	import { getToastStore } from '@skeletonlabs/skeleton';
-	import { createToast } from '$lib/utils/Toasts';
 	import { goto } from '$app/navigation';
-	import { modalHiddenCss, newProfilePicture, registerUsername, serverURL } from '$lib/Store';
+	import { modalHiddenCss, newProfilePicture, registerUsername } from '$lib/Store';
 	import { t } from '../../i18n';
-	import type { CustomError } from '$lib/types/CustomError';
 	import { get } from 'svelte/store';
 	import ProfilePicture from '../../components/ProfilePicture.svelte';
 	import { onDestroy, onMount } from 'svelte';
+	import type { RegisterUser } from '$lib/types/Registration';
+	import { registerUser } from '$lib/utils/Registration';
 
 	const toastStore = getToastStore();
-
-	let statusCode: number = 0;
 	let email = '';
 	let username = '';
 	let nickname = '';
@@ -153,12 +151,7 @@
 		username.length != 0;
 
 	async function handleSubmit() {
-		let customError: CustomError = {
-			message: '',
-			code: ''
-		};
-		const serverUrl = get(serverURL);
-		let body = {};
+		let body: RegisterUser;
 		if (!get(newProfilePicture)) {
 			body = {
 				username: username,
@@ -176,24 +169,9 @@
 			};
 		}
 
-		const url: string = serverUrl + '/users';
-		try {
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(body)
-			});
-			statusCode = response.status;
-			if (statusCode !== 200) {
-				const bodyError = await response.json();
-				customError = bodyError.error;
-			}
-		} catch (error) {
-			toastStore.trigger(createToast($t('toast.internalError'), 'error'));
-		}
-		if (statusCode !== 201 && statusCode !== 500) {
-			toastStore.trigger(createToast(customError.message, 'error'));
-		} else if (statusCode == 201) {
+		const response = await registerUser(body, toastStore);
+
+		if (response.status === 201) {
 			registerUsername.set(username);
 			newProfilePicture.set(undefined);
 			//if the request was successful you are automatically directed to the Verify page to enter the code received
@@ -202,7 +180,6 @@
 	}
 </script>
 
-<Toast />
 <main class=" flex flex-col justify-center items-center h-[90vh] mt-[90px]">
 	<div class="card lg:w-[40vw] md:w-[80vw] w-[95vw] h-[80vh] p-10">
 		<h1 class="h1 mb-14">{$t('register.header')}</h1>

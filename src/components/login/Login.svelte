@@ -1,14 +1,12 @@
 <script lang="ts">
 	import LoginInput from './LoginInput.svelte';
 	import { t } from '../../i18n';
-	import { Toast } from '@skeletonlabs/skeleton';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import { createToast } from '$lib/utils/Toasts';
 	import { globalUsername, refreshToken, registerUsername, token } from '$lib/Store';
 	import type { Login } from '$lib/types/Login';
-	import type { CustomError } from '$lib/types/CustomError';
-	import { subscribeUserToPush } from '../../push';
+	import { subscribeUserToPush } from '$lib/utils/Push';
 	import { getModalStore, type ModalComponent, type ModalSettings } from '@skeletonlabs/skeleton';
 	import ModalForgotPwd from '../modals/ModalForgotPwd.svelte';
 	import { login } from '$lib/utils/Login';
@@ -42,19 +40,14 @@
 	$: allInputFieldsFilled = password.length != 0 && username.length != 0;
 	async function handleSubmit() {
 		try {
-			const response = await login(username, password);
+			const response = await login(username, password, toastStore);
 			const statusCode = response.status;
-			if (statusCode !== 200) {
-				const body = await response.json();
-				const customError: CustomError = body.error;
-				toastStore.clear();
-				toastStore.trigger(createToast(customError.message, 'error'));
-			} else if (statusCode == 200) {
+			if (statusCode == 200) {
 				const requestData: Login = await response.json();
 				token.set(requestData.token);
 				refreshToken.set(requestData.refreshToken);
 				globalUsername.set(username);
-				await subscribeUserToPush();
+				await subscribeUserToPush(toastStore);
 				location.reload();
 			}
 			if (statusCode == 403) {
@@ -67,7 +60,6 @@
 	}
 </script>
 
-<Toast zIndex="1100" />
 <div class="pt-8">
 	<div class="justify-center">
 		<div class=" p-2 h4 text-center font-bold" title="logInHeading">{$t('login.header.title')}</div>
@@ -98,11 +90,8 @@
 				</div>
 
 				<div class="flex flex-row mt-3 justify-center text-center">
-					<button
-						on:click={handleSubmit}
-						disabled={!allInputFieldsFilled}
-						class="btn variant-filled-primary"
-						type="submit">{$t('login.submit.btn')}</button
+					<button disabled={!allInputFieldsFilled} class="btn variant-filled-primary" type="submit"
+						>{$t('login.submit.btn')}</button
 					>
 				</div>
 			</form>

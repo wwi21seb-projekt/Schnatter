@@ -25,8 +25,8 @@
 </script>
 
 <!--General layout of the pages-->
-<Toast zIndex="10" />
-<Modal zIndex="8" components={modalRegistry} />
+<Toast />
+<Modal zIndex="10" components={modalRegistry} />
 <!--Fixed layout: navbar at the top, then main content and footer at the bottom for each page-->
 <AppShell>
 	<svelte:fragment slot="header"><Navbar /></svelte:fragment>
