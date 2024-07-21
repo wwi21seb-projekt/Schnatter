@@ -56,7 +56,6 @@
 		copieChats = Object.assign({}, dataChats);
 		//Last open chat is displayed
 		if ($chatIdNewChat) {
-			console.log('chatIdNewChat', $chatIdNewChat);
 			openChat($chatIdNewChat);
 		}
 	});

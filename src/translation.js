@@ -388,15 +388,15 @@ export default {
 		'about.projekt.moreInformations': 'Alle weiteren Informationen findest du in folgendem Video:',
 		'requestError.resourceType.user': 'Nutzer',
 		'requestError.resourceType.post': 'Post',
-		'requestError.resourceType.comment': 'Konmentar',
+		'requestError.resourceType.comment': 'Kommentar',
 		'requestError.resourceType.chat': 'Chat',
 		'requestError.resourceType.message': 'Nachricht',
 		'requestError.resourceType.notification': 'Benachrichtigung',
 		'requestError.resourceType.profile': 'Profil',
 		'requestError.resourceType.any': 'Ressource',
 		'requestError.notFound': 'konnte nicht gefunden werden',
-		'requestError.unauthorized': 'Zugriff ist nicht erlaubt! Sie werden nun ausgeloggt!',
-		'requestError.forbidden': 'Zugriff verweigert! Bitte überprüfen Sie Ihre Eingaben!',
+		'requestError.unauthorized': 'Zugriff ist nicht erlaubt! Du wirst nun ausgeloggt!',
+		'requestError.forbidden': 'Zugriff verweigert! Bitte überprüfe deine Eingaben!',
 		'requestError.internalServerError':
 			'Ein interner Serverfehler ist aufgetreten. Bitte versuche es später erneut.',
 		'requestError.badRequest':
@@ -404,6 +404,6 @@ export default {
 		'requestError.unknown':
 			'Ein unbekannter Fehler ist aufgetreten. Bitte versuche es später erneut.',
 		'requestError.password.wrong':
-			'Die Anmeldeinformationen sind ungültig. Bitte überprüfen Sie die Anmeldedaten und versuchen Sie es erneut.'
+			'Die Anmeldeinformationen sind ungültig. Bitte überprüfe deine Anmeldedaten und versuche es erneut.'
 	}
 };

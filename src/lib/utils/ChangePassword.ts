@@ -109,7 +109,6 @@ export async function sendToken(username: string, toastStore: ToastStore) {
 		},
 		body: JSON.stringify({})
 	});
-	console.log(response.status);
 	if (response.status !== 204) {
 		handleRequestError(response.status, toastStore, get(t)('requestError.resourceType.user'));
 	}
