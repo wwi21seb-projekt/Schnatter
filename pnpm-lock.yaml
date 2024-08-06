@@ -47,7 +47,7 @@ importers:
     devDependencies:
       '@playwright/test':
         specifier: ^1.41.1
-        version: 1.44.1
+        version: 1.45.1
       '@skeletonlabs/skeleton':
         specifier: 2.10.0
         version: 2.10.0(svelte@4.2.9)
@@ -122,7 +122,7 @@ importers:
         version: 0.3.3(tailwindcss@3.4.4)(vite@5.0.12(@types/node@20.14.2))
       vitest:
         specifier: ^0.34.0
-        version: 0.34.6(playwright@1.44.1)
+        version: 0.34.6(playwright@1.45.1)
 
 packages:
 
@@ -410,9 +410,9 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@playwright/test@1.44.1':
-    resolution: {integrity: sha512-1hZ4TNvD5z9VuhNJ/walIjvMVvYkZKf71axoF/uiAqpntQJXpG64dlXhoDXE3OczPuTuvjf/M5KWFg5VAVUS3Q==}
-    engines: {node: '>=16'}
+  '@playwright/test@1.45.1':
+    resolution: {integrity: sha512-Wo1bWTzQvGA7LyKGIZc8nFSTFf2TkthGIFBR+QVNilvwouGzFd4PYukZe3rvf5PSqjHi1+1NyKSDZKcQWETzaA==}
+    engines: {node: '>=18'}
     hasBin: true
 
   '@polka/url@1.0.0-next.25':
@@ -1502,14 +1502,14 @@ packages:
   pkg-types@1.0.3:
     resolution: {integrity: sha512-nN7pYi0AQqJnoLPC9eHFQ8AcyaixBUOwvqc5TDnIKCMEE6I0y8P7OKA7fPexsXGCGxQDl/cmrLAp26LhcwxZ4A==}
 
-  playwright-core@1.44.1:
-    resolution: {integrity: sha512-wh0JWtYTrhv1+OSsLPgFzGzt67Y7BE/ZS3jEqgGBlp2ppp1ZDj8c+9IARNW4dwf1poq5MgHreEM2KV/GuR4cFA==}
-    engines: {node: '>=16'}
+  playwright-core@1.45.1:
+    resolution: {integrity: sha512-LF4CUUtrUu2TCpDw4mcrAIuYrEjVDfT1cHbJMfwnE2+1b8PZcFzPNgvZCvq2JfQ4aTjRCCHw5EJ2tmr2NSzdPg==}
+    engines: {node: '>=18'}
     hasBin: true
 
-  playwright@1.44.1:
-    resolution: {integrity: sha512-qr/0UJ5CFAtloI3avF95Y0L1xQo6r3LQArLIg/z/PoGJ6xa+EwzrwO5lpNr/09STxdHuUoP2mvuELJS+hLdtgg==}
-    engines: {node: '>=16'}
+  playwright@1.45.1:
+    resolution: {integrity: sha512-Hjrgae4kpSQBr98nhCj3IScxVeVUixqj+5oyif8TdIn2opTCPEzqAqNMeK42i3cWDCVu9MI+ZsGWw+gVR4ISBg==}
+    engines: {node: '>=18'}
     hasBin: true
 
   postcss-import@15.1.0:
@@ -2308,9 +2308,9 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@playwright/test@1.44.1':
+  '@playwright/test@1.45.1':
     dependencies:
-      playwright: 1.44.1
+      playwright: 1.45.1
 
   '@polka/url@1.0.0-next.25': {}
 
@@ -3435,11 +3435,11 @@ snapshots:
       mlly: 1.5.0
       pathe: 1.1.2
 
-  playwright-core@1.44.1: {}
+  playwright-core@1.45.1: {}
 
-  playwright@1.44.1:
+  playwright@1.45.1:
     dependencies:
-      playwright-core: 1.44.1
+      playwright-core: 1.45.1
     optionalDependencies:
       fsevents: 2.3.2
 
@@ -3906,7 +3906,7 @@ snapshots:
     optionalDependencies:
       vite: 5.0.12(@types/node@20.14.2)
 
-  vitest@0.34.6(playwright@1.44.1):
+  vitest@0.34.6(playwright@1.45.1):
     dependencies:
       '@types/chai': 4.3.11
       '@types/chai-subset': 1.3.5
@@ -3933,7 +3933,7 @@ snapshots:
       vite-node: 0.34.6(@types/node@20.14.2)
       why-is-node-running: 2.2.2
     optionalDependencies:
-      playwright: 1.44.1
+      playwright: 1.45.1
     transitivePeerDependencies:
       - less
       - lightningcss
